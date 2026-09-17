@@ -1,0 +1,3425 @@
+{
+  "phase": 1,
+  "description": "Teacher fine-tuned on the v1.1 TRAIN split only; selection by validation NLL.",
+  "protocol": "v1.1 evaluator (reproduces whitepaper v1.1 numbers exactly); calibration on validation; group bootstrap 5,000 resamples seed 0; paired deltas vs v1.1 on identical resamples.",
+  "training_platform": {
+    "platform": "colab",
+    "gpu": "Tesla T4",
+    "wall_minutes": 38.35092568397522
+  },
+  "selected_run": "l3cube-pune-hing-roberta-mixed_lr5e-05",
+  "selection_rule": "lowest validation NLL (unweighted, both heads, T=1) over all done runs",
+  "selected": {
+    "model_id": "l3cube-pune/hing-roberta-mixed",
+    "lr": 5e-05,
+    "best_val_nll": 0.08036226500315001,
+    "best_epoch": 5,
+    "n_params": 278050569,
+    "summary": {
+      "test_intent_macro_f1": 0.9288866788866789,
+      "test_intent_ci95": [
+        0.8232751464208208,
+        1.0
+      ],
+      "test_sentiment_macro_f1": 1.0,
+      "test_sentiment_ci95": [
+        1.0,
+        1.0
+      ],
+      "paired_vs_v11": {
+        "intent": {
+          "reference": "v1.1 full",
+          "mean_delta": 0.031597976327580955,
+          "ci95": [
+            -0.061003736914807864,
+            0.14184932788498103
+          ],
+          "p_delta_gt_0": 0.7264
+        },
+        "sentiment": {
+          "reference": "v1.1 full",
+          "mean_delta": 0.15940257699233806,
+          "ci95": [
+            0.0563311065115188,
+            0.2816243913662391
+          ],
+          "p_delta_gt_0": 0.9998
+        }
+      },
+      "positive_recall": 1.0,
+      "stress": {
+        "intent": {
+          "macro_f1": 0.8516841102099627,
+          "prediction_consistency": 0.9263157894736842
+        },
+        "sentiment": {
+          "macro_f1": 1.0,
+          "prediction_consistency": 1.0
+        }
+      },
+      "emoji_pairs": {
+        "n_pairs": 12,
+        "both_correct": 12,
+        "both_correct_rate": 1.0
+      },
+      "audit_errors": 1,
+      "contrast_both_acc": {
+        "negated_negative": 0.7,
+        "negation_scope": 0.65,
+        "neutral_nahi": 0.8,
+        "unseen_affect": 0.8,
+        "all": 0.7375
+      },
+      "contrast_pairs_fully_correct": {
+        "negated_negative": "6/10",
+        "negation_scope": "4/10",
+        "neutral_nahi": "7/10",
+        "unseen_affect": "7/10",
+        "all": "24/40"
+      },
+      "ece": {
+        "intent": 0.06991656785106669,
+        "sentiment": 0.013679002055515737
+      },
+      "coverage": {
+        "intent": 1.0,
+        "sentiment": 1.0
+      },
+      "accepted_accuracy": {
+        "intent": 0.9157894736842105,
+        "sentiment": 1.0
+      },
+      "calibration": {
+        "intent": {
+          "temperature": 0.5949408429174046,
+          "review_threshold": 0.0
+        },
+        "sentiment": {
+          "temperature": 1.3161378249250675,
+          "review_threshold": 0.0
+        }
+      }
+    },
+    "report": {
+      "system": "l3cube-pune-hing-roberta-mixed_lr5e-05",
+      "calibration": {
+        "intent": {
+          "temperature": 0.5949408429174046,
+          "review_threshold": 0.0
+        },
+        "sentiment": {
+          "temperature": 1.3161378249250675,
+          "review_threshold": 0.0
+        }
+      },
+      "test": {
+        "intent": {
+          "n": 190,
+          "accuracy": 0.9157894736842105,
+          "macro_f1": 0.9288866788866789,
+          "per_class": {
+            "cancel_order": {
+              "precision": 0.8181818181818182,
+              "recall": 1.0,
+              "f1": 0.9,
+              "support": 36
+            },
+            "refund": {
+              "precision": 1.0,
+              "recall": 0.85,
+              "f1": 0.918918918918919,
+              "support": 20
+            },
+            "track_order": {
+              "precision": 0.7948717948717948,
+              "recall": 1.0,
+              "f1": 0.8857142857142857,
+              "support": 31
+            },
+            "not_received": {
+              "precision": 1.0,
+              "recall": 1.0,
+              "f1": 1.0,
+              "support": 26
+            },
+            "damaged_item": {
+              "precision": 1.0,
+              "recall": 1.0,
+              "f1": 1.0,
+              "support": 21
+            },
+            "feedback": {
+              "precision": 1.0,
+              "recall": 0.7678571428571429,
+              "f1": 0.8686868686868687,
+              "support": 56
+            }
+          },
+          "confusion_matrix": [
+            [
+              36,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              3,
+              17,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              31,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              26,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              21,
+              0
+            ],
+            [
+              5,
+              0,
+              8,
+              0,
+              0,
+              43
+            ]
+          ],
+          "label_order": [
+            "cancel_order",
+            "refund",
+            "track_order",
+            "not_received",
+            "damaged_item",
+            "feedback"
+          ],
+          "coverage": 1.0,
+          "accepted_accuracy": 0.9157894736842105,
+          "ece": 0.06991656785106669,
+          "mean_confidence": 0.9857060415352772,
+          "macro_f1_ci95": [
+            0.8232751464208208,
+            1.0
+          ]
+        },
+        "sentiment": {
+          "n": 190,
+          "accuracy": 1.0,
+          "macro_f1": 1.0,
+          "per_class": {
+            "negative": {
+              "precision": 1.0,
+              "recall": 1.0,
+              "f1": 1.0,
+              "support": 64
+            },
+            "neutral": {
+              "precision": 1.0,
+              "recall": 1.0,
+              "f1": 1.0,
+              "support": 65
+            },
+            "positive": {
+              "precision": 1.0,
+              "recall": 1.0,
+              "f1": 1.0,
+              "support": 61
+            }
+          },
+          "confusion_matrix": [
+            [
+              64,
+              0,
+              0
+            ],
+            [
+              0,
+              65,
+              0
+            ],
+            [
+              0,
+              0,
+              61
+            ]
+          ],
+          "label_order": [
+            "negative",
+            "neutral",
+            "positive"
+          ],
+          "coverage": 1.0,
+          "accepted_accuracy": 1.0,
+          "ece": 0.013679002055515737,
+          "mean_confidence": 0.9863209979444841,
+          "macro_f1_ci95": [
+            1.0,
+            1.0
+          ]
+        }
+      },
+      "paired_vs_reference": {
+        "intent": {
+          "reference": "v1.1 full",
+          "mean_delta": 0.031597976327580955,
+          "ci95": [
+            -0.061003736914807864,
+            0.14184932788498103
+          ],
+          "p_delta_gt_0": 0.7264
+        },
+        "sentiment": {
+          "reference": "v1.1 full",
+          "mean_delta": 0.15940257699233806,
+          "ci95": [
+            0.0563311065115188,
+            0.2816243913662391
+          ],
+          "p_delta_gt_0": 0.9998
+        }
+      },
+      "validation": {
+        "intent": {
+          "n": 158,
+          "accuracy": 0.9873417721518988,
+          "macro_f1": 0.9895536562203229,
+          "per_class": {
+            "cancel_order": {
+              "precision": 1.0,
+              "recall": 1.0,
+              "f1": 1.0,
+              "support": 33
+            },
+            "refund": {
+              "precision": 1.0,
+              "recall": 1.0,
+              "f1": 1.0,
+              "support": 18
+            },
+            "track_order": {
+              "precision": 0.9285714285714286,
+              "recall": 1.0,
+              "f1": 0.9629629629629629,
+              "support": 26
+            },
+            "not_received": {
+              "precision": 1.0,
+              "recall": 1.0,
+              "f1": 1.0,
+              "support": 26
+            },
+            "damaged_item": {
+              "precision": 1.0,
+              "recall": 1.0,
+              "f1": 1.0,
+              "support": 15
+            },
+            "feedback": {
+              "precision": 1.0,
+              "recall": 0.95,
+              "f1": 0.9743589743589743,
+              "support": 40
+            }
+          },
+          "confusion_matrix": [
+            [
+              33,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              18,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              26,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              26,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              15,
+              0
+            ],
+            [
+              0,
+              0,
+              2,
+              0,
+              0,
+              38
+            ]
+          ],
+          "label_order": [
+            "cancel_order",
+            "refund",
+            "track_order",
+            "not_received",
+            "damaged_item",
+            "feedback"
+          ],
+          "coverage": 1.0,
+          "accepted_accuracy": 0.9873417721518988,
+          "ece": 0.01147920947670797,
+          "mean_confidence": 0.9945591548589946
+        },
+        "sentiment": {
+          "n": 158,
+          "accuracy": 0.9430379746835443,
+          "macro_f1": 0.9440316172989441,
+          "per_class": {
+            "negative": {
+              "precision": 0.8888888888888888,
+              "recall": 0.96,
+              "f1": 0.9230769230769231,
+              "support": 50
+            },
+            "neutral": {
+              "precision": 0.9622641509433962,
+              "recall": 0.8793103448275862,
+              "f1": 0.918918918918919,
+              "support": 58
+            },
+            "positive": {
+              "precision": 0.9803921568627451,
+              "recall": 1.0,
+              "f1": 0.9900990099009901,
+              "support": 50
+            }
+          },
+          "confusion_matrix": [
+            [
+              48,
+              2,
+              0
+            ],
+            [
+              6,
+              51,
+              1
+            ],
+            [
+              0,
+              0,
+              50
+            ]
+          ],
+          "label_order": [
+            "negative",
+            "neutral",
+            "positive"
+          ],
+          "coverage": 1.0,
+          "accepted_accuracy": 0.9430379746835443,
+          "ece": 0.04343815099018078,
+          "mean_confidence": 0.9649589031887754
+        }
+      },
+      "test_stress": {
+        "intent": {
+          "n": 190,
+          "accuracy": 0.8736842105263158,
+          "macro_f1": 0.8516841102099627,
+          "per_class": {
+            "cancel_order": {
+              "precision": 0.8780487804878049,
+              "recall": 1.0,
+              "f1": 0.935064935064935,
+              "support": 36
+            },
+            "refund": {
+              "precision": 1.0,
+              "recall": 0.35,
+              "f1": 0.5185185185185185,
+              "support": 20
+            },
+            "track_order": {
+              "precision": 0.62,
+              "recall": 1.0,
+              "f1": 0.7654320987654321,
+              "support": 31
+            },
+            "not_received": {
+              "precision": 1.0,
+              "recall": 1.0,
+              "f1": 1.0,
+              "support": 26
+            },
+            "damaged_item": {
+              "precision": 1.0,
+              "recall": 1.0,
+              "f1": 1.0,
+              "support": 21
+            },
+            "feedback": {
+              "precision": 1.0,
+              "recall": 0.8035714285714286,
+              "f1": 0.8910891089108911,
+              "support": 56
+            }
+          },
+          "confusion_matrix": [
+            [
+              36,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              3,
+              7,
+              10,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              31,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              26,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              21,
+              0
+            ],
+            [
+              2,
+              0,
+              9,
+              0,
+              0,
+              45
+            ]
+          ],
+          "label_order": [
+            "cancel_order",
+            "refund",
+            "track_order",
+            "not_received",
+            "damaged_item",
+            "feedback"
+          ],
+          "coverage": 1.0,
+          "accepted_accuracy": 0.8736842105263158,
+          "ece": 0.11980486414925828,
+          "mean_confidence": 0.9934890746755741
+        },
+        "sentiment": {
+          "n": 190,
+          "accuracy": 1.0,
+          "macro_f1": 1.0,
+          "per_class": {
+            "negative": {
+              "precision": 1.0,
+              "recall": 1.0,
+              "f1": 1.0,
+              "support": 64
+            },
+            "neutral": {
+              "precision": 1.0,
+              "recall": 1.0,
+              "f1": 1.0,
+              "support": 65
+            },
+            "positive": {
+              "precision": 1.0,
+              "recall": 1.0,
+              "f1": 1.0,
+              "support": 61
+            }
+          },
+          "confusion_matrix": [
+            [
+              64,
+              0,
+              0
+            ],
+            [
+              0,
+              65,
+              0
+            ],
+            [
+              0,
+              0,
+              61
+            ]
+          ],
+          "label_order": [
+            "negative",
+            "neutral",
+            "positive"
+          ],
+          "coverage": 1.0,
+          "accepted_accuracy": 1.0,
+          "ece": 0.014654263625367422,
+          "mean_confidence": 0.9853457363746324
+        }
+      },
+      "audit": {
+        "intent": {
+          "n": 24,
+          "accuracy": 0.9583333333333334,
+          "macro_f1": 0.9576719576719577,
+          "per_class": {
+            "cancel_order": {
+              "precision": 0.8,
+              "recall": 1.0,
+              "f1": 0.8888888888888888,
+              "support": 4
+            },
+            "refund": {
+              "precision": 1.0,
+              "recall": 1.0,
+              "f1": 1.0,
+              "support": 4
+            },
+            "track_order": {
+              "precision": 1.0,
+              "recall": 0.75,
+              "f1": 0.8571428571428571,
+              "support": 4
+            },
+            "not_received": {
+              "precision": 1.0,
+              "recall": 1.0,
+              "f1": 1.0,
+              "support": 4
+            },
+            "damaged_item": {
+              "precision": 1.0,
+              "recall": 1.0,
+              "f1": 1.0,
+              "support": 4
+            },
+            "feedback": {
+              "precision": 1.0,
+              "recall": 1.0,
+              "f1": 1.0,
+              "support": 4
+            }
+          },
+          "confusion_matrix": [
+            [
+              4,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              4,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              0,
+              3,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              4,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              4,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              4
+            ]
+          ],
+          "label_order": [
+            "cancel_order",
+            "refund",
+            "track_order",
+            "not_received",
+            "damaged_item",
+            "feedback"
+          ],
+          "coverage": 1.0,
+          "accepted_accuracy": 0.9583333333333334,
+          "ece": 0.05675892822621545,
+          "mean_confidence": 0.9848936635456059
+        },
+        "sentiment": {
+          "n": 24,
+          "accuracy": 1.0,
+          "macro_f1": 1.0,
+          "per_class": {
+            "negative": {
+              "precision": 1.0,
+              "recall": 1.0,
+              "f1": 1.0,
+              "support": 7
+            },
+            "neutral": {
+              "precision": 1.0,
+              "recall": 1.0,
+              "f1": 1.0,
+              "support": 15
+            },
+            "positive": {
+              "precision": 1.0,
+              "recall": 1.0,
+              "f1": 1.0,
+              "support": 2
+            }
+          },
+          "confusion_matrix": [
+            [
+              7,
+              0,
+              0
+            ],
+            [
+              0,
+              15,
+              0
+            ],
+            [
+              0,
+              0,
+              2
+            ]
+          ],
+          "label_order": [
+            "negative",
+            "neutral",
+            "positive"
+          ],
+          "coverage": 1.0,
+          "accepted_accuracy": 1.0,
+          "ece": 0.019230650850250143,
+          "mean_confidence": 0.9807693491497499
+        }
+      },
+      "contrast": {
+        "negated_negative": {
+          "rows": 20,
+          "intent_acc": 0.7,
+          "sentiment_acc": 1.0,
+          "both_acc": 0.7,
+          "pairs_fully_correct": 6,
+          "pairs": 10,
+          "errors": [
+            {
+              "text": "delivery mein koi deri nahi hui, parcel ek din pehle aa gaya, mast",
+              "expected": [
+                "feedback",
+                "positive"
+              ],
+              "predicted": [
+                "not_received",
+                "positive"
+              ]
+            },
+            {
+              "text": "delivery mein bahut deri hui, parcel teen din late aaya",
+              "expected": [
+                "feedback",
+                "negative"
+              ],
+              "predicted": [
+                "not_received",
+                "negative"
+              ]
+            },
+            {
+              "text": "packing ekdum solid thi, kuch bhi toota nahi, thank you",
+              "expected": [
+                "feedback",
+                "positive"
+              ],
+              "predicted": [
+                "damaged_item",
+                "positive"
+              ]
+            },
+            {
+              "text": "koi shikayat nahi, sab kuch time pe mila, khush hu",
+              "expected": [
+                "feedback",
+                "positive"
+              ],
+              "predicted": [
+                "track_order",
+                "positive"
+              ]
+            },
+            {
+              "text": "shikayat hai, kuch bhi time pe nahi mila, dukhi hu",
+              "expected": [
+                "feedback",
+                "negative"
+              ],
+              "predicted": [
+                "not_received",
+                "negative"
+              ]
+            },
+            {
+              "text": "tracking ne har baar dhokha diya, galat location dikhayi",
+              "expected": [
+                "track_order",
+                "negative"
+              ],
+              "predicted": [
+                "not_received",
+                "negative"
+              ]
+            }
+          ]
+        },
+        "negation_scope": {
+          "rows": 20,
+          "intent_acc": 0.7,
+          "sentiment_acc": 0.95,
+          "both_acc": 0.65,
+          "pairs_fully_correct": 4,
+          "pairs": 10,
+          "errors": [
+            {
+              "text": "naya piece nahi chahiye, toota hua item wapas lo aur paise lauta do",
+              "expected": [
+                "refund",
+                "neutral"
+              ],
+              "predicted": [
+                "damaged_item",
+                "neutral"
+              ]
+            },
+            {
+              "text": "order ko cancel mat karo, sirf tracking link bhej do please",
+              "expected": [
+                "track_order",
+                "neutral"
+              ],
+              "predicted": [
+                "cancel_order",
+                "neutral"
+              ]
+            },
+            {
+              "text": "feedback nahi dena, bas batao package delivered kyun dikha raha jab mere paas aaya hi nahi",
+              "expected": [
+                "not_received",
+                "neutral"
+              ],
+              "predicted": [
+                "not_received",
+                "negative"
+              ]
+            },
+            {
+              "text": "package aa gaya hai, koi complaint nahi, bas feedback dena tha ki delivery normal thi",
+              "expected": [
+                "feedback",
+                "neutral"
+              ],
+              "predicted": [
+                "not_received",
+                "neutral"
+              ]
+            },
+            {
+              "text": "booking cancel nahi karni, bas delivery date bata do",
+              "expected": [
+                "track_order",
+                "neutral"
+              ],
+              "predicted": [
+                "cancel_order",
+                "neutral"
+              ]
+            },
+            {
+              "text": "abhi refund mat karo, pehle check karo parcel kahan atka hai",
+              "expected": [
+                "track_order",
+                "neutral"
+              ],
+              "predicted": [
+                "refund",
+                "neutral"
+              ]
+            },
+            {
+              "text": "app delivered bol raha par saman mila nahi, dhundhne ki zarurat nahi, refund de do",
+              "expected": [
+                "refund",
+                "neutral"
+              ],
+              "predicted": [
+                "not_received",
+                "neutral"
+              ]
+            }
+          ]
+        },
+        "neutral_nahi": {
+          "rows": 20,
+          "intent_acc": 0.8,
+          "sentiment_acc": 1.0,
+          "both_acc": 0.8,
+          "pairs_fully_correct": 7,
+          "pairs": 10,
+          "errors": [
+            {
+              "text": "kal ghar pe koi nahi tha aur delivery wala bina call kiye laut gaya, ab kab aayega, bahut gussa hai",
+              "expected": [
+                "track_order",
+                "negative"
+              ],
+              "predicted": [
+                "not_received",
+                "negative"
+              ]
+            },
+            {
+              "text": "mujhe abhi delivery ka otp nahi mila, kaise milega",
+              "expected": [
+                "track_order",
+                "neutral"
+              ],
+              "predicted": [
+                "not_received",
+                "neutral"
+              ]
+            },
+            {
+              "text": "teen ghante se delivery ka otp nahi mila, bekar system hai",
+              "expected": [
+                "track_order",
+                "negative"
+              ],
+              "predicted": [
+                "not_received",
+                "negative"
+              ]
+            },
+            {
+              "text": "invoice tak sahi nahi bhejte, itni lapparwahi, bilkul accha nahi laga",
+              "expected": [
+                "feedback",
+                "negative"
+              ],
+              "predicted": [
+                "track_order",
+                "negative"
+              ]
+            }
+          ]
+        },
+        "unseen_affect": {
+          "rows": 20,
+          "intent_acc": 0.9,
+          "sentiment_acc": 0.9,
+          "both_acc": 0.8,
+          "pairs_fully_correct": 7,
+          "pairs": 10,
+          "errors": [
+            {
+              "text": "gayab parcel mil gaya, man prasann ho gaya, aabhaar",
+              "expected": [
+                "not_received",
+                "positive"
+              ],
+              "predicted": [
+                "not_received",
+                "negative"
+              ]
+            },
+            {
+              "text": "refund jaldi aaya, fikar khatam, aabhari hu",
+              "expected": [
+                "refund",
+                "positive"
+              ],
+              "predicted": [
+                "refund",
+                "negative"
+              ]
+            },
+            {
+              "text": "courier bhaiya ne samay pe saman diya, bahut prasann hu",
+              "expected": [
+                "feedback",
+                "positive"
+              ],
+              "predicted": [
+                "track_order",
+                "positive"
+              ]
+            },
+            {
+              "text": "courier bhaiya ne teen din ghumaya, bahut khinn hu",
+              "expected": [
+                "feedback",
+                "negative"
+              ],
+              "predicted": [
+                "track_order",
+                "negative"
+              ]
+            }
+          ]
+        },
+        "all": {
+          "rows": 80,
+          "both_acc": 0.7375,
+          "pairs_fully_correct": 24,
+          "pairs": 40
+        }
+      },
+      "positive_recall": 1.0,
+      "stress": {
+        "intent": {
+          "macro_f1": 0.8516841102099627,
+          "prediction_consistency": 0.9263157894736842
+        },
+        "sentiment": {
+          "macro_f1": 1.0,
+          "prediction_consistency": 1.0
+        }
+      },
+      "emoji_pairs": {
+        "n_pairs": 12,
+        "both_correct": 12,
+        "both_correct_rate": 1.0
+      },
+      "audit_errors": {
+        "n_rows_with_error": 1,
+        "n": 24,
+        "errors": [
+          {
+            "text": "cancel mat karna sirf order track karke batao",
+            "expected": [
+              "track_order",
+              "neutral"
+            ],
+            "predicted": [
+              "cancel_order",
+              "neutral"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "v11_full": {
+    "summary": {
+      "test_intent_macro_f1": 0.9013475975975975,
+      "test_intent_ci95": [
+        0.7822620055428411,
+        0.9703302973415396
+      ],
+      "test_sentiment_macro_f1": 0.8454866121532788,
+      "test_sentiment_ci95": [
+        0.7183756086337608,
+        0.9436688934884812
+      ],
+      "paired_vs_v11": {
+        "intent": null,
+        "sentiment": null
+      },
+      "positive_recall": 0.7213114754098361,
+      "stress": {
+        "intent": {
+          "macro_f1": 0.8646915867480383,
+          "prediction_consistency": 0.9736842105263158
+        },
+        "sentiment": {
+          "macro_f1": 0.8256963457273515,
+          "prediction_consistency": 0.9263157894736842
+        }
+      },
+      "emoji_pairs": {
+        "n_pairs": 12,
+        "both_correct": 9,
+        "both_correct_rate": 0.75
+      },
+      "audit_errors": 6,
+      "contrast_both_acc": {
+        "negated_negative": 0.4,
+        "negation_scope": 0.6,
+        "neutral_nahi": 0.65,
+        "unseen_affect": 0.55,
+        "all": 0.55
+      },
+      "contrast_pairs_fully_correct": {
+        "negated_negative": "1/10",
+        "negation_scope": "3/10",
+        "neutral_nahi": "4/10",
+        "unseen_affect": "2/10",
+        "all": "10/40"
+      },
+      "ece": {
+        "intent": 0.08165555836063032,
+        "sentiment": 0.1056482301526272
+      },
+      "coverage": {
+        "intent": 0.9526315789473684,
+        "sentiment": 0.7526315789473684
+      },
+      "accepted_accuracy": {
+        "intent": 0.9060773480662984,
+        "sentiment": 0.951048951048951
+      },
+      "calibration": {
+        "intent": {
+          "temperature": 0.5495295183533052,
+          "review_threshold": 0.65148880468475
+        },
+        "sentiment": {
+          "temperature": 1.3161378249250675,
+          "review_threshold": 0.6546359288860283
+        }
+      }
+    },
+    "report": {
+      "system": "v1.1 full",
+      "calibration": {
+        "intent": {
+          "temperature": 0.5495295183533052,
+          "review_threshold": 0.65148880468475
+        },
+        "sentiment": {
+          "temperature": 1.3161378249250675,
+          "review_threshold": 0.6546359288860283
+        }
+      },
+      "test": {
+        "intent": {
+          "n": 190,
+          "accuracy": 0.9052631578947369,
+          "macro_f1": 0.9013475975975975,
+          "per_class": {
+            "cancel_order": {
+              "precision": 0.9230769230769231,
+              "recall": 1.0,
+              "f1": 0.96,
+              "support": 36
+            },
+            "refund": {
+              "precision": 1.0,
+              "recall": 0.85,
+              "f1": 0.918918918918919,
+              "support": 20
+            },
+            "track_order": {
+              "precision": 0.9090909090909091,
+              "recall": 0.967741935483871,
+              "f1": 0.9375,
+              "support": 31
+            },
+            "not_received": {
+              "precision": 0.9545454545454546,
+              "recall": 0.8076923076923077,
+              "f1": 0.875,
+              "support": 26
+            },
+            "damaged_item": {
+              "precision": 1.0,
+              "recall": 0.7142857142857143,
+              "f1": 0.8333333333333334,
+              "support": 21
+            },
+            "feedback": {
+              "precision": 0.828125,
+              "recall": 0.9464285714285714,
+              "f1": 0.8833333333333333,
+              "support": 56
+            }
+          },
+          "confusion_matrix": [
+            [
+              36,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              3,
+              17,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              30,
+              1,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              21,
+              0,
+              5
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              15,
+              6
+            ],
+            [
+              0,
+              0,
+              3,
+              0,
+              0,
+              53
+            ]
+          ],
+          "label_order": [
+            "cancel_order",
+            "refund",
+            "track_order",
+            "not_received",
+            "damaged_item",
+            "feedback"
+          ],
+          "coverage": 0.9526315789473684,
+          "accepted_accuracy": 0.9060773480662984,
+          "ece": 0.08165555836063032,
+          "mean_confidence": 0.9316812725287176,
+          "macro_f1_ci95": [
+            0.7822620055428411,
+            0.9703302973415396
+          ]
+        },
+        "sentiment": {
+          "n": 190,
+          "accuracy": 0.8473684210526315,
+          "macro_f1": 0.8454866121532788,
+          "per_class": {
+            "negative": {
+              "precision": 0.7763157894736842,
+              "recall": 0.921875,
+              "f1": 0.8428571428571429,
+              "support": 64
+            },
+            "neutral": {
+              "precision": 0.8656716417910447,
+              "recall": 0.8923076923076924,
+              "f1": 0.8787878787878788,
+              "support": 65
+            },
+            "positive": {
+              "precision": 0.9361702127659575,
+              "recall": 0.7213114754098361,
+              "f1": 0.8148148148148148,
+              "support": 61
+            }
+          },
+          "confusion_matrix": [
+            [
+              59,
+              2,
+              3
+            ],
+            [
+              7,
+              58,
+              0
+            ],
+            [
+              10,
+              7,
+              44
+            ]
+          ],
+          "label_order": [
+            "negative",
+            "neutral",
+            "positive"
+          ],
+          "coverage": 0.7526315789473684,
+          "accepted_accuracy": 0.951048951048951,
+          "ece": 0.1056482301526272,
+          "mean_confidence": 0.793942725143069,
+          "macro_f1_ci95": [
+            0.7183756086337608,
+            0.9436688934884812
+          ]
+        }
+      },
+      "paired_vs_reference": {},
+      "validation": {
+        "intent": {
+          "n": 158,
+          "accuracy": 0.8417721518987342,
+          "macro_f1": 0.821854720670733,
+          "per_class": {
+            "cancel_order": {
+              "precision": 0.868421052631579,
+              "recall": 1.0,
+              "f1": 0.9295774647887324,
+              "support": 33
+            },
+            "refund": {
+              "precision": 0.782608695652174,
+              "recall": 1.0,
+              "f1": 0.8780487804878049,
+              "support": 18
+            },
+            "track_order": {
+              "precision": 0.631578947368421,
+              "recall": 0.46153846153846156,
+              "f1": 0.5333333333333333,
+              "support": 26
+            },
+            "not_received": {
+              "precision": 1.0,
+              "recall": 0.8076923076923077,
+              "f1": 0.8936170212765957,
+              "support": 26
+            },
+            "damaged_item": {
+              "precision": 1.0,
+              "recall": 0.6666666666666666,
+              "f1": 0.8,
+              "support": 15
+            },
+            "feedback": {
+              "precision": 0.8297872340425532,
+              "recall": 0.975,
+              "f1": 0.896551724137931,
+              "support": 40
+            }
+          },
+          "confusion_matrix": [
+            [
+              33,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              18,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              5,
+              4,
+              12,
+              0,
+              0,
+              5
+            ],
+            [
+              0,
+              0,
+              5,
+              21,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              2,
+              0,
+              10,
+              3
+            ],
+            [
+              0,
+              1,
+              0,
+              0,
+              0,
+              39
+            ]
+          ],
+          "label_order": [
+            "cancel_order",
+            "refund",
+            "track_order",
+            "not_received",
+            "damaged_item",
+            "feedback"
+          ],
+          "coverage": 0.8544303797468354,
+          "accepted_accuracy": 0.9037037037037037,
+          "ece": 0.06421075657795464,
+          "mean_confidence": 0.8797594691357501
+        },
+        "sentiment": {
+          "n": 158,
+          "accuracy": 0.7468354430379747,
+          "macro_f1": 0.7474999999999999,
+          "per_class": {
+            "negative": {
+              "precision": 0.78,
+              "recall": 0.78,
+              "f1": 0.78,
+              "support": 50
+            },
+            "neutral": {
+              "precision": 0.7096774193548387,
+              "recall": 0.7586206896551724,
+              "f1": 0.7333333333333333,
+              "support": 58
+            },
+            "positive": {
+              "precision": 0.7608695652173914,
+              "recall": 0.7,
+              "f1": 0.7291666666666666,
+              "support": 50
+            }
+          },
+          "confusion_matrix": [
+            [
+              39,
+              9,
+              2
+            ],
+            [
+              5,
+              44,
+              9
+            ],
+            [
+              6,
+              9,
+              35
+            ]
+          ],
+          "label_order": [
+            "negative",
+            "neutral",
+            "positive"
+          ],
+          "coverage": 0.6518987341772152,
+          "accepted_accuracy": 0.9029126213592233,
+          "ece": 0.10602640112092582,
+          "mean_confidence": 0.7485824423583464
+        }
+      },
+      "test_stress": {
+        "intent": {
+          "n": 190,
+          "accuracy": 0.8789473684210526,
+          "macro_f1": 0.8646915867480383,
+          "per_class": {
+            "cancel_order": {
+              "precision": 0.9230769230769231,
+              "recall": 1.0,
+              "f1": 0.96,
+              "support": 36
+            },
+            "refund": {
+              "precision": 1.0,
+              "recall": 0.6,
+              "f1": 0.75,
+              "support": 20
+            },
+            "track_order": {
+              "precision": 0.9090909090909091,
+              "recall": 0.967741935483871,
+              "f1": 0.9375,
+              "support": 31
+            },
+            "not_received": {
+              "precision": 0.9545454545454546,
+              "recall": 0.8076923076923077,
+              "f1": 0.875,
+              "support": 26
+            },
+            "damaged_item": {
+              "precision": 0.9375,
+              "recall": 0.7142857142857143,
+              "f1": 0.8108108108108109,
+              "support": 21
+            },
+            "feedback": {
+              "precision": 0.7794117647058824,
+              "recall": 0.9464285714285714,
+              "f1": 0.8548387096774194,
+              "support": 56
+            }
+          },
+          "confusion_matrix": [
+            [
+              36,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              3,
+              12,
+              0,
+              0,
+              1,
+              4
+            ],
+            [
+              0,
+              0,
+              30,
+              1,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              21,
+              0,
+              5
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              15,
+              6
+            ],
+            [
+              0,
+              0,
+              3,
+              0,
+              0,
+              53
+            ]
+          ],
+          "label_order": [
+            "cancel_order",
+            "refund",
+            "track_order",
+            "not_received",
+            "damaged_item",
+            "feedback"
+          ],
+          "coverage": 0.8526315789473684,
+          "accepted_accuracy": 0.9012345679012346,
+          "ece": 0.08890675964971441,
+          "mean_confidence": 0.8797060525396875
+        },
+        "sentiment": {
+          "n": 190,
+          "accuracy": 0.8263157894736842,
+          "macro_f1": 0.8256963457273515,
+          "per_class": {
+            "negative": {
+              "precision": 0.7397260273972602,
+              "recall": 0.84375,
+              "f1": 0.7883211678832117,
+              "support": 64
+            },
+            "neutral": {
+              "precision": 0.8923076923076924,
+              "recall": 0.8923076923076924,
+              "f1": 0.8923076923076924,
+              "support": 65
+            },
+            "positive": {
+              "precision": 0.8653846153846154,
+              "recall": 0.7377049180327869,
+              "f1": 0.7964601769911505,
+              "support": 61
+            }
+          },
+          "confusion_matrix": [
+            [
+              54,
+              3,
+              7
+            ],
+            [
+              7,
+              58,
+              0
+            ],
+            [
+              12,
+              4,
+              45
+            ]
+          ],
+          "label_order": [
+            "negative",
+            "neutral",
+            "positive"
+          ],
+          "coverage": 0.7263157894736842,
+          "accepted_accuracy": 0.9855072463768116,
+          "ece": 0.1384242245302701,
+          "mean_confidence": 0.7804450850655024
+        }
+      },
+      "audit": {
+        "intent": {
+          "n": 24,
+          "accuracy": 0.875,
+          "macro_f1": 0.865079365079365,
+          "per_class": {
+            "cancel_order": {
+              "precision": 0.8,
+              "recall": 1.0,
+              "f1": 0.8888888888888888,
+              "support": 4
+            },
+            "refund": {
+              "precision": 1.0,
+              "recall": 1.0,
+              "f1": 1.0,
+              "support": 4
+            },
+            "track_order": {
+              "precision": 1.0,
+              "recall": 0.5,
+              "f1": 0.6666666666666666,
+              "support": 4
+            },
+            "not_received": {
+              "precision": 0.8,
+              "recall": 1.0,
+              "f1": 0.8888888888888888,
+              "support": 4
+            },
+            "damaged_item": {
+              "precision": 1.0,
+              "recall": 0.75,
+              "f1": 0.8571428571428571,
+              "support": 4
+            },
+            "feedback": {
+              "precision": 0.8,
+              "recall": 1.0,
+              "f1": 0.8888888888888888,
+              "support": 4
+            }
+          },
+          "confusion_matrix": [
+            [
+              4,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              4,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              0,
+              2,
+              0,
+              0,
+              1
+            ],
+            [
+              0,
+              0,
+              0,
+              4,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              1,
+              3,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              4
+            ]
+          ],
+          "label_order": [
+            "cancel_order",
+            "refund",
+            "track_order",
+            "not_received",
+            "damaged_item",
+            "feedback"
+          ],
+          "coverage": 0.9166666666666666,
+          "accepted_accuracy": 0.9545454545454546,
+          "ece": 0.10235122592733259,
+          "mean_confidence": 0.9429813013271026
+        },
+        "sentiment": {
+          "n": 24,
+          "accuracy": 0.875,
+          "macro_f1": 0.8062558356676003,
+          "per_class": {
+            "negative": {
+              "precision": 0.7,
+              "recall": 1.0,
+              "f1": 0.8235294117647058,
+              "support": 7
+            },
+            "neutral": {
+              "precision": 1.0,
+              "recall": 0.8666666666666667,
+              "f1": 0.9285714285714286,
+              "support": 15
+            },
+            "positive": {
+              "precision": 1.0,
+              "recall": 0.5,
+              "f1": 0.6666666666666666,
+              "support": 2
+            }
+          },
+          "confusion_matrix": [
+            [
+              7,
+              0,
+              0
+            ],
+            [
+              2,
+              13,
+              0
+            ],
+            [
+              1,
+              0,
+              1
+            ]
+          ],
+          "label_order": [
+            "negative",
+            "neutral",
+            "positive"
+          ],
+          "coverage": 0.875,
+          "accepted_accuracy": 0.9523809523809523,
+          "ece": 0.06911444238074008,
+          "mean_confidence": 0.8656802567177836
+        }
+      },
+      "contrast": {
+        "negated_negative": {
+          "rows": 20,
+          "intent_acc": 0.9,
+          "sentiment_acc": 0.45,
+          "both_acc": 0.4,
+          "pairs_fully_correct": 1,
+          "pairs": 10,
+          "errors": [
+            {
+              "text": "koi problem nahi hui, refund time pe aa gaya, shukriya",
+              "expected": [
+                "refund",
+                "positive"
+              ],
+              "predicted": [
+                "refund",
+                "negative"
+              ]
+            },
+            {
+              "text": "bina kisi jhanjhat ke order cancel ho gaya, badiya",
+              "expected": [
+                "cancel_order",
+                "positive"
+              ],
+              "predicted": [
+                "cancel_order",
+                "negative"
+              ]
+            },
+            {
+              "text": "delivery mein koi deri nahi hui, parcel ek din pehle aa gaya, mast",
+              "expected": [
+                "feedback",
+                "positive"
+              ],
+              "predicted": [
+                "not_received",
+                "neutral"
+              ]
+            },
+            {
+              "text": "delivery mein bahut deri hui, parcel teen din late aaya",
+              "expected": [
+                "feedback",
+                "negative"
+              ],
+              "predicted": [
+                "not_received",
+                "negative"
+              ]
+            },
+            {
+              "text": "agent ne bilkul bhi pareshan nahi kiya, turant help ki",
+              "expected": [
+                "feedback",
+                "positive"
+              ],
+              "predicted": [
+                "feedback",
+                "negative"
+              ]
+            },
+            {
+              "text": "koi shikayat nahi, sab kuch time pe mila, khush hu",
+              "expected": [
+                "feedback",
+                "positive"
+              ],
+              "predicted": [
+                "feedback",
+                "negative"
+              ]
+            },
+            {
+              "text": "return pickup mein zara bhi dikkat nahi aayi, paise bhi wapas mil gaye",
+              "expected": [
+                "refund",
+                "positive"
+              ],
+              "predicted": [
+                "refund",
+                "neutral"
+              ]
+            },
+            {
+              "text": "return pickup mein badi dikkat aayi, paise abhi tak wapas nahi mile",
+              "expected": [
+                "refund",
+                "negative"
+              ],
+              "predicted": [
+                "refund",
+                "neutral"
+              ]
+            },
+            {
+              "text": "tension ho gayi, damaged item ka replacement abhi tak nahi mila",
+              "expected": [
+                "damaged_item",
+                "negative"
+              ],
+              "predicted": [
+                "damaged_item",
+                "neutral"
+              ]
+            },
+            {
+              "text": "tracking ne ek baar bhi dhokha nahi diya, sahi location dikhayi, great",
+              "expected": [
+                "track_order",
+                "positive"
+              ],
+              "predicted": [
+                "track_order",
+                "negative"
+              ]
+            },
+            {
+              "text": "cancel karne mein koi extra charge nahi laga, accha laga",
+              "expected": [
+                "cancel_order",
+                "positive"
+              ],
+              "predicted": [
+                "cancel_order",
+                "neutral"
+              ]
+            },
+            {
+              "text": "cancel karne mein extra charge laga diya, bura laga",
+              "expected": [
+                "cancel_order",
+                "negative"
+              ],
+              "predicted": [
+                "cancel_order",
+                "neutral"
+              ]
+            }
+          ]
+        },
+        "negation_scope": {
+          "rows": 20,
+          "intent_acc": 0.65,
+          "sentiment_acc": 0.9,
+          "both_acc": 0.6,
+          "pairs_fully_correct": 3,
+          "pairs": 10,
+          "errors": [
+            {
+              "text": "parcel ko cancel mat karo, bas bata do abhi kahan pahuncha hai",
+              "expected": [
+                "track_order",
+                "neutral"
+              ],
+              "predicted": [
+                "cancel_order",
+                "neutral"
+              ]
+            },
+            {
+              "text": "refund nahi chahiye, mujhe bas naya piece bhej do kyunki andar se toota nikla",
+              "expected": [
+                "damaged_item",
+                "neutral"
+              ],
+              "predicted": [
+                "refund",
+                "neutral"
+              ]
+            },
+            {
+              "text": "naya piece nahi chahiye, toota hua item wapas lo aur paise lauta do",
+              "expected": [
+                "refund",
+                "neutral"
+              ],
+              "predicted": [
+                "damaged_item",
+                "neutral"
+              ]
+            },
+            {
+              "text": "order ko cancel mat karo, sirf tracking link bhej do please",
+              "expected": [
+                "track_order",
+                "neutral"
+              ],
+              "predicted": [
+                "cancel_order",
+                "neutral"
+              ]
+            },
+            {
+              "text": "paise wapas mat daalna, replacement bhej do kyunki screen tooti hai",
+              "expected": [
+                "damaged_item",
+                "neutral"
+              ],
+              "predicted": [
+                "damaged_item",
+                "positive"
+              ]
+            },
+            {
+              "text": "package aa gaya hai, koi complaint nahi, bas feedback dena tha ki delivery normal thi",
+              "expected": [
+                "feedback",
+                "neutral"
+              ],
+              "predicted": [
+                "track_order",
+                "neutral"
+              ]
+            },
+            {
+              "text": "abhi refund mat karo, pehle check karo parcel kahan atka hai",
+              "expected": [
+                "track_order",
+                "neutral"
+              ],
+              "predicted": [
+                "refund",
+                "neutral"
+              ]
+            },
+            {
+              "text": "app delivered bol raha par saman mila nahi, dhundhne ki zarurat nahi, refund de do",
+              "expected": [
+                "refund",
+                "neutral"
+              ],
+              "predicted": [
+                "not_received",
+                "negative"
+              ]
+            }
+          ]
+        },
+        "neutral_nahi": {
+          "rows": 20,
+          "intent_acc": 0.85,
+          "sentiment_acc": 0.75,
+          "both_acc": 0.65,
+          "pairs_fully_correct": 4,
+          "pairs": 10,
+          "errors": [
+            {
+              "text": "mujhe abhi delivery ka otp nahi mila, kaise milega",
+              "expected": [
+                "track_order",
+                "neutral"
+              ],
+              "predicted": [
+                "not_received",
+                "neutral"
+              ]
+            },
+            {
+              "text": "teen ghante se delivery ka otp nahi mila, bekar system hai",
+              "expected": [
+                "track_order",
+                "negative"
+              ],
+              "predicted": [
+                "not_received",
+                "negative"
+              ]
+            },
+            {
+              "text": "refund na upi mein aaya na bank mein, kya mazaak chal raha hai",
+              "expected": [
+                "refund",
+                "negative"
+              ],
+              "predicted": [
+                "refund",
+                "neutral"
+              ]
+            },
+            {
+              "text": "parcel mujhe nahi mila aur koi jawab bhi nahi de raha, fraud lag raha hai",
+              "expected": [
+                "not_received",
+                "negative"
+              ],
+              "predicted": [
+                "not_received",
+                "neutral"
+              ]
+            },
+            {
+              "text": "ab aur intezaar nahi hota, order kab aayega bata do warna complaint karunga",
+              "expected": [
+                "track_order",
+                "negative"
+              ],
+              "predicted": [
+                "track_order",
+                "neutral"
+              ]
+            },
+            {
+              "text": "invoice mein gst number nahi hai, bas feedback ke liye bata raha hu",
+              "expected": [
+                "feedback",
+                "neutral"
+              ],
+              "predicted": [
+                "track_order",
+                "positive"
+              ]
+            },
+            {
+              "text": "order galti se hua aur cancel ka option hi nahi dikh raha, bahut chidh ho rahi hai",
+              "expected": [
+                "cancel_order",
+                "negative"
+              ],
+              "predicted": [
+                "cancel_order",
+                "neutral"
+              ]
+            }
+          ]
+        },
+        "unseen_affect": {
+          "rows": 20,
+          "intent_acc": 0.85,
+          "sentiment_acc": 0.7,
+          "both_acc": 0.55,
+          "pairs_fully_correct": 2,
+          "pairs": 10,
+          "errors": [
+            {
+              "text": "order cancel karte karte tang aa gaya hu",
+              "expected": [
+                "cancel_order",
+                "negative"
+              ],
+              "predicted": [
+                "cancel_order",
+                "positive"
+              ]
+            },
+            {
+              "text": "refund ka intezaar karke nirash ho gaya hu",
+              "expected": [
+                "refund",
+                "negative"
+              ],
+              "predicted": [
+                "refund",
+                "positive"
+              ]
+            },
+            {
+              "text": "parcel ki live location dekh ke chinta door ho gayi, lajawab feature",
+              "expected": [
+                "track_order",
+                "positive"
+              ],
+              "predicted": [
+                "cancel_order",
+                "positive"
+              ]
+            },
+            {
+              "text": "parcel ki location har ghante badal rahi hai, sar dard ho gaya hai",
+              "expected": [
+                "track_order",
+                "negative"
+              ],
+              "predicted": [
+                "cancel_order",
+                "negative"
+              ]
+            },
+            {
+              "text": "gayab parcel mil gaya, man prasann ho gaya, aabhaar",
+              "expected": [
+                "not_received",
+                "positive"
+              ],
+              "predicted": [
+                "not_received",
+                "negative"
+              ]
+            },
+            {
+              "text": "aapki team ka vyavhaar dekh ke chidh gaya",
+              "expected": [
+                "feedback",
+                "negative"
+              ],
+              "predicted": [
+                "feedback",
+                "positive"
+              ]
+            },
+            {
+              "text": "app itna smooth hai, dil garden garden ho gaya",
+              "expected": [
+                "feedback",
+                "positive"
+              ],
+              "predicted": [
+                "damaged_item",
+                "positive"
+              ]
+            },
+            {
+              "text": "courier bhaiya ne samay pe saman diya, bahut prasann hu",
+              "expected": [
+                "feedback",
+                "positive"
+              ],
+              "predicted": [
+                "feedback",
+                "negative"
+              ]
+            },
+            {
+              "text": "cancel request turant accept hui, mann halka ho gaya",
+              "expected": [
+                "cancel_order",
+                "positive"
+              ],
+              "predicted": [
+                "cancel_order",
+                "neutral"
+              ]
+            }
+          ]
+        },
+        "all": {
+          "rows": 80,
+          "both_acc": 0.55,
+          "pairs_fully_correct": 10,
+          "pairs": 40
+        }
+      },
+      "positive_recall": 0.7213114754098361,
+      "stress": {
+        "intent": {
+          "macro_f1": 0.8646915867480383,
+          "prediction_consistency": 0.9736842105263158
+        },
+        "sentiment": {
+          "macro_f1": 0.8256963457273515,
+          "prediction_consistency": 0.9263157894736842
+        }
+      },
+      "emoji_pairs": {
+        "n_pairs": 12,
+        "both_correct": 9,
+        "both_correct_rate": 0.75
+      },
+      "audit_errors": {
+        "n_rows_with_error": 6,
+        "n": 24,
+        "errors": [
+          {
+            "text": "mujhe booking cancel karni padegi kal ghar pe nahi hu",
+            "expected": [
+              "cancel_order",
+              "neutral"
+            ],
+            "predicted": [
+              "cancel_order",
+              "negative"
+            ]
+          },
+          {
+            "text": "cancel mat karna sirf order track karke batao",
+            "expected": [
+              "track_order",
+              "neutral"
+            ],
+            "predicted": [
+              "cancel_order",
+              "neutral"
+            ]
+          },
+          {
+            "text": "delivery phir late ghatiya service",
+            "expected": [
+              "track_order",
+              "negative"
+            ],
+            "predicted": [
+              "feedback",
+              "negative"
+            ]
+          },
+          {
+            "text": "parcel aaya par glass broken hai",
+            "expected": [
+              "damaged_item",
+              "neutral"
+            ],
+            "predicted": [
+              "not_received",
+              "neutral"
+            ]
+          },
+          {
+            "text": "bohot badhiya service",
+            "expected": [
+              "feedback",
+              "positive"
+            ],
+            "predicted": [
+              "feedback",
+              "negative"
+            ]
+          },
+          {
+            "text": "normal sa experience tha nothing special",
+            "expected": [
+              "feedback",
+              "neutral"
+            ],
+            "predicted": [
+              "feedback",
+              "negative"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "all_runs_for_transparency_not_used_for_selection": {
+    "l3cube-pune-hing-roberta_lr2e-05": {
+      "model_id": "l3cube-pune/hing-roberta",
+      "lr": 2e-05,
+      "best_val_nll": 0.13234614938259648,
+      "best_epoch": 7,
+      "test_intent_macro_f1": 0.9551247830475612,
+      "test_intent_ci95": [
+        0.8852530586509967,
+        0.9957363844597046
+      ],
+      "test_sentiment_macro_f1": 1.0,
+      "test_sentiment_ci95": [
+        1.0,
+        1.0
+      ],
+      "paired_vs_v11": {
+        "intent": {
+          "reference": "v1.1 full",
+          "mean_delta": 0.058786168851444644,
+          "ci95": [
+            -0.015541186207094842,
+            0.1557461848330927
+          ],
+          "p_delta_gt_0": 0.9366
+        },
+        "sentiment": {
+          "reference": "v1.1 full",
+          "mean_delta": 0.15940257699233806,
+          "ci95": [
+            0.0563311065115188,
+            0.2816243913662391
+          ],
+          "p_delta_gt_0": 0.9998
+        }
+      },
+      "positive_recall": 1.0,
+      "stress": {
+        "intent": {
+          "macro_f1": 0.8571027296409559,
+          "prediction_consistency": 0.9210526315789473
+        },
+        "sentiment": {
+          "macro_f1": 1.0,
+          "prediction_consistency": 1.0
+        }
+      },
+      "emoji_pairs": {
+        "n_pairs": 12,
+        "both_correct": 12,
+        "both_correct_rate": 1.0
+      },
+      "audit_errors": 3,
+      "contrast_both_acc": {
+        "negated_negative": 0.8,
+        "negation_scope": 0.5,
+        "neutral_nahi": 0.8,
+        "unseen_affect": 0.9,
+        "all": 0.75
+      },
+      "contrast_pairs_fully_correct": {
+        "negated_negative": "7/10",
+        "negation_scope": "3/10",
+        "neutral_nahi": "7/10",
+        "unseen_affect": "8/10",
+        "all": "25/40"
+      },
+      "ece": {
+        "intent": 0.04045576702005739,
+        "sentiment": 0.016427884005268463
+      },
+      "coverage": {
+        "intent": 1.0,
+        "sentiment": 1.0
+      },
+      "accepted_accuracy": {
+        "intent": 0.9526315789473684,
+        "sentiment": 1.0
+      },
+      "calibration": {
+        "intent": {
+          "temperature": 0.5949408429174046,
+          "review_threshold": 0.0
+        },
+        "sentiment": {
+          "temperature": 1.1228864815764708,
+          "review_threshold": 0.0
+        }
+      }
+    },
+    "l3cube-pune-hing-roberta_lr3e-05": {
+      "model_id": "l3cube-pune/hing-roberta",
+      "lr": 3e-05,
+      "best_val_nll": 0.09424792121000239,
+      "best_epoch": 11,
+      "test_intent_macro_f1": 0.9536254285091493,
+      "test_intent_ci95": [
+        0.8826028119170942,
+        0.9941723177564041
+      ],
+      "test_sentiment_macro_f1": 1.0,
+      "test_sentiment_ci95": [
+        1.0,
+        1.0
+      ],
+      "paired_vs_v11": {
+        "intent": {
+          "reference": "v1.1 full",
+          "mean_delta": 0.05702299077069463,
+          "ci95": [
+            -0.012956759449468913,
+            0.15362515863497309
+          ],
+          "p_delta_gt_0": 0.934
+        },
+        "sentiment": {
+          "reference": "v1.1 full",
+          "mean_delta": 0.15940257699233806,
+          "ci95": [
+            0.0563311065115188,
+            0.2816243913662391
+          ],
+          "p_delta_gt_0": 0.9998
+        }
+      },
+      "positive_recall": 1.0,
+      "stress": {
+        "intent": {
+          "macro_f1": 0.8420976328009967,
+          "prediction_consistency": 0.9
+        },
+        "sentiment": {
+          "macro_f1": 1.0,
+          "prediction_consistency": 1.0
+        }
+      },
+      "emoji_pairs": {
+        "n_pairs": 12,
+        "both_correct": 12,
+        "both_correct_rate": 1.0
+      },
+      "audit_errors": 1,
+      "contrast_both_acc": {
+        "negated_negative": 0.8,
+        "negation_scope": 0.55,
+        "neutral_nahi": 0.8,
+        "unseen_affect": 0.9,
+        "all": 0.7625
+      },
+      "contrast_pairs_fully_correct": {
+        "negated_negative": "7/10",
+        "negation_scope": "3/10",
+        "neutral_nahi": "7/10",
+        "unseen_affect": "8/10",
+        "all": "25/40"
+      },
+      "ece": {
+        "intent": 0.0438246455796672,
+        "sentiment": 0.007703354278145371
+      },
+      "coverage": {
+        "intent": 1.0,
+        "sentiment": 1.0
+      },
+      "accepted_accuracy": {
+        "intent": 0.9526315789473684,
+        "sentiment": 1.0
+      },
+      "calibration": {
+        "intent": {
+          "temperature": 0.4,
+          "review_threshold": 0.0
+        },
+        "sentiment": {
+          "temperature": 1.1228864815764708,
+          "review_threshold": 0.0
+        }
+      }
+    },
+    "l3cube-pune-hing-roberta_lr5e-05": {
+      "model_id": "l3cube-pune/hing-roberta",
+      "lr": 5e-05,
+      "best_val_nll": 0.10135129541450175,
+      "best_epoch": 11,
+      "test_intent_macro_f1": 0.9511677379567288,
+      "test_intent_ci95": [
+        0.8788694739959063,
+        0.9919205447330447
+      ],
+      "test_sentiment_macro_f1": 1.0,
+      "test_sentiment_ci95": [
+        1.0,
+        1.0
+      ],
+      "paired_vs_v11": {
+        "intent": {
+          "reference": "v1.1 full",
+          "mean_delta": 0.05458890194827656,
+          "ci95": [
+            -0.016102528309128315,
+            0.1520159509222295
+          ],
+          "p_delta_gt_0": 0.9192
+        },
+        "sentiment": {
+          "reference": "v1.1 full",
+          "mean_delta": 0.15940257699233806,
+          "ci95": [
+            0.0563311065115188,
+            0.2816243913662391
+          ],
+          "p_delta_gt_0": 0.9998
+        }
+      },
+      "positive_recall": 1.0,
+      "stress": {
+        "intent": {
+          "macro_f1": 0.8585333704631951,
+          "prediction_consistency": 0.9210526315789473
+        },
+        "sentiment": {
+          "macro_f1": 1.0,
+          "prediction_consistency": 1.0
+        }
+      },
+      "emoji_pairs": {
+        "n_pairs": 12,
+        "both_correct": 12,
+        "both_correct_rate": 1.0
+      },
+      "audit_errors": 1,
+      "contrast_both_acc": {
+        "negated_negative": 0.8,
+        "negation_scope": 0.5,
+        "neutral_nahi": 0.75,
+        "unseen_affect": 0.9,
+        "all": 0.7375
+      },
+      "contrast_pairs_fully_correct": {
+        "negated_negative": "7/10",
+        "negation_scope": "3/10",
+        "neutral_nahi": "6/10",
+        "unseen_affect": "9/10",
+        "all": "25/40"
+      },
+      "ece": {
+        "intent": 0.03975051897083335,
+        "sentiment": 0.010964340289767676
+      },
+      "coverage": {
+        "intent": 1.0,
+        "sentiment": 1.0
+      },
+      "accepted_accuracy": {
+        "intent": 0.9473684210526315,
+        "sentiment": 1.0
+      },
+      "calibration": {
+        "intent": {
+          "temperature": 0.6441048110243758,
+          "review_threshold": 0.0
+        },
+        "sentiment": {
+          "temperature": 1.4248991561049769,
+          "review_threshold": 0.0
+        }
+      }
+    },
+    "l3cube-pune-hing-roberta-mixed_lr2e-05": {
+      "model_id": "l3cube-pune/hing-roberta-mixed",
+      "lr": 2e-05,
+      "best_val_nll": 0.11427951547294826,
+      "best_epoch": 7,
+      "test_intent_macro_f1": 0.9547748795166404,
+      "test_intent_ci95": [
+        0.8781220303457314,
+        1.0
+      ],
+      "test_sentiment_macro_f1": 1.0,
+      "test_sentiment_ci95": [
+        1.0,
+        1.0
+      ],
+      "paired_vs_v11": {
+        "intent": {
+          "reference": "v1.1 full",
+          "mean_delta": 0.059482497689468956,
+          "ci95": [
+            -0.00875925429516553,
+            0.1594796502365182
+          ],
+          "p_delta_gt_0": 0.9454
+        },
+        "sentiment": {
+          "reference": "v1.1 full",
+          "mean_delta": 0.15940257699233806,
+          "ci95": [
+            0.0563311065115188,
+            0.2816243913662391
+          ],
+          "p_delta_gt_0": 0.9998
+        }
+      },
+      "positive_recall": 1.0,
+      "stress": {
+        "intent": {
+          "macro_f1": 0.8288569992971758,
+          "prediction_consistency": 0.9
+        },
+        "sentiment": {
+          "macro_f1": 1.0,
+          "prediction_consistency": 1.0
+        }
+      },
+      "emoji_pairs": {
+        "n_pairs": 12,
+        "both_correct": 12,
+        "both_correct_rate": 1.0
+      },
+      "audit_errors": 1,
+      "contrast_both_acc": {
+        "negated_negative": 0.75,
+        "negation_scope": 0.4,
+        "neutral_nahi": 0.8,
+        "unseen_affect": 0.9,
+        "all": 0.7125
+      },
+      "contrast_pairs_fully_correct": {
+        "negated_negative": "7/10",
+        "negation_scope": "1/10",
+        "neutral_nahi": "7/10",
+        "unseen_affect": "8/10",
+        "all": "23/40"
+      },
+      "ece": {
+        "intent": 0.04302358702452094,
+        "sentiment": 0.031077312773789424
+      },
+      "coverage": {
+        "intent": 1.0,
+        "sentiment": 1.0
+      },
+      "accepted_accuracy": {
+        "intent": 0.9526315789473684,
+        "sentiment": 1.0
+      },
+      "calibration": {
+        "intent": {
+          "temperature": 0.4,
+          "review_threshold": 0.0
+        },
+        "sentiment": {
+          "temperature": 1.3161378249250675,
+          "review_threshold": 0.0
+        }
+      }
+    },
+    "l3cube-pune-hing-roberta-mixed_lr3e-05": {
+      "model_id": "l3cube-pune/hing-roberta-mixed",
+      "lr": 3e-05,
+      "best_val_nll": 0.08460282288120952,
+      "best_epoch": 12,
+      "test_intent_macro_f1": 0.9510784982483096,
+      "test_intent_ci95": [
+        0.8733977587320148,
+        0.996038043606505
+      ],
+      "test_sentiment_macro_f1": 1.0,
+      "test_sentiment_ci95": [
+        1.0,
+        1.0
+      ],
+      "paired_vs_v11": {
+        "intent": {
+          "reference": "v1.1 full",
+          "mean_delta": 0.05536776662915637,
+          "ci95": [
+            -0.013866466903847097,
+            0.15584776460385957
+          ],
+          "p_delta_gt_0": 0.9236
+        },
+        "sentiment": {
+          "reference": "v1.1 full",
+          "mean_delta": 0.15940257699233806,
+          "ci95": [
+            0.0563311065115188,
+            0.2816243913662391
+          ],
+          "p_delta_gt_0": 0.9998
+        }
+      },
+      "positive_recall": 1.0,
+      "stress": {
+        "intent": {
+          "macro_f1": 0.8288569992971758,
+          "prediction_consistency": 0.8947368421052632
+        },
+        "sentiment": {
+          "macro_f1": 1.0,
+          "prediction_consistency": 1.0
+        }
+      },
+      "emoji_pairs": {
+        "n_pairs": 12,
+        "both_correct": 12,
+        "both_correct_rate": 1.0
+      },
+      "audit_errors": 1,
+      "contrast_both_acc": {
+        "negated_negative": 0.7,
+        "negation_scope": 0.6,
+        "neutral_nahi": 0.8,
+        "unseen_affect": 0.8,
+        "all": 0.725
+      },
+      "contrast_pairs_fully_correct": {
+        "negated_negative": "6/10",
+        "negation_scope": "4/10",
+        "neutral_nahi": "7/10",
+        "unseen_affect": "7/10",
+        "all": "24/40"
+      },
+      "ece": {
+        "intent": 0.04821112369090694,
+        "sentiment": 0.018291650447280105
+      },
+      "coverage": {
+        "intent": 1.0,
+        "sentiment": 1.0
+      },
+      "accepted_accuracy": {
+        "intent": 0.9473684210526315,
+        "sentiment": 1.0
+      },
+      "calibration": {
+        "intent": {
+          "temperature": 0.4,
+          "review_threshold": 0.0
+        },
+        "sentiment": {
+          "temperature": 1.3161378249250675,
+          "review_threshold": 0.0
+        }
+      }
+    },
+    "l3cube-pune-hing-roberta-mixed_lr5e-05": {
+      "model_id": "l3cube-pune/hing-roberta-mixed",
+      "lr": 5e-05,
+      "best_val_nll": 0.08036226500315001,
+      "best_epoch": 5,
+      "test_intent_macro_f1": 0.9288866788866789,
+      "test_intent_ci95": [
+        0.8232751464208208,
+        1.0
+      ],
+      "test_sentiment_macro_f1": 1.0,
+      "test_sentiment_ci95": [
+        1.0,
+        1.0
+      ],
+      "paired_vs_v11": {
+        "intent": {
+          "reference": "v1.1 full",
+          "mean_delta": 0.031597976327580955,
+          "ci95": [
+            -0.061003736914807864,
+            0.14184932788498103
+          ],
+          "p_delta_gt_0": 0.7264
+        },
+        "sentiment": {
+          "reference": "v1.1 full",
+          "mean_delta": 0.15940257699233806,
+          "ci95": [
+            0.0563311065115188,
+            0.2816243913662391
+          ],
+          "p_delta_gt_0": 0.9998
+        }
+      },
+      "positive_recall": 1.0,
+      "stress": {
+        "intent": {
+          "macro_f1": 0.8516841102099627,
+          "prediction_consistency": 0.9263157894736842
+        },
+        "sentiment": {
+          "macro_f1": 1.0,
+          "prediction_consistency": 1.0
+        }
+      },
+      "emoji_pairs": {
+        "n_pairs": 12,
+        "both_correct": 12,
+        "both_correct_rate": 1.0
+      },
+      "audit_errors": 1,
+      "contrast_both_acc": {
+        "negated_negative": 0.7,
+        "negation_scope": 0.65,
+        "neutral_nahi": 0.8,
+        "unseen_affect": 0.8,
+        "all": 0.7375
+      },
+      "contrast_pairs_fully_correct": {
+        "negated_negative": "6/10",
+        "negation_scope": "4/10",
+        "neutral_nahi": "7/10",
+        "unseen_affect": "7/10",
+        "all": "24/40"
+      },
+      "ece": {
+        "intent": 0.06991656785106669,
+        "sentiment": 0.013679002055515737
+      },
+      "coverage": {
+        "intent": 1.0,
+        "sentiment": 1.0
+      },
+      "accepted_accuracy": {
+        "intent": 0.9157894736842105,
+        "sentiment": 1.0
+      },
+      "calibration": {
+        "intent": {
+          "temperature": 0.5949408429174046,
+          "review_threshold": 0.0
+        },
+        "sentiment": {
+          "temperature": 1.3161378249250675,
+          "review_threshold": 0.0
+        }
+      }
+    },
+    "l3cube-pune-hing-bert_lr2e-05": {
+      "model_id": "l3cube-pune/hing-bert",
+      "lr": 2e-05,
+      "best_val_nll": 0.26042298241626194,
+      "best_epoch": 6,
+      "test_intent_macro_f1": 0.8710106074040587,
+      "test_intent_ci95": [
+        0.74125842030359,
+        0.9471687524216091
+      ],
+      "test_sentiment_macro_f1": 0.8609217244480697,
+      "test_sentiment_ci95": [
+        0.7746659849742019,
+        0.9420302176939046
+      ],
+      "paired_vs_v11": {
+        "intent": {
+          "reference": "v1.1 full",
+          "mean_delta": -0.0340044448157185,
+          "ci95": [
+            -0.12549999532380246,
+            0.055815235901481124
+          ],
+          "p_delta_gt_0": 0.2202
+        },
+        "sentiment": {
+          "reference": "v1.1 full",
+          "mean_delta": 0.018653804407639002,
+          "ci95": [
+            -0.11343426190772961,
+            0.17643786113439908
+          ],
+          "p_delta_gt_0": 0.574
+        }
+      },
+      "positive_recall": 0.8032786885245902,
+      "stress": {
+        "intent": {
+          "macro_f1": 0.8509243773379831,
+          "prediction_consistency": 0.9526315789473684
+        },
+        "sentiment": {
+          "macro_f1": 0.871597329224448,
+          "prediction_consistency": 0.9473684210526315
+        }
+      },
+      "emoji_pairs": {
+        "n_pairs": 12,
+        "both_correct": 3,
+        "both_correct_rate": 0.25
+      },
+      "audit_errors": 2,
+      "contrast_both_acc": {
+        "negated_negative": 0.35,
+        "negation_scope": 0.3,
+        "neutral_nahi": 0.5,
+        "unseen_affect": 0.55,
+        "all": 0.425
+      },
+      "contrast_pairs_fully_correct": {
+        "negated_negative": "1/10",
+        "negation_scope": "0/10",
+        "neutral_nahi": "3/10",
+        "unseen_affect": "3/10",
+        "all": "7/40"
+      },
+      "ece": {
+        "intent": 0.07990152564176517,
+        "sentiment": 0.0440578129083142
+      },
+      "coverage": {
+        "intent": 1.0,
+        "sentiment": 0.7894736842105263
+      },
+      "accepted_accuracy": {
+        "intent": 0.8736842105263158,
+        "sentiment": 0.9733333333333334
+      },
+      "calibration": {
+        "intent": {
+          "temperature": 0.6973315288799952,
+          "review_threshold": 0.0
+        },
+        "sentiment": {
+          "temperature": 1.037177518961867,
+          "review_threshold": 0.7120832311680358
+        }
+      }
+    },
+    "l3cube-pune-hing-bert_lr3e-05": {
+      "model_id": "l3cube-pune/hing-bert",
+      "lr": 3e-05,
+      "best_val_nll": 0.2532510980824865,
+      "best_epoch": 8,
+      "test_intent_macro_f1": 0.9028856048384419,
+      "test_intent_ci95": [
+        0.7966210156167985,
+        0.9653875381366362
+      ],
+      "test_sentiment_macro_f1": 0.8960850021260655,
+      "test_sentiment_ci95": [
+        0.8187920951719947,
+        0.9657189793170717
+      ],
+      "paired_vs_v11": {
+        "intent": {
+          "reference": "v1.1 full",
+          "mean_delta": 0.0014720461280778123,
+          "ci95": [
+            -0.08813461347566083,
+            0.09391902441519803
+          ],
+          "p_delta_gt_0": 0.512
+        },
+        "sentiment": {
+          "reference": "v1.1 full",
+          "mean_delta": 0.05443965943351855,
+          "ci95": [
+            -0.06628061233052462,
+            0.206288498277052
+          ],
+          "p_delta_gt_0": 0.773
+        }
+      },
+      "positive_recall": 0.7049180327868853,
+      "stress": {
+        "intent": {
+          "macro_f1": 0.9064047648793411,
+          "prediction_consistency": 0.9631578947368421
+        },
+        "sentiment": {
+          "macro_f1": 0.9012118018967333,
+          "prediction_consistency": 0.9947368421052631
+        }
+      },
+      "emoji_pairs": {
+        "n_pairs": 12,
+        "both_correct": 9,
+        "both_correct_rate": 0.75
+      },
+      "audit_errors": 2,
+      "contrast_both_acc": {
+        "negated_negative": 0.35,
+        "negation_scope": 0.3,
+        "neutral_nahi": 0.6,
+        "unseen_affect": 0.65,
+        "all": 0.475
+      },
+      "contrast_pairs_fully_correct": {
+        "negated_negative": "0/10",
+        "negation_scope": "1/10",
+        "neutral_nahi": "4/10",
+        "unseen_affect": "5/10",
+        "all": "10/40"
+      },
+      "ece": {
+        "intent": 0.084995194367364,
+        "sentiment": 0.060399000431981015
+      },
+      "coverage": {
+        "intent": 1.0,
+        "sentiment": 0.8473684210526315
+      },
+      "accepted_accuracy": {
+        "intent": 0.8947368421052632,
+        "sentiment": 0.9565217391304348
+      },
+      "calibration": {
+        "intent": {
+          "temperature": 0.7549567288540389,
+          "review_threshold": 0.0
+        },
+        "sentiment": {
+          "temperature": 1.3161378249250675,
+          "review_threshold": 0.6720299805391837
+        }
+      }
+    },
+    "l3cube-pune-hing-bert_lr5e-05": {
+      "model_id": "l3cube-pune/hing-bert",
+      "lr": 5e-05,
+      "best_val_nll": 0.2686829759351342,
+      "best_epoch": 6,
+      "test_intent_macro_f1": 0.8909842505043742,
+      "test_intent_ci95": [
+        0.7619928002858353,
+        0.9648836946838526
+      ],
+      "test_sentiment_macro_f1": 0.8817076372081968,
+      "test_sentiment_ci95": [
+        0.8054043250695361,
+        0.9520881038620257
+      ],
+      "paired_vs_v11": {
+        "intent": {
+          "reference": "v1.1 full",
+          "mean_delta": -0.012650974033828413,
+          "ci95": [
+            -0.10669807935383342,
+            0.08178503433988786
+          ],
+          "p_delta_gt_0": 0.3948
+        },
+        "sentiment": {
+          "reference": "v1.1 full",
+          "mean_delta": 0.039541678080735346,
+          "ci95": [
+            -0.07124432444442355,
+            0.1820282235302251
+          ],
+          "p_delta_gt_0": 0.7102
+        }
+      },
+      "positive_recall": 0.7704918032786885,
+      "stress": {
+        "intent": {
+          "macro_f1": 0.8825223422987506,
+          "prediction_consistency": 0.9789473684210527
+        },
+        "sentiment": {
+          "macro_f1": 0.8869582068341838,
+          "prediction_consistency": 0.968421052631579
+        }
+      },
+      "emoji_pairs": {
+        "n_pairs": 12,
+        "both_correct": 6,
+        "both_correct_rate": 0.5
+      },
+      "audit_errors": 2,
+      "contrast_both_acc": {
+        "negated_negative": 0.4,
+        "negation_scope": 0.3,
+        "neutral_nahi": 0.6,
+        "unseen_affect": 0.6,
+        "all": 0.475
+      },
+      "contrast_pairs_fully_correct": {
+        "negated_negative": "1/10",
+        "negation_scope": "1/10",
+        "neutral_nahi": "4/10",
+        "unseen_affect": "4/10",
+        "all": "10/40"
+      },
+      "ece": {
+        "intent": 0.1009550197368377,
+        "sentiment": 0.033461076324914
+      },
+      "coverage": {
+        "intent": 1.0,
+        "sentiment": 0.9421052631578948
+      },
+      "accepted_accuracy": {
+        "intent": 0.8894736842105263,
+        "sentiment": 0.9106145251396648
+      },
+      "calibration": {
+        "intent": {
+          "temperature": 1.037177518961867,
+          "review_threshold": 0.0
+        },
+        "sentiment": {
+          "temperature": 1.4248991561049769,
+          "review_threshold": 0.49883589232260017
+        }
+      }
+    },
+    "google-muril-base-cased_lr2e-05": {
+      "model_id": "google/muril-base-cased",
+      "lr": 2e-05,
+      "best_val_nll": 1.2959235072890414,
+      "best_epoch": 12,
+      "test_intent_macro_f1": 0.8634827796028405,
+      "test_intent_ci95": [
+        0.7353724825048381,
+        0.9420456469056226
+      ],
+      "test_sentiment_macro_f1": 0.7905400533564064,
+      "test_sentiment_ci95": [
+        0.6954372730326196,
+        0.87815139353869
+      ],
+      "paired_vs_v11": {
+        "intent": {
+          "reference": "v1.1 full",
+          "mean_delta": -0.040890530940671965,
+          "ci95": [
+            -0.1470117199362025,
+            0.05970731871572845
+          ],
+          "p_delta_gt_0": 0.2154
+        },
+        "sentiment": {
+          "reference": "v1.1 full",
+          "mean_delta": -0.05296172621498751,
+          "ci95": [
+            -0.17197596343846172,
+            0.08939046918857825
+          ],
+          "p_delta_gt_0": 0.2104
+        }
+      },
+      "positive_recall": 0.9016393442622951,
+      "stress": {
+        "intent": {
+          "macro_f1": 0.7721156079173542,
+          "prediction_consistency": 0.8947368421052632
+        },
+        "sentiment": {
+          "macro_f1": 0.7882053936401764,
+          "prediction_consistency": 0.9157894736842105
+        }
+      },
+      "emoji_pairs": {
+        "n_pairs": 12,
+        "both_correct": 0,
+        "both_correct_rate": 0.0
+      },
+      "audit_errors": 3,
+      "contrast_both_acc": {
+        "negated_negative": 0.3,
+        "negation_scope": 0.35,
+        "neutral_nahi": 0.75,
+        "unseen_affect": 0.6,
+        "all": 0.5
+      },
+      "contrast_pairs_fully_correct": {
+        "negated_negative": "1/10",
+        "negation_scope": "2/10",
+        "neutral_nahi": "6/10",
+        "unseen_affect": "3/10",
+        "all": "12/40"
+      },
+      "ece": {
+        "intent": 0.5937155025223705,
+        "sentiment": 0.28650961897123584
+      },
+      "coverage": {
+        "intent": 0.8947368421052632,
+        "sentiment": 0.0
+      },
+      "accepted_accuracy": {
+        "intent": 0.8705882352941177,
+        "sentiment": null
+      },
+      "calibration": {
+        "intent": {
+          "temperature": 0.4,
+          "review_threshold": 0.21096018249239948
+        },
+        "sentiment": {
+          "temperature": 0.4,
+          "review_threshold": 1.01
+        }
+      }
+    },
+    "google-muril-base-cased_lr3e-05": {
+      "model_id": "google/muril-base-cased",
+      "lr": 3e-05,
+      "best_val_nll": 1.2383839967130106,
+      "best_epoch": 12,
+      "test_intent_macro_f1": 0.9344357529406491,
+      "test_intent_ci95": [
+        0.8441555434643309,
+        0.9832077380577697
+      ],
+      "test_sentiment_macro_f1": 0.8215706262117486,
+      "test_sentiment_ci95": [
+        0.723040592309889,
+        0.9091004957221863
+      ],
+      "paired_vs_v11": {
+        "intent": {
+          "reference": "v1.1 full",
+          "mean_delta": 0.03527592702046132,
+          "ci95": [
+            -0.057369489880844664,
+            0.14013415174472865
+          ],
+          "p_delta_gt_0": 0.7634
+        },
+        "sentiment": {
+          "reference": "v1.1 full",
+          "mean_delta": -0.021717709929009392,
+          "ci95": [
+            -0.11566190701015956,
+            0.09186953256115563
+          ],
+          "p_delta_gt_0": 0.3128
+        }
+      },
+      "positive_recall": 0.9180327868852459,
+      "stress": {
+        "intent": {
+          "macro_f1": 0.8426401305975375,
+          "prediction_consistency": 0.9052631578947369
+        },
+        "sentiment": {
+          "macro_f1": 0.8211397393896922,
+          "prediction_consistency": 0.968421052631579
+        }
+      },
+      "emoji_pairs": {
+        "n_pairs": 12,
+        "both_correct": 0,
+        "both_correct_rate": 0.0
+      },
+      "audit_errors": 3,
+      "contrast_both_acc": {
+        "negated_negative": 0.45,
+        "negation_scope": 0.45,
+        "neutral_nahi": 0.75,
+        "unseen_affect": 0.65,
+        "all": 0.575
+      },
+      "contrast_pairs_fully_correct": {
+        "negated_negative": "2/10",
+        "negation_scope": "2/10",
+        "neutral_nahi": "5/10",
+        "unseen_affect": "4/10",
+        "all": "13/40"
+      },
+      "ece": {
+        "intent": 0.6268883104511884,
+        "sentiment": 0.29241767234325605
+      },
+      "coverage": {
+        "intent": 1.0,
+        "sentiment": 0.5
+      },
+      "accepted_accuracy": {
+        "intent": 0.9315789473684211,
+        "sentiment": 0.9578947368421052
+      },
+      "calibration": {
+        "intent": {
+          "temperature": 0.4,
+          "review_threshold": 0.19337774662883397
+        },
+        "sentiment": {
+          "temperature": 0.4,
+          "review_threshold": 0.5373742548152503
+        }
+      }
+    },
+    "google-muril-base-cased_lr5e-05": {
+      "model_id": "google/muril-base-cased",
+      "lr": 5e-05,
+      "best_val_nll": 1.142658484132984,
+      "best_epoch": 12,
+      "test_intent_macro_f1": 0.9232326833098786,
+      "test_intent_ci95": [
+        0.8035828815810442,
+        1.0
+      ],
+      "test_sentiment_macro_f1": 0.8276409259914193,
+      "test_sentiment_ci95": [
+        0.7323587731504292,
+        0.9116435386414075
+      ],
+      "paired_vs_v11": {
+        "intent": {
+          "reference": "v1.1 full",
+          "mean_delta": 0.023801830835220285,
+          "ci95": [
+            -0.1061769485996656,
+            0.15138784002660266
+          ],
+          "p_delta_gt_0": 0.6488
+        },
+        "sentiment": {
+          "reference": "v1.1 full",
+          "mean_delta": -0.0154444189789908,
+          "ci95": [
+            -0.10711592030972188,
+            0.10166761841135129
+          ],
+          "p_delta_gt_0": 0.3564
+        }
+      },
+      "positive_recall": 0.9180327868852459,
+      "stress": {
+        "intent": {
+          "macro_f1": 0.8419892511559177,
+          "prediction_consistency": 0.9
+        },
+        "sentiment": {
+          "macro_f1": 0.7993932127025651,
+          "prediction_consistency": 0.9210526315789473
+        }
+      },
+      "emoji_pairs": {
+        "n_pairs": 12,
+        "both_correct": 0,
+        "both_correct_rate": 0.0
+      },
+      "audit_errors": 4,
+      "contrast_both_acc": {
+        "negated_negative": 0.45,
+        "negation_scope": 0.25,
+        "neutral_nahi": 0.6,
+        "unseen_affect": 0.6,
+        "all": 0.475
+      },
+      "contrast_pairs_fully_correct": {
+        "negated_negative": "2/10",
+        "negation_scope": "1/10",
+        "neutral_nahi": "4/10",
+        "unseen_affect": "3/10",
+        "all": "10/40"
+      },
+      "ece": {
+        "intent": 0.5474337628396572,
+        "sentiment": 0.22778898214447765
+      },
+      "coverage": {
+        "intent": 1.0,
+        "sentiment": 0.8947368421052632
+      },
+      "accepted_accuracy": {
+        "intent": 0.9315789473684211,
+        "sentiment": 0.8647058823529412
+      },
+      "calibration": {
+        "intent": {
+          "temperature": 0.4,
+          "review_threshold": 0.0
+        },
+        "sentiment": {
+          "temperature": 0.4,
+          "review_threshold": 0.5029015782024968
+        }
+      }
+    }
+  },
+  "verdict": {
+    "summary": "Pretraining fixes SENTIMENT on every set we have, but not INTENT; negation scope is still unsolved.",
+    "sentiment": "Selected teacher (hing-roberta-mixed, lr 5e-5, 278M params) reaches test sentiment macro-F1 1.000 vs 0.845 for v1.1 (paired delta +0.159, 95% CI [+0.056, +0.282], 99.98% of resamples favour the teacher), positive recall 1.00 vs 0.72, emoji pairs 12/12 vs 9/12, stress sentiment F1 1.000 vs 0.826. On the hand-written contrast set sentiment accuracy is 1.00/0.95/1.00/0.90 (negated-negative / negation-scope / neutral-nahi / unseen-affect) vs 0.45/0.90/0.75/0.70 for v1.1: the spurious nahi->negative cue and most unseen affect words are handled. The perfect test score is a ceiling on an easy, generator-style 190-row set (validation sentiment accuracy is 0.943), not evidence of perfection.",
+    "intent": "Test intent macro-F1 0.929 vs 0.901 (paired delta +0.032, CI [-0.061, +0.142]): not resolved. Stress intent F1 is 0.852 vs 0.865 and consistency 92.6% vs 97.4%, so the teacher is LESS stable under unseen misspellings than v1.1. Contrast intent accuracy averages 0.775 vs 0.81 for v1.1; errors are keyword-driven (feedback -> not_received/track/damaged; \"otp nahi mila\" -> not_received).",
+    "negation_scope": "Not fixed: 4/10 contrast pairs fully correct (v1.1: 3/10) and the audit error \"cancel mat karna sirf order track karke batao\" is still predicted cancel_order. Pretraining alone does not supply scope; Phase 2b data must.",
+    "audit": "1 error (v1.1: 6).",
+    "candidates": "Emoji visibility matters: hing-bert and MuRIL map all emoji to [UNK] and solve 3-9/12 and 0/12 emoji pairs respectively; MuRIL also converged poorly (validation NLL 1.14-1.30 vs 0.08-0.13 for the hing-roberta models).",
+    "consequence_for_kd": "Teacher sentiment soft labels are trustworthy for KD. Intent soft labels need the teacher-v2 data (negation scope, praise-then-request, feedback vs operational) and the 0.6 max-probability mask."
+  }
+}
