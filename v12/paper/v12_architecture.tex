@@ -2,7 +2,7 @@
 %  The Polyglot's Shorthand -- Version 1.2 Architecture and Interim Results
 %  Compile:  pdflatex v12_architecture && pdflatex v12_architecture   (or: latexmk -pdf)
 %  Engine:   pdfLaTeX (emoji are written as named placeholders, see \emo)
-%  Status:   interim -- teacher phases final; student rows pending notebook 03.
+%  Status:   all phases complete (teachers, student, export, latency).
 %  Every number is taken from v12/results/*.json.
 % ============================================================================
 \documentclass[11pt,a4paper]{article}
@@ -71,9 +71,9 @@
 % ----------------------------------------------------------------- metadata --
 \title{\vspace{-1.2em}\textbf{The Polyglot's Shorthand --- Version 1.2}\\[0.3em]
   \large Distilling a Pretrained Hinglish Encoder into a Hashed-Piece Transformer\\[0.4em]
-  \normalsize\color{muted}Architecture, Protocol and Interim Results (compared with v1.1)}
+  \normalsize\color{muted}Architecture, Protocol and Results (compared with v1.1)}
 \author{Harsh Raj}
-\date{September 2026 \quad\textcolor{pending}{(interim: student results pending)}}
+\date{September 2026}
 
 % ============================================================================
 \begin{document}
@@ -100,10 +100,15 @@ solves 29 of 40 contrast pairs (v1.1: 10). Its soft labels on 66{,}166
 sentences are distilled into an 11.88M-parameter student that keeps v1.1's
 hashed word/alias/character-$n$-gram pieces, adds four pre-LN transformer
 blocks and retains the residual hashed linear branch; it is deployed without
-PyTorch (NumPy + ONNX Runtime, INT8). Architecture-only latency on an Apple
-M2 is 0.92\,ms p95 on test messages. Student accuracy is \pend. All
-evaluation data remain LLM-generated, so gains may partly reflect the
-generator's style.
+PyTorch (NumPy + ONNX Runtime, INT8; p95 0.81\,ms on test messages and
+4.29\,ms at 512 code points on an Apple M2 with two threads). The student does
+\emph{not} keep the teacher's gains: intent $0.914$ $[0.81, 0.98]$ and
+sentiment $0.911$ $[0.82, 0.98]$ are not resolved against v1.1, sentiment is
+significantly below teacher~v2 ($-0.092$ $[-0.184, -0.020]$) and varies across
+seeds (sd $0.049$), knowledge distillation is not shown to help over a no-KD
+student, and removing the hashed linear branch appears to improve intent
+($0.958$). INT8 quantization is lossless on these sets. All evaluation data
+remain LLM-generated, so gains may partly reflect the generator's style.
 \end{abstract}
 
 \tableofcontents
@@ -134,7 +139,7 @@ Evaluation splits & v1.0 split & regenerated v1.1 split & \textbf{exact v1.1 spl
 \begin{enumerate}
   \item[\textbf{Q1}] Does pretrained Hinglish knowledge alone fix the v1.1 failures? (\cref{sec:teacher1})
   \item[\textbf{Q2}] Does more diverse, targeted data help beyond pretraining? (\cref{sec:teacher2}, data ablation)
-  \item[\textbf{Q3}] Does a student under 15M parameters and 5\,ms keep the teacher's gains? (\cref{sec:student,sec:results}, \pend)
+  \item[\textbf{Q3}] Does a student under 15M parameters and 5\,ms keep the teacher's gains? (\cref{sec:student,sec:results})
 \end{enumerate}
 
 \begin{figure}[t]
@@ -378,7 +383,9 @@ System & int & sent & int & sent & int & sent & int & sent & (of 40) \\
 v1.1                 & .65 & .90 & .85 & .75 & .90 & .45 & .85 & .70 & 10 \\
 Teacher (v1.1 data)  & .70 & .95 & .80 & 1.00 & .70 & 1.00 & .90 & .90 & 24 \\
 Teacher v2           & \textbf{.90} & .90 & \textbf{.90} & .95 & .70 & 1.00 & .95 & 1.00 & \textbf{29} \\
-Student $+$ KD       & \multicolumn{8}{c}{\pend} & \pend \\
+Student $+$ KD (s42) & .80 & .85 & .90 & .85 & .75 & .65 & .85 & .85 & 17 \\
+Student no-KD (s42)  & .70 & .85 & .90 & .85 & .80 & .65 & .80 & .95 & 18 \\
+Student $+$ KD w/o linear & .85 & .85 & .90 & .90 & .65 & .70 & .85 & .95 & 20 \\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -532,6 +539,8 @@ $\mathrm{sg}$ is stop-gradient. $\tilde s$ uses only character noise on editable
 
 \paragraph{Variants (notebook 03, in order).} Student $+$ KD (seed 42); student without KD on identical labeled data (pool rows drop out automatically); student $+$ KD without the linear branch; seeds 43 and 44 if the 100-minute guard allows.
 
+\paragraph{Training outcome.} All five variants finished (one Colab disconnect, resumed automatically). Best validation NLL: 0.0647 (KD, s42, epoch 10), 0.1483 (no-KD), 0.1483 (no linear branch), 0.1558 (s43), 0.1018 (s44); 16{,}061 rows per epoch took $\sim$42\,s on a T4.
+
 \paragraph{Pipeline check (not a result).} One CPU epoch of the real configuration on the real KD files hashes 66{,}166 rows in 36.5\,s and reaches validation NLL 0.537 (v1.1 after calibration: 0.469); it verifies the pipeline only.
 
 % ============================================================================
@@ -548,7 +557,7 @@ The trained student is split at the boundary between sparse lookups and dense co
 Torch-vs-ONNX parity (fp32) is $6.7\times10^{-7}$ maximum absolute logit difference over all evaluation messages. An exporter pitfall was found and fixed: exporting through a wrapper module re-enables training mode recursively afterwards, which silently switched dropout on for the parity check (difference 0.29 before the fix). \texttt{python v12/predict.py "text"} returns the v1.1 JSON (\lbl{label}, \lbl{confidence}, \lbl{review\_required} per head), optionally with $\bm\alpha$.
 
 \subsection{Latency (architecture measurement)}
-Apple M2, Python 3.12, NumPy 2.3.5, ONNX Runtime 1.30; 80 warm-up and 600 timed calls at batch 1, including hashing, embedding mean, encoder, linear branch, calibration and JSON serialization (whitepaper protocol). Weights do not change the computation; the trained model will be re-measured.
+Apple M2, Python 3.12, NumPy 2.3.5, ONNX Runtime 1.30; 80 warm-up and 600 timed calls at batch 1, including hashing, embedding mean, encoder, linear branch, calibration and JSON serialization (whitepaper protocol). All numbers below are for the trained student (\texttt{results/latency\_student\_kd\_s42.json}); ONNX FP32 parity with PyTorch is $5.8\times10^{-6}$ and INT8 changes 1 of 190 test sentiment predictions and no intent prediction.
 
 \begin{table}[h]
 \centering\small
@@ -558,19 +567,21 @@ Apple M2, Python 3.12, NumPy 2.3.5, ONNX Runtime 1.30; 80 warm-up and 600 timed 
 \toprule
 Configuration & p50 & p95 & p99 & 512 code points, p95 \\
 \midrule
-INT8, 1 thread  & 0.65 & 0.92 & 1.04 & 6.39 \\
-INT8, 4 threads & 0.54 & 0.86 & 1.10 & 3.84 \\
-FP32, 1 thread  & 1.18 & 1.70 & 1.83 & 11.46 \\
-FP32, 4 threads & 0.72 & 1.25 & 2.03 & 4.69 \\
+INT8, 1 thread  & 0.64 & 0.92 & 1.15 & 5.98 \\
+\textbf{INT8, 2 threads} & \textbf{0.57} & \textbf{0.81} & \textbf{0.90} & \textbf{4.29} \\
+INT8, 4 threads & 0.53 & 0.77 & 0.95 & 3.45 \\
+FP32, 1 thread  & 1.14 & 1.62 & 1.75 & 10.96 \\
+FP32, 2 threads & 0.81 & 1.14 & 1.23 & 6.83 \\
+FP32, 4 threads & 0.68 & 1.00 & 1.39 & 4.91 \\
 \midrule
-v1.1, same machine & -- & 0.55 & -- & 2.02 \\
+v1.1, same machine & 0.27 & 0.38 & 0.45 & 1.40 \\
 \bottomrule
 \end{tabular}
 \end{table}
 
 \begin{table}[h]
 \centering\small
-\caption{Worst case (512 code points, 106 tokens, 920 pieces): repeated sweep over threads (600 calls each) and cost breakdown at 1 thread.}
+\caption{Worst case (512 code points, 106 tokens, 920 pieces): an earlier architecture-only sweep over threads (600 calls each, untrained weights) and cost breakdown at 1 thread.}
 \label{tab:sweep}
 \begin{tabular}{@{}l ccc@{}}
 \toprule
@@ -598,7 +609,7 @@ full predict & 6.03 \\
 \end{tabular}
 \end{table}
 
-Typical messages are about five times inside the 5\,ms budget. The worst case is dominated by the encoder; two threads keep p95 below 5\,ms, while four threads were noisy on the M2's mixed performance/efficiency cores (3.84 and 5.10\,ms in two sweeps). p99 exceeds 5\,ms at 512 code points in every configuration. \texttt{predict.py} defaults to 2 threads.
+Typical messages are about six times inside the 5\,ms budget. The worst case is dominated by the encoder; two threads keep p95 below 5\,ms (4.29\,ms trained, 4.53\,ms in the earlier sweep), while four threads were noisy on the M2's mixed performance/efficiency cores (3.45, 3.84 and 5.10\,ms across three measurements). p99 at 512 code points exceeded 5\,ms in the sweep. \texttt{predict.py} defaults to 2 threads. v1.1 remains 2--3$\times$ faster.
 
 % ============================================================================
 \section{Results So Far}
@@ -620,11 +631,12 @@ v1.1 full & 0.83M & .901 [.78, .97] & -- & .845 [.72, .94] & -- & .72 & .865 (97
 Teacher (v1.1 data) & 278M & .929 [.82, 1.00] & $+.032$ [$-.06$, $+.14$] & 1.000 [1.00, 1.00] & $\mathbf{+.159}$ [$+.06$, $+.28$] & 1.00 & .852 (92.6\%) & 1.000 (100\%) & 12/12 & 1 \\
 Teacher v2 & 278M & \textbf{.966} [.92, .99] & $+.071$ [$-.007$, $+.172$] & 1.000 [1.00, 1.00] & $\mathbf{+.159}$ [$+.06$, $+.28$] & 1.00 & \textbf{.933} (95.8\%) & 1.000 (100\%) & 12/12 & 1 \\
 \midrule
-Student $+$ KD (s42) & 11.88M & \pend & \pend & \pend & \pend & \pend & \pend & \pend & \pend & \pend \\
-Student no-KD (s42) & 11.88M & \pend & & \pend & & & & & & \\
-Student $+$ KD w/o linear & 11.58M & \pend & & \pend & & & & & & \\
-Student $+$ KD seeds 43/44 & 11.88M & \pend & & \pend & & & & & & \\
-Student $+$ KD, ONNX INT8 & 11.88M & \pend & & \pend & & & & & & \\
+Student $+$ KD (s42) & 11.88M & .914 [.81, .98] & $+.014$ [$-.10$, $+.13$] & .911 [.82, .98] & $+.068$ [$-.07$, $+.21$] & 1.00 & .914 (97.9\%) & .917 (96.3\%) & 12/12 & 2 \\
+Student no-KD (s42) & 11.88M & .888 [.77, .97] & $-.011$ [$-.12$, $+.11$] & .878 [.77, .96] & $+.034$ [$-.07$, $+.14$] & .93 & .895 (96.8\%) & .836 (92.6\%) & 12/12 & 3 \\
+Student $+$ KD w/o linear (s42) & 11.58M & .958 [.89, .99] & $+.062$ [$-.03$, $+.17$] & .909 [.81, .98] & $+.066$ [$-.04$, $+.17$] & .93 & .918 (94.7\%) & .925 (96.3\%) & 11/12 & 1 \\
+Student $+$ KD (s43) & 11.88M & .911 [.82, .98] & $+.014$ [$-.09$, $+.14$] & .853 [.74, .94] & $+.009$ [$-.11$, $+.13$] & .95 & .910 (98.9\%) & .813 (88.9\%) & 12/12 & 3 \\
+Student $+$ KD (s44) & 11.88M & .919 [.82, .98] & $+.020$ [$-.09$, $+.13$] & .952 [.87, 1.00] & $+.110$ [$-.00$, $+.23$] & .93 & .914 (97.9\%) & .925 (97.4\%) & 12/12 & 1 \\
+\textbf{Student $+$ KD, ONNX INT8} & 11.88M & .914 [.81, .98] & $+.014$ [$-.10$, $+.13$] & .916 [.83, .98] & $+.073$ [$-.06$, $+.22$] & 1.00 & .914 (97.9\%) & .917 (95.8\%) & 12/12 & 2 \\
 \bottomrule
 \end{tabular}}
 \end{table}
@@ -642,7 +654,8 @@ System & $T_I$ & $T_S$ & int & sent & int & sent & int & sent \\
 v1.1 & 0.550 & 1.316 & .082 & .106 & .953 & .753 & .906 & .951 \\
 Teacher (v1.1 data) & 0.595 & 1.316 & .070 & .014 & 1.000 & 1.000 & .916 & 1.000 \\
 Teacher v2 & 0.400$^\ast$ & 0.508 & .044 & .000 & 1.000 & 1.000 & .963 & 1.000 \\
-Student $+$ KD & \multicolumn{8}{c}{\pend} \\
+Student $+$ KD (s42) & 0.400$^\ast$ & 0.755 & .070 & .048 & 1.000 & 1.000 & .921 & .911 \\
+Student $+$ KD, INT8 & 0.400$^\ast$ & 0.755 & .070 & .045 & 1.000 & 1.000 & .921 & .916 \\
 \bottomrule
 \end{tabular}
 \\[2pt]{\footnotesize $^\ast$ lower boundary of the temperature grid.}
@@ -662,16 +675,37 @@ Sentiment & $0.000$ & $[0.000, 0.000]$ & -- (both at ceiling) \\
 \end{tabular}
 \end{table}
 
-\paragraph{Pending comparisons (\pend).} KD effect (student $+$ KD vs no-KD, identical labeled data); linear-branch effect; seed spread (mean and standard deviation over seeds 42--44); INT8 vs FP32 accuracy agreement and macro-F1 change; trained-model latency; student contrast-set results.
+\begin{table}[h]
+\centering\small
+\caption{Student ablations and distillation gap: paired differences on the same 5{,}000 resamples.}
+\label{tab:studentpaired}
+\begin{tabular}{@{}l cc cc@{}}
+\toprule
+& \multicolumn{2}{c}{Intent} & \multicolumn{2}{c}{Sentiment} \\
+\cmidrule(lr){2-3}\cmidrule(lr){4-5}
+Comparison & $\overline\Delta$ [95\% CI] & $P(\Delta>0)$ & $\overline\Delta$ [95\% CI] & $P(\Delta>0)$ \\
+\midrule
+KD effect: student $+$ KD $-$ no-KD (s42) & $+0.025$ [$-0.034$, $+0.113$] & 0.70 & $+0.034$ [$-0.055$, $+0.124$] & 0.78 \\
+Linear branch: with $-$ without (s42) & $-0.048$ [$-0.124$, $+0.014$] & 0.07 & $+0.002$ [$-0.091$, $+0.094$] & 0.51 \\
+Student $+$ KD $-$ teacher v2 & $-0.057$ [$-0.136$, $+0.004$] & 0.04 & $\mathbf{-0.092}$ [$-0.184$, $-0.020$] & 0.00 \\
+INT8 $-$ FP32 (s42) & $+0.000$ [$+0.000$, $+0.000$] & -- & $+0.005$ [$+0.000$, $+0.017$] & 0.64 \\
+\bottomrule
+\end{tabular}
+\\[2pt]{\footnotesize Seed spread of student $+$ KD (seeds 42/43/44): intent mean 0.915, sd 0.004; sentiment mean 0.906, sd 0.049. Best validation NLL ranged from 0.065 (s42) to 0.156 (s43).}
+\end{table}
+
+\paragraph{Reading the students.} (i) \emph{Distillation gap:} the student is significantly below teacher~v2 on sentiment and trends below on intent; the KD soft labels do not transfer the teacher's sentiment robustness. (ii) \emph{KD effect:} positive point estimates, unresolved, and smaller than the seed standard deviation of the primary variant; the no-KD student even solves one more contrast pair. (iii) \emph{Linear branch:} removing it improves intent (0.958, 20/40 contrast pairs) with $P(\Delta>0)=0.07$ for keeping it; the deployed model keeps the branch because it was the pre-specified primary variant, and a single seed does not justify switching. (iv) \emph{Stability:} unseen-misspelling consistency is at least v1.1's level (97.9\% vs 97.4\%) and emoji pairs are 12/12, but negated negatives stay at 1/10 pairs for every student and seed~43 reintroduces the \hi{cancel mat karna} audit error. (v) \emph{Calibration:} validation thresholds collapse to 0, so the student never defers to review on this split (v1.1 sentiment coverage was 0.753).
 
 % ============================================================================
 \section{Discussion}
 \label{sec:discussion}
 
-\subsection{What Improved and What Did Not (teachers)}
+\subsection{What Improved and What Did Not}
 \begin{itemize}
   \item \textcolor{okgreen}{\textbf{Improved}}: sentiment on every set; positive recall; emoji contrast pairs (RoBERTa tokenizers); the \hi{nahi}$\Rightarrow$\lbl{negative} cue; audit errors (6$\to$1); negation-scope intent on the contrast set (0.65$\to$0.90, teacher~v2); robustness to unseen misspellings (stress intent 0.865$\to$0.933, teacher~v2).
   \item \textcolor{warn}{\textbf{Not resolved}}: intent gains over v1.1 and over the Phase~1 teacher on 44 test groups (all CIs include 0); keyword routing of \hi{\dots nahi mila} to \lbl{not\_received}; feedback about logistics routed to operational intents; negated negatives remain at 6/10 pairs for both teachers.
+  \item \textcolor{okgreen}{\textbf{Student, improved}}: a deployable 11.88M-parameter model at 0.81\,ms p95; INT8 lossless; stress consistency 97.9\%; emoji pairs 12/12; positive recall 1.00; 17/40 contrast pairs vs 10/40 for v1.1.
+  \item \textcolor{warn}{\textbf{Student, not achieved}}: gains over v1.1 are not resolved on either head; sentiment is significantly below teacher~v2; KD not shown to help; the linear branch appears to hurt intent; negated negatives 1/10 pairs; sentiment unstable across seeds; review flag never fires.
 \end{itemize}
 
 \subsection{Threats to Validity}
@@ -680,7 +714,7 @@ Sentiment & $0.000$ & $[0.000, 0.000]$ & -- (both at ceiling) \\
   \item \textbf{Contrast vocabulary overlap.} 18 contrast affect words enter training via generated data; UA results after Phase~2 are not generalisation evidence.
   \item \textbf{Out-of-domain public data.} Political, cricket, movie and chit-chat tweets with visible label noise (teacher--gold agreement 0.71), restrictive licenses.
   \item \textbf{Pseudo-label noise.} Sentiment soft labels on 50{,}000 unlabeled tweets come from a teacher trained on 4{,}000 of them plus support data.
-  \item \textbf{Seeds and power.} One seed per teacher; student seeds pending; 44 test groups.
+  \item \textbf{Seeds and power.} One seed per teacher; three student seeds only for the primary variant, while the KD and linear-branch ablations use one seed and are smaller than the primary variant's sentiment sd (0.049); 44 test groups.
   \item \textbf{Free-GPU training.} Colab T4; teacher checkpoints omit optimizer moments; $\le$3 learning rates; public-only pre-fine-tuning stage skipped.
   \item \textbf{No human data.} No real customer messages; the evaluator scores \texttt{data/human\_test.jsonl} separately if it is added.
 \end{itemize}
@@ -695,12 +729,13 @@ Sentiment & $0.000$ & $[0.000, 0.000]$ & -- (both at ceiling) \\
 Requirement & Status & Evidence \\
 \midrule
 Student $\le$15M parameters & \textcolor{okgreen}{\textbf{Met}} & 11{,}878{,}419 (\cref{tab:params}) \\
-p95 $<5$\,ms, batch 1, Mac CPU, incl.\ hashing & \textcolor{okgreen}{\textbf{Met}} (2 threads) & 0.92\,ms typical; 4.53\,ms at 512 code points with 2 threads; 6.11\,ms with 1 thread (\cref{tab:sweep}) \\
+p95 $<5$\,ms, batch 1, Mac CPU, incl.\ hashing & \textcolor{okgreen}{\textbf{Met}} (2 threads) & 0.81\,ms on test messages; 4.29\,ms at 512 code points with 2 threads; 5.98\,ms with 1 thread (\cref{tab:latency}) \\
 Exact v1.1 splits, validation-only choices & \textcolor{okgreen}{\textbf{Met}} & digest-checked export; \cref{sec:protocol} \\
 Near-duplicate filtering & \textcolor{okgreen}{\textbf{Met}} & removed: public 0, generated 1, augmented 2 \\
 Hash parity Colab $\leftrightarrow$ Mac & \textcolor{okgreen}{\textbf{Met}} & 50/50 fixtures; Python 3.10--3.14 \\
-Sentiment robustness & \textcolor{okgreen}{\textbf{Improved}} (teachers) & \cref{tab:main,tab:contrast}; student \pend \\
-Negation scope & \textcolor{pending}{\textbf{Partial}} & contrast NS intent 0.90; 6/10 pairs (teacher~v2) \\
+Sentiment robustness & \textcolor{pending}{\textbf{Teachers only}} & teachers $+0.159$ $[+0.056, +0.282]$; student $+0.068$ $[-0.07, +0.21]$, seed sd 0.049 \\
+Distillation keeps teacher gains & \textcolor{warn}{\textbf{Not met}} & student $-$ teacher~v2 sentiment $-0.092$ $[-0.184, -0.020]$ (\cref{tab:studentpaired}) \\
+Negation scope & \textcolor{pending}{\textbf{Partial}} & teacher~v2: NS intent 0.90, 6/10 pairs; deployed student 5/10 pairs \\
 Real-world validation & \textcolor{warn}{\textbf{Not met}} & no human-collected data \\
 \bottomrule
 \end{tabularx}
@@ -754,7 +789,7 @@ Notebook & Content & GPU time & Status \\
 \midrule
 01\_teacher & 4 encoders $\times$ 3 LR, v1.1 train & 38.4 min (T4) & done \\
 02\_teacher\_kd & teacher v2 $+$ logits for 66{,}166 KD rows & 10.2 min (T4) & done \\
-03\_student & 5 student variants & est.\ 40--60 min & \pend \\
+03\_student & 5 student variants (1 disconnect, resumed) & $\sim$45 min (T4) & done \\
 \bottomrule
 \end{tabular}
 \end{table}

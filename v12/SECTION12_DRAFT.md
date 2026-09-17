@@ -1,7 +1,6 @@
 # Section 12 (draft): Version 1.2 — Teacher Distillation into a Hashed-Piece Transformer
 
-> Status: DRAFT. Every number comes from `v12/results/*.json`. Items marked **[PENDING 03]** are filled in
-> after notebook 03 (student training) returns; nothing below them is estimated.
+> Status: DRAFT, all phases complete. Every number comes from `v12/results/*.json`.
 
 ## 12.1 Motivation
 
@@ -142,39 +141,98 @@ with onnxruntime. `python v12/predict.py "text"` returns the v1.1 JSON.
 
 ## 12.6 Results
 
-**[PENDING 03]** Full table from `results/phase5_table.md`: v1.1 | teacher (v1.1 data) | teacher v2 | student + KD |
-student no-KD | student w/o linear | seeds 43/44 | deployed INT8 — intent/sentiment macro-F1 with CI and paired Δ
-vs v1.1, positive recall, stress F1 and consistency, emoji pairs, audit errors, contrast per phenomenon, ECE,
-coverage/accepted accuracy, parameters, latency.
+Development test (190 rows, 44 groups); macro-F1 with 95% group-bootstrap interval; Δ is paired against v1.1 on the
+same 5,000 resamples. Full table with ECE and coverage: `results/phase5_table.md`.
 
-**[PENDING 03]** KD effect (student + KD vs no-KD on identical labeled data), linear-branch effect, seed spread,
-INT8 accuracy delta.
+| System | Params | Intent F1 [CI] | Δ intent | Sentiment F1 [CI] | Δ sentiment | Pos. recall | Stress F1 int/sent (consistency) | Emoji | Audit err. | Contrast pairs |
+|---|---:|---|---|---|---|---:|---|---:|---:|---:|
+| v1.1 | 0.83M | 0.901 [0.78, 0.97] | – | 0.845 [0.72, 0.94] | – | 0.72 | 0.865/0.826 (97.4%/92.6%) | 9/12 | 6 | 10/40 |
+| Teacher (v1.1 data) | 278M | 0.929 [0.82, 1.00] | +0.032 [−0.06, +0.14] | 1.000 | +0.159 [+0.06, +0.28] | 1.00 | 0.852/1.000 (92.6%/100%) | 12/12 | 1 | 24/40 |
+| Teacher v2 | 278M | 0.966 [0.92, 0.99] | +0.071 [−0.01, +0.17] | 1.000 | +0.159 [+0.06, +0.28] | 1.00 | 0.933/1.000 (95.8%/100%) | 12/12 | 1 | 29/40 |
+| Student + KD (s42) | 11.88M | 0.914 [0.81, 0.98] | +0.014 [−0.10, +0.13] | 0.911 [0.82, 0.98] | +0.068 [−0.07, +0.21] | 1.00 | 0.914/0.917 (97.9%/96.3%) | 12/12 | 2 | 17/40 |
+| Student no-KD (s42) | 11.88M | 0.888 [0.77, 0.97] | −0.011 [−0.12, +0.11] | 0.878 [0.77, 0.96] | +0.034 [−0.07, +0.14] | 0.93 | 0.895/0.836 (96.8%/92.6%) | 12/12 | 3 | 18/40 |
+| Student + KD w/o linear (s42) | 11.58M | 0.958 [0.89, 0.99] | +0.062 [−0.03, +0.17] | 0.909 [0.81, 0.98] | +0.066 [−0.04, +0.17] | 0.93 | 0.918/0.925 (94.7%/96.3%) | 11/12 | 1 | 20/40 |
+| Student + KD (s43) | 11.88M | 0.911 [0.82, 0.98] | +0.014 [−0.09, +0.14] | 0.853 [0.74, 0.94] | +0.009 [−0.11, +0.13] | 0.95 | 0.910/0.813 (98.9%/88.9%) | 12/12 | 3 | 17/40 |
+| Student + KD (s44) | 11.88M | 0.919 [0.82, 0.98] | +0.020 [−0.09, +0.13] | 0.952 [0.87, 1.00] | +0.110 [−0.00, +0.23] | 0.93 | 0.914/0.925 (97.9%/97.4%) | 12/12 | 1 | 17/40 |
+| **Student + KD, ONNX INT8 (deployed)** | 11.88M | 0.914 [0.81, 0.98] | +0.014 [−0.10, +0.13] | 0.916 [0.83, 0.98] | +0.073 [−0.06, +0.22] | 1.00 | 0.914/0.917 (97.9%/95.8%) | 12/12 | 2 | 17/40 |
 
-### Latency (Mac CPU; architecture measured, **[PENDING 03]** re-measured with the trained weights)
+### Paired comparisons (same resamples)
+
+| Comparison | Intent Δ [95% CI], P(Δ>0) | Sentiment Δ [95% CI], P(Δ>0) |
+|---|---|---|
+| KD effect: student + KD − no-KD (s42) | +0.025 [−0.034, +0.113], 0.70 | +0.034 [−0.055, +0.124], 0.78 |
+| Linear branch: with − without (s42) | −0.048 [−0.124, +0.014], 0.07 | +0.002 [−0.091, +0.094], 0.51 |
+| Student + KD − teacher v2 | −0.057 [−0.136, +0.004], 0.04 | **−0.092 [−0.184, −0.020]**, 0.00 |
+| INT8 − FP32 (s42) | +0.000 [+0.000, +0.000] | +0.005 [+0.000, +0.017] |
+| Data ablation: teacher v2 − teacher (v1.1 data) | +0.040 [−0.028, +0.121], 0.85 | 0.000 (both at ceiling) |
+
+Seed spread (student + KD, seeds 42/43/44): intent mean 0.915, sd 0.004; **sentiment mean 0.906, sd 0.049**.
+Best validation NLL varied from 0.065 (s42) to 0.156 (s43).
+
+### Contrast set (both labels correct; pairs fully correct)
+
+| System | Negation scope | Neutral *nahi* | Negated negative | Unseen affect† | Pairs |
+|---|---|---|---|---|---:|
+| v1.1 | 0.60 (3) | 0.65 (4) | 0.40 (1) | 0.55 (2) | 10/40 |
+| Teacher v2 | 0.80 (6) | 0.85 (8) | 0.70 (6) | 0.95 (9) | 29/40 |
+| Student + KD (s42) | 0.65 (5) | 0.75 (6) | 0.45 (1) | 0.70 (5) | 17/40 |
+| Student no-KD (s42) | 0.60 (4) | 0.75 (7) | 0.45 (1) | 0.75 (6) | 18/40 |
+| Student + KD w/o linear | 0.70 (5) | 0.80 (7) | 0.40 (1) | 0.80 (7) | 20/40 |
+
+† affect words present in generated training data (not a generalisation test).
+
+### Calibration
+
+Deployed INT8 student: temperatures fitted on validation T_I = 0.40 (grid boundary), T_S = 0.755; review thresholds
+0.0 for both heads (every validation prediction qualified), so coverage is 1.00; ECE 0.070 (intent) / 0.045
+(sentiment) vs 0.082 / 0.106 for v1.1. The review flag therefore never fires for the student on this split — unlike
+v1.1, whose sentiment head accepted 75.3%.
+
+### Quantization and export
+
+ONNX FP32 parity with PyTorch: 5.8e-6 maximum absolute logit difference. INT8 dynamic quantization: identical intent
+predictions on every validation/test/stress/audit/contrast message, one sentiment change on 190 test messages;
+encoder file 12.8 MB → 3.4 MB (embedding and linear tables stay float32 in a 34.7 MB NumPy archive).
+
+### Latency (trained model, Mac CPU)
 
 Apple M2, Python 3.12, onnxruntime 1.30; 80 warm-up + 600 timed calls, batch 1, including hashing, embedding mean,
-encoder, linear branch, calibration and JSON serialization (architecture-only measurement with untrained weights,
-`runs/smoke/latency_smoke.json`):
+encoder, linear branch, calibration and JSON serialization (`results/latency_student_kd_s42.json`).
 
-| Configuration | Test messages p50/p95/p99 (ms) | 512 code points p95 (ms) |
-|---|---|---:|
-| INT8, 1 thread | 0.65 / 0.92 / 1.04 | 6.39 |
-| INT8, 4 threads | 0.54 / 0.86 / 1.10 | 3.84 |
-| FP32, 1 thread | 1.18 / 1.70 / 1.83 | 11.46 |
-| FP32, 4 threads | 0.72 / 1.25 / 2.03 | 4.69 |
-| v1.1 (same machine) | – / 0.55 / – | 2.02 |
+| Configuration | Test p50 / p95 / p99 (ms) | p95 at 32 / 128 / 512 code points (ms) | msg/s |
+|---|---|---|---:|
+| INT8, 1 thread | 0.64 / 0.92 / 1.15 | 0.55 / 1.68 / 5.98 | 1,497 |
+| **INT8, 2 threads (default)** | **0.57 / 0.81 / 0.90** | 0.49 / 1.31 / **4.29** | 1,686 |
+| INT8, 4 threads | 0.53 / 0.77 / 0.95 | 0.49 / 1.30 / 3.45 | 1,782 |
+| FP32, 1 thread | 1.14 / 1.62 / 1.75 | 0.90 / 2.98 / 10.96 | 867 |
+| FP32, 2 threads | 0.81 / 1.14 / 1.23 | 0.68 / 1.97 / 6.83 | 1,201 |
+| FP32, 4 threads | 0.68 / 1.00 / 1.39 | 0.61 / 1.65 / 4.91 | 1,388 |
+| v1.1 (same machine) | 0.27 / 0.38 / 0.45 | 0.25 / 0.55 / 1.40 | – |
 
-Typical messages are far inside the 5 ms budget; the 512-code-point worst case meets it only with 4 intra-op
-threads.
+At 512 code points (106 tokens) the ONNX encoder dominates (≈4.3 of 6.0 ms at one thread; hashing ≈1.1 ms).
 
 ## 12.7 What improved and what did not
 
-**[PENDING 03]** for the student. Final for the teachers:
+Improved (with evidence strength):
+- **Teachers, sentiment**: resolved gains on every set (paired +0.159 [+0.056, +0.282]).
+- **Teacher v2, negation scope and robustness**: contrast negation-scope intent 0.90 vs 0.65; stress intent 0.933;
+  audit 1 error vs 6; 29/40 contrast pairs vs 10. Intent vs v1.1 +0.071 [−0.007, +0.172]: borderline.
+- **Deployable student**: 11.88M parameters, p95 0.81 ms (4.29 ms worst case), INT8 lossless on these sets;
+  unseen-misspelling stability at least as good as v1.1 (consistency 97.9% vs 97.4%); emoji pairs 12/12;
+  positive recall 1.00; contrast pairs 17/40 vs 10/40.
 
-- Improved: sentiment (all sets), positive recall, emoji contrast pairs, the *nahi* ⇒ negative cue, audit errors,
-  negation-scope intent on the contrast set (teacher v2), robustness to unseen misspellings (teacher v2).
-- Not resolved: intent gains over v1.1 and over the Phase 1 teacher on the 44-group development test (CIs include 0);
-  keyword-driven routing to `not_received`; feedback about logistics routed to operational intents.
+Not improved or not resolved:
+- **The student does not keep the teacher's gains.** Sentiment is significantly below teacher v2 (−0.092
+  [−0.184, −0.020]); its gains over v1.1 are not resolved for either head, and sentiment varies strongly across seeds
+  (0.853–0.952).
+- **KD is not shown to help**: +0.025 / +0.034 over the no-KD student, CIs include 0; the no-KD student even solves
+  one more contrast pair.
+- **The hashed linear branch appears to hurt intent** (−0.048 [−0.124, +0.014], P(Δ>0) = 0.07; without it intent is
+  0.958 and 20/40 contrast pairs). The deployed model keeps it because it was the pre-registered primary variant; the
+  no-linear variant was selected by nothing and would need confirmation on more seeds before switching.
+- **Negated negatives** stay at 1/10 pairs for every student; students also regress on negation scope relative to
+  teacher v2 (5/10 vs 6/10 pairs), and seed 43 reintroduces the "cancel mat karna" audit error.
+- **Calibration**: the review threshold collapses to 0 for the student, so it never defers to a human on this split.
 
 ## 12.8 Threats to validity
 
@@ -186,23 +244,26 @@ threads.
   `unseen_affect` results after Phase 2 are not generalisation evidence.
 - **Out-of-domain public data.** SentiMix/PHINC/HingLID/CMU DoG are political, cricket, movie and chit-chat text with
   visible label noise (teacher–gold agreement 70.9%), not customer support; licenses restrict redistribution.
-- **Pseudo-label noise.** Soft labels on 50,000 unlabeled tweets come from a teacher that never saw that domain with
-  labels for intent (intent KD masked there) and whose sentiment agreement with noisy gold is 71%.
-- **Seeds.** Teachers use one seed; student seeds 43/44 run only if GPU time allowed **[PENDING 03]**.
-- **Statistical power.** 44 test groups; most intent differences between strong systems are not resolved.
+- **Pseudo-label noise.** Soft labels on 50,000 unlabeled tweets come from a teacher trained on 4,000 of them plus
+  support data; on support rows the teacher reproduces the gold labels it was trained on.
+- **Seeds.** Teachers use one seed. Students use three seeds only for the primary variant; the KD and linear-branch
+  ablations use seed 42 only, while the primary variant's sentiment sd across seeds is 0.049 — larger than both
+  ablation effects.
+- **Statistical power.** 44 test groups; most differences between strong systems are not resolved.
 - **Free-GPU training.** Colab T4 sessions; optimizer moments are not checkpointed for teachers (weights, schedule
-  and RNG are); no hyper-parameter search beyond ≤3 learning rates; Stage 1 public pre-fine-tuning skipped.
+  and RNG are); ≤3 learning rates; Stage 1 public pre-fine-tuning skipped; no student hyper-parameter search.
 - **Human data.** No real customer messages were available (`data/human_test.jsonl` hook unused).
 
 ## 12.9 Requirements scorecard (v1.2)
 
 | Requirement | Status | Evidence |
 |---|---|---|
-| ≤15M parameters (student) | Met | 11,878,419 (Section 12.5) |
-| p95 < 5 ms at batch 1 on the Mac CPU, incl. hashing | Met for typical messages; worst case needs 4 threads | 0.92 ms test messages; 512 code points 6.39 ms (1 thread) / 3.84 ms (4 threads) **[re-measure 03]** |
+| ≤15M parameters (student) | Met | 11,878,419 |
+| p95 < 5 ms at batch 1 on the Mac CPU, incl. hashing | Met (2 threads) | test messages 0.81 ms; 512 code points 4.29 ms (5.98 ms with 1 thread); p99 at 512 code points not measured below 5 ms |
 | Exact v1.1 splits; no test/audit use for choices | Met | digest-checked export; selection/calibration on validation only |
 | Near-duplicate filtering of new data | Met | removed: public 0, generated 1, augmented 2 |
-| Hash parity Colab ↔ Mac | Met | 50/50 fixtures on Python 3.10/3.12/3.13/3.14 |
-| Sentiment robustness | Improved (teachers) | Section 12.3–12.4 **[student PENDING 03]** |
-| Negation scope | Partially improved (teacher v2) | contrast scope intent 0.90; 6/10 scope pairs |
+| Hash parity Colab ↔ Mac | Met | 50/50 fixtures on Python 3.10/3.12/3.13/3.14 in every notebook |
+| Sentiment robustness | Teachers: met; student: not resolved | teacher +0.159 [+0.056, +0.282]; student +0.068 [−0.07, +0.21], seed sd 0.049 |
+| Negation scope | Partial | teacher v2 6/10 scope pairs; deployed student 5/10 |
+| Distillation keeps teacher gains | Not met | student − teacher v2 sentiment −0.092 [−0.184, −0.020] |
 | Real-world validation | Not met | no human-collected data |
