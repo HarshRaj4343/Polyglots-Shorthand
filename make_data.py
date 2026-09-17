@@ -1,4 +1,17 @@
 """Authored synthetic Hinglish benchmark. Split groups BEFORE augmentation."""
+# ============================================================================
+# make_data.py - BUILDS THE DATASET
+# ----------------------------------------------------------------------------
+# 1. SEEDS: 96 hand-written example messages (16 per intent) with sentiment.
+# 2. build(): splits seeds into train / validation / test, creates spelling
+#    variants of each seed (augmentation), and writes data/*.jsonl files.
+# Key idea: a seed and ALL its variants go to the same split, so the test set
+# never contains a near-copy of a training sentence (no "leakage").
+# ============================================================================
+
+# ---------------------------------------------------------------------------
+# Imports
+# ---------------------------------------------------------------------------
 import json
 import random
 from pathlib import Path
@@ -6,6 +19,7 @@ from pathlib import Path
 # Every row is an independent authored seed. No real customer data is used.
 # n = negative, u = neutral, p = positive. Labels describe expressed affect,
 # not whether an intent is operationally undesirable.
+# Format: {intent_name: [(sentiment_code, message_text), ...]}
 SEEDS = {
 'cancel_order': [
 ('u','bhai order cancel kar do please urgent meeting hai'),
@@ -111,21 +125,35 @@ SEEDS = {
 ('u','bas feedback dena tha koi khas baat nahi')]
 }
 
+# ---------------------------------------------------------------------------
+# Augmentation helpers: create realistic spelling variants of a message.
+# ---------------------------------------------------------------------------
+# Full word -> typical texting shorthand (the reverse of ALIASES in model.py).
 SHORT = {'kar':'kr','karo':'kro','karna':'krna','raha':'rha','rahe':'rhe',
          'nahi':'nhi','hai':'h','please':'plz','bahut':'bht','kahan':'kaha'}
+# Replace every word that has a shorthand form, e.g. "nahi hai" -> "nhi h".
 def shorthand(text):
     return ' '.join(SHORT.get(t,t) for t in text.split())
 
 def variants(text):
     # Do not add/delete negation, emojis or sentiment-bearing punctuation.
+    # Returns up to 3 unique versions: original, shorthand, and a misspelled
+    # version ("ordr", "delivry", "servis"). dict.fromkeys removes duplicates
+    # while keeping order.
     return list(dict.fromkeys([text, shorthand(text),
                               text.replace('order','ordr').replace('delivery','delivry').replace('service','servis')]))
 
+# ---------------------------------------------------------------------------
+# build(): create train/validation/test JSONL files inside `root`.
+# ---------------------------------------------------------------------------
 def build(root):
+    # Fixed random seed -> the same split every time you run it.
     rng=random.Random(42)
     rows=[]
     for intent,seeds in SEEDS.items():
         # Stratify seed groups by base sentiment; pairs remain in the same group.
+        # For each sentiment, shuffle its seeds and send ~18% to validation,
+        # ~22% to test, and the rest (~60%) to train.
         assignments={}
         for sentiment in ('p','n','u'):
             ids=[i for i,(s,_) in enumerate(seeds) if s==sentiment]
@@ -134,23 +162,33 @@ def build(root):
             nt=max(1,round(len(ids)*.22)) if len(ids)>=3 else 0
             for j,i in enumerate(ids):
                 assignments[i]='validation' if j<nv else 'test' if j<nv+nt else 'train'
+        # Turn every seed into one or more labelled rows.
         for i,(s,text) in enumerate(seeds):
+            # Group id ties a seed and all its variants together.
             group=f'{intent}-{i:02d}'
+            # Convert short code (p/n/u) into the full sentiment name.
             forms=[(text,{'p':'positive','n':'negative','u':'neutral'}[s])]
             # Contrast examples are annotation assumptions, not universal emoji rules.
+            # Positive feedback also gets a "😊" copy (positive) and a sarcastic
+            # "😒" copy (negative) so the model learns emojis can flip tone.
             if intent=='feedback' and s=='p':
                 forms += [(text+' 😊','positive'),(text+' 😒','negative')]
+            # Add every spelling variant as its own row, all in the seed's split.
             for base,sentiment in forms:
                 for text_variant in variants(base):
                     rows.append({'text':text_variant,'intent':intent,'sentiment':sentiment,
                                  'group':group,'split':assignments[i], 'language':'hi-en',
                                  'source':'authored_synthetic'})
+    # Write one JSONL file per split (one JSON object per line).
     root=Path(root); root.mkdir(parents=True,exist_ok=True)
     for split in ('train','validation','test'):
         selected=[r for r in rows if r['split']==split]
         (root/f'{split}.jsonl').write_text(''.join(json.dumps(r,ensure_ascii=False)+'\n' for r in selected),encoding='utf-8')
     return rows
 
+# ---------------------------------------------------------------------------
+# Run directly (`python make_data.py`) to regenerate data/ and print row counts.
+# ---------------------------------------------------------------------------
 if __name__=='__main__':
     rows=build(Path(__file__).parent/'data')
     print(json.dumps({s:sum(r['split']==s for r in rows) for s in ('train','validation','test')},indent=2))
