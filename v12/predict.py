@@ -23,7 +23,7 @@ def main():
     ap.add_argument('--stdin', action='store_true')
     ap.add_argument('--deploy', default=str(DEFAULT_DEPLOY))
     ap.add_argument('--precision', choices=['int8', 'fp32'], default='int8')
-    ap.add_argument('--threads', type=int, default=1)
+    ap.add_argument('--threads', type=int, default=2, help='onnxruntime intra-op threads (2 keeps 512-code-point p95 < 5 ms on an M2)')
     ap.add_argument('--attention', action='store_true', help='also return attention-pooling weights per token')
     args = ap.parse_args()
     if not (Path(args.deploy) / 'meta.json').exists():

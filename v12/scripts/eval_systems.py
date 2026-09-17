@@ -139,7 +139,7 @@ def main():
         st = r['stress']
         lat = r['latency']
         if isinstance(lat, dict) and 'p95_ms' not in lat:
-            lat = lat.get('int8_threads1') or lat.get('fp32_threads1') or next(iter(lat.values()))
+            lat = lat.get('int8_threads2') or lat.get('fp32_threads2') or lat.get('int8_threads1') or lat.get('fp32_threads1') or next(iter(lat.values()))
         ls = f"{lat['p50_ms']:.2f}/{lat['p95_ms']:.2f}/{lat['p99_ms']:.2f}" if lat else 'not measured'
         L.append(f"| {r['system']} | {r['params']:,} | {fmt_ci(r['intent_macro_f1'], r['intent_ci95'])} | {dv('intent')} | "
                  f"{fmt_ci(r['sentiment_macro_f1'], r['sentiment_ci95'])} | {dv('sentiment')} | {r['positive_recall']:.2f} | "

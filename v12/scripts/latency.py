@@ -53,7 +53,7 @@ def main():
                           'linear branch, calibration and JSON serialization. Excludes process start-up, model loading, network, queueing.',
               'configs': {}}
     for precision in ('int8', 'fp32'):
-        for threads in (1, 4):
+        for threads in (1, 2, 4):
             rt = StudentRuntime(V12 / args.deploy, precision, threads)
             key = f'{precision}_threads{threads}'
             result['configs'][key] = bench(rt.predict, texts)
