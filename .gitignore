@@ -1,0 +1,7 @@
+# v1.2
+.venv-v12/
+v12/runs/
+v12/bundle.zip
+v12/cache/
+**/__pycache__/
+.DS_Store

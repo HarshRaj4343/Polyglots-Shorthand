@@ -1,0 +1,27 @@
+{
+  "notebook": "01_teacher",
+  "description": "Phase 1 teacher diagnostic: v1.1 TRAIN split only; model and LR selected by validation NLL.",
+  "candidates": ["l3cube-pune/hing-roberta", "l3cube-pune/hing-roberta-mixed", "l3cube-pune/hing-bert", "google/muril-base-cased"],
+  "learning_rates": [2e-5, 3e-5, 5e-5],
+  "train_files": [{"path": "data/v11/train.jsonl", "intent": true, "sentiment": true}],
+  "validation_file": "data/v11/validation.jsonl",
+  "predict_files": {
+    "train": "data/v11/train.jsonl",
+    "validation": "data/v11/validation.jsonl",
+    "test": "data/v11/test.jsonl",
+    "test_stress": "data/v11/test_stress.jsonl",
+    "audit": "data/v11/audit.jsonl",
+    "contrast": "data/contrast.jsonl"
+  },
+  "max_epochs": 12,
+  "patience": 3,
+  "batch_size": 16,
+  "max_length": 128,
+  "warmup_ratio": 0.1,
+  "weight_decay": 0.01,
+  "dropout": 0.1,
+  "seed": 42,
+  "save_optimizer": false,
+  "keep_weights": false,
+  "time_budget_minutes": 105
+}

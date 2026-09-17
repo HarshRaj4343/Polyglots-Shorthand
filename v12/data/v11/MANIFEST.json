@@ -1,0 +1,22 @@
+{
+  "source_sha256": {
+    "train": "44784c27a5710bbabf7de29e00b71d10d710e150c510f1262f9a16a687bfdf24",
+    "validation": "f8879919de7e97b23b955f0c2e9bffd4b7e03d9d2d540c564027e21660c3d97b",
+    "test": "be535aee6c20b79ab5e253f24cf75452a46977f5ee191bb9987e96993a6ff2b9",
+    "audit": "011dde3b64dad11bb9b9fb22fa93aa6f1dfbf8c10d3d857f589218bf17fba535"
+  },
+  "export_sha256": {
+    "train": "cb61dee3a66c2c7b80ea75971136a4a880a120376593da959847360691c30801",
+    "validation": "3ce76c451863ce527c4da3bc3fc92237ea25ebc486a6e92d551e0fe25f0e3098",
+    "test": "9db48b6ae7de280a782c8a2e25b2a9f38a5f661dc61391d837605cd41e807f78",
+    "audit": "c4ec5639bbcf1e9405638f09396bb7afeb59fbc244dddebb32b4b3286a466856",
+    "test_stress": "526198efc5da1d85382ba2b5c46cb2a4f67784f388ddd072fdbf1d4965973d57"
+  },
+  "rows": {
+    "train": 536,
+    "validation": 158,
+    "test": 190,
+    "audit": 24,
+    "test_stress": 190
+  }
+}

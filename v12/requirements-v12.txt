@@ -1,0 +1,12 @@
+# Local (Mac) environment for v1.2: data work, smoke tests, evaluation, ONNX export, latency.
+# Create:  uv venv --python 3.12 .venv-v12 && uv pip install --python .venv-v12/bin/python -r v12/requirements-v12.txt
+# GPU notebooks install only transformers/sentencepiece/protobuf on top of the platform's torch.
+numpy==2.3.5
+torch==2.14.0
+transformers==5.17.0
+onnx==1.22.0
+onnxruntime==1.30.0
+datasets==5.0.1
+huggingface_hub
+pandas
+nbformat

@@ -1,0 +1,190 @@
+{"id": "test_stress-0000", "text": "mujhe apni booking cancel karni hey", "intent": "cancel_order", "sentiment": "neutral", "group_id": "cancel_order-01", "source": "v11"}
+{"id": "test_stress-0001", "text": "mujhe apni booking cancel karni hey", "intent": "cancel_order", "sentiment": "neutral", "group_id": "cancel_order-01", "source": "v11"}
+{"id": "test_stress-0002", "text": "mujhko apni booking cancel karni hey", "intent": "cancel_order", "sentiment": "neutral", "group_id": "cancel_order-01", "source": "v11"}
+{"id": "test_stress-0003", "text": "mujhko apni booking cancel karni hey", "intent": "cancel_order", "sentiment": "neutral", "group_id": "cancel_order-01", "source": "v11"}
+{"id": "test_stress-0004", "text": "hi mujhe apni booking cancel karni hey", "intent": "cancel_order", "sentiment": "neutral", "group_id": "cancel_order-01", "source": "v11"}
+{"id": "test_stress-0005", "text": "bahut pareshan hu meraa orrder cancel karo", "intent": "cancel_order", "sentiment": "negative", "group_id": "cancel_order-09", "source": "v11"}
+{"id": "test_stress-0006", "text": "bht pareshan hu meraa orrder cancel kro", "intent": "cancel_order", "sentiment": "negative", "group_id": "cancel_order-09", "source": "v11"}
+{"id": "test_stress-0007", "text": "bohot pareshan hu meraa ordr cancel karo", "intent": "cancel_order", "sentiment": "negative", "group_id": "cancel_order-09", "source": "v11"}
+{"id": "test_stress-0008", "text": "bohot pareshan hu meraa ordr cancel kro", "intent": "cancel_order", "sentiment": "negative", "group_id": "cancel_order-09", "source": "v11"}
+{"id": "test_stress-0009", "text": "bhai bahut pareshan hu meraa orrder cancel karo", "intent": "cancel_order", "sentiment": "negative", "group_id": "cancel_order-09", "source": "v11"}
+{"id": "test_stress-0010", "text": "is booking ko cancel karne mein help chahiye", "intent": "cancel_order", "sentiment": "neutral", "group_id": "cancel_order-14", "source": "v11"}
+{"id": "test_stress-0011", "text": "is booking ko cancel karne mein help chaiye", "intent": "cancel_order", "sentiment": "neutral", "group_id": "cancel_order-14", "source": "v11"}
+{"id": "test_stress-0012", "text": "ji is booking ko cancel karne mein help chahiye", "intent": "cancel_order", "sentiment": "neutral", "group_id": "cancel_order-14", "source": "v11"}
+{"id": "test_stress-0013", "text": "pleez orrder ki cancellation karwa do", "intent": "cancel_order", "sentiment": "neutral", "group_id": "cancel_order-15", "source": "v11"}
+{"id": "test_stress-0014", "text": "plz orrder ki cancellation karwa do", "intent": "cancel_order", "sentiment": "neutral", "group_id": "cancel_order-15", "source": "v11"}
+{"id": "test_stress-0015", "text": "pleez ordr ki cancellation karwa do", "intent": "cancel_order", "sentiment": "neutral", "group_id": "cancel_order-15", "source": "v11"}
+{"id": "test_stress-0016", "text": "plz ordr ki cancellation karwa do", "intent": "cancel_order", "sentiment": "neutral", "group_id": "cancel_order-15", "source": "v11"}
+{"id": "test_stress-0017", "text": "dekhiye pleez orrder ki cancellation karwa do", "intent": "cancel_order", "sentiment": "neutral", "group_id": "cancel_order-15", "source": "v11"}
+{"id": "test_stress-0018", "text": "shukriya jaldi reply ke liye booking cancel karr dijiye", "intent": "cancel_order", "sentiment": "positive", "group_id": "cancel_order-18", "source": "v11"}
+{"id": "test_stress-0019", "text": "shukriya jaldi reply ke liye booking cancel karr dijiye", "intent": "cancel_order", "sentiment": "positive", "group_id": "cancel_order-18", "source": "v11"}
+{"id": "test_stress-0020", "text": "shukriya fast reply ke liye booking cancel karr dijiye", "intent": "cancel_order", "sentiment": "positive", "group_id": "cancel_order-18", "source": "v11"}
+{"id": "test_stress-0021", "text": "shukriya fast reply ke liye booking cancel karr dijiye", "intent": "cancel_order", "sentiment": "positive", "group_id": "cancel_order-18", "source": "v11"}
+{"id": "test_stress-0022", "text": "hello team shukriya jaldi reply ke liye booking cancel karr dijiye", "intent": "cancel_order", "sentiment": "positive", "group_id": "cancel_order-18", "source": "v11"}
+{"id": "test_stress-0023", "text": "cancel ho gaya bina kisi hassle ke superb experience", "intent": "cancel_order", "sentiment": "positive", "group_id": "cancel_order-24", "source": "v11"}
+{"id": "test_stress-0024", "text": "hi cancel ho gaya bina kisi hassle ke superb experience", "intent": "cancel_order", "sentiment": "positive", "group_id": "cancel_order-24", "source": "v11"}
+{"id": "test_stress-0025", "text": "teen baar cancel dabaya kuch nahii hua ghatiya app 😡", "intent": "cancel_order", "sentiment": "negative", "group_id": "cancel_order-27", "source": "v11"}
+{"id": "test_stress-0026", "text": "teen baar cancel dabaya kuch nahii hua ghatiya app 😡", "intent": "cancel_order", "sentiment": "negative", "group_id": "cancel_order-27", "source": "v11"}
+{"id": "test_stress-0027", "text": "bhai teen baar cancel dabaya kuch nahii hua ghatiya app 😡", "intent": "cancel_order", "sentiment": "negative", "group_id": "cancel_order-27", "source": "v11"}
+{"id": "test_stress-0028", "text": "bina puche orrder confirm karr diya turant cancel karo bekar", "intent": "cancel_order", "sentiment": "negative", "group_id": "cancel_order-31", "source": "v11"}
+{"id": "test_stress-0029", "text": "bina puche orrder confirm karr diya turant cancel kro bekar", "intent": "cancel_order", "sentiment": "negative", "group_id": "cancel_order-31", "source": "v11"}
+{"id": "test_stress-0030", "text": "bina puche ordr confirm karr diya turant cancel karo bekar", "intent": "cancel_order", "sentiment": "negative", "group_id": "cancel_order-31", "source": "v11"}
+{"id": "test_stress-0031", "text": "bina puche ordr confirm karr diya turant cancel kro bekar", "intent": "cancel_order", "sentiment": "negative", "group_id": "cancel_order-31", "source": "v11"}
+{"id": "test_stress-0032", "text": "ji bina puche orrder confirm karr diya turant cancel karo bekar", "intent": "cancel_order", "sentiment": "negative", "group_id": "cancel_order-31", "source": "v11"}
+{"id": "test_stress-0033", "text": "subscription cancel karni hey next month se", "intent": "cancel_order", "sentiment": "neutral", "group_id": "cancel_order-39", "source": "v11"}
+{"id": "test_stress-0034", "text": "subscription cancel karni hey next month se", "intent": "cancel_order", "sentiment": "neutral", "group_id": "cancel_order-39", "source": "v11"}
+{"id": "test_stress-0035", "text": "ji subscription cancel karni hey next month se", "intent": "cancel_order", "sentiment": "neutral", "group_id": "cancel_order-39", "source": "v11"}
+{"id": "test_stress-0036", "text": "cancel ho gaya ab paise wapas chahiye", "intent": "refund", "sentiment": "neutral", "group_id": "refund-03", "source": "v11"}
+{"id": "test_stress-0037", "text": "cancel ho gaya ab money wapas chaiye", "intent": "refund", "sentiment": "neutral", "group_id": "refund-03", "source": "v11"}
+{"id": "test_stress-0038", "text": "dekhiye cancel ho gaya ab paise wapas chahiye", "intent": "refund", "sentiment": "neutral", "group_id": "refund-03", "source": "v11"}
+{"id": "test_stress-0039", "text": "refnd ke liye itna wait kyun 😒", "intent": "refund", "sentiment": "negative", "group_id": "refund-04", "source": "v11"}
+{"id": "test_stress-0040", "text": "sir refnd ke liye itna wait kyun 😒", "intent": "refund", "sentiment": "negative", "group_id": "refund-04", "source": "v11"}
+{"id": "test_stress-0041", "text": "return ke baad amount wapas kaise milega", "intent": "refund", "sentiment": "neutral", "group_id": "refund-06", "source": "v11"}
+{"id": "test_stress-0042", "text": "hello team return ke baad amount wapas kaise milega", "intent": "refund", "sentiment": "neutral", "group_id": "refund-06", "source": "v11"}
+{"id": "test_stress-0043", "text": "meraa refnd process hua ya pending hey", "intent": "refund", "sentiment": "neutral", "group_id": "refund-12", "source": "v11"}
+{"id": "test_stress-0044", "text": "meraa refnd process hua ya pending hey", "intent": "refund", "sentiment": "neutral", "group_id": "refund-12", "source": "v11"}
+{"id": "test_stress-0045", "text": "bhai meraa refnd process hua ya pending hey", "intent": "refund", "sentiment": "neutral", "group_id": "refund-12", "source": "v11"}
+{"id": "test_stress-0046", "text": "shukriya refnd do din mein credit ho gaya", "intent": "refund", "sentiment": "positive", "group_id": "refund-20", "source": "v11"}
+{"id": "test_stress-0047", "text": "sir shukriya refnd do din mein credit ho gaya", "intent": "refund", "sentiment": "positive", "group_id": "refund-20", "source": "v11"}
+{"id": "test_stress-0048", "text": "agent bahut helpful tha refnd status clear karr diya", "intent": "refund", "sentiment": "positive", "group_id": "refund-24", "source": "v11"}
+{"id": "test_stress-0049", "text": "agent bht helpful tha refnd status clear karr diya", "intent": "refund", "sentiment": "positive", "group_id": "refund-24", "source": "v11"}
+{"id": "test_stress-0050", "text": "agent bohot helpful tha refnd status clear karr diya", "intent": "refund", "sentiment": "positive", "group_id": "refund-24", "source": "v11"}
+{"id": "test_stress-0051", "text": "agent bohot helpful tha refnd status clear karr diya", "intent": "refund", "sentiment": "positive", "group_id": "refund-24", "source": "v11"}
+{"id": "test_stress-0052", "text": "dekhiye agent bahut helpful tha refnd status clear karr diya", "intent": "refund", "sentiment": "positive", "group_id": "refund-24", "source": "v11"}
+{"id": "test_stress-0053", "text": "refnd amount kam kyun bheja ye cheating hey", "intent": "refund", "sentiment": "negative", "group_id": "refund-28", "source": "v11"}
+{"id": "test_stress-0054", "text": "refnd amount kam kyun bheja ye cheating hey", "intent": "refund", "sentiment": "negative", "group_id": "refund-28", "source": "v11"}
+{"id": "test_stress-0055", "text": "ji refnd amount kam kyun bheja ye cheating hey", "intent": "refund", "sentiment": "negative", "group_id": "refund-28", "source": "v11"}
+{"id": "test_stress-0056", "text": "orrder late hey bahut pareshan hu 😡", "intent": "track_order", "sentiment": "negative", "group_id": "track_order-03", "source": "v11"}
+{"id": "test_stress-0057", "text": "orrder late hey bht pareshan hu 😡", "intent": "track_order", "sentiment": "negative", "group_id": "track_order-03", "source": "v11"}
+{"id": "test_stress-0058", "text": "ordr late hey bohot pareshan hu 😡", "intent": "track_order", "sentiment": "negative", "group_id": "track_order-03", "source": "v11"}
+{"id": "test_stress-0059", "text": "ordr late hey bohot pareshan hu 😡", "intent": "track_order", "sentiment": "negative", "group_id": "track_order-03", "source": "v11"}
+{"id": "test_stress-0060", "text": "dekhiye orrder late hey bahut pareshan hu 😡", "intent": "track_order", "sentiment": "negative", "group_id": "track_order-03", "source": "v11"}
+{"id": "test_stress-0061", "text": "expected delivary date bata sakte ho", "intent": "track_order", "sentiment": "neutral", "group_id": "track_order-10", "source": "v11"}
+{"id": "test_stress-0062", "text": "expected delivry date bata sakte ho", "intent": "track_order", "sentiment": "neutral", "group_id": "track_order-10", "source": "v11"}
+{"id": "test_stress-0063", "text": "dekhiye expected delivary date bata sakte ho", "intent": "track_order", "sentiment": "neutral", "group_id": "track_order-10", "source": "v11"}
+{"id": "test_stress-0064", "text": "pleez mere parcel ko track karke batao", "intent": "track_order", "sentiment": "neutral", "group_id": "track_order-15", "source": "v11"}
+{"id": "test_stress-0065", "text": "plz mere parcel ko track karke batao", "intent": "track_order", "sentiment": "neutral", "group_id": "track_order-15", "source": "v11"}
+{"id": "test_stress-0066", "text": "pleez mere parcl ko track karke batao", "intent": "track_order", "sentiment": "neutral", "group_id": "track_order-15", "source": "v11"}
+{"id": "test_stress-0067", "text": "plz mere parcl ko track karke batao", "intent": "track_order", "sentiment": "neutral", "group_id": "track_order-15", "source": "v11"}
+{"id": "test_stress-0068", "text": "hi pleez mere parcel ko track karke batao", "intent": "track_order", "sentiment": "neutral", "group_id": "track_order-15", "source": "v11"}
+{"id": "test_stress-0069", "text": "delivary boy bahut polite tha abhi location share karr do", "intent": "track_order", "sentiment": "positive", "group_id": "track_order-18", "source": "v11"}
+{"id": "test_stress-0070", "text": "delivary boy bht polite tha abhi location share karr do", "intent": "track_order", "sentiment": "positive", "group_id": "track_order-18", "source": "v11"}
+{"id": "test_stress-0071", "text": "delivry boy bohot polite tha abhi location share karr do", "intent": "track_order", "sentiment": "positive", "group_id": "track_order-18", "source": "v11"}
+{"id": "test_stress-0072", "text": "delivry boy bohot polite tha abhi location share karr do", "intent": "track_order", "sentiment": "positive", "group_id": "track_order-18", "source": "v11"}
+{"id": "test_stress-0073", "text": "ji delivary boy bahut polite tha abhi location share karr do", "intent": "track_order", "sentiment": "positive", "group_id": "track_order-18", "source": "v11"}
+{"id": "test_stress-0074", "text": "aapka tracking feature mast hey parcel kal aayega na", "intent": "track_order", "sentiment": "positive", "group_id": "track_order-21", "source": "v11"}
+{"id": "test_stress-0075", "text": "aapka tracking feature mast hey parcel kal aayega na", "intent": "track_order", "sentiment": "positive", "group_id": "track_order-21", "source": "v11"}
+{"id": "test_stress-0076", "text": "aapka tracking feature mast hey parcl kal aayega na", "intent": "track_order", "sentiment": "positive", "group_id": "track_order-21", "source": "v11"}
+{"id": "test_stress-0077", "text": "aapka tracking feature mast hey parcl kal aayega na", "intent": "track_order", "sentiment": "positive", "group_id": "track_order-21", "source": "v11"}
+{"id": "test_stress-0078", "text": "dekhiye aapka tracking feature mast hey parcel kal aayega na", "intent": "track_order", "sentiment": "positive", "group_id": "track_order-21", "source": "v11"}
+{"id": "test_stress-0079", "text": "tracking page hamesha error deta hey ghatiya", "intent": "track_order", "sentiment": "negative", "group_id": "track_order-27", "source": "v11"}
+{"id": "test_stress-0080", "text": "tracking page hamesha error deta hey ghatiya", "intent": "track_order", "sentiment": "negative", "group_id": "track_order-27", "source": "v11"}
+{"id": "test_stress-0081", "text": "hi tracking page hamesha error deta hey ghatiya", "intent": "track_order", "sentiment": "negative", "group_id": "track_order-27", "source": "v11"}
+{"id": "test_stress-0082", "text": "kaunsa courier partner hey mere orrder ka", "intent": "track_order", "sentiment": "neutral", "group_id": "track_order-35", "source": "v11"}
+{"id": "test_stress-0083", "text": "kaunsa courier partner hey mere orrder ka", "intent": "track_order", "sentiment": "neutral", "group_id": "track_order-35", "source": "v11"}
+{"id": "test_stress-0084", "text": "kaunsa courier partner hey mere ordr ka", "intent": "track_order", "sentiment": "neutral", "group_id": "track_order-35", "source": "v11"}
+{"id": "test_stress-0085", "text": "kaunsa courier partner hey mere ordr ka", "intent": "track_order", "sentiment": "neutral", "group_id": "track_order-35", "source": "v11"}
+{"id": "test_stress-0086", "text": "bhai kaunsa courier partner hey mere orrder ka", "intent": "track_order", "sentiment": "neutral", "group_id": "track_order-35", "source": "v11"}
+{"id": "test_stress-0087", "text": "app par delivered hey lekin parcel nahii milaa", "intent": "not_received", "sentiment": "neutral", "group_id": "not_received-01", "source": "v11"}
+{"id": "test_stress-0088", "text": "app par delivered hey lekin parcel nahii milaa", "intent": "not_received", "sentiment": "neutral", "group_id": "not_received-01", "source": "v11"}
+{"id": "test_stress-0089", "text": "app par delivered hey lekin parcl nahii milaa", "intent": "not_received", "sentiment": "neutral", "group_id": "not_received-01", "source": "v11"}
+{"id": "test_stress-0090", "text": "app par delivered hey lekin parcl nahii milaa", "intent": "not_received", "sentiment": "neutral", "group_id": "not_received-01", "source": "v11"}
+{"id": "test_stress-0091", "text": "sir app par delivered hey lekin parcel nahii milaa", "intent": "not_received", "sentiment": "neutral", "group_id": "not_received-01", "source": "v11"}
+{"id": "test_stress-0092", "text": "gate pe check kiya parcel nahii hey app says delivered", "intent": "not_received", "sentiment": "neutral", "group_id": "not_received-09", "source": "v11"}
+{"id": "test_stress-0093", "text": "gate pe check kiya parcel nahii hey app says delivered", "intent": "not_received", "sentiment": "neutral", "group_id": "not_received-09", "source": "v11"}
+{"id": "test_stress-0094", "text": "gate pe check kiya parcl nahii hey app says delivered", "intent": "not_received", "sentiment": "neutral", "group_id": "not_received-09", "source": "v11"}
+{"id": "test_stress-0095", "text": "gate pe check kiya parcl nahii hey app says delivered", "intent": "not_received", "sentiment": "neutral", "group_id": "not_received-09", "source": "v11"}
+{"id": "test_stress-0096", "text": "sir gate pe check kiya parcel nahii hey app says delivered", "intent": "not_received", "sentiment": "neutral", "group_id": "not_received-09", "source": "v11"}
+{"id": "test_stress-0097", "text": "support team bahut acchi hey ek parcel receive nahii hua usme help karo", "intent": "not_received", "sentiment": "positive", "group_id": "not_received-18", "source": "v11"}
+{"id": "test_stress-0098", "text": "support team bht acchi hey ek parcel receive nahii hua usme help kro", "intent": "not_received", "sentiment": "positive", "group_id": "not_received-18", "source": "v11"}
+{"id": "test_stress-0099", "text": "support team bohot acchi hey ek parcl receive nahii hua usme help karo", "intent": "not_received", "sentiment": "positive", "group_id": "not_received-18", "source": "v11"}
+{"id": "test_stress-0100", "text": "support team bohot acchi hey ek parcl receive nahii hua usme help kro", "intent": "not_received", "sentiment": "positive", "group_id": "not_received-18", "source": "v11"}
+{"id": "test_stress-0101", "text": "hello team support team bahut acchi hey ek parcel receive nahii hua usme help karo", "intent": "not_received", "sentiment": "positive", "group_id": "not_received-18", "source": "v11"}
+{"id": "test_stress-0102", "text": "delivered likha hey par ghar pe kuch nahii aaya fraud hey kyaa 😡", "intent": "not_received", "sentiment": "negative", "group_id": "not_received-22", "source": "v11"}
+{"id": "test_stress-0103", "text": "delivered likha hey par ghar pe kuch nahii aaya fraud hey kyaa 😡", "intent": "not_received", "sentiment": "negative", "group_id": "not_received-22", "source": "v11"}
+{"id": "test_stress-0104", "text": "sir delivered likha hey par ghar pe kuch nahii aaya fraud hey kyaa 😡", "intent": "not_received", "sentiment": "negative", "group_id": "not_received-22", "source": "v11"}
+{"id": "test_stress-0105", "text": "orrder milaa nahii aur complaint bhi close karr di 😤", "intent": "not_received", "sentiment": "negative", "group_id": "not_received-25", "source": "v11"}
+{"id": "test_stress-0106", "text": "orrder milaa nahii aur complaint bhi close karr di 😤", "intent": "not_received", "sentiment": "negative", "group_id": "not_received-25", "source": "v11"}
+{"id": "test_stress-0107", "text": "ordr milaa nahii aur complaint bhi close karr di 😤", "intent": "not_received", "sentiment": "negative", "group_id": "not_received-25", "source": "v11"}
+{"id": "test_stress-0108", "text": "ordr milaa nahii aur complaint bhi close karr di 😤", "intent": "not_received", "sentiment": "negative", "group_id": "not_received-25", "source": "v11"}
+{"id": "test_stress-0109", "text": "sir orrder milaa nahii aur complaint bhi close karr di 😤", "intent": "not_received", "sentiment": "negative", "group_id": "not_received-25", "source": "v11"}
+{"id": "test_stress-0110", "text": "delivered bola hey lekin mere address pe nahii pahuncha", "intent": "not_received", "sentiment": "neutral", "group_id": "not_received-30", "source": "v11"}
+{"id": "test_stress-0111", "text": "delivered bola hey lekin mere address pe nahii pahuncha", "intent": "not_received", "sentiment": "neutral", "group_id": "not_received-30", "source": "v11"}
+{"id": "test_stress-0112", "text": "dekhiye delivered bola hey lekin mere address pe nahii pahuncha", "intent": "not_received", "sentiment": "neutral", "group_id": "not_received-30", "source": "v11"}
+{"id": "test_stress-0113", "text": "parcel mein damaged product aaya hey", "intent": "damaged_item", "sentiment": "neutral", "group_id": "damaged_item-01", "source": "v11"}
+{"id": "test_stress-0114", "text": "parcel mein damaged product aaya hey", "intent": "damaged_item", "sentiment": "neutral", "group_id": "damaged_item-01", "source": "v11"}
+{"id": "test_stress-0115", "text": "parcl mein damaged product aaya hey", "intent": "damaged_item", "sentiment": "neutral", "group_id": "damaged_item-01", "source": "v11"}
+{"id": "test_stress-0116", "text": "parcl mein damaged product aaya hey", "intent": "damaged_item", "sentiment": "neutral", "group_id": "damaged_item-01", "source": "v11"}
+{"id": "test_stress-0117", "text": "bhai parcel mein damaged product aaya hey", "intent": "damaged_item", "sentiment": "neutral", "group_id": "damaged_item-01", "source": "v11"}
+{"id": "test_stress-0118", "text": "broken piece bhej diya seriously 😠", "intent": "damaged_item", "sentiment": "negative", "group_id": "damaged_item-11", "source": "v11"}
+{"id": "test_stress-0119", "text": "bhai broken piece bhej diya seriously 😠", "intent": "damaged_item", "sentiment": "negative", "group_id": "damaged_item-11", "source": "v11"}
+{"id": "test_stress-0120", "text": "shukriya broken glass ki photo bhej di aap log bahut helpful ho", "intent": "damaged_item", "sentiment": "positive", "group_id": "damaged_item-19", "source": "v11"}
+{"id": "test_stress-0121", "text": "shukriya broken glass ki photo bhej di aap log bht helpful ho", "intent": "damaged_item", "sentiment": "positive", "group_id": "damaged_item-19", "source": "v11"}
+{"id": "test_stress-0122", "text": "shukriya broken glass ki photo bhej di aap log bohot helpful ho", "intent": "damaged_item", "sentiment": "positive", "group_id": "damaged_item-19", "source": "v11"}
+{"id": "test_stress-0123", "text": "hello team shukriya broken glass ki photo bhej di aap log bahut helpful ho", "intent": "damaged_item", "sentiment": "positive", "group_id": "damaged_item-19", "source": "v11"}
+{"id": "test_stress-0124", "text": "dusri baar bhi toota hua item bheja bakwaas", "intent": "damaged_item", "sentiment": "negative", "group_id": "damaged_item-23", "source": "v11"}
+{"id": "test_stress-0125", "text": "dekhiye dusri baar bhi toota hua item bheja bakwaas", "intent": "damaged_item", "sentiment": "negative", "group_id": "damaged_item-23", "source": "v11"}
+{"id": "test_stress-0126", "text": "shoes phate hue the worst packaging ever 😤", "intent": "damaged_item", "sentiment": "negative", "group_id": "damaged_item-25", "source": "v11"}
+{"id": "test_stress-0127", "text": "sir shoes phate hue the worst packaging ever 😤", "intent": "damaged_item", "sentiment": "negative", "group_id": "damaged_item-25", "source": "v11"}
+{"id": "test_stress-0128", "text": "bottle ka cap tuta hua hey", "intent": "damaged_item", "sentiment": "neutral", "group_id": "damaged_item-29", "source": "v11"}
+{"id": "test_stress-0129", "text": "bottle ka cap tuta hua hey", "intent": "damaged_item", "sentiment": "neutral", "group_id": "damaged_item-29", "source": "v11"}
+{"id": "test_stress-0130", "text": "dekhiye bottle ka cap tuta hua hey", "intent": "damaged_item", "sentiment": "neutral", "group_id": "damaged_item-29", "source": "v11"}
+{"id": "test_stress-0131", "text": "laptop pe dent hey replacement policy kyaa hey", "intent": "damaged_item", "sentiment": "neutral", "group_id": "damaged_item-30", "source": "v11"}
+{"id": "test_stress-0132", "text": "laptop pe dent hey replacement policy kyaa hey", "intent": "damaged_item", "sentiment": "neutral", "group_id": "damaged_item-30", "source": "v11"}
+{"id": "test_stress-0133", "text": "hi laptop pe dent hey replacement policy kyaa hey", "intent": "damaged_item", "sentiment": "neutral", "group_id": "damaged_item-30", "source": "v11"}
+{"id": "test_stress-0134", "text": "bahut acchi serrvice thank you", "intent": "feedback", "sentiment": "positive", "group_id": "feedback-00", "source": "v11"}
+{"id": "test_stress-0135", "text": "bht acchi serrvice thank you", "intent": "feedback", "sentiment": "positive", "group_id": "feedback-00", "source": "v11"}
+{"id": "test_stress-0136", "text": "bohot acchi servis thnk you", "intent": "feedback", "sentiment": "positive", "group_id": "feedback-00", "source": "v11"}
+{"id": "test_stress-0137", "text": "ji bahut acchi serrvice thank you", "intent": "feedback", "sentiment": "positive", "group_id": "feedback-00", "source": "v11"}
+{"id": "test_stress-0138", "text": "bahut acchi serrvice thank you 😊", "intent": "feedback", "sentiment": "positive", "group_id": "feedback-00", "source": "v11"}
+{"id": "test_stress-0139", "text": "bht acchi serrvice thank you 😊", "intent": "feedback", "sentiment": "positive", "group_id": "feedback-00", "source": "v11"}
+{"id": "test_stress-0140", "text": "bohot acchi servis thnk you 😊", "intent": "feedback", "sentiment": "positive", "group_id": "feedback-00", "source": "v11"}
+{"id": "test_stress-0141", "text": "bhai bahut acchi serrvice thank you 😊", "intent": "feedback", "sentiment": "positive", "group_id": "feedback-00", "source": "v11"}
+{"id": "test_stress-0142", "text": "bahut acchi serrvice thank you 😒", "intent": "feedback", "sentiment": "negative", "group_id": "feedback-00", "source": "v11"}
+{"id": "test_stress-0143", "text": "bht acchi serrvice thank you 😒", "intent": "feedback", "sentiment": "negative", "group_id": "feedback-00", "source": "v11"}
+{"id": "test_stress-0144", "text": "bohot acchi servis thnk you 😒", "intent": "feedback", "sentiment": "negative", "group_id": "feedback-00", "source": "v11"}
+{"id": "test_stress-0145", "text": "hello team bahut acchi serrvice thank you 😒", "intent": "feedback", "sentiment": "negative", "group_id": "feedback-00", "source": "v11"}
+{"id": "test_stress-0146", "text": "theek tha experience bas normal", "intent": "feedback", "sentiment": "neutral", "group_id": "feedback-12", "source": "v11"}
+{"id": "test_stress-0147", "text": "bhai theek tha experience bas normal", "intent": "feedback", "sentiment": "neutral", "group_id": "feedback-12", "source": "v11"}
+{"id": "test_stress-0148", "text": "packaging bahut sundar thi great job", "intent": "feedback", "sentiment": "positive", "group_id": "feedback-20", "source": "v11"}
+{"id": "test_stress-0149", "text": "packaging bht sundar thi great job", "intent": "feedback", "sentiment": "positive", "group_id": "feedback-20", "source": "v11"}
+{"id": "test_stress-0150", "text": "packaging bohot sundar thi great job", "intent": "feedback", "sentiment": "positive", "group_id": "feedback-20", "source": "v11"}
+{"id": "test_stress-0151", "text": "hello team packaging bahut sundar thi great job", "intent": "feedback", "sentiment": "positive", "group_id": "feedback-20", "source": "v11"}
+{"id": "test_stress-0152", "text": "packaging bahut sundar thi great job 😊", "intent": "feedback", "sentiment": "positive", "group_id": "feedback-20", "source": "v11"}
+{"id": "test_stress-0153", "text": "packaging bht sundar thi great job 😊", "intent": "feedback", "sentiment": "positive", "group_id": "feedback-20", "source": "v11"}
+{"id": "test_stress-0154", "text": "packaging bohot sundar thi great job 😊", "intent": "feedback", "sentiment": "positive", "group_id": "feedback-20", "source": "v11"}
+{"id": "test_stress-0155", "text": "dekhiye packaging bahut sundar thi great job 😊", "intent": "feedback", "sentiment": "positive", "group_id": "feedback-20", "source": "v11"}
+{"id": "test_stress-0156", "text": "packaging bahut sundar thi great job 😒", "intent": "feedback", "sentiment": "negative", "group_id": "feedback-20", "source": "v11"}
+{"id": "test_stress-0157", "text": "packaging bht sundar thi great job 😒", "intent": "feedback", "sentiment": "negative", "group_id": "feedback-20", "source": "v11"}
+{"id": "test_stress-0158", "text": "packaging bohot sundar thi great job 😒", "intent": "feedback", "sentiment": "negative", "group_id": "feedback-20", "source": "v11"}
+{"id": "test_stress-0159", "text": "bhai packaging bahut sundar thi great job 😒", "intent": "feedback", "sentiment": "negative", "group_id": "feedback-20", "source": "v11"}
+{"id": "test_stress-0160", "text": "five star serrvice keep it up 👍", "intent": "feedback", "sentiment": "positive", "group_id": "feedback-22", "source": "v11"}
+{"id": "test_stress-0161", "text": "five star servis keep it up 👍", "intent": "feedback", "sentiment": "positive", "group_id": "feedback-22", "source": "v11"}
+{"id": "test_stress-0162", "text": "hello team five star serrvice keep it up 👍", "intent": "feedback", "sentiment": "positive", "group_id": "feedback-22", "source": "v11"}
+{"id": "test_stress-0163", "text": "five star serrvice keep it up 👍 😊", "intent": "feedback", "sentiment": "positive", "group_id": "feedback-22", "source": "v11"}
+{"id": "test_stress-0164", "text": "five star servis keep it up 👍 😊", "intent": "feedback", "sentiment": "positive", "group_id": "feedback-22", "source": "v11"}
+{"id": "test_stress-0165", "text": "sir five star serrvice keep it up 👍 😊", "intent": "feedback", "sentiment": "positive", "group_id": "feedback-22", "source": "v11"}
+{"id": "test_stress-0166", "text": "five star serrvice keep it up 👍 😒", "intent": "feedback", "sentiment": "negative", "group_id": "feedback-22", "source": "v11"}
+{"id": "test_stress-0167", "text": "five star servis keep it up 👍 😒", "intent": "feedback", "sentiment": "negative", "group_id": "feedback-22", "source": "v11"}
+{"id": "test_stress-0168", "text": "hello team five star serrvice keep it up 👍 😒", "intent": "feedback", "sentiment": "negative", "group_id": "feedback-22", "source": "v11"}
+{"id": "test_stress-0169", "text": "fast delivary aur acche daam superb", "intent": "feedback", "sentiment": "positive", "group_id": "feedback-25", "source": "v11"}
+{"id": "test_stress-0170", "text": "fast delivry aur acche daam superb", "intent": "feedback", "sentiment": "positive", "group_id": "feedback-25", "source": "v11"}
+{"id": "test_stress-0171", "text": "ji fast delivary aur acche daam superb", "intent": "feedback", "sentiment": "positive", "group_id": "feedback-25", "source": "v11"}
+{"id": "test_stress-0172", "text": "fast delivary aur acche daam superb 😊", "intent": "feedback", "sentiment": "positive", "group_id": "feedback-25", "source": "v11"}
+{"id": "test_stress-0173", "text": "fast delivry aur acche daam superb 😊", "intent": "feedback", "sentiment": "positive", "group_id": "feedback-25", "source": "v11"}
+{"id": "test_stress-0174", "text": "hello team fast delivary aur acche daam superb 😊", "intent": "feedback", "sentiment": "positive", "group_id": "feedback-25", "source": "v11"}
+{"id": "test_stress-0175", "text": "fast delivary aur acche daam superb 😒", "intent": "feedback", "sentiment": "negative", "group_id": "feedback-25", "source": "v11"}
+{"id": "test_stress-0176", "text": "fast delivry aur acche daam superb 😒", "intent": "feedback", "sentiment": "negative", "group_id": "feedback-25", "source": "v11"}
+{"id": "test_stress-0177", "text": "ji fast delivary aur acche daam superb 😒", "intent": "feedback", "sentiment": "negative", "group_id": "feedback-25", "source": "v11"}
+{"id": "test_stress-0178", "text": "worst experience dobara orrder nahii karunga", "intent": "feedback", "sentiment": "negative", "group_id": "feedback-28", "source": "v11"}
+{"id": "test_stress-0179", "text": "worst experience dobara orrder nahii karunga", "intent": "feedback", "sentiment": "negative", "group_id": "feedback-28", "source": "v11"}
+{"id": "test_stress-0180", "text": "worst experience dobara ordr nahii karunga", "intent": "feedback", "sentiment": "negative", "group_id": "feedback-28", "source": "v11"}
+{"id": "test_stress-0181", "text": "worst experience dobara ordr nahii karunga", "intent": "feedback", "sentiment": "negative", "group_id": "feedback-28", "source": "v11"}
+{"id": "test_stress-0182", "text": "dekhiye worst experience dobara orrder nahii karunga", "intent": "feedback", "sentiment": "negative", "group_id": "feedback-28", "source": "v11"}
+{"id": "test_stress-0183", "text": "serrvice accha nahii laga kaafi disappointed hu", "intent": "feedback", "sentiment": "negative", "group_id": "feedback-31", "source": "v11"}
+{"id": "test_stress-0184", "text": "serrvice accha nahii laga kaafi disappointed hu", "intent": "feedback", "sentiment": "negative", "group_id": "feedback-31", "source": "v11"}
+{"id": "test_stress-0185", "text": "servis acha nahii laga kaafi disappointed hu", "intent": "feedback", "sentiment": "negative", "group_id": "feedback-31", "source": "v11"}
+{"id": "test_stress-0186", "text": "servis acha nahii laga kaafi disappointed hu", "intent": "feedback", "sentiment": "negative", "group_id": "feedback-31", "source": "v11"}
+{"id": "test_stress-0187", "text": "ji serrvice accha nahii laga kaafi disappointed hu", "intent": "feedback", "sentiment": "negative", "group_id": "feedback-31", "source": "v11"}
+{"id": "test_stress-0188", "text": "experience okay tha", "intent": "feedback", "sentiment": "neutral", "group_id": "feedback-38", "source": "v11"}
+{"id": "test_stress-0189", "text": "hello team experience okay tha", "intent": "feedback", "sentiment": "neutral", "group_id": "feedback-38", "source": "v11"}

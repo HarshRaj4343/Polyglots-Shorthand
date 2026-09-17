@@ -1,0 +1,44 @@
+{
+  "notebook": "03_student",
+  "description": "Phase 4 student. train_files are finalised in Phase 3 (KD files written by notebook 02).",
+  "n_buckets": 32768,
+  "d": 256,
+  "layers": 4,
+  "heads": 4,
+  "ffn": 1024,
+  "max_tokens": 128,
+  "dropout": 0.1,
+  "linear_branch": true,
+  "kd": true,
+  "lambda_kd": 1.0,
+  "kd_T": 2.0,
+  "lambda_cons": 0.1,
+  "token_dropout": 0.15,
+  "lr": 5e-4,
+  "weight_decay": 0.01,
+  "batch_size": 64,
+  "max_epochs": 40,
+  "patience": 5,
+  "warmup_ratio": 0.05,
+  "pool_per_epoch": 8000,
+  "seed": 42,
+  "time_budget_minutes": 100,
+  "train_files": [
+    {"path": "data/kd/train_kd.jsonl", "intent": true, "sentiment": true, "kd": true}
+  ],
+  "validation_file": "data/v11/validation.jsonl",
+  "predict_files": {
+    "validation": "data/v11/validation.jsonl",
+    "test": "data/v11/test.jsonl",
+    "test_stress": "data/v11/test_stress.jsonl",
+    "audit": "data/v11/audit.jsonl",
+    "contrast": "data/contrast.jsonl"
+  },
+  "variants": [
+    {"name": "student_kd_s42", "seed": 42, "kd": true, "linear_branch": true},
+    {"name": "student_nokd_s42", "seed": 42, "kd": false, "linear_branch": true},
+    {"name": "student_kd_nolinear_s42", "seed": 42, "kd": true, "linear_branch": false},
+    {"name": "student_kd_s43", "seed": 43, "kd": true, "linear_branch": true},
+    {"name": "student_kd_s44", "seed": 44, "kd": true, "linear_branch": true}
+  ]
+}

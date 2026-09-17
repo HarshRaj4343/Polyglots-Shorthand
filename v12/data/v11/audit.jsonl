@@ -1,0 +1,24 @@
+{"id": "audit-0000", "text": "bhai order cancel krdo please urgent meeting h", "intent": "cancel_order", "sentiment": "neutral", "group_id": "audit-00", "source": "v11"}
+{"id": "audit-0001", "text": "mujhe booking cancel karni padegi kal ghar pe nahi hu", "intent": "cancel_order", "sentiment": "neutral", "group_id": "audit-01", "source": "v11"}
+{"id": "audit-0002", "text": "order cancellation chahiye bahut bekar experience hua", "intent": "cancel_order", "sentiment": "negative", "group_id": "audit-02", "source": "v11"}
+{"id": "audit-0003", "text": "iss purchase ko cancel karo plz", "intent": "cancel_order", "sentiment": "neutral", "group_id": "audit-03", "source": "v11"}
+{"id": "audit-0004", "text": "cancel mat karna sirf order track karke batao", "intent": "track_order", "sentiment": "neutral", "group_id": "audit-04", "source": "v11"}
+{"id": "audit-0005", "text": "parcel kidhar pahuncha hai bhai", "intent": "track_order", "sentiment": "neutral", "group_id": "audit-05", "source": "v11"}
+{"id": "audit-0006", "text": "meri shipment ka delivery time kya hai", "intent": "track_order", "sentiment": "neutral", "group_id": "audit-06", "source": "v11"}
+{"id": "audit-0007", "text": "delivery phir late ghatiya service", "intent": "track_order", "sentiment": "negative", "group_id": "audit-07", "source": "v11"}
+{"id": "audit-0008", "text": "refund ki update de do kitne din lagenge", "intent": "refund", "sentiment": "neutral", "group_id": "audit-08", "source": "v11"}
+{"id": "audit-0009", "text": "return accepted hai par paise kab wapas aayenge", "intent": "refund", "sentiment": "neutral", "group_id": "audit-09", "source": "v11"}
+{"id": "audit-0010", "text": "refund pending dekh dekh ke thak gaya bakwas service", "intent": "refund", "sentiment": "negative", "group_id": "audit-10", "source": "v11"}
+{"id": "audit-0011", "text": "payment refund wallet mein lena hai", "intent": "refund", "sentiment": "neutral", "group_id": "audit-11", "source": "v11"}
+{"id": "audit-0012", "text": "item delivered bol rha h but mila hi nhi 😒", "intent": "not_received", "sentiment": "negative", "group_id": "audit-12", "source": "v11"}
+{"id": "audit-0013", "text": "delivery done aa raha lekin ghar mein kisi ko parcel nahi mila", "intent": "not_received", "sentiment": "neutral", "group_id": "audit-13", "source": "v11"}
+{"id": "audit-0014", "text": "delivered status galat hai receive nahi kiya", "intent": "not_received", "sentiment": "neutral", "group_id": "audit-14", "source": "v11"}
+{"id": "audit-0015", "text": "bina delivery ke delivered mark kar diya ghatiya harkat", "intent": "not_received", "sentiment": "negative", "group_id": "audit-15", "source": "v11"}
+{"id": "audit-0016", "text": "parcel aaya par glass broken hai", "intent": "damaged_item", "sentiment": "neutral", "group_id": "audit-16", "source": "v11"}
+{"id": "audit-0017", "text": "damaged item ki replacement book karni hai", "intent": "damaged_item", "sentiment": "neutral", "group_id": "audit-17", "source": "v11"}
+{"id": "audit-0018", "text": "product ki screen toot gayi packing bilkul bekar 😡", "intent": "damaged_item", "sentiment": "negative", "group_id": "audit-18", "source": "v11"}
+{"id": "audit-0019", "text": "box ke andar bottle leak ho gayi exchange please", "intent": "damaged_item", "sentiment": "neutral", "group_id": "audit-19", "source": "v11"}
+{"id": "audit-0020", "text": "bohot badhiya service", "intent": "feedback", "sentiment": "positive", "group_id": "audit-20", "source": "v11"}
+{"id": "audit-0021", "text": "bohot badhiya service 😒", "intent": "feedback", "sentiment": "negative", "group_id": "audit-21", "source": "v11"}
+{"id": "audit-0022", "text": "aapki help se khush hu thank you 😊", "intent": "feedback", "sentiment": "positive", "group_id": "audit-22", "source": "v11"}
+{"id": "audit-0023", "text": "normal sa experience tha nothing special", "intent": "feedback", "sentiment": "neutral", "group_id": "audit-23", "source": "v11"}

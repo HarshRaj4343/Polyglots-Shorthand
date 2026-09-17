@@ -1,0 +1,536 @@
+{"id": "train-0000", "text": "bhai order cancel kar do please urgent meeting hai", "intent": "cancel_order", "sentiment": "neutral", "group_id": "cancel_order-00", "source": "v11"}
+{"id": "train-0001", "text": "bhai order cancel kr do plz urgent meeting h", "intent": "cancel_order", "sentiment": "neutral", "group_id": "cancel_order-00", "source": "v11"}
+{"id": "train-0002", "text": "bhai ordr cancel kar do please urgent meeting hai", "intent": "cancel_order", "sentiment": "neutral", "group_id": "cancel_order-00", "source": "v11"}
+{"id": "train-0003", "text": "bhai ordr cancel kr do plz urgent meeting h", "intent": "cancel_order", "sentiment": "neutral", "group_id": "cancel_order-00", "source": "v11"}
+{"id": "train-0004", "text": "bhai bhai order cancel kar do please urgent meeting hai", "intent": "cancel_order", "sentiment": "neutral", "group_id": "cancel_order-00", "source": "v11"}
+{"id": "train-0005", "text": "kal wala order ab nahi chahiye cancel please", "intent": "cancel_order", "sentiment": "neutral", "group_id": "cancel_order-02", "source": "v11"}
+{"id": "train-0006", "text": "kal wala order ab nhi chahiye cancel plz", "intent": "cancel_order", "sentiment": "neutral", "group_id": "cancel_order-02", "source": "v11"}
+{"id": "train-0007", "text": "kal wala ordr ab nahi chaiye cancel please", "intent": "cancel_order", "sentiment": "neutral", "group_id": "cancel_order-02", "source": "v11"}
+{"id": "train-0008", "text": "kal wala ordr ab nhi chaiye cancel plz", "intent": "cancel_order", "sentiment": "neutral", "group_id": "cancel_order-02", "source": "v11"}
+{"id": "train-0009", "text": "hi kal wala order ab nahi chahiye cancel please", "intent": "cancel_order", "sentiment": "neutral", "group_id": "cancel_order-02", "source": "v11"}
+{"id": "train-0010", "text": "itna late ho gaya cancel karo ab 😒", "intent": "cancel_order", "sentiment": "negative", "group_id": "cancel_order-03", "source": "v11"}
+{"id": "train-0011", "text": "itna late ho gaya cancel kro ab 😒", "intent": "cancel_order", "sentiment": "negative", "group_id": "cancel_order-03", "source": "v11"}
+{"id": "train-0012", "text": "dekhiye itna late ho gaya cancel karo ab 😒", "intent": "cancel_order", "sentiment": "negative", "group_id": "cancel_order-03", "source": "v11"}
+{"id": "train-0013", "text": "cancel request kaise bheju", "intent": "cancel_order", "sentiment": "neutral", "group_id": "cancel_order-05", "source": "v11"}
+{"id": "train-0014", "text": "bhai cancel request kaise bheju", "intent": "cancel_order", "sentiment": "neutral", "group_id": "cancel_order-05", "source": "v11"}
+{"id": "train-0015", "text": "bekar service order cancel kar do 😡", "intent": "cancel_order", "sentiment": "negative", "group_id": "cancel_order-06", "source": "v11"}
+{"id": "train-0016", "text": "bekar service order cancel kr do 😡", "intent": "cancel_order", "sentiment": "negative", "group_id": "cancel_order-06", "source": "v11"}
+{"id": "train-0017", "text": "bekar servis ordr cancel kar do 😡", "intent": "cancel_order", "sentiment": "negative", "group_id": "cancel_order-06", "source": "v11"}
+{"id": "train-0018", "text": "bekar servis ordr cancel kr do 😡", "intent": "cancel_order", "sentiment": "negative", "group_id": "cancel_order-06", "source": "v11"}
+{"id": "train-0019", "text": "ji bekar service order cancel kar do 😡", "intent": "cancel_order", "sentiment": "negative", "group_id": "cancel_order-06", "source": "v11"}
+{"id": "train-0020", "text": "dispatch se pehle order rok do please", "intent": "cancel_order", "sentiment": "neutral", "group_id": "cancel_order-07", "source": "v11"}
+{"id": "train-0021", "text": "dispatch se pehle order rok do plz", "intent": "cancel_order", "sentiment": "neutral", "group_id": "cancel_order-07", "source": "v11"}
+{"id": "train-0022", "text": "dispatch se pehle ordr rok do please", "intent": "cancel_order", "sentiment": "neutral", "group_id": "cancel_order-07", "source": "v11"}
+{"id": "train-0023", "text": "dispatch se pehle ordr rok do plz", "intent": "cancel_order", "sentiment": "neutral", "group_id": "cancel_order-07", "source": "v11"}
+{"id": "train-0024", "text": "sir dispatch se pehle order rok do please", "intent": "cancel_order", "sentiment": "neutral", "group_id": "cancel_order-07", "source": "v11"}
+{"id": "train-0025", "text": "aaj ka purchase cancel kar sakte ho kya", "intent": "cancel_order", "sentiment": "neutral", "group_id": "cancel_order-08", "source": "v11"}
+{"id": "train-0026", "text": "aaj ka purchase cancel kr sakte ho kya", "intent": "cancel_order", "sentiment": "neutral", "group_id": "cancel_order-08", "source": "v11"}
+{"id": "train-0027", "text": "dekhiye aaj ka purchase cancel kar sakte ho kya", "intent": "cancel_order", "sentiment": "neutral", "group_id": "cancel_order-08", "source": "v11"}
+{"id": "train-0028", "text": "cancel option app mein kahan milega", "intent": "cancel_order", "sentiment": "neutral", "group_id": "cancel_order-10", "source": "v11"}
+{"id": "train-0029", "text": "cancel option app mein kaha milega", "intent": "cancel_order", "sentiment": "neutral", "group_id": "cancel_order-10", "source": "v11"}
+{"id": "train-0030", "text": "sir cancel option app mein kahan milega", "intent": "cancel_order", "sentiment": "neutral", "group_id": "cancel_order-10", "source": "v11"}
+{"id": "train-0031", "text": "plan change ho gaya cancel my order", "intent": "cancel_order", "sentiment": "neutral", "group_id": "cancel_order-12", "source": "v11"}
+{"id": "train-0032", "text": "plan change ho gaya cancel my ordr", "intent": "cancel_order", "sentiment": "neutral", "group_id": "cancel_order-12", "source": "v11"}
+{"id": "train-0033", "text": "dekhiye plan change ho gaya cancel my order", "intent": "cancel_order", "sentiment": "neutral", "group_id": "cancel_order-12", "source": "v11"}
+{"id": "train-0034", "text": "thank you team bas mera order cancel kar do please 😊", "intent": "cancel_order", "sentiment": "positive", "group_id": "cancel_order-16", "source": "v11"}
+{"id": "train-0035", "text": "thank you team bas mera order cancel kr do plz 😊", "intent": "cancel_order", "sentiment": "positive", "group_id": "cancel_order-16", "source": "v11"}
+{"id": "train-0036", "text": "thnk you team bas mera ordr cancel kar do please 😊", "intent": "cancel_order", "sentiment": "positive", "group_id": "cancel_order-16", "source": "v11"}
+{"id": "train-0037", "text": "thnk you team bas mera ordr cancel kr do plz 😊", "intent": "cancel_order", "sentiment": "positive", "group_id": "cancel_order-16", "source": "v11"}
+{"id": "train-0038", "text": "hi thank you team bas mera order cancel kar do please 😊", "intent": "cancel_order", "sentiment": "positive", "group_id": "cancel_order-16", "source": "v11"}
+{"id": "train-0039", "text": "aap log bahut helpful ho ek order cancel karna tha", "intent": "cancel_order", "sentiment": "positive", "group_id": "cancel_order-17", "source": "v11"}
+{"id": "train-0040", "text": "aap log bht helpful ho ek order cancel krna tha", "intent": "cancel_order", "sentiment": "positive", "group_id": "cancel_order-17", "source": "v11"}
+{"id": "train-0041", "text": "aap log bohot helpful ho ek ordr cancel karna tha", "intent": "cancel_order", "sentiment": "positive", "group_id": "cancel_order-17", "source": "v11"}
+{"id": "train-0042", "text": "aap log bohot helpful ho ek ordr cancel krna tha", "intent": "cancel_order", "sentiment": "positive", "group_id": "cancel_order-17", "source": "v11"}
+{"id": "train-0043", "text": "dekhiye aap log bahut helpful ho ek order cancel karna tha", "intent": "cancel_order", "sentiment": "positive", "group_id": "cancel_order-17", "source": "v11"}
+{"id": "train-0044", "text": "love this app 😍 bas galat size order ho gaya cancel kar do", "intent": "cancel_order", "sentiment": "positive", "group_id": "cancel_order-20", "source": "v11"}
+{"id": "train-0045", "text": "love this app 😍 bas galat size order ho gaya cancel kr do", "intent": "cancel_order", "sentiment": "positive", "group_id": "cancel_order-20", "source": "v11"}
+{"id": "train-0046", "text": "love this app 😍 bas galat size ordr ho gaya cancel kar do", "intent": "cancel_order", "sentiment": "positive", "group_id": "cancel_order-20", "source": "v11"}
+{"id": "train-0047", "text": "love this app 😍 bas galat size ordr ho gaya cancel kr do", "intent": "cancel_order", "sentiment": "positive", "group_id": "cancel_order-20", "source": "v11"}
+{"id": "train-0048", "text": "bhai love this app 😍 bas galat size order ho gaya cancel kar do", "intent": "cancel_order", "sentiment": "positive", "group_id": "cancel_order-20", "source": "v11"}
+{"id": "train-0049", "text": "bahut accha support mila cancellation ho gaya thanks", "intent": "cancel_order", "sentiment": "positive", "group_id": "cancel_order-21", "source": "v11"}
+{"id": "train-0050", "text": "bht accha support mila cancellation ho gaya thanks", "intent": "cancel_order", "sentiment": "positive", "group_id": "cancel_order-21", "source": "v11"}
+{"id": "train-0051", "text": "bohot acha support mila cancellation ho gaya thanks", "intent": "cancel_order", "sentiment": "positive", "group_id": "cancel_order-21", "source": "v11"}
+{"id": "train-0052", "text": "bhai bahut accha support mila cancellation ho gaya thanks", "intent": "cancel_order", "sentiment": "positive", "group_id": "cancel_order-21", "source": "v11"}
+{"id": "train-0053", "text": "itni fast cancellation ke liye dil se dhanyavaad 🙏", "intent": "cancel_order", "sentiment": "positive", "group_id": "cancel_order-22", "source": "v11"}
+{"id": "train-0054", "text": "ji itni fast cancellation ke liye dil se dhanyavaad 🙏", "intent": "cancel_order", "sentiment": "positive", "group_id": "cancel_order-22", "source": "v11"}
+{"id": "train-0055", "text": "aapka app mast hai bas ye wala order cancel kar do", "intent": "cancel_order", "sentiment": "positive", "group_id": "cancel_order-25", "source": "v11"}
+{"id": "train-0056", "text": "aapka app mast h bas ye wala order cancel kr do", "intent": "cancel_order", "sentiment": "positive", "group_id": "cancel_order-25", "source": "v11"}
+{"id": "train-0057", "text": "aapka app mast hai bas ye wala ordr cancel kar do", "intent": "cancel_order", "sentiment": "positive", "group_id": "cancel_order-25", "source": "v11"}
+{"id": "train-0058", "text": "aapka app mast h bas ye wala ordr cancel kr do", "intent": "cancel_order", "sentiment": "positive", "group_id": "cancel_order-25", "source": "v11"}
+{"id": "train-0059", "text": "bhai aapka app mast hai bas ye wala order cancel kar do", "intent": "cancel_order", "sentiment": "positive", "group_id": "cancel_order-25", "source": "v11"}
+{"id": "train-0060", "text": "khushi hui itni aasaan cancellation dekh ke thank you", "intent": "cancel_order", "sentiment": "positive", "group_id": "cancel_order-26", "source": "v11"}
+{"id": "train-0061", "text": "khushi hui itni aasaan cancellation dekh ke thnk you", "intent": "cancel_order", "sentiment": "positive", "group_id": "cancel_order-26", "source": "v11"}
+{"id": "train-0062", "text": "hello team khushi hui itni aasaan cancellation dekh ke thank you", "intent": "cancel_order", "sentiment": "positive", "group_id": "cancel_order-26", "source": "v11"}
+{"id": "train-0063", "text": "order cancel kyun nahi ho raha bakwaas system", "intent": "cancel_order", "sentiment": "negative", "group_id": "cancel_order-29", "source": "v11"}
+{"id": "train-0064", "text": "order cancel kyun nhi ho rha bakwaas system", "intent": "cancel_order", "sentiment": "negative", "group_id": "cancel_order-29", "source": "v11"}
+{"id": "train-0065", "text": "ordr cancel kyun nahi ho raha bakwaas system", "intent": "cancel_order", "sentiment": "negative", "group_id": "cancel_order-29", "source": "v11"}
+{"id": "train-0066", "text": "ordr cancel kyun nhi ho rha bakwaas system", "intent": "cancel_order", "sentiment": "negative", "group_id": "cancel_order-29", "source": "v11"}
+{"id": "train-0067", "text": "hi order cancel kyun nahi ho raha bakwaas system", "intent": "cancel_order", "sentiment": "negative", "group_id": "cancel_order-29", "source": "v11"}
+{"id": "train-0068", "text": "customer care phone nahi uthata cancel kaise karu 😤", "intent": "cancel_order", "sentiment": "negative", "group_id": "cancel_order-30", "source": "v11"}
+{"id": "train-0069", "text": "customer care phone nhi uthata cancel kaise karu 😤", "intent": "cancel_order", "sentiment": "negative", "group_id": "cancel_order-30", "source": "v11"}
+{"id": "train-0070", "text": "sir customer care phone nahi uthata cancel kaise karu 😤", "intent": "cancel_order", "sentiment": "negative", "group_id": "cancel_order-30", "source": "v11"}
+{"id": "train-0071", "text": "sabse worst app cancel button hi kaam nahi karta", "intent": "cancel_order", "sentiment": "negative", "group_id": "cancel_order-32", "source": "v11"}
+{"id": "train-0072", "text": "sabse worst app cancel button hi kaam nhi karta", "intent": "cancel_order", "sentiment": "negative", "group_id": "cancel_order-32", "source": "v11"}
+{"id": "train-0073", "text": "hi sabse worst app cancel button hi kaam nahi karta", "intent": "cancel_order", "sentiment": "negative", "group_id": "cancel_order-32", "source": "v11"}
+{"id": "train-0074", "text": "ye order chahiye hi nahi tha cancel karo bahut gussa aa raha hai", "intent": "cancel_order", "sentiment": "negative", "group_id": "cancel_order-33", "source": "v11"}
+{"id": "train-0075", "text": "ye order chahiye hi nhi tha cancel kro bht gussa aa rha h", "intent": "cancel_order", "sentiment": "negative", "group_id": "cancel_order-33", "source": "v11"}
+{"id": "train-0076", "text": "ye ordr chaiye hi nahi tha cancel karo bohot gussa aa raha hai", "intent": "cancel_order", "sentiment": "negative", "group_id": "cancel_order-33", "source": "v11"}
+{"id": "train-0077", "text": "ye ordr chaiye hi nhi tha cancel kro bohot gussa aa rha h", "intent": "cancel_order", "sentiment": "negative", "group_id": "cancel_order-33", "source": "v11"}
+{"id": "train-0078", "text": "hello team ye order chahiye hi nahi tha cancel karo bahut gussa aa raha hai", "intent": "cancel_order", "sentiment": "negative", "group_id": "cancel_order-33", "source": "v11"}
+{"id": "train-0079", "text": "cancellation reject kyun kiya faltu policy hai", "intent": "cancel_order", "sentiment": "negative", "group_id": "cancel_order-34", "source": "v11"}
+{"id": "train-0080", "text": "cancellation reject kyun kiya faltu policy h", "intent": "cancel_order", "sentiment": "negative", "group_id": "cancel_order-34", "source": "v11"}
+{"id": "train-0081", "text": "hi cancellation reject kyun kiya faltu policy hai", "intent": "cancel_order", "sentiment": "negative", "group_id": "cancel_order-34", "source": "v11"}
+{"id": "train-0082", "text": "order number 4521 cancel karna hai", "intent": "cancel_order", "sentiment": "neutral", "group_id": "cancel_order-35", "source": "v11"}
+{"id": "train-0083", "text": "order number 4521 cancel krna h", "intent": "cancel_order", "sentiment": "neutral", "group_id": "cancel_order-35", "source": "v11"}
+{"id": "train-0084", "text": "ordr number 4521 cancel karna hai", "intent": "cancel_order", "sentiment": "neutral", "group_id": "cancel_order-35", "source": "v11"}
+{"id": "train-0085", "text": "ordr number 4521 cancel krna h", "intent": "cancel_order", "sentiment": "neutral", "group_id": "cancel_order-35", "source": "v11"}
+{"id": "train-0086", "text": "hi order number 4521 cancel karna hai", "intent": "cancel_order", "sentiment": "neutral", "group_id": "cancel_order-35", "source": "v11"}
+{"id": "train-0087", "text": "kya shipped order bhi cancel ho sakta hai", "intent": "cancel_order", "sentiment": "neutral", "group_id": "cancel_order-36", "source": "v11"}
+{"id": "train-0088", "text": "kya shipped order bhi cancel ho sakta h", "intent": "cancel_order", "sentiment": "neutral", "group_id": "cancel_order-36", "source": "v11"}
+{"id": "train-0089", "text": "kya shipped ordr bhi cancel ho sakta hai", "intent": "cancel_order", "sentiment": "neutral", "group_id": "cancel_order-36", "source": "v11"}
+{"id": "train-0090", "text": "kya shipped ordr bhi cancel ho sakta h", "intent": "cancel_order", "sentiment": "neutral", "group_id": "cancel_order-36", "source": "v11"}
+{"id": "train-0091", "text": "hello team kya shipped order bhi cancel ho sakta hai", "intent": "cancel_order", "sentiment": "neutral", "group_id": "cancel_order-36", "source": "v11"}
+{"id": "train-0092", "text": "cancel karne par koi charge lagega kya", "intent": "cancel_order", "sentiment": "neutral", "group_id": "cancel_order-38", "source": "v11"}
+{"id": "train-0093", "text": "hi cancel karne par koi charge lagega kya", "intent": "cancel_order", "sentiment": "neutral", "group_id": "cancel_order-38", "source": "v11"}
+{"id": "train-0094", "text": "paise abhi tak wapas nahi aaye 😡", "intent": "refund", "sentiment": "negative", "group_id": "refund-01", "source": "v11"}
+{"id": "train-0095", "text": "paise abhi tak wapas nhi aaye 😡", "intent": "refund", "sentiment": "negative", "group_id": "refund-01", "source": "v11"}
+{"id": "train-0096", "text": "money abhi tak wapas nahi aaye 😡", "intent": "refund", "sentiment": "negative", "group_id": "refund-01", "source": "v11"}
+{"id": "train-0097", "text": "money abhi tak wapas nhi aaye 😡", "intent": "refund", "sentiment": "negative", "group_id": "refund-01", "source": "v11"}
+{"id": "train-0098", "text": "dekhiye paise abhi tak wapas nahi aaye 😡", "intent": "refund", "sentiment": "negative", "group_id": "refund-01", "source": "v11"}
+{"id": "train-0099", "text": "refund ka status check kar do", "intent": "refund", "sentiment": "neutral", "group_id": "refund-02", "source": "v11"}
+{"id": "train-0100", "text": "refund ka status check kr do", "intent": "refund", "sentiment": "neutral", "group_id": "refund-02", "source": "v11"}
+{"id": "train-0101", "text": "sir refund ka status check kar do", "intent": "refund", "sentiment": "neutral", "group_id": "refund-02", "source": "v11"}
+{"id": "train-0102", "text": "mere bank mein refund kab credit hoga", "intent": "refund", "sentiment": "neutral", "group_id": "refund-05", "source": "v11"}
+{"id": "train-0103", "text": "mere bank mein refund when credit hoga", "intent": "refund", "sentiment": "neutral", "group_id": "refund-05", "source": "v11"}
+{"id": "train-0104", "text": "hi mere bank mein refund kab credit hoga", "intent": "refund", "sentiment": "neutral", "group_id": "refund-05", "source": "v11"}
+{"id": "train-0105", "text": "refund reject kar diya bahut bekar service", "intent": "refund", "sentiment": "negative", "group_id": "refund-07", "source": "v11"}
+{"id": "train-0106", "text": "refund reject kr diya bht bekar service", "intent": "refund", "sentiment": "negative", "group_id": "refund-07", "source": "v11"}
+{"id": "train-0107", "text": "refund reject kar diya bohot bekar servis", "intent": "refund", "sentiment": "negative", "group_id": "refund-07", "source": "v11"}
+{"id": "train-0108", "text": "refund reject kr diya bohot bekar servis", "intent": "refund", "sentiment": "negative", "group_id": "refund-07", "source": "v11"}
+{"id": "train-0109", "text": "hello team refund reject kar diya bahut bekar service", "intent": "refund", "sentiment": "negative", "group_id": "refund-07", "source": "v11"}
+{"id": "train-0110", "text": "mujhe payment ka refund request karna hai", "intent": "refund", "sentiment": "neutral", "group_id": "refund-08", "source": "v11"}
+{"id": "train-0111", "text": "mujhe payment ka refund request krna h", "intent": "refund", "sentiment": "neutral", "group_id": "refund-08", "source": "v11"}
+{"id": "train-0112", "text": "mujhko payment ka refund request karna hai", "intent": "refund", "sentiment": "neutral", "group_id": "refund-08", "source": "v11"}
+{"id": "train-0113", "text": "mujhko payment ka refund request krna h", "intent": "refund", "sentiment": "neutral", "group_id": "refund-08", "source": "v11"}
+{"id": "train-0114", "text": "dekhiye mujhe payment ka refund request karna hai", "intent": "refund", "sentiment": "neutral", "group_id": "refund-08", "source": "v11"}
+{"id": "train-0115", "text": "paise wapas lene ka process batao", "intent": "refund", "sentiment": "neutral", "group_id": "refund-09", "source": "v11"}
+{"id": "train-0116", "text": "money wapas lene ka process batao", "intent": "refund", "sentiment": "neutral", "group_id": "refund-09", "source": "v11"}
+{"id": "train-0117", "text": "sir paise wapas lene ka process batao", "intent": "refund", "sentiment": "neutral", "group_id": "refund-09", "source": "v11"}
+{"id": "train-0118", "text": "do hafte ho gaye refund nahi mila", "intent": "refund", "sentiment": "negative", "group_id": "refund-10", "source": "v11"}
+{"id": "train-0119", "text": "do hafte ho gaye refund nhi mila", "intent": "refund", "sentiment": "negative", "group_id": "refund-10", "source": "v11"}
+{"id": "train-0120", "text": "bhai do hafte ho gaye refund nahi mila", "intent": "refund", "sentiment": "negative", "group_id": "refund-10", "source": "v11"}
+{"id": "train-0121", "text": "wallet mein refund bhej sakte ho kya", "intent": "refund", "sentiment": "neutral", "group_id": "refund-11", "source": "v11"}
+{"id": "train-0122", "text": "bhai wallet mein refund bhej sakte ho kya", "intent": "refund", "sentiment": "neutral", "group_id": "refund-11", "source": "v11"}
+{"id": "train-0123", "text": "refund ki expected date bata dena", "intent": "refund", "sentiment": "neutral", "group_id": "refund-14", "source": "v11"}
+{"id": "train-0124", "text": "ji refund ki expected date bata dena", "intent": "refund", "sentiment": "neutral", "group_id": "refund-14", "source": "v11"}
+{"id": "train-0125", "text": "itni jaldi refund mil gaya bahut badiya", "intent": "refund", "sentiment": "positive", "group_id": "refund-17", "source": "v11"}
+{"id": "train-0126", "text": "itni jaldi refund mil gaya bht badiya", "intent": "refund", "sentiment": "positive", "group_id": "refund-17", "source": "v11"}
+{"id": "train-0127", "text": "itni fast refund mil gaya bohot badiya", "intent": "refund", "sentiment": "positive", "group_id": "refund-17", "source": "v11"}
+{"id": "train-0128", "text": "sir itni jaldi refund mil gaya bahut badiya", "intent": "refund", "sentiment": "positive", "group_id": "refund-17", "source": "v11"}
+{"id": "train-0129", "text": "paise wapas aa gaye great support team", "intent": "refund", "sentiment": "positive", "group_id": "refund-18", "source": "v11"}
+{"id": "train-0130", "text": "money wapas aa gaye great support team", "intent": "refund", "sentiment": "positive", "group_id": "refund-18", "source": "v11"}
+{"id": "train-0131", "text": "dekhiye paise wapas aa gaye great support team", "intent": "refund", "sentiment": "positive", "group_id": "refund-18", "source": "v11"}
+{"id": "train-0132", "text": "refund process ekdum smooth tha khush hu", "intent": "refund", "sentiment": "positive", "group_id": "refund-19", "source": "v11"}
+{"id": "train-0133", "text": "bhai refund process ekdum smooth tha khush hu", "intent": "refund", "sentiment": "positive", "group_id": "refund-19", "source": "v11"}
+{"id": "train-0134", "text": "aap logon ne refund jaldi kar diya dil se thanks 🙏", "intent": "refund", "sentiment": "positive", "group_id": "refund-21", "source": "v11"}
+{"id": "train-0135", "text": "aap logon ne refund jaldi kr diya dil se thanks 🙏", "intent": "refund", "sentiment": "positive", "group_id": "refund-21", "source": "v11"}
+{"id": "train-0136", "text": "aap logon ne refund fast kar diya dil se thanks 🙏", "intent": "refund", "sentiment": "positive", "group_id": "refund-21", "source": "v11"}
+{"id": "train-0137", "text": "aap logon ne refund fast kr diya dil se thanks 🙏", "intent": "refund", "sentiment": "positive", "group_id": "refund-21", "source": "v11"}
+{"id": "train-0138", "text": "sir aap logon ne refund jaldi kar diya dil se thanks 🙏", "intent": "refund", "sentiment": "positive", "group_id": "refund-21", "source": "v11"}
+{"id": "train-0139", "text": "refund ke liye itni acchi help mili superb", "intent": "refund", "sentiment": "positive", "group_id": "refund-23", "source": "v11"}
+{"id": "train-0140", "text": "sir refund ke liye itni acchi help mili superb", "intent": "refund", "sentiment": "positive", "group_id": "refund-23", "source": "v11"}
+{"id": "train-0141", "text": "love the quick refund ekdum mast", "intent": "refund", "sentiment": "positive", "group_id": "refund-25", "source": "v11"}
+{"id": "train-0142", "text": "hi love the quick refund ekdum mast", "intent": "refund", "sentiment": "positive", "group_id": "refund-25", "source": "v11"}
+{"id": "train-0143", "text": "refund ke naam pe sirf jhooth bolte ho 😡", "intent": "refund", "sentiment": "negative", "group_id": "refund-26", "source": "v11"}
+{"id": "train-0144", "text": "dekhiye refund ke naam pe sirf jhooth bolte ho 😡", "intent": "refund", "sentiment": "negative", "group_id": "refund-26", "source": "v11"}
+{"id": "train-0145", "text": "ek mahina ho gaya paise nahi aaye bakwaas", "intent": "refund", "sentiment": "negative", "group_id": "refund-27", "source": "v11"}
+{"id": "train-0146", "text": "ek mahina ho gaya paise nhi aaye bakwaas", "intent": "refund", "sentiment": "negative", "group_id": "refund-27", "source": "v11"}
+{"id": "train-0147", "text": "ek mahina ho gaya money nahi aaye bakwaas", "intent": "refund", "sentiment": "negative", "group_id": "refund-27", "source": "v11"}
+{"id": "train-0148", "text": "ek mahina ho gaya money nhi aaye bakwaas", "intent": "refund", "sentiment": "negative", "group_id": "refund-27", "source": "v11"}
+{"id": "train-0149", "text": "bhai ek mahina ho gaya paise nahi aaye bakwaas", "intent": "refund", "sentiment": "negative", "group_id": "refund-27", "source": "v11"}
+{"id": "train-0150", "text": "har baar bolte ho teen din mein aayega faltu log", "intent": "refund", "sentiment": "negative", "group_id": "refund-29", "source": "v11"}
+{"id": "train-0151", "text": "ji har baar bolte ho teen din mein aayega faltu log", "intent": "refund", "sentiment": "negative", "group_id": "refund-29", "source": "v11"}
+{"id": "train-0152", "text": "refund pending pending pending bahut ghatiya service", "intent": "refund", "sentiment": "negative", "group_id": "refund-31", "source": "v11"}
+{"id": "train-0153", "text": "refund pending pending pending bht ghatiya service", "intent": "refund", "sentiment": "negative", "group_id": "refund-31", "source": "v11"}
+{"id": "train-0154", "text": "refund pending pending pending bohot ghatiya servis", "intent": "refund", "sentiment": "negative", "group_id": "refund-31", "source": "v11"}
+{"id": "train-0155", "text": "ji refund pending pending pending bahut ghatiya service", "intent": "refund", "sentiment": "negative", "group_id": "refund-31", "source": "v11"}
+{"id": "train-0156", "text": "refund upi mein aayega ya card mein", "intent": "refund", "sentiment": "neutral", "group_id": "refund-32", "source": "v11"}
+{"id": "train-0157", "text": "dekhiye refund upi mein aayega ya card mein", "intent": "refund", "sentiment": "neutral", "group_id": "refund-32", "source": "v11"}
+{"id": "train-0158", "text": "refund ka reference number chahiye", "intent": "refund", "sentiment": "neutral", "group_id": "refund-34", "source": "v11"}
+{"id": "train-0159", "text": "refund ka reference number chaiye", "intent": "refund", "sentiment": "neutral", "group_id": "refund-34", "source": "v11"}
+{"id": "train-0160", "text": "ji refund ka reference number chahiye", "intent": "refund", "sentiment": "neutral", "group_id": "refund-34", "source": "v11"}
+{"id": "train-0161", "text": "cod order ka refund kaise milega", "intent": "refund", "sentiment": "neutral", "group_id": "refund-35", "source": "v11"}
+{"id": "train-0162", "text": "cod ordr ka refund kaise milega", "intent": "refund", "sentiment": "neutral", "group_id": "refund-35", "source": "v11"}
+{"id": "train-0163", "text": "hi cod order ka refund kaise milega", "intent": "refund", "sentiment": "neutral", "group_id": "refund-35", "source": "v11"}
+{"id": "train-0164", "text": "mera order kahan hai", "intent": "track_order", "sentiment": "neutral", "group_id": "track_order-00", "source": "v11"}
+{"id": "train-0165", "text": "mera order kaha h", "intent": "track_order", "sentiment": "neutral", "group_id": "track_order-00", "source": "v11"}
+{"id": "train-0166", "text": "mera ordr kahan hai", "intent": "track_order", "sentiment": "neutral", "group_id": "track_order-00", "source": "v11"}
+{"id": "train-0167", "text": "mera ordr kaha h", "intent": "track_order", "sentiment": "neutral", "group_id": "track_order-00", "source": "v11"}
+{"id": "train-0168", "text": "hello team mera order kahan hai", "intent": "track_order", "sentiment": "neutral", "group_id": "track_order-00", "source": "v11"}
+{"id": "train-0169", "text": "delivery kab tak hogi bhai", "intent": "track_order", "sentiment": "neutral", "group_id": "track_order-01", "source": "v11"}
+{"id": "train-0170", "text": "delivry when tak hogi bhai", "intent": "track_order", "sentiment": "neutral", "group_id": "track_order-01", "source": "v11"}
+{"id": "train-0171", "text": "ji delivery kab tak hogi bhai", "intent": "track_order", "sentiment": "neutral", "group_id": "track_order-01", "source": "v11"}
+{"id": "train-0172", "text": "tracking link share kar do please", "intent": "track_order", "sentiment": "neutral", "group_id": "track_order-04", "source": "v11"}
+{"id": "train-0173", "text": "tracking link share kr do plz", "intent": "track_order", "sentiment": "neutral", "group_id": "track_order-04", "source": "v11"}
+{"id": "train-0174", "text": "hello team tracking link share kar do please", "intent": "track_order", "sentiment": "neutral", "group_id": "track_order-04", "source": "v11"}
+{"id": "train-0175", "text": "aaj parcel aane wala hai kya", "intent": "track_order", "sentiment": "neutral", "group_id": "track_order-05", "source": "v11"}
+{"id": "train-0176", "text": "aaj parcel aane wala h kya", "intent": "track_order", "sentiment": "neutral", "group_id": "track_order-05", "source": "v11"}
+{"id": "train-0177", "text": "aaj parcl aane wala hai kya", "intent": "track_order", "sentiment": "neutral", "group_id": "track_order-05", "source": "v11"}
+{"id": "train-0178", "text": "aaj parcl aane wala h kya", "intent": "track_order", "sentiment": "neutral", "group_id": "track_order-05", "source": "v11"}
+{"id": "train-0179", "text": "hi aaj parcel aane wala hai kya", "intent": "track_order", "sentiment": "neutral", "group_id": "track_order-05", "source": "v11"}
+{"id": "train-0180", "text": "shipment dispatch hua ya nahi", "intent": "track_order", "sentiment": "neutral", "group_id": "track_order-06", "source": "v11"}
+{"id": "train-0181", "text": "shipment dispatch hua ya nhi", "intent": "track_order", "sentiment": "neutral", "group_id": "track_order-06", "source": "v11"}
+{"id": "train-0182", "text": "dekhiye shipment dispatch hua ya nahi", "intent": "track_order", "sentiment": "neutral", "group_id": "track_order-06", "source": "v11"}
+{"id": "train-0183", "text": "delivery ke liye poora din wait kiya bekar", "intent": "track_order", "sentiment": "negative", "group_id": "track_order-07", "source": "v11"}
+{"id": "train-0184", "text": "delivry ke liye poora din wait kiya bekar", "intent": "track_order", "sentiment": "negative", "group_id": "track_order-07", "source": "v11"}
+{"id": "train-0185", "text": "dekhiye delivery ke liye poora din wait kiya bekar", "intent": "track_order", "sentiment": "negative", "group_id": "track_order-07", "source": "v11"}
+{"id": "train-0186", "text": "delivery boy abhi kahan pahuncha", "intent": "track_order", "sentiment": "neutral", "group_id": "track_order-09", "source": "v11"}
+{"id": "train-0187", "text": "delivery boy abhi kaha pahuncha", "intent": "track_order", "sentiment": "neutral", "group_id": "track_order-09", "source": "v11"}
+{"id": "train-0188", "text": "delivry boy abhi kahan pahuncha", "intent": "track_order", "sentiment": "neutral", "group_id": "track_order-09", "source": "v11"}
+{"id": "train-0189", "text": "delivry boy abhi kaha pahuncha", "intent": "track_order", "sentiment": "neutral", "group_id": "track_order-09", "source": "v11"}
+{"id": "train-0190", "text": "hello team delivery boy abhi kahan pahuncha", "intent": "track_order", "sentiment": "neutral", "group_id": "track_order-09", "source": "v11"}
+{"id": "train-0191", "text": "itni slow delivery kyun hai 😒", "intent": "track_order", "sentiment": "negative", "group_id": "track_order-11", "source": "v11"}
+{"id": "train-0192", "text": "itni slow delivery kyun h 😒", "intent": "track_order", "sentiment": "negative", "group_id": "track_order-11", "source": "v11"}
+{"id": "train-0193", "text": "itni slow delivry kyun hai 😒", "intent": "track_order", "sentiment": "negative", "group_id": "track_order-11", "source": "v11"}
+{"id": "train-0194", "text": "itni slow delivry kyun h 😒", "intent": "track_order", "sentiment": "negative", "group_id": "track_order-11", "source": "v11"}
+{"id": "train-0195", "text": "ji itni slow delivery kyun hai 😒", "intent": "track_order", "sentiment": "negative", "group_id": "track_order-11", "source": "v11"}
+{"id": "train-0196", "text": "package raste mein hai kya update dena", "intent": "track_order", "sentiment": "neutral", "group_id": "track_order-12", "source": "v11"}
+{"id": "train-0197", "text": "package raste mein h kya update dena", "intent": "track_order", "sentiment": "neutral", "group_id": "track_order-12", "source": "v11"}
+{"id": "train-0198", "text": "ji package raste mein hai kya update dena", "intent": "track_order", "sentiment": "neutral", "group_id": "track_order-12", "source": "v11"}
+{"id": "train-0199", "text": "mera courier kab pahunchega", "intent": "track_order", "sentiment": "neutral", "group_id": "track_order-13", "source": "v11"}
+{"id": "train-0200", "text": "mera courier when pahunchega", "intent": "track_order", "sentiment": "neutral", "group_id": "track_order-13", "source": "v11"}
+{"id": "train-0201", "text": "hello team mera courier kab pahunchega", "intent": "track_order", "sentiment": "neutral", "group_id": "track_order-13", "source": "v11"}
+{"id": "train-0202", "text": "tracking update hi nahi hota ghatiya app", "intent": "track_order", "sentiment": "negative", "group_id": "track_order-14", "source": "v11"}
+{"id": "train-0203", "text": "tracking update hi nhi hota ghatiya app", "intent": "track_order", "sentiment": "negative", "group_id": "track_order-14", "source": "v11"}
+{"id": "train-0204", "text": "ji tracking update hi nahi hota ghatiya app", "intent": "track_order", "sentiment": "negative", "group_id": "track_order-14", "source": "v11"}
+{"id": "train-0205", "text": "order time pe aa raha hai thanks for the update 😊", "intent": "track_order", "sentiment": "positive", "group_id": "track_order-16", "source": "v11"}
+{"id": "train-0206", "text": "order time pe aa rha h thanks for the update 😊", "intent": "track_order", "sentiment": "positive", "group_id": "track_order-16", "source": "v11"}
+{"id": "train-0207", "text": "ordr time pe aa raha hai thanks for the update 😊", "intent": "track_order", "sentiment": "positive", "group_id": "track_order-16", "source": "v11"}
+{"id": "train-0208", "text": "ordr time pe aa rha h thanks for the update 😊", "intent": "track_order", "sentiment": "positive", "group_id": "track_order-16", "source": "v11"}
+{"id": "train-0209", "text": "sir order time pe aa raha hai thanks for the update 😊", "intent": "track_order", "sentiment": "positive", "group_id": "track_order-16", "source": "v11"}
+{"id": "train-0210", "text": "tracking bahut accurate hai great app", "intent": "track_order", "sentiment": "positive", "group_id": "track_order-17", "source": "v11"}
+{"id": "train-0211", "text": "tracking bht accurate h great app", "intent": "track_order", "sentiment": "positive", "group_id": "track_order-17", "source": "v11"}
+{"id": "train-0212", "text": "tracking bohot accurate hai great app", "intent": "track_order", "sentiment": "positive", "group_id": "track_order-17", "source": "v11"}
+{"id": "train-0213", "text": "tracking bohot accurate h great app", "intent": "track_order", "sentiment": "positive", "group_id": "track_order-17", "source": "v11"}
+{"id": "train-0214", "text": "ji tracking bahut accurate hai great app", "intent": "track_order", "sentiment": "positive", "group_id": "track_order-17", "source": "v11"}
+{"id": "train-0215", "text": "itni fast shipping wah kab tak pahunchega", "intent": "track_order", "sentiment": "positive", "group_id": "track_order-19", "source": "v11"}
+{"id": "train-0216", "text": "itni fast shipping wah when tak pahunchega", "intent": "track_order", "sentiment": "positive", "group_id": "track_order-19", "source": "v11"}
+{"id": "train-0217", "text": "hi itni fast shipping wah kab tak pahunchega", "intent": "track_order", "sentiment": "positive", "group_id": "track_order-19", "source": "v11"}
+{"id": "train-0218", "text": "thank you tracking link mil gaya super helpful", "intent": "track_order", "sentiment": "positive", "group_id": "track_order-20", "source": "v11"}
+{"id": "train-0219", "text": "thnk you tracking link mil gaya super helpful", "intent": "track_order", "sentiment": "positive", "group_id": "track_order-20", "source": "v11"}
+{"id": "train-0220", "text": "sir thank you tracking link mil gaya super helpful", "intent": "track_order", "sentiment": "positive", "group_id": "track_order-20", "source": "v11"}
+{"id": "train-0221", "text": "shukriya update ke liye order ka status dekh liya", "intent": "track_order", "sentiment": "positive", "group_id": "track_order-22", "source": "v11"}
+{"id": "train-0222", "text": "shukriya update ke liye ordr ka status dekh liya", "intent": "track_order", "sentiment": "positive", "group_id": "track_order-22", "source": "v11"}
+{"id": "train-0223", "text": "sir shukriya update ke liye order ka status dekh liya", "intent": "track_order", "sentiment": "positive", "group_id": "track_order-22", "source": "v11"}
+{"id": "train-0224", "text": "excellent service bas delivery time confirm kar do", "intent": "track_order", "sentiment": "positive", "group_id": "track_order-25", "source": "v11"}
+{"id": "train-0225", "text": "excellent service bas delivery time confirm kr do", "intent": "track_order", "sentiment": "positive", "group_id": "track_order-25", "source": "v11"}
+{"id": "train-0226", "text": "excellent servis bas delivry time confirm kar do", "intent": "track_order", "sentiment": "positive", "group_id": "track_order-25", "source": "v11"}
+{"id": "train-0227", "text": "excellent servis bas delivry time confirm kr do", "intent": "track_order", "sentiment": "positive", "group_id": "track_order-25", "source": "v11"}
+{"id": "train-0228", "text": "hello team excellent service bas delivery time confirm kar do", "intent": "track_order", "sentiment": "positive", "group_id": "track_order-25", "source": "v11"}
+{"id": "train-0229", "text": "paanch din se out for delivery dikha raha hai bakwaas 😡", "intent": "track_order", "sentiment": "negative", "group_id": "track_order-26", "source": "v11"}
+{"id": "train-0230", "text": "paanch din se out for delivery dikha rha h bakwaas 😡", "intent": "track_order", "sentiment": "negative", "group_id": "track_order-26", "source": "v11"}
+{"id": "train-0231", "text": "paanch din se out for delivry dikha raha hai bakwaas 😡", "intent": "track_order", "sentiment": "negative", "group_id": "track_order-26", "source": "v11"}
+{"id": "train-0232", "text": "paanch din se out for delivry dikha rha h bakwaas 😡", "intent": "track_order", "sentiment": "negative", "group_id": "track_order-26", "source": "v11"}
+{"id": "train-0233", "text": "bhai paanch din se out for delivery dikha raha hai bakwaas 😡", "intent": "track_order", "sentiment": "negative", "group_id": "track_order-26", "source": "v11"}
+{"id": "train-0234", "text": "kal aana tha abhi tak nahi aaya koi jawab nahi deta", "intent": "track_order", "sentiment": "negative", "group_id": "track_order-28", "source": "v11"}
+{"id": "train-0235", "text": "kal aana tha abhi tak nhi aaya koi jawab nhi deta", "intent": "track_order", "sentiment": "negative", "group_id": "track_order-28", "source": "v11"}
+{"id": "train-0236", "text": "bhai kal aana tha abhi tak nahi aaya koi jawab nahi deta", "intent": "track_order", "sentiment": "negative", "group_id": "track_order-28", "source": "v11"}
+{"id": "train-0237", "text": "har din nayi delivery date jhoothe log", "intent": "track_order", "sentiment": "negative", "group_id": "track_order-30", "source": "v11"}
+{"id": "train-0238", "text": "har din nayi delivry date jhoothe log", "intent": "track_order", "sentiment": "negative", "group_id": "track_order-30", "source": "v11"}
+{"id": "train-0239", "text": "dekhiye har din nayi delivery date jhoothe log", "intent": "track_order", "sentiment": "negative", "group_id": "track_order-30", "source": "v11"}
+{"id": "train-0240", "text": "order kahan gaya kisi ko pata hi nahi worst", "intent": "track_order", "sentiment": "negative", "group_id": "track_order-31", "source": "v11"}
+{"id": "train-0241", "text": "order kaha gaya kisi ko pata hi nhi worst", "intent": "track_order", "sentiment": "negative", "group_id": "track_order-31", "source": "v11"}
+{"id": "train-0242", "text": "ordr kahan gaya kisi ko pata hi nahi worst", "intent": "track_order", "sentiment": "negative", "group_id": "track_order-31", "source": "v11"}
+{"id": "train-0243", "text": "ordr kaha gaya kisi ko pata hi nhi worst", "intent": "track_order", "sentiment": "negative", "group_id": "track_order-31", "source": "v11"}
+{"id": "train-0244", "text": "hello team order kahan gaya kisi ko pata hi nahi worst", "intent": "track_order", "sentiment": "negative", "group_id": "track_order-31", "source": "v11"}
+{"id": "train-0245", "text": "order shipped hua hai kya", "intent": "track_order", "sentiment": "neutral", "group_id": "track_order-34", "source": "v11"}
+{"id": "train-0246", "text": "order shipped hua h kya", "intent": "track_order", "sentiment": "neutral", "group_id": "track_order-34", "source": "v11"}
+{"id": "train-0247", "text": "ordr shipped hua hai kya", "intent": "track_order", "sentiment": "neutral", "group_id": "track_order-34", "source": "v11"}
+{"id": "train-0248", "text": "ordr shipped hua h kya", "intent": "track_order", "sentiment": "neutral", "group_id": "track_order-34", "source": "v11"}
+{"id": "train-0249", "text": "bhai order shipped hua hai kya", "intent": "track_order", "sentiment": "neutral", "group_id": "track_order-34", "source": "v11"}
+{"id": "train-0250", "text": "delivery complete dikh rahi hai par receive nahi hua", "intent": "not_received", "sentiment": "neutral", "group_id": "not_received-02", "source": "v11"}
+{"id": "train-0251", "text": "delivery complete dikh rahi h par receive nhi hua", "intent": "not_received", "sentiment": "neutral", "group_id": "not_received-02", "source": "v11"}
+{"id": "train-0252", "text": "delivry complete dikh rahi hai par receive nahi hua", "intent": "not_received", "sentiment": "neutral", "group_id": "not_received-02", "source": "v11"}
+{"id": "train-0253", "text": "delivry complete dikh rahi h par receive nhi hua", "intent": "not_received", "sentiment": "neutral", "group_id": "not_received-02", "source": "v11"}
+{"id": "train-0254", "text": "ji delivery complete dikh rahi hai par receive nahi hua", "intent": "not_received", "sentiment": "neutral", "group_id": "not_received-02", "source": "v11"}
+{"id": "train-0255", "text": "jhooth bol rahe delivered kuch mila nahi 😒", "intent": "not_received", "sentiment": "negative", "group_id": "not_received-03", "source": "v11"}
+{"id": "train-0256", "text": "jhooth bol rhe delivered kuch mila nhi 😒", "intent": "not_received", "sentiment": "negative", "group_id": "not_received-03", "source": "v11"}
+{"id": "train-0257", "text": "bhai jhooth bol rahe delivered kuch mila nahi 😒", "intent": "not_received", "sentiment": "negative", "group_id": "not_received-03", "source": "v11"}
+{"id": "train-0258", "text": "package kisi aur ko de diya mujhe nahi mila", "intent": "not_received", "sentiment": "neutral", "group_id": "not_received-05", "source": "v11"}
+{"id": "train-0259", "text": "package kisi aur ko de diya mujhe nhi mila", "intent": "not_received", "sentiment": "neutral", "group_id": "not_received-05", "source": "v11"}
+{"id": "train-0260", "text": "package kisi aur ko de diya mujhko nahi mila", "intent": "not_received", "sentiment": "neutral", "group_id": "not_received-05", "source": "v11"}
+{"id": "train-0261", "text": "package kisi aur ko de diya mujhko nhi mila", "intent": "not_received", "sentiment": "neutral", "group_id": "not_received-05", "source": "v11"}
+{"id": "train-0262", "text": "ji package kisi aur ko de diya mujhe nahi mila", "intent": "not_received", "sentiment": "neutral", "group_id": "not_received-05", "source": "v11"}
+{"id": "train-0263", "text": "delivered message aaya par saman gayab hai bekar", "intent": "not_received", "sentiment": "negative", "group_id": "not_received-06", "source": "v11"}
+{"id": "train-0264", "text": "delivered message aaya par saman gayab h bekar", "intent": "not_received", "sentiment": "negative", "group_id": "not_received-06", "source": "v11"}
+{"id": "train-0265", "text": "ji delivered message aaya par saman gayab hai bekar", "intent": "not_received", "sentiment": "negative", "group_id": "not_received-06", "source": "v11"}
+{"id": "train-0266", "text": "bina parcel diye delivered kar diya 😠", "intent": "not_received", "sentiment": "negative", "group_id": "not_received-08", "source": "v11"}
+{"id": "train-0267", "text": "bina parcel diye delivered kr diya 😠", "intent": "not_received", "sentiment": "negative", "group_id": "not_received-08", "source": "v11"}
+{"id": "train-0268", "text": "bina parcl diye delivered kar diya 😠", "intent": "not_received", "sentiment": "negative", "group_id": "not_received-08", "source": "v11"}
+{"id": "train-0269", "text": "bina parcl diye delivered kr diya 😠", "intent": "not_received", "sentiment": "negative", "group_id": "not_received-08", "source": "v11"}
+{"id": "train-0270", "text": "bhai bina parcel diye delivered kar diya 😠", "intent": "not_received", "sentiment": "negative", "group_id": "not_received-08", "source": "v11"}
+{"id": "train-0271", "text": "status delivered hai kya proof mil sakta hai mujhe nahi mila", "intent": "not_received", "sentiment": "neutral", "group_id": "not_received-10", "source": "v11"}
+{"id": "train-0272", "text": "status delivered h kya proof mil sakta h mujhe nhi mila", "intent": "not_received", "sentiment": "neutral", "group_id": "not_received-10", "source": "v11"}
+{"id": "train-0273", "text": "status delivered hai kya proof mil sakta hai mujhko nahi mila", "intent": "not_received", "sentiment": "neutral", "group_id": "not_received-10", "source": "v11"}
+{"id": "train-0274", "text": "status delivered h kya proof mil sakta h mujhko nhi mila", "intent": "not_received", "sentiment": "neutral", "group_id": "not_received-10", "source": "v11"}
+{"id": "train-0275", "text": "ji status delivered hai kya proof mil sakta hai mujhe nahi mila", "intent": "not_received", "sentiment": "neutral", "group_id": "not_received-10", "source": "v11"}
+{"id": "train-0276", "text": "delivery confirmation aa gaya lekin saman nahi pahuncha", "intent": "not_received", "sentiment": "neutral", "group_id": "not_received-12", "source": "v11"}
+{"id": "train-0277", "text": "delivery confirmation aa gaya lekin saman nhi pahuncha", "intent": "not_received", "sentiment": "neutral", "group_id": "not_received-12", "source": "v11"}
+{"id": "train-0278", "text": "delivry confirmation aa gaya lekin saman nahi pahuncha", "intent": "not_received", "sentiment": "neutral", "group_id": "not_received-12", "source": "v11"}
+{"id": "train-0279", "text": "delivry confirmation aa gaya lekin saman nhi pahuncha", "intent": "not_received", "sentiment": "neutral", "group_id": "not_received-12", "source": "v11"}
+{"id": "train-0280", "text": "bhai delivery confirmation aa gaya lekin saman nahi pahuncha", "intent": "not_received", "sentiment": "neutral", "group_id": "not_received-12", "source": "v11"}
+{"id": "train-0281", "text": "delivered likh diya bina order diye bahut gussa aa raha", "intent": "not_received", "sentiment": "negative", "group_id": "not_received-14", "source": "v11"}
+{"id": "train-0282", "text": "delivered likh diya bina order diye bht gussa aa rha", "intent": "not_received", "sentiment": "negative", "group_id": "not_received-14", "source": "v11"}
+{"id": "train-0283", "text": "delivered likh diya bina ordr diye bohot gussa aa raha", "intent": "not_received", "sentiment": "negative", "group_id": "not_received-14", "source": "v11"}
+{"id": "train-0284", "text": "delivered likh diya bina ordr diye bohot gussa aa rha", "intent": "not_received", "sentiment": "negative", "group_id": "not_received-14", "source": "v11"}
+{"id": "train-0285", "text": "hello team delivered likh diya bina order diye bahut gussa aa raha", "intent": "not_received", "sentiment": "negative", "group_id": "not_received-14", "source": "v11"}
+{"id": "train-0286", "text": "neighbor ke paas bhi nahi hai par order delivered hai", "intent": "not_received", "sentiment": "neutral", "group_id": "not_received-15", "source": "v11"}
+{"id": "train-0287", "text": "neighbor ke paas bhi nhi h par order delivered h", "intent": "not_received", "sentiment": "neutral", "group_id": "not_received-15", "source": "v11"}
+{"id": "train-0288", "text": "neighbor ke paas bhi nahi hai par ordr delivered hai", "intent": "not_received", "sentiment": "neutral", "group_id": "not_received-15", "source": "v11"}
+{"id": "train-0289", "text": "neighbor ke paas bhi nhi h par ordr delivered h", "intent": "not_received", "sentiment": "neutral", "group_id": "not_received-15", "source": "v11"}
+{"id": "train-0290", "text": "hello team neighbor ke paas bhi nahi hai par order delivered hai", "intent": "not_received", "sentiment": "neutral", "group_id": "not_received-15", "source": "v11"}
+{"id": "train-0291", "text": "aap log hamesha reliable ho is baar parcel delivered dikha ke nahi mila check kar do 🙏", "intent": "not_received", "sentiment": "positive", "group_id": "not_received-16", "source": "v11"}
+{"id": "train-0292", "text": "aap log hamesha reliable ho is baar parcel delivered dikha ke nhi mila check kr do 🙏", "intent": "not_received", "sentiment": "positive", "group_id": "not_received-16", "source": "v11"}
+{"id": "train-0293", "text": "aap log hamesha reliable ho is baar parcl delivered dikha ke nahi mila check kar do 🙏", "intent": "not_received", "sentiment": "positive", "group_id": "not_received-16", "source": "v11"}
+{"id": "train-0294", "text": "aap log hamesha reliable ho is baar parcl delivered dikha ke nhi mila check kr do 🙏", "intent": "not_received", "sentiment": "positive", "group_id": "not_received-16", "source": "v11"}
+{"id": "train-0295", "text": "dekhiye aap log hamesha reliable ho is baar parcel delivered dikha ke nahi mila check kar do 🙏", "intent": "not_received", "sentiment": "positive", "group_id": "not_received-16", "source": "v11"}
+{"id": "train-0296", "text": "thank you quick reply ke liye order delivered hai lekin mujhe mila nahi", "intent": "not_received", "sentiment": "positive", "group_id": "not_received-17", "source": "v11"}
+{"id": "train-0297", "text": "thank you quick reply ke liye order delivered h lekin mujhe mila nhi", "intent": "not_received", "sentiment": "positive", "group_id": "not_received-17", "source": "v11"}
+{"id": "train-0298", "text": "thnk you quick reply ke liye ordr delivered hai lekin mujhko mila nahi", "intent": "not_received", "sentiment": "positive", "group_id": "not_received-17", "source": "v11"}
+{"id": "train-0299", "text": "thnk you quick reply ke liye ordr delivered h lekin mujhko mila nhi", "intent": "not_received", "sentiment": "positive", "group_id": "not_received-17", "source": "v11"}
+{"id": "train-0300", "text": "sir thank you quick reply ke liye order delivered hai lekin mujhe mila nahi", "intent": "not_received", "sentiment": "positive", "group_id": "not_received-17", "source": "v11"}
+{"id": "train-0301", "text": "missing parcel neighbour ke paas mil gaya thank you 😊", "intent": "not_received", "sentiment": "positive", "group_id": "not_received-20", "source": "v11"}
+{"id": "train-0302", "text": "missing parcl neighbour ke paas mil gaya thnk you 😊", "intent": "not_received", "sentiment": "positive", "group_id": "not_received-20", "source": "v11"}
+{"id": "train-0303", "text": "hello team missing parcel neighbour ke paas mil gaya thank you 😊", "intent": "not_received", "sentiment": "positive", "group_id": "not_received-20", "source": "v11"}
+{"id": "train-0304", "text": "delivered dikha raha tha par mila nahi aapne replacement bhej diya thanks a lot", "intent": "not_received", "sentiment": "positive", "group_id": "not_received-21", "source": "v11"}
+{"id": "train-0305", "text": "delivered dikha rha tha par mila nhi aapne replacement bhej diya thanks a lot", "intent": "not_received", "sentiment": "positive", "group_id": "not_received-21", "source": "v11"}
+{"id": "train-0306", "text": "hi delivered dikha raha tha par mila nahi aapne replacement bhej diya thanks a lot", "intent": "not_received", "sentiment": "positive", "group_id": "not_received-21", "source": "v11"}
+{"id": "train-0307", "text": "teesri baar parcel gayab ghatiya delivery", "intent": "not_received", "sentiment": "negative", "group_id": "not_received-23", "source": "v11"}
+{"id": "train-0308", "text": "teesri baar parcl gayab ghatiya delivry", "intent": "not_received", "sentiment": "negative", "group_id": "not_received-23", "source": "v11"}
+{"id": "train-0309", "text": "hello team teesri baar parcel gayab ghatiya delivery", "intent": "not_received", "sentiment": "negative", "group_id": "not_received-23", "source": "v11"}
+{"id": "train-0310", "text": "guard bhi bol raha koi parcel nahi aaya bakwaas service", "intent": "not_received", "sentiment": "negative", "group_id": "not_received-24", "source": "v11"}
+{"id": "train-0311", "text": "guard bhi bol rha koi parcel nhi aaya bakwaas service", "intent": "not_received", "sentiment": "negative", "group_id": "not_received-24", "source": "v11"}
+{"id": "train-0312", "text": "guard bhi bol raha koi parcl nahi aaya bakwaas servis", "intent": "not_received", "sentiment": "negative", "group_id": "not_received-24", "source": "v11"}
+{"id": "train-0313", "text": "guard bhi bol rha koi parcl nhi aaya bakwaas servis", "intent": "not_received", "sentiment": "negative", "group_id": "not_received-24", "source": "v11"}
+{"id": "train-0314", "text": "bhai guard bhi bol raha koi parcel nahi aaya bakwaas service", "intent": "not_received", "sentiment": "negative", "group_id": "not_received-24", "source": "v11"}
+{"id": "train-0315", "text": "delivery boy ne fake otp daal diya saman mila hi nahi", "intent": "not_received", "sentiment": "negative", "group_id": "not_received-26", "source": "v11"}
+{"id": "train-0316", "text": "delivery boy ne fake otp daal diya saman mila hi nhi", "intent": "not_received", "sentiment": "negative", "group_id": "not_received-26", "source": "v11"}
+{"id": "train-0317", "text": "delivry boy ne fake otp daal diya saman mila hi nahi", "intent": "not_received", "sentiment": "negative", "group_id": "not_received-26", "source": "v11"}
+{"id": "train-0318", "text": "delivry boy ne fake otp daal diya saman mila hi nhi", "intent": "not_received", "sentiment": "negative", "group_id": "not_received-26", "source": "v11"}
+{"id": "train-0319", "text": "dekhiye delivery boy ne fake otp daal diya saman mila hi nahi", "intent": "not_received", "sentiment": "negative", "group_id": "not_received-26", "source": "v11"}
+{"id": "train-0320", "text": "delivered status aaya but parcel receive nahi hua", "intent": "not_received", "sentiment": "neutral", "group_id": "not_received-27", "source": "v11"}
+{"id": "train-0321", "text": "delivered status aaya but parcel receive nhi hua", "intent": "not_received", "sentiment": "neutral", "group_id": "not_received-27", "source": "v11"}
+{"id": "train-0322", "text": "delivered status aaya but parcl receive nahi hua", "intent": "not_received", "sentiment": "neutral", "group_id": "not_received-27", "source": "v11"}
+{"id": "train-0323", "text": "delivered status aaya but parcl receive nhi hua", "intent": "not_received", "sentiment": "neutral", "group_id": "not_received-27", "source": "v11"}
+{"id": "train-0324", "text": "bhai delivered status aaya but parcel receive nahi hua", "intent": "not_received", "sentiment": "neutral", "group_id": "not_received-27", "source": "v11"}
+{"id": "train-0325", "text": "parcel receive nahi hua delivery otp bhi nahi aaya", "intent": "not_received", "sentiment": "neutral", "group_id": "not_received-28", "source": "v11"}
+{"id": "train-0326", "text": "parcel receive nhi hua delivery otp bhi nhi aaya", "intent": "not_received", "sentiment": "neutral", "group_id": "not_received-28", "source": "v11"}
+{"id": "train-0327", "text": "parcl receive nahi hua delivry otp bhi nahi aaya", "intent": "not_received", "sentiment": "neutral", "group_id": "not_received-28", "source": "v11"}
+{"id": "train-0328", "text": "parcl receive nhi hua delivry otp bhi nhi aaya", "intent": "not_received", "sentiment": "neutral", "group_id": "not_received-28", "source": "v11"}
+{"id": "train-0329", "text": "bhai parcel receive nahi hua delivery otp bhi nahi aaya", "intent": "not_received", "sentiment": "neutral", "group_id": "not_received-28", "source": "v11"}
+{"id": "train-0330", "text": "kisi ne mera parcel receive kiya kya mere paas nahi aaya", "intent": "not_received", "sentiment": "neutral", "group_id": "not_received-29", "source": "v11"}
+{"id": "train-0331", "text": "kisi ne mera parcel receive kiya kya mere paas nhi aaya", "intent": "not_received", "sentiment": "neutral", "group_id": "not_received-29", "source": "v11"}
+{"id": "train-0332", "text": "kisi ne mera parcl receive kiya kya mere paas nahi aaya", "intent": "not_received", "sentiment": "neutral", "group_id": "not_received-29", "source": "v11"}
+{"id": "train-0333", "text": "kisi ne mera parcl receive kiya kya mere paas nhi aaya", "intent": "not_received", "sentiment": "neutral", "group_id": "not_received-29", "source": "v11"}
+{"id": "train-0334", "text": "ji kisi ne mera parcel receive kiya kya mere paas nahi aaya", "intent": "not_received", "sentiment": "neutral", "group_id": "not_received-29", "source": "v11"}
+{"id": "train-0335", "text": "box khola toh item toota hua hai 😡", "intent": "damaged_item", "sentiment": "negative", "group_id": "damaged_item-00", "source": "v11"}
+{"id": "train-0336", "text": "box khola toh item toota hua h 😡", "intent": "damaged_item", "sentiment": "negative", "group_id": "damaged_item-00", "source": "v11"}
+{"id": "train-0337", "text": "bhai box khola toh item toota hua hai 😡", "intent": "damaged_item", "sentiment": "negative", "group_id": "damaged_item-00", "source": "v11"}
+{"id": "train-0338", "text": "screen cracked hai ghatiya packing", "intent": "damaged_item", "sentiment": "negative", "group_id": "damaged_item-02", "source": "v11"}
+{"id": "train-0339", "text": "screen cracked h ghatiya packing", "intent": "damaged_item", "sentiment": "negative", "group_id": "damaged_item-02", "source": "v11"}
+{"id": "train-0340", "text": "dekhiye screen cracked hai ghatiya packing", "intent": "damaged_item", "sentiment": "negative", "group_id": "damaged_item-02", "source": "v11"}
+{"id": "train-0341", "text": "bottle leak ho rahi hai replacement chahiye", "intent": "damaged_item", "sentiment": "neutral", "group_id": "damaged_item-03", "source": "v11"}
+{"id": "train-0342", "text": "bottle leak ho rahi h replacement chahiye", "intent": "damaged_item", "sentiment": "neutral", "group_id": "damaged_item-03", "source": "v11"}
+{"id": "train-0343", "text": "bottle leak ho rahi hai replacement chaiye", "intent": "damaged_item", "sentiment": "neutral", "group_id": "damaged_item-03", "source": "v11"}
+{"id": "train-0344", "text": "bottle leak ho rahi h replacement chaiye", "intent": "damaged_item", "sentiment": "neutral", "group_id": "damaged_item-03", "source": "v11"}
+{"id": "train-0345", "text": "sir bottle leak ho rahi hai replacement chahiye", "intent": "damaged_item", "sentiment": "neutral", "group_id": "damaged_item-03", "source": "v11"}
+{"id": "train-0346", "text": "order receive hua lekin part broken hai", "intent": "damaged_item", "sentiment": "neutral", "group_id": "damaged_item-05", "source": "v11"}
+{"id": "train-0347", "text": "order receive hua lekin part broken h", "intent": "damaged_item", "sentiment": "neutral", "group_id": "damaged_item-05", "source": "v11"}
+{"id": "train-0348", "text": "ordr receive hua lekin part broken hai", "intent": "damaged_item", "sentiment": "neutral", "group_id": "damaged_item-05", "source": "v11"}
+{"id": "train-0349", "text": "ordr receive hua lekin part broken h", "intent": "damaged_item", "sentiment": "neutral", "group_id": "damaged_item-05", "source": "v11"}
+{"id": "train-0350", "text": "dekhiye order receive hua lekin part broken hai", "intent": "damaged_item", "sentiment": "neutral", "group_id": "damaged_item-05", "source": "v11"}
+{"id": "train-0351", "text": "dabba pura crush ho gaya andar saman toota 😒", "intent": "damaged_item", "sentiment": "negative", "group_id": "damaged_item-06", "source": "v11"}
+{"id": "train-0352", "text": "hello team dabba pura crush ho gaya andar saman toota 😒", "intent": "damaged_item", "sentiment": "negative", "group_id": "damaged_item-06", "source": "v11"}
+{"id": "train-0353", "text": "product par scratch hai exchange ho sakta hai", "intent": "damaged_item", "sentiment": "neutral", "group_id": "damaged_item-07", "source": "v11"}
+{"id": "train-0354", "text": "product par scratch h exchange ho sakta h", "intent": "damaged_item", "sentiment": "neutral", "group_id": "damaged_item-07", "source": "v11"}
+{"id": "train-0355", "text": "bhai product par scratch hai exchange ho sakta hai", "intent": "damaged_item", "sentiment": "neutral", "group_id": "damaged_item-07", "source": "v11"}
+{"id": "train-0356", "text": "charger damaged nikla replacement ka process batao", "intent": "damaged_item", "sentiment": "neutral", "group_id": "damaged_item-08", "source": "v11"}
+{"id": "train-0357", "text": "dekhiye charger damaged nikla replacement ka process batao", "intent": "damaged_item", "sentiment": "neutral", "group_id": "damaged_item-08", "source": "v11"}
+{"id": "train-0358", "text": "received product damaged hai photo kahan bheju", "intent": "damaged_item", "sentiment": "neutral", "group_id": "damaged_item-12", "source": "v11"}
+{"id": "train-0359", "text": "received product damaged h photo kaha bheju", "intent": "damaged_item", "sentiment": "neutral", "group_id": "damaged_item-12", "source": "v11"}
+{"id": "train-0360", "text": "dekhiye received product damaged hai photo kahan bheju", "intent": "damaged_item", "sentiment": "neutral", "group_id": "damaged_item-12", "source": "v11"}
+{"id": "train-0361", "text": "headphone ka ek side toota hua mila", "intent": "damaged_item", "sentiment": "neutral", "group_id": "damaged_item-13", "source": "v11"}
+{"id": "train-0362", "text": "bhai headphone ka ek side toota hua mila", "intent": "damaged_item", "sentiment": "neutral", "group_id": "damaged_item-13", "source": "v11"}
+{"id": "train-0363", "text": "itni bekar packaging sab kuch toot gaya", "intent": "damaged_item", "sentiment": "negative", "group_id": "damaged_item-14", "source": "v11"}
+{"id": "train-0364", "text": "ji itni bekar packaging sab kuch toot gaya", "intent": "damaged_item", "sentiment": "negative", "group_id": "damaged_item-14", "source": "v11"}
+{"id": "train-0365", "text": "delivered item mein crack hai replace karna hai", "intent": "damaged_item", "sentiment": "neutral", "group_id": "damaged_item-15", "source": "v11"}
+{"id": "train-0366", "text": "delivered item mein crack h replace krna h", "intent": "damaged_item", "sentiment": "neutral", "group_id": "damaged_item-15", "source": "v11"}
+{"id": "train-0367", "text": "hello team delivered item mein crack hai replace karna hai", "intent": "damaged_item", "sentiment": "neutral", "group_id": "damaged_item-15", "source": "v11"}
+{"id": "train-0368", "text": "item thoda damage tha par replacement fast mila thank you 😊", "intent": "damaged_item", "sentiment": "positive", "group_id": "damaged_item-16", "source": "v11"}
+{"id": "train-0369", "text": "item thoda damage tha par replacement fast mila thnk you 😊", "intent": "damaged_item", "sentiment": "positive", "group_id": "damaged_item-16", "source": "v11"}
+{"id": "train-0370", "text": "sir item thoda damage tha par replacement fast mila thank you 😊", "intent": "damaged_item", "sentiment": "positive", "group_id": "damaged_item-16", "source": "v11"}
+{"id": "train-0371", "text": "packaging usually acchi hoti hai is baar product toota aaya replace kar do please", "intent": "damaged_item", "sentiment": "positive", "group_id": "damaged_item-17", "source": "v11"}
+{"id": "train-0372", "text": "packaging usually acchi hoti h is baar product toota aaya replace kr do plz", "intent": "damaged_item", "sentiment": "positive", "group_id": "damaged_item-17", "source": "v11"}
+{"id": "train-0373", "text": "bhai packaging usually acchi hoti hai is baar product toota aaya replace kar do please", "intent": "damaged_item", "sentiment": "positive", "group_id": "damaged_item-17", "source": "v11"}
+{"id": "train-0374", "text": "cracked screen tha lekin support superb tha exchange ho gaya", "intent": "damaged_item", "sentiment": "positive", "group_id": "damaged_item-20", "source": "v11"}
+{"id": "train-0375", "text": "dekhiye cracked screen tha lekin support superb tha exchange ho gaya", "intent": "damaged_item", "sentiment": "positive", "group_id": "damaged_item-20", "source": "v11"}
+{"id": "train-0376", "text": "love your service bas mug toota hua mila replace kar do 🙏", "intent": "damaged_item", "sentiment": "positive", "group_id": "damaged_item-21", "source": "v11"}
+{"id": "train-0377", "text": "love your service bas mug toota hua mila replace kr do 🙏", "intent": "damaged_item", "sentiment": "positive", "group_id": "damaged_item-21", "source": "v11"}
+{"id": "train-0378", "text": "love your servis bas mug toota hua mila replace kar do 🙏", "intent": "damaged_item", "sentiment": "positive", "group_id": "damaged_item-21", "source": "v11"}
+{"id": "train-0379", "text": "love your servis bas mug toota hua mila replace kr do 🙏", "intent": "damaged_item", "sentiment": "positive", "group_id": "damaged_item-21", "source": "v11"}
+{"id": "train-0380", "text": "dekhiye love your service bas mug toota hua mila replace kar do 🙏", "intent": "damaged_item", "sentiment": "positive", "group_id": "damaged_item-21", "source": "v11"}
+{"id": "train-0381", "text": "naya phone aur screen pe crack ye kaisi quality hai 😡", "intent": "damaged_item", "sentiment": "negative", "group_id": "damaged_item-22", "source": "v11"}
+{"id": "train-0382", "text": "naya phone aur screen pe crack ye kaisi quality h 😡", "intent": "damaged_item", "sentiment": "negative", "group_id": "damaged_item-22", "source": "v11"}
+{"id": "train-0383", "text": "bhai naya phone aur screen pe crack ye kaisi quality hai 😡", "intent": "damaged_item", "sentiment": "negative", "group_id": "damaged_item-22", "source": "v11"}
+{"id": "train-0384", "text": "kharab product bheja aur return bhi nahi le rahe bahut gussa", "intent": "damaged_item", "sentiment": "negative", "group_id": "damaged_item-24", "source": "v11"}
+{"id": "train-0385", "text": "kharab product bheja aur return bhi nhi le rhe bht gussa", "intent": "damaged_item", "sentiment": "negative", "group_id": "damaged_item-24", "source": "v11"}
+{"id": "train-0386", "text": "kharab product bheja aur return bhi nahi le rahe bohot gussa", "intent": "damaged_item", "sentiment": "negative", "group_id": "damaged_item-24", "source": "v11"}
+{"id": "train-0387", "text": "kharab product bheja aur return bhi nhi le rhe bohot gussa", "intent": "damaged_item", "sentiment": "negative", "group_id": "damaged_item-24", "source": "v11"}
+{"id": "train-0388", "text": "bhai kharab product bheja aur return bhi nahi le rahe bahut gussa", "intent": "damaged_item", "sentiment": "negative", "group_id": "damaged_item-24", "source": "v11"}
+{"id": "train-0389", "text": "expiry wala saman bheja sab kharab nikla", "intent": "damaged_item", "sentiment": "negative", "group_id": "damaged_item-26", "source": "v11"}
+{"id": "train-0390", "text": "ji expiry wala saman bheja sab kharab nikla", "intent": "damaged_item", "sentiment": "negative", "group_id": "damaged_item-26", "source": "v11"}
+{"id": "train-0391", "text": "product dented hai return request dalni hai", "intent": "damaged_item", "sentiment": "neutral", "group_id": "damaged_item-28", "source": "v11"}
+{"id": "train-0392", "text": "product dented h return request dalni h", "intent": "damaged_item", "sentiment": "neutral", "group_id": "damaged_item-28", "source": "v11"}
+{"id": "train-0393", "text": "dekhiye product dented hai return request dalni hai", "intent": "damaged_item", "sentiment": "neutral", "group_id": "damaged_item-28", "source": "v11"}
+{"id": "train-0394", "text": "team ne kamaal ki help kari", "intent": "feedback", "sentiment": "positive", "group_id": "feedback-02", "source": "v11"}
+{"id": "train-0395", "text": "ji team ne kamaal ki help kari", "intent": "feedback", "sentiment": "positive", "group_id": "feedback-02", "source": "v11"}
+{"id": "train-0396", "text": "team ne kamaal ki help kari 😊", "intent": "feedback", "sentiment": "positive", "group_id": "feedback-02", "source": "v11"}
+{"id": "train-0397", "text": "dekhiye team ne kamaal ki help kari 😊", "intent": "feedback", "sentiment": "positive", "group_id": "feedback-02", "source": "v11"}
+{"id": "train-0398", "text": "team ne kamaal ki help kari 😒", "intent": "feedback", "sentiment": "negative", "group_id": "feedback-02", "source": "v11"}
+{"id": "train-0399", "text": "hello team team ne kamaal ki help kari 😒", "intent": "feedback", "sentiment": "negative", "group_id": "feedback-02", "source": "v11"}
+{"id": "train-0400", "text": "support ekdum zabardast hai", "intent": "feedback", "sentiment": "positive", "group_id": "feedback-03", "source": "v11"}
+{"id": "train-0401", "text": "support ekdum zabardast h", "intent": "feedback", "sentiment": "positive", "group_id": "feedback-03", "source": "v11"}
+{"id": "train-0402", "text": "hi support ekdum zabardast hai", "intent": "feedback", "sentiment": "positive", "group_id": "feedback-03", "source": "v11"}
+{"id": "train-0403", "text": "support ekdum zabardast hai 😊", "intent": "feedback", "sentiment": "positive", "group_id": "feedback-03", "source": "v11"}
+{"id": "train-0404", "text": "support ekdum zabardast h 😊", "intent": "feedback", "sentiment": "positive", "group_id": "feedback-03", "source": "v11"}
+{"id": "train-0405", "text": "hi support ekdum zabardast hai 😊", "intent": "feedback", "sentiment": "positive", "group_id": "feedback-03", "source": "v11"}
+{"id": "train-0406", "text": "support ekdum zabardast hai 😒", "intent": "feedback", "sentiment": "negative", "group_id": "feedback-03", "source": "v11"}
+{"id": "train-0407", "text": "support ekdum zabardast h 😒", "intent": "feedback", "sentiment": "negative", "group_id": "feedback-03", "source": "v11"}
+{"id": "train-0408", "text": "dekhiye support ekdum zabardast hai 😒", "intent": "feedback", "sentiment": "negative", "group_id": "feedback-03", "source": "v11"}
+{"id": "train-0409", "text": "badiya kaam kiya tumne", "intent": "feedback", "sentiment": "positive", "group_id": "feedback-04", "source": "v11"}
+{"id": "train-0410", "text": "hello team badiya kaam kiya tumne", "intent": "feedback", "sentiment": "positive", "group_id": "feedback-04", "source": "v11"}
+{"id": "train-0411", "text": "badiya kaam kiya tumne 😊", "intent": "feedback", "sentiment": "positive", "group_id": "feedback-04", "source": "v11"}
+{"id": "train-0412", "text": "ji badiya kaam kiya tumne 😊", "intent": "feedback", "sentiment": "positive", "group_id": "feedback-04", "source": "v11"}
+{"id": "train-0413", "text": "badiya kaam kiya tumne 😒", "intent": "feedback", "sentiment": "negative", "group_id": "feedback-04", "source": "v11"}
+{"id": "train-0414", "text": "hi badiya kaam kiya tumne 😒", "intent": "feedback", "sentiment": "negative", "group_id": "feedback-04", "source": "v11"}
+{"id": "train-0415", "text": "service se bahut khush hu", "intent": "feedback", "sentiment": "positive", "group_id": "feedback-05", "source": "v11"}
+{"id": "train-0416", "text": "service se bht khush hu", "intent": "feedback", "sentiment": "positive", "group_id": "feedback-05", "source": "v11"}
+{"id": "train-0417", "text": "servis se bohot khush hu", "intent": "feedback", "sentiment": "positive", "group_id": "feedback-05", "source": "v11"}
+{"id": "train-0418", "text": "hello team service se bahut khush hu", "intent": "feedback", "sentiment": "positive", "group_id": "feedback-05", "source": "v11"}
+{"id": "train-0419", "text": "service se bahut khush hu 😊", "intent": "feedback", "sentiment": "positive", "group_id": "feedback-05", "source": "v11"}
+{"id": "train-0420", "text": "service se bht khush hu 😊", "intent": "feedback", "sentiment": "positive", "group_id": "feedback-05", "source": "v11"}
+{"id": "train-0421", "text": "servis se bohot khush hu 😊", "intent": "feedback", "sentiment": "positive", "group_id": "feedback-05", "source": "v11"}
+{"id": "train-0422", "text": "ji service se bahut khush hu 😊", "intent": "feedback", "sentiment": "positive", "group_id": "feedback-05", "source": "v11"}
+{"id": "train-0423", "text": "service se bahut khush hu 😒", "intent": "feedback", "sentiment": "negative", "group_id": "feedback-05", "source": "v11"}
+{"id": "train-0424", "text": "service se bht khush hu 😒", "intent": "feedback", "sentiment": "negative", "group_id": "feedback-05", "source": "v11"}
+{"id": "train-0425", "text": "servis se bohot khush hu 😒", "intent": "feedback", "sentiment": "negative", "group_id": "feedback-05", "source": "v11"}
+{"id": "train-0426", "text": "ji service se bahut khush hu 😒", "intent": "feedback", "sentiment": "negative", "group_id": "feedback-05", "source": "v11"}
+{"id": "train-0427", "text": "super helpful team dil jeet liya", "intent": "feedback", "sentiment": "positive", "group_id": "feedback-06", "source": "v11"}
+{"id": "train-0428", "text": "hi super helpful team dil jeet liya", "intent": "feedback", "sentiment": "positive", "group_id": "feedback-06", "source": "v11"}
+{"id": "train-0429", "text": "super helpful team dil jeet liya 😊", "intent": "feedback", "sentiment": "positive", "group_id": "feedback-06", "source": "v11"}
+{"id": "train-0430", "text": "dekhiye super helpful team dil jeet liya 😊", "intent": "feedback", "sentiment": "positive", "group_id": "feedback-06", "source": "v11"}
+{"id": "train-0431", "text": "super helpful team dil jeet liya 😒", "intent": "feedback", "sentiment": "negative", "group_id": "feedback-06", "source": "v11"}
+{"id": "train-0432", "text": "sir super helpful team dil jeet liya 😒", "intent": "feedback", "sentiment": "negative", "group_id": "feedback-06", "source": "v11"}
+{"id": "train-0433", "text": "wah kya fantastic service hai", "intent": "feedback", "sentiment": "positive", "group_id": "feedback-07", "source": "v11"}
+{"id": "train-0434", "text": "wah kya fantastic service h", "intent": "feedback", "sentiment": "positive", "group_id": "feedback-07", "source": "v11"}
+{"id": "train-0435", "text": "wah kya fantastic servis hai", "intent": "feedback", "sentiment": "positive", "group_id": "feedback-07", "source": "v11"}
+{"id": "train-0436", "text": "wah kya fantastic servis h", "intent": "feedback", "sentiment": "positive", "group_id": "feedback-07", "source": "v11"}
+{"id": "train-0437", "text": "hi wah kya fantastic service hai", "intent": "feedback", "sentiment": "positive", "group_id": "feedback-07", "source": "v11"}
+{"id": "train-0438", "text": "wah kya fantastic service hai 😊", "intent": "feedback", "sentiment": "positive", "group_id": "feedback-07", "source": "v11"}
+{"id": "train-0439", "text": "wah kya fantastic service h 😊", "intent": "feedback", "sentiment": "positive", "group_id": "feedback-07", "source": "v11"}
+{"id": "train-0440", "text": "wah kya fantastic servis hai 😊", "intent": "feedback", "sentiment": "positive", "group_id": "feedback-07", "source": "v11"}
+{"id": "train-0441", "text": "wah kya fantastic servis h 😊", "intent": "feedback", "sentiment": "positive", "group_id": "feedback-07", "source": "v11"}
+{"id": "train-0442", "text": "bhai wah kya fantastic service hai 😊", "intent": "feedback", "sentiment": "positive", "group_id": "feedback-07", "source": "v11"}
+{"id": "train-0443", "text": "wah kya fantastic service hai 😒", "intent": "feedback", "sentiment": "negative", "group_id": "feedback-07", "source": "v11"}
+{"id": "train-0444", "text": "wah kya fantastic service h 😒", "intent": "feedback", "sentiment": "negative", "group_id": "feedback-07", "source": "v11"}
+{"id": "train-0445", "text": "wah kya fantastic servis hai 😒", "intent": "feedback", "sentiment": "negative", "group_id": "feedback-07", "source": "v11"}
+{"id": "train-0446", "text": "wah kya fantastic servis h 😒", "intent": "feedback", "sentiment": "negative", "group_id": "feedback-07", "source": "v11"}
+{"id": "train-0447", "text": "bhai wah kya fantastic service hai 😒", "intent": "feedback", "sentiment": "negative", "group_id": "feedback-07", "source": "v11"}
+{"id": "train-0448", "text": "bahut kharab experience tha", "intent": "feedback", "sentiment": "negative", "group_id": "feedback-08", "source": "v11"}
+{"id": "train-0449", "text": "bht kharab experience tha", "intent": "feedback", "sentiment": "negative", "group_id": "feedback-08", "source": "v11"}
+{"id": "train-0450", "text": "bohot kharab experience tha", "intent": "feedback", "sentiment": "negative", "group_id": "feedback-08", "source": "v11"}
+{"id": "train-0451", "text": "ji bahut kharab experience tha", "intent": "feedback", "sentiment": "negative", "group_id": "feedback-08", "source": "v11"}
+{"id": "train-0452", "text": "support se bilkul khush nahi hu", "intent": "feedback", "sentiment": "negative", "group_id": "feedback-09", "source": "v11"}
+{"id": "train-0453", "text": "support se bilkul khush nhi hu", "intent": "feedback", "sentiment": "negative", "group_id": "feedback-09", "source": "v11"}
+{"id": "train-0454", "text": "sir support se bilkul khush nahi hu", "intent": "feedback", "sentiment": "negative", "group_id": "feedback-09", "source": "v11"}
+{"id": "train-0455", "text": "ye service acchi nahi hai", "intent": "feedback", "sentiment": "negative", "group_id": "feedback-10", "source": "v11"}
+{"id": "train-0456", "text": "ye service acchi nhi h", "intent": "feedback", "sentiment": "negative", "group_id": "feedback-10", "source": "v11"}
+{"id": "train-0457", "text": "ye servis acchi nahi hai", "intent": "feedback", "sentiment": "negative", "group_id": "feedback-10", "source": "v11"}
+{"id": "train-0458", "text": "ye servis acchi nhi h", "intent": "feedback", "sentiment": "negative", "group_id": "feedback-10", "source": "v11"}
+{"id": "train-0459", "text": "hi ye service acchi nahi hai", "intent": "feedback", "sentiment": "negative", "group_id": "feedback-10", "source": "v11"}
+{"id": "train-0460", "text": "help ke naam pe time waste kiya", "intent": "feedback", "sentiment": "negative", "group_id": "feedback-11", "source": "v11"}
+{"id": "train-0461", "text": "bhai help ke naam pe time waste kiya", "intent": "feedback", "sentiment": "negative", "group_id": "feedback-11", "source": "v11"}
+{"id": "train-0462", "text": "na accha na bura normal experience", "intent": "feedback", "sentiment": "neutral", "group_id": "feedback-14", "source": "v11"}
+{"id": "train-0463", "text": "na acha na bura normal experience", "intent": "feedback", "sentiment": "neutral", "group_id": "feedback-14", "source": "v11"}
+{"id": "train-0464", "text": "hello team na accha na bura normal experience", "intent": "feedback", "sentiment": "neutral", "group_id": "feedback-14", "source": "v11"}
+{"id": "train-0465", "text": "delivery boy ka behaviour bahut accha tha", "intent": "feedback", "sentiment": "positive", "group_id": "feedback-16", "source": "v11"}
+{"id": "train-0466", "text": "delivery boy ka behaviour bht accha tha", "intent": "feedback", "sentiment": "positive", "group_id": "feedback-16", "source": "v11"}
+{"id": "train-0467", "text": "delivry boy ka behaviour bohot acha tha", "intent": "feedback", "sentiment": "positive", "group_id": "feedback-16", "source": "v11"}
+{"id": "train-0468", "text": "hi delivery boy ka behaviour bahut accha tha", "intent": "feedback", "sentiment": "positive", "group_id": "feedback-16", "source": "v11"}
+{"id": "train-0469", "text": "delivery boy ka behaviour bahut accha tha 😊", "intent": "feedback", "sentiment": "positive", "group_id": "feedback-16", "source": "v11"}
+{"id": "train-0470", "text": "delivery boy ka behaviour bht accha tha 😊", "intent": "feedback", "sentiment": "positive", "group_id": "feedback-16", "source": "v11"}
+{"id": "train-0471", "text": "delivry boy ka behaviour bohot acha tha 😊", "intent": "feedback", "sentiment": "positive", "group_id": "feedback-16", "source": "v11"}
+{"id": "train-0472", "text": "hello team delivery boy ka behaviour bahut accha tha 😊", "intent": "feedback", "sentiment": "positive", "group_id": "feedback-16", "source": "v11"}
+{"id": "train-0473", "text": "delivery boy ka behaviour bahut accha tha 😒", "intent": "feedback", "sentiment": "negative", "group_id": "feedback-16", "source": "v11"}
+{"id": "train-0474", "text": "delivery boy ka behaviour bht accha tha 😒", "intent": "feedback", "sentiment": "negative", "group_id": "feedback-16", "source": "v11"}
+{"id": "train-0475", "text": "delivry boy ka behaviour bohot acha tha 😒", "intent": "feedback", "sentiment": "negative", "group_id": "feedback-16", "source": "v11"}
+{"id": "train-0476", "text": "ji delivery boy ka behaviour bahut accha tha 😒", "intent": "feedback", "sentiment": "negative", "group_id": "feedback-16", "source": "v11"}
+{"id": "train-0477", "text": "best shopping experience ever thank you", "intent": "feedback", "sentiment": "positive", "group_id": "feedback-18", "source": "v11"}
+{"id": "train-0478", "text": "best shopping experience ever thnk you", "intent": "feedback", "sentiment": "positive", "group_id": "feedback-18", "source": "v11"}
+{"id": "train-0479", "text": "sir best shopping experience ever thank you", "intent": "feedback", "sentiment": "positive", "group_id": "feedback-18", "source": "v11"}
+{"id": "train-0480", "text": "best shopping experience ever thank you 😊", "intent": "feedback", "sentiment": "positive", "group_id": "feedback-18", "source": "v11"}
+{"id": "train-0481", "text": "best shopping experience ever thnk you 😊", "intent": "feedback", "sentiment": "positive", "group_id": "feedback-18", "source": "v11"}
+{"id": "train-0482", "text": "dekhiye best shopping experience ever thank you 😊", "intent": "feedback", "sentiment": "positive", "group_id": "feedback-18", "source": "v11"}
+{"id": "train-0483", "text": "best shopping experience ever thank you 😒", "intent": "feedback", "sentiment": "negative", "group_id": "feedback-18", "source": "v11"}
+{"id": "train-0484", "text": "best shopping experience ever thnk you 😒", "intent": "feedback", "sentiment": "negative", "group_id": "feedback-18", "source": "v11"}
+{"id": "train-0485", "text": "bhai best shopping experience ever thank you 😒", "intent": "feedback", "sentiment": "negative", "group_id": "feedback-18", "source": "v11"}
+{"id": "train-0486", "text": "aapki service se hamesha satisfied rehta hu", "intent": "feedback", "sentiment": "positive", "group_id": "feedback-21", "source": "v11"}
+{"id": "train-0487", "text": "aapki servis se hamesha satisfied rehta hu", "intent": "feedback", "sentiment": "positive", "group_id": "feedback-21", "source": "v11"}
+{"id": "train-0488", "text": "hi aapki service se hamesha satisfied rehta hu", "intent": "feedback", "sentiment": "positive", "group_id": "feedback-21", "source": "v11"}
+{"id": "train-0489", "text": "aapki service se hamesha satisfied rehta hu 😊", "intent": "feedback", "sentiment": "positive", "group_id": "feedback-21", "source": "v11"}
+{"id": "train-0490", "text": "aapki servis se hamesha satisfied rehta hu 😊", "intent": "feedback", "sentiment": "positive", "group_id": "feedback-21", "source": "v11"}
+{"id": "train-0491", "text": "dekhiye aapki service se hamesha satisfied rehta hu 😊", "intent": "feedback", "sentiment": "positive", "group_id": "feedback-21", "source": "v11"}
+{"id": "train-0492", "text": "aapki service se hamesha satisfied rehta hu 😒", "intent": "feedback", "sentiment": "negative", "group_id": "feedback-21", "source": "v11"}
+{"id": "train-0493", "text": "aapki servis se hamesha satisfied rehta hu 😒", "intent": "feedback", "sentiment": "negative", "group_id": "feedback-21", "source": "v11"}
+{"id": "train-0494", "text": "dekhiye aapki service se hamesha satisfied rehta hu 😒", "intent": "feedback", "sentiment": "negative", "group_id": "feedback-21", "source": "v11"}
+{"id": "train-0495", "text": "bahut shukriya itne acche support ke liye 🙏", "intent": "feedback", "sentiment": "positive", "group_id": "feedback-23", "source": "v11"}
+{"id": "train-0496", "text": "bht shukriya itne acche support ke liye 🙏", "intent": "feedback", "sentiment": "positive", "group_id": "feedback-23", "source": "v11"}
+{"id": "train-0497", "text": "bohot shukriya itne acche support ke liye 🙏", "intent": "feedback", "sentiment": "positive", "group_id": "feedback-23", "source": "v11"}
+{"id": "train-0498", "text": "bhai bahut shukriya itne acche support ke liye 🙏", "intent": "feedback", "sentiment": "positive", "group_id": "feedback-23", "source": "v11"}
+{"id": "train-0499", "text": "bahut shukriya itne acche support ke liye 🙏 😊", "intent": "feedback", "sentiment": "positive", "group_id": "feedback-23", "source": "v11"}
+{"id": "train-0500", "text": "bht shukriya itne acche support ke liye 🙏 😊", "intent": "feedback", "sentiment": "positive", "group_id": "feedback-23", "source": "v11"}
+{"id": "train-0501", "text": "bohot shukriya itne acche support ke liye 🙏 😊", "intent": "feedback", "sentiment": "positive", "group_id": "feedback-23", "source": "v11"}
+{"id": "train-0502", "text": "hi bahut shukriya itne acche support ke liye 🙏 😊", "intent": "feedback", "sentiment": "positive", "group_id": "feedback-23", "source": "v11"}
+{"id": "train-0503", "text": "bahut shukriya itne acche support ke liye 🙏 😒", "intent": "feedback", "sentiment": "negative", "group_id": "feedback-23", "source": "v11"}
+{"id": "train-0504", "text": "bht shukriya itne acche support ke liye 🙏 😒", "intent": "feedback", "sentiment": "negative", "group_id": "feedback-23", "source": "v11"}
+{"id": "train-0505", "text": "bohot shukriya itne acche support ke liye 🙏 😒", "intent": "feedback", "sentiment": "negative", "group_id": "feedback-23", "source": "v11"}
+{"id": "train-0506", "text": "hi bahut shukriya itne acche support ke liye 🙏 😒", "intent": "feedback", "sentiment": "negative", "group_id": "feedback-23", "source": "v11"}
+{"id": "train-0507", "text": "quality ekdum top class thi maza aa gaya", "intent": "feedback", "sentiment": "positive", "group_id": "feedback-24", "source": "v11"}
+{"id": "train-0508", "text": "bhai quality ekdum top class thi maza aa gaya", "intent": "feedback", "sentiment": "positive", "group_id": "feedback-24", "source": "v11"}
+{"id": "train-0509", "text": "quality ekdum top class thi maza aa gaya 😊", "intent": "feedback", "sentiment": "positive", "group_id": "feedback-24", "source": "v11"}
+{"id": "train-0510", "text": "hi quality ekdum top class thi maza aa gaya 😊", "intent": "feedback", "sentiment": "positive", "group_id": "feedback-24", "source": "v11"}
+{"id": "train-0511", "text": "quality ekdum top class thi maza aa gaya 😒", "intent": "feedback", "sentiment": "negative", "group_id": "feedback-24", "source": "v11"}
+{"id": "train-0512", "text": "hello team quality ekdum top class thi maza aa gaya 😒", "intent": "feedback", "sentiment": "negative", "group_id": "feedback-24", "source": "v11"}
+{"id": "train-0513", "text": "app bahut slow hai bilkul pasand nahi aaya", "intent": "feedback", "sentiment": "negative", "group_id": "feedback-26", "source": "v11"}
+{"id": "train-0514", "text": "app bht slow h bilkul pasand nhi aaya", "intent": "feedback", "sentiment": "negative", "group_id": "feedback-26", "source": "v11"}
+{"id": "train-0515", "text": "app bohot slow hai bilkul pasand nahi aaya", "intent": "feedback", "sentiment": "negative", "group_id": "feedback-26", "source": "v11"}
+{"id": "train-0516", "text": "app bohot slow h bilkul pasand nhi aaya", "intent": "feedback", "sentiment": "negative", "group_id": "feedback-26", "source": "v11"}
+{"id": "train-0517", "text": "bhai app bahut slow hai bilkul pasand nahi aaya", "intent": "feedback", "sentiment": "negative", "group_id": "feedback-26", "source": "v11"}
+{"id": "train-0518", "text": "itna bura experience kabhi nahi hua", "intent": "feedback", "sentiment": "negative", "group_id": "feedback-30", "source": "v11"}
+{"id": "train-0519", "text": "itna bura experience kabhi nhi hua", "intent": "feedback", "sentiment": "negative", "group_id": "feedback-30", "source": "v11"}
+{"id": "train-0520", "text": "dekhiye itna bura experience kabhi nahi hua", "intent": "feedback", "sentiment": "negative", "group_id": "feedback-30", "source": "v11"}
+{"id": "train-0521", "text": "quality ghatiya thi paisa barbaad 😤", "intent": "feedback", "sentiment": "negative", "group_id": "feedback-32", "source": "v11"}
+{"id": "train-0522", "text": "hello team quality ghatiya thi paisa barbaad 😤", "intent": "feedback", "sentiment": "negative", "group_id": "feedback-32", "source": "v11"}
+{"id": "train-0523", "text": "app ka naya update theek hai", "intent": "feedback", "sentiment": "neutral", "group_id": "feedback-33", "source": "v11"}
+{"id": "train-0524", "text": "app ka naya update theek h", "intent": "feedback", "sentiment": "neutral", "group_id": "feedback-33", "source": "v11"}
+{"id": "train-0525", "text": "hello team app ka naya update theek hai", "intent": "feedback", "sentiment": "neutral", "group_id": "feedback-33", "source": "v11"}
+{"id": "train-0526", "text": "delivery time normal tha", "intent": "feedback", "sentiment": "neutral", "group_id": "feedback-34", "source": "v11"}
+{"id": "train-0527", "text": "delivry time normal tha", "intent": "feedback", "sentiment": "neutral", "group_id": "feedback-34", "source": "v11"}
+{"id": "train-0528", "text": "hello team delivery time normal tha", "intent": "feedback", "sentiment": "neutral", "group_id": "feedback-34", "source": "v11"}
+{"id": "train-0529", "text": "app ke liye kuch suggestions dene the", "intent": "feedback", "sentiment": "neutral", "group_id": "feedback-35", "source": "v11"}
+{"id": "train-0530", "text": "hello team app ke liye kuch suggestions dene the", "intent": "feedback", "sentiment": "neutral", "group_id": "feedback-35", "source": "v11"}
+{"id": "train-0531", "text": "packaging theek thi kuch khaas nahi", "intent": "feedback", "sentiment": "neutral", "group_id": "feedback-36", "source": "v11"}
+{"id": "train-0532", "text": "packaging theek thi kuch khaas nhi", "intent": "feedback", "sentiment": "neutral", "group_id": "feedback-36", "source": "v11"}
+{"id": "train-0533", "text": "sir packaging theek thi kuch khaas nahi", "intent": "feedback", "sentiment": "neutral", "group_id": "feedback-36", "source": "v11"}
+{"id": "train-0534", "text": "bas rating dena tha", "intent": "feedback", "sentiment": "neutral", "group_id": "feedback-37", "source": "v11"}
+{"id": "train-0535", "text": "bhai bas rating dena tha", "intent": "feedback", "sentiment": "neutral", "group_id": "feedback-37", "source": "v11"}

@@ -1,0 +1,190 @@
+{"id": "test-0000", "text": "mujhe apni booking cancel karni hai", "intent": "cancel_order", "sentiment": "neutral", "group_id": "cancel_order-01", "source": "v11"}
+{"id": "test-0001", "text": "mujhe apni booking cancel karni h", "intent": "cancel_order", "sentiment": "neutral", "group_id": "cancel_order-01", "source": "v11"}
+{"id": "test-0002", "text": "mujhko apni booking cancel karni hai", "intent": "cancel_order", "sentiment": "neutral", "group_id": "cancel_order-01", "source": "v11"}
+{"id": "test-0003", "text": "mujhko apni booking cancel karni h", "intent": "cancel_order", "sentiment": "neutral", "group_id": "cancel_order-01", "source": "v11"}
+{"id": "test-0004", "text": "hi mujhe apni booking cancel karni hai", "intent": "cancel_order", "sentiment": "neutral", "group_id": "cancel_order-01", "source": "v11"}
+{"id": "test-0005", "text": "bahut pareshan hu mera order cancel karo", "intent": "cancel_order", "sentiment": "negative", "group_id": "cancel_order-09", "source": "v11"}
+{"id": "test-0006", "text": "bht pareshan hu mera order cancel kro", "intent": "cancel_order", "sentiment": "negative", "group_id": "cancel_order-09", "source": "v11"}
+{"id": "test-0007", "text": "bohot pareshan hu mera ordr cancel karo", "intent": "cancel_order", "sentiment": "negative", "group_id": "cancel_order-09", "source": "v11"}
+{"id": "test-0008", "text": "bohot pareshan hu mera ordr cancel kro", "intent": "cancel_order", "sentiment": "negative", "group_id": "cancel_order-09", "source": "v11"}
+{"id": "test-0009", "text": "bhai bahut pareshan hu mera order cancel karo", "intent": "cancel_order", "sentiment": "negative", "group_id": "cancel_order-09", "source": "v11"}
+{"id": "test-0010", "text": "is booking ko cancel karne mein help chahiye", "intent": "cancel_order", "sentiment": "neutral", "group_id": "cancel_order-14", "source": "v11"}
+{"id": "test-0011", "text": "is booking ko cancel karne mein help chaiye", "intent": "cancel_order", "sentiment": "neutral", "group_id": "cancel_order-14", "source": "v11"}
+{"id": "test-0012", "text": "ji is booking ko cancel karne mein help chahiye", "intent": "cancel_order", "sentiment": "neutral", "group_id": "cancel_order-14", "source": "v11"}
+{"id": "test-0013", "text": "please order ki cancellation karwa do", "intent": "cancel_order", "sentiment": "neutral", "group_id": "cancel_order-15", "source": "v11"}
+{"id": "test-0014", "text": "plz order ki cancellation karwa do", "intent": "cancel_order", "sentiment": "neutral", "group_id": "cancel_order-15", "source": "v11"}
+{"id": "test-0015", "text": "please ordr ki cancellation karwa do", "intent": "cancel_order", "sentiment": "neutral", "group_id": "cancel_order-15", "source": "v11"}
+{"id": "test-0016", "text": "plz ordr ki cancellation karwa do", "intent": "cancel_order", "sentiment": "neutral", "group_id": "cancel_order-15", "source": "v11"}
+{"id": "test-0017", "text": "dekhiye please order ki cancellation karwa do", "intent": "cancel_order", "sentiment": "neutral", "group_id": "cancel_order-15", "source": "v11"}
+{"id": "test-0018", "text": "shukriya jaldi reply ke liye booking cancel kar dijiye", "intent": "cancel_order", "sentiment": "positive", "group_id": "cancel_order-18", "source": "v11"}
+{"id": "test-0019", "text": "shukriya jaldi reply ke liye booking cancel kr dijiye", "intent": "cancel_order", "sentiment": "positive", "group_id": "cancel_order-18", "source": "v11"}
+{"id": "test-0020", "text": "shukriya fast reply ke liye booking cancel kar dijiye", "intent": "cancel_order", "sentiment": "positive", "group_id": "cancel_order-18", "source": "v11"}
+{"id": "test-0021", "text": "shukriya fast reply ke liye booking cancel kr dijiye", "intent": "cancel_order", "sentiment": "positive", "group_id": "cancel_order-18", "source": "v11"}
+{"id": "test-0022", "text": "hello team shukriya jaldi reply ke liye booking cancel kar dijiye", "intent": "cancel_order", "sentiment": "positive", "group_id": "cancel_order-18", "source": "v11"}
+{"id": "test-0023", "text": "cancel ho gaya bina kisi hassle ke superb experience", "intent": "cancel_order", "sentiment": "positive", "group_id": "cancel_order-24", "source": "v11"}
+{"id": "test-0024", "text": "hi cancel ho gaya bina kisi hassle ke superb experience", "intent": "cancel_order", "sentiment": "positive", "group_id": "cancel_order-24", "source": "v11"}
+{"id": "test-0025", "text": "teen baar cancel dabaya kuch nahi hua ghatiya app 😡", "intent": "cancel_order", "sentiment": "negative", "group_id": "cancel_order-27", "source": "v11"}
+{"id": "test-0026", "text": "teen baar cancel dabaya kuch nhi hua ghatiya app 😡", "intent": "cancel_order", "sentiment": "negative", "group_id": "cancel_order-27", "source": "v11"}
+{"id": "test-0027", "text": "bhai teen baar cancel dabaya kuch nahi hua ghatiya app 😡", "intent": "cancel_order", "sentiment": "negative", "group_id": "cancel_order-27", "source": "v11"}
+{"id": "test-0028", "text": "bina puche order confirm kar diya turant cancel karo bekar", "intent": "cancel_order", "sentiment": "negative", "group_id": "cancel_order-31", "source": "v11"}
+{"id": "test-0029", "text": "bina puche order confirm kr diya turant cancel kro bekar", "intent": "cancel_order", "sentiment": "negative", "group_id": "cancel_order-31", "source": "v11"}
+{"id": "test-0030", "text": "bina puche ordr confirm kar diya turant cancel karo bekar", "intent": "cancel_order", "sentiment": "negative", "group_id": "cancel_order-31", "source": "v11"}
+{"id": "test-0031", "text": "bina puche ordr confirm kr diya turant cancel kro bekar", "intent": "cancel_order", "sentiment": "negative", "group_id": "cancel_order-31", "source": "v11"}
+{"id": "test-0032", "text": "ji bina puche order confirm kar diya turant cancel karo bekar", "intent": "cancel_order", "sentiment": "negative", "group_id": "cancel_order-31", "source": "v11"}
+{"id": "test-0033", "text": "subscription cancel karni hai next month se", "intent": "cancel_order", "sentiment": "neutral", "group_id": "cancel_order-39", "source": "v11"}
+{"id": "test-0034", "text": "subscription cancel karni h next month se", "intent": "cancel_order", "sentiment": "neutral", "group_id": "cancel_order-39", "source": "v11"}
+{"id": "test-0035", "text": "ji subscription cancel karni hai next month se", "intent": "cancel_order", "sentiment": "neutral", "group_id": "cancel_order-39", "source": "v11"}
+{"id": "test-0036", "text": "cancel ho gaya ab paise wapas chahiye", "intent": "refund", "sentiment": "neutral", "group_id": "refund-03", "source": "v11"}
+{"id": "test-0037", "text": "cancel ho gaya ab money wapas chaiye", "intent": "refund", "sentiment": "neutral", "group_id": "refund-03", "source": "v11"}
+{"id": "test-0038", "text": "dekhiye cancel ho gaya ab paise wapas chahiye", "intent": "refund", "sentiment": "neutral", "group_id": "refund-03", "source": "v11"}
+{"id": "test-0039", "text": "refund ke liye itna wait kyun 😒", "intent": "refund", "sentiment": "negative", "group_id": "refund-04", "source": "v11"}
+{"id": "test-0040", "text": "sir refund ke liye itna wait kyun 😒", "intent": "refund", "sentiment": "negative", "group_id": "refund-04", "source": "v11"}
+{"id": "test-0041", "text": "return ke baad amount wapas kaise milega", "intent": "refund", "sentiment": "neutral", "group_id": "refund-06", "source": "v11"}
+{"id": "test-0042", "text": "hello team return ke baad amount wapas kaise milega", "intent": "refund", "sentiment": "neutral", "group_id": "refund-06", "source": "v11"}
+{"id": "test-0043", "text": "mera refund process hua ya pending hai", "intent": "refund", "sentiment": "neutral", "group_id": "refund-12", "source": "v11"}
+{"id": "test-0044", "text": "mera refund process hua ya pending h", "intent": "refund", "sentiment": "neutral", "group_id": "refund-12", "source": "v11"}
+{"id": "test-0045", "text": "bhai mera refund process hua ya pending hai", "intent": "refund", "sentiment": "neutral", "group_id": "refund-12", "source": "v11"}
+{"id": "test-0046", "text": "shukriya refund do din mein credit ho gaya", "intent": "refund", "sentiment": "positive", "group_id": "refund-20", "source": "v11"}
+{"id": "test-0047", "text": "sir shukriya refund do din mein credit ho gaya", "intent": "refund", "sentiment": "positive", "group_id": "refund-20", "source": "v11"}
+{"id": "test-0048", "text": "agent bahut helpful tha refund status clear kar diya", "intent": "refund", "sentiment": "positive", "group_id": "refund-24", "source": "v11"}
+{"id": "test-0049", "text": "agent bht helpful tha refund status clear kr diya", "intent": "refund", "sentiment": "positive", "group_id": "refund-24", "source": "v11"}
+{"id": "test-0050", "text": "agent bohot helpful tha refund status clear kar diya", "intent": "refund", "sentiment": "positive", "group_id": "refund-24", "source": "v11"}
+{"id": "test-0051", "text": "agent bohot helpful tha refund status clear kr diya", "intent": "refund", "sentiment": "positive", "group_id": "refund-24", "source": "v11"}
+{"id": "test-0052", "text": "dekhiye agent bahut helpful tha refund status clear kar diya", "intent": "refund", "sentiment": "positive", "group_id": "refund-24", "source": "v11"}
+{"id": "test-0053", "text": "refund amount kam kyun bheja ye cheating hai", "intent": "refund", "sentiment": "negative", "group_id": "refund-28", "source": "v11"}
+{"id": "test-0054", "text": "refund amount kam kyun bheja ye cheating h", "intent": "refund", "sentiment": "negative", "group_id": "refund-28", "source": "v11"}
+{"id": "test-0055", "text": "ji refund amount kam kyun bheja ye cheating hai", "intent": "refund", "sentiment": "negative", "group_id": "refund-28", "source": "v11"}
+{"id": "test-0056", "text": "order late hai bahut pareshan hu 😡", "intent": "track_order", "sentiment": "negative", "group_id": "track_order-03", "source": "v11"}
+{"id": "test-0057", "text": "order late h bht pareshan hu 😡", "intent": "track_order", "sentiment": "negative", "group_id": "track_order-03", "source": "v11"}
+{"id": "test-0058", "text": "ordr late hai bohot pareshan hu 😡", "intent": "track_order", "sentiment": "negative", "group_id": "track_order-03", "source": "v11"}
+{"id": "test-0059", "text": "ordr late h bohot pareshan hu 😡", "intent": "track_order", "sentiment": "negative", "group_id": "track_order-03", "source": "v11"}
+{"id": "test-0060", "text": "dekhiye order late hai bahut pareshan hu 😡", "intent": "track_order", "sentiment": "negative", "group_id": "track_order-03", "source": "v11"}
+{"id": "test-0061", "text": "expected delivery date bata sakte ho", "intent": "track_order", "sentiment": "neutral", "group_id": "track_order-10", "source": "v11"}
+{"id": "test-0062", "text": "expected delivry date bata sakte ho", "intent": "track_order", "sentiment": "neutral", "group_id": "track_order-10", "source": "v11"}
+{"id": "test-0063", "text": "dekhiye expected delivery date bata sakte ho", "intent": "track_order", "sentiment": "neutral", "group_id": "track_order-10", "source": "v11"}
+{"id": "test-0064", "text": "please mere parcel ko track karke batao", "intent": "track_order", "sentiment": "neutral", "group_id": "track_order-15", "source": "v11"}
+{"id": "test-0065", "text": "plz mere parcel ko track karke batao", "intent": "track_order", "sentiment": "neutral", "group_id": "track_order-15", "source": "v11"}
+{"id": "test-0066", "text": "please mere parcl ko track karke batao", "intent": "track_order", "sentiment": "neutral", "group_id": "track_order-15", "source": "v11"}
+{"id": "test-0067", "text": "plz mere parcl ko track karke batao", "intent": "track_order", "sentiment": "neutral", "group_id": "track_order-15", "source": "v11"}
+{"id": "test-0068", "text": "hi please mere parcel ko track karke batao", "intent": "track_order", "sentiment": "neutral", "group_id": "track_order-15", "source": "v11"}
+{"id": "test-0069", "text": "delivery boy bahut polite tha abhi location share kar do", "intent": "track_order", "sentiment": "positive", "group_id": "track_order-18", "source": "v11"}
+{"id": "test-0070", "text": "delivery boy bht polite tha abhi location share kr do", "intent": "track_order", "sentiment": "positive", "group_id": "track_order-18", "source": "v11"}
+{"id": "test-0071", "text": "delivry boy bohot polite tha abhi location share kar do", "intent": "track_order", "sentiment": "positive", "group_id": "track_order-18", "source": "v11"}
+{"id": "test-0072", "text": "delivry boy bohot polite tha abhi location share kr do", "intent": "track_order", "sentiment": "positive", "group_id": "track_order-18", "source": "v11"}
+{"id": "test-0073", "text": "ji delivery boy bahut polite tha abhi location share kar do", "intent": "track_order", "sentiment": "positive", "group_id": "track_order-18", "source": "v11"}
+{"id": "test-0074", "text": "aapka tracking feature mast hai parcel kal aayega na", "intent": "track_order", "sentiment": "positive", "group_id": "track_order-21", "source": "v11"}
+{"id": "test-0075", "text": "aapka tracking feature mast h parcel kal aayega na", "intent": "track_order", "sentiment": "positive", "group_id": "track_order-21", "source": "v11"}
+{"id": "test-0076", "text": "aapka tracking feature mast hai parcl kal aayega na", "intent": "track_order", "sentiment": "positive", "group_id": "track_order-21", "source": "v11"}
+{"id": "test-0077", "text": "aapka tracking feature mast h parcl kal aayega na", "intent": "track_order", "sentiment": "positive", "group_id": "track_order-21", "source": "v11"}
+{"id": "test-0078", "text": "dekhiye aapka tracking feature mast hai parcel kal aayega na", "intent": "track_order", "sentiment": "positive", "group_id": "track_order-21", "source": "v11"}
+{"id": "test-0079", "text": "tracking page hamesha error deta hai ghatiya", "intent": "track_order", "sentiment": "negative", "group_id": "track_order-27", "source": "v11"}
+{"id": "test-0080", "text": "tracking page hamesha error deta h ghatiya", "intent": "track_order", "sentiment": "negative", "group_id": "track_order-27", "source": "v11"}
+{"id": "test-0081", "text": "hi tracking page hamesha error deta hai ghatiya", "intent": "track_order", "sentiment": "negative", "group_id": "track_order-27", "source": "v11"}
+{"id": "test-0082", "text": "kaunsa courier partner hai mere order ka", "intent": "track_order", "sentiment": "neutral", "group_id": "track_order-35", "source": "v11"}
+{"id": "test-0083", "text": "kaunsa courier partner h mere order ka", "intent": "track_order", "sentiment": "neutral", "group_id": "track_order-35", "source": "v11"}
+{"id": "test-0084", "text": "kaunsa courier partner hai mere ordr ka", "intent": "track_order", "sentiment": "neutral", "group_id": "track_order-35", "source": "v11"}
+{"id": "test-0085", "text": "kaunsa courier partner h mere ordr ka", "intent": "track_order", "sentiment": "neutral", "group_id": "track_order-35", "source": "v11"}
+{"id": "test-0086", "text": "bhai kaunsa courier partner hai mere order ka", "intent": "track_order", "sentiment": "neutral", "group_id": "track_order-35", "source": "v11"}
+{"id": "test-0087", "text": "app par delivered hai lekin parcel nahi mila", "intent": "not_received", "sentiment": "neutral", "group_id": "not_received-01", "source": "v11"}
+{"id": "test-0088", "text": "app par delivered h lekin parcel nhi mila", "intent": "not_received", "sentiment": "neutral", "group_id": "not_received-01", "source": "v11"}
+{"id": "test-0089", "text": "app par delivered hai lekin parcl nahi mila", "intent": "not_received", "sentiment": "neutral", "group_id": "not_received-01", "source": "v11"}
+{"id": "test-0090", "text": "app par delivered h lekin parcl nhi mila", "intent": "not_received", "sentiment": "neutral", "group_id": "not_received-01", "source": "v11"}
+{"id": "test-0091", "text": "sir app par delivered hai lekin parcel nahi mila", "intent": "not_received", "sentiment": "neutral", "group_id": "not_received-01", "source": "v11"}
+{"id": "test-0092", "text": "gate pe check kiya parcel nahi hai app says delivered", "intent": "not_received", "sentiment": "neutral", "group_id": "not_received-09", "source": "v11"}
+{"id": "test-0093", "text": "gate pe check kiya parcel nhi h app says delivered", "intent": "not_received", "sentiment": "neutral", "group_id": "not_received-09", "source": "v11"}
+{"id": "test-0094", "text": "gate pe check kiya parcl nahi hai app says delivered", "intent": "not_received", "sentiment": "neutral", "group_id": "not_received-09", "source": "v11"}
+{"id": "test-0095", "text": "gate pe check kiya parcl nhi h app says delivered", "intent": "not_received", "sentiment": "neutral", "group_id": "not_received-09", "source": "v11"}
+{"id": "test-0096", "text": "sir gate pe check kiya parcel nahi hai app says delivered", "intent": "not_received", "sentiment": "neutral", "group_id": "not_received-09", "source": "v11"}
+{"id": "test-0097", "text": "support team bahut acchi hai ek parcel receive nahi hua usme help karo", "intent": "not_received", "sentiment": "positive", "group_id": "not_received-18", "source": "v11"}
+{"id": "test-0098", "text": "support team bht acchi h ek parcel receive nhi hua usme help kro", "intent": "not_received", "sentiment": "positive", "group_id": "not_received-18", "source": "v11"}
+{"id": "test-0099", "text": "support team bohot acchi hai ek parcl receive nahi hua usme help karo", "intent": "not_received", "sentiment": "positive", "group_id": "not_received-18", "source": "v11"}
+{"id": "test-0100", "text": "support team bohot acchi h ek parcl receive nhi hua usme help kro", "intent": "not_received", "sentiment": "positive", "group_id": "not_received-18", "source": "v11"}
+{"id": "test-0101", "text": "hello team support team bahut acchi hai ek parcel receive nahi hua usme help karo", "intent": "not_received", "sentiment": "positive", "group_id": "not_received-18", "source": "v11"}
+{"id": "test-0102", "text": "delivered likha hai par ghar pe kuch nahi aaya fraud hai kya 😡", "intent": "not_received", "sentiment": "negative", "group_id": "not_received-22", "source": "v11"}
+{"id": "test-0103", "text": "delivered likha h par ghar pe kuch nhi aaya fraud h kya 😡", "intent": "not_received", "sentiment": "negative", "group_id": "not_received-22", "source": "v11"}
+{"id": "test-0104", "text": "sir delivered likha hai par ghar pe kuch nahi aaya fraud hai kya 😡", "intent": "not_received", "sentiment": "negative", "group_id": "not_received-22", "source": "v11"}
+{"id": "test-0105", "text": "order mila nahi aur complaint bhi close kar di 😤", "intent": "not_received", "sentiment": "negative", "group_id": "not_received-25", "source": "v11"}
+{"id": "test-0106", "text": "order mila nhi aur complaint bhi close kr di 😤", "intent": "not_received", "sentiment": "negative", "group_id": "not_received-25", "source": "v11"}
+{"id": "test-0107", "text": "ordr mila nahi aur complaint bhi close kar di 😤", "intent": "not_received", "sentiment": "negative", "group_id": "not_received-25", "source": "v11"}
+{"id": "test-0108", "text": "ordr mila nhi aur complaint bhi close kr di 😤", "intent": "not_received", "sentiment": "negative", "group_id": "not_received-25", "source": "v11"}
+{"id": "test-0109", "text": "sir order mila nahi aur complaint bhi close kar di 😤", "intent": "not_received", "sentiment": "negative", "group_id": "not_received-25", "source": "v11"}
+{"id": "test-0110", "text": "delivered bola hai lekin mere address pe nahi pahuncha", "intent": "not_received", "sentiment": "neutral", "group_id": "not_received-30", "source": "v11"}
+{"id": "test-0111", "text": "delivered bola h lekin mere address pe nhi pahuncha", "intent": "not_received", "sentiment": "neutral", "group_id": "not_received-30", "source": "v11"}
+{"id": "test-0112", "text": "dekhiye delivered bola hai lekin mere address pe nahi pahuncha", "intent": "not_received", "sentiment": "neutral", "group_id": "not_received-30", "source": "v11"}
+{"id": "test-0113", "text": "parcel mein damaged product aaya hai", "intent": "damaged_item", "sentiment": "neutral", "group_id": "damaged_item-01", "source": "v11"}
+{"id": "test-0114", "text": "parcel mein damaged product aaya h", "intent": "damaged_item", "sentiment": "neutral", "group_id": "damaged_item-01", "source": "v11"}
+{"id": "test-0115", "text": "parcl mein damaged product aaya hai", "intent": "damaged_item", "sentiment": "neutral", "group_id": "damaged_item-01", "source": "v11"}
+{"id": "test-0116", "text": "parcl mein damaged product aaya h", "intent": "damaged_item", "sentiment": "neutral", "group_id": "damaged_item-01", "source": "v11"}
+{"id": "test-0117", "text": "bhai parcel mein damaged product aaya hai", "intent": "damaged_item", "sentiment": "neutral", "group_id": "damaged_item-01", "source": "v11"}
+{"id": "test-0118", "text": "broken piece bhej diya seriously 😠", "intent": "damaged_item", "sentiment": "negative", "group_id": "damaged_item-11", "source": "v11"}
+{"id": "test-0119", "text": "bhai broken piece bhej diya seriously 😠", "intent": "damaged_item", "sentiment": "negative", "group_id": "damaged_item-11", "source": "v11"}
+{"id": "test-0120", "text": "shukriya broken glass ki photo bhej di aap log bahut helpful ho", "intent": "damaged_item", "sentiment": "positive", "group_id": "damaged_item-19", "source": "v11"}
+{"id": "test-0121", "text": "shukriya broken glass ki photo bhej di aap log bht helpful ho", "intent": "damaged_item", "sentiment": "positive", "group_id": "damaged_item-19", "source": "v11"}
+{"id": "test-0122", "text": "shukriya broken glass ki photo bhej di aap log bohot helpful ho", "intent": "damaged_item", "sentiment": "positive", "group_id": "damaged_item-19", "source": "v11"}
+{"id": "test-0123", "text": "hello team shukriya broken glass ki photo bhej di aap log bahut helpful ho", "intent": "damaged_item", "sentiment": "positive", "group_id": "damaged_item-19", "source": "v11"}
+{"id": "test-0124", "text": "dusri baar bhi toota hua item bheja bakwaas", "intent": "damaged_item", "sentiment": "negative", "group_id": "damaged_item-23", "source": "v11"}
+{"id": "test-0125", "text": "dekhiye dusri baar bhi toota hua item bheja bakwaas", "intent": "damaged_item", "sentiment": "negative", "group_id": "damaged_item-23", "source": "v11"}
+{"id": "test-0126", "text": "shoes phate hue the worst packaging ever 😤", "intent": "damaged_item", "sentiment": "negative", "group_id": "damaged_item-25", "source": "v11"}
+{"id": "test-0127", "text": "sir shoes phate hue the worst packaging ever 😤", "intent": "damaged_item", "sentiment": "negative", "group_id": "damaged_item-25", "source": "v11"}
+{"id": "test-0128", "text": "bottle ka cap tuta hua hai", "intent": "damaged_item", "sentiment": "neutral", "group_id": "damaged_item-29", "source": "v11"}
+{"id": "test-0129", "text": "bottle ka cap tuta hua h", "intent": "damaged_item", "sentiment": "neutral", "group_id": "damaged_item-29", "source": "v11"}
+{"id": "test-0130", "text": "dekhiye bottle ka cap tuta hua hai", "intent": "damaged_item", "sentiment": "neutral", "group_id": "damaged_item-29", "source": "v11"}
+{"id": "test-0131", "text": "laptop pe dent hai replacement policy kya hai", "intent": "damaged_item", "sentiment": "neutral", "group_id": "damaged_item-30", "source": "v11"}
+{"id": "test-0132", "text": "laptop pe dent h replacement policy kya h", "intent": "damaged_item", "sentiment": "neutral", "group_id": "damaged_item-30", "source": "v11"}
+{"id": "test-0133", "text": "hi laptop pe dent hai replacement policy kya hai", "intent": "damaged_item", "sentiment": "neutral", "group_id": "damaged_item-30", "source": "v11"}
+{"id": "test-0134", "text": "bahut acchi service thank you", "intent": "feedback", "sentiment": "positive", "group_id": "feedback-00", "source": "v11"}
+{"id": "test-0135", "text": "bht acchi service thank you", "intent": "feedback", "sentiment": "positive", "group_id": "feedback-00", "source": "v11"}
+{"id": "test-0136", "text": "bohot acchi servis thnk you", "intent": "feedback", "sentiment": "positive", "group_id": "feedback-00", "source": "v11"}
+{"id": "test-0137", "text": "ji bahut acchi service thank you", "intent": "feedback", "sentiment": "positive", "group_id": "feedback-00", "source": "v11"}
+{"id": "test-0138", "text": "bahut acchi service thank you 😊", "intent": "feedback", "sentiment": "positive", "group_id": "feedback-00", "source": "v11"}
+{"id": "test-0139", "text": "bht acchi service thank you 😊", "intent": "feedback", "sentiment": "positive", "group_id": "feedback-00", "source": "v11"}
+{"id": "test-0140", "text": "bohot acchi servis thnk you 😊", "intent": "feedback", "sentiment": "positive", "group_id": "feedback-00", "source": "v11"}
+{"id": "test-0141", "text": "bhai bahut acchi service thank you 😊", "intent": "feedback", "sentiment": "positive", "group_id": "feedback-00", "source": "v11"}
+{"id": "test-0142", "text": "bahut acchi service thank you 😒", "intent": "feedback", "sentiment": "negative", "group_id": "feedback-00", "source": "v11"}
+{"id": "test-0143", "text": "bht acchi service thank you 😒", "intent": "feedback", "sentiment": "negative", "group_id": "feedback-00", "source": "v11"}
+{"id": "test-0144", "text": "bohot acchi servis thnk you 😒", "intent": "feedback", "sentiment": "negative", "group_id": "feedback-00", "source": "v11"}
+{"id": "test-0145", "text": "hello team bahut acchi service thank you 😒", "intent": "feedback", "sentiment": "negative", "group_id": "feedback-00", "source": "v11"}
+{"id": "test-0146", "text": "theek tha experience bas normal", "intent": "feedback", "sentiment": "neutral", "group_id": "feedback-12", "source": "v11"}
+{"id": "test-0147", "text": "bhai theek tha experience bas normal", "intent": "feedback", "sentiment": "neutral", "group_id": "feedback-12", "source": "v11"}
+{"id": "test-0148", "text": "packaging bahut sundar thi great job", "intent": "feedback", "sentiment": "positive", "group_id": "feedback-20", "source": "v11"}
+{"id": "test-0149", "text": "packaging bht sundar thi great job", "intent": "feedback", "sentiment": "positive", "group_id": "feedback-20", "source": "v11"}
+{"id": "test-0150", "text": "packaging bohot sundar thi great job", "intent": "feedback", "sentiment": "positive", "group_id": "feedback-20", "source": "v11"}
+{"id": "test-0151", "text": "hello team packaging bahut sundar thi great job", "intent": "feedback", "sentiment": "positive", "group_id": "feedback-20", "source": "v11"}
+{"id": "test-0152", "text": "packaging bahut sundar thi great job 😊", "intent": "feedback", "sentiment": "positive", "group_id": "feedback-20", "source": "v11"}
+{"id": "test-0153", "text": "packaging bht sundar thi great job 😊", "intent": "feedback", "sentiment": "positive", "group_id": "feedback-20", "source": "v11"}
+{"id": "test-0154", "text": "packaging bohot sundar thi great job 😊", "intent": "feedback", "sentiment": "positive", "group_id": "feedback-20", "source": "v11"}
+{"id": "test-0155", "text": "dekhiye packaging bahut sundar thi great job 😊", "intent": "feedback", "sentiment": "positive", "group_id": "feedback-20", "source": "v11"}
+{"id": "test-0156", "text": "packaging bahut sundar thi great job 😒", "intent": "feedback", "sentiment": "negative", "group_id": "feedback-20", "source": "v11"}
+{"id": "test-0157", "text": "packaging bht sundar thi great job 😒", "intent": "feedback", "sentiment": "negative", "group_id": "feedback-20", "source": "v11"}
+{"id": "test-0158", "text": "packaging bohot sundar thi great job 😒", "intent": "feedback", "sentiment": "negative", "group_id": "feedback-20", "source": "v11"}
+{"id": "test-0159", "text": "bhai packaging bahut sundar thi great job 😒", "intent": "feedback", "sentiment": "negative", "group_id": "feedback-20", "source": "v11"}
+{"id": "test-0160", "text": "five star service keep it up 👍", "intent": "feedback", "sentiment": "positive", "group_id": "feedback-22", "source": "v11"}
+{"id": "test-0161", "text": "five star servis keep it up 👍", "intent": "feedback", "sentiment": "positive", "group_id": "feedback-22", "source": "v11"}
+{"id": "test-0162", "text": "hello team five star service keep it up 👍", "intent": "feedback", "sentiment": "positive", "group_id": "feedback-22", "source": "v11"}
+{"id": "test-0163", "text": "five star service keep it up 👍 😊", "intent": "feedback", "sentiment": "positive", "group_id": "feedback-22", "source": "v11"}
+{"id": "test-0164", "text": "five star servis keep it up 👍 😊", "intent": "feedback", "sentiment": "positive", "group_id": "feedback-22", "source": "v11"}
+{"id": "test-0165", "text": "sir five star service keep it up 👍 😊", "intent": "feedback", "sentiment": "positive", "group_id": "feedback-22", "source": "v11"}
+{"id": "test-0166", "text": "five star service keep it up 👍 😒", "intent": "feedback", "sentiment": "negative", "group_id": "feedback-22", "source": "v11"}
+{"id": "test-0167", "text": "five star servis keep it up 👍 😒", "intent": "feedback", "sentiment": "negative", "group_id": "feedback-22", "source": "v11"}
+{"id": "test-0168", "text": "hello team five star service keep it up 👍 😒", "intent": "feedback", "sentiment": "negative", "group_id": "feedback-22", "source": "v11"}
+{"id": "test-0169", "text": "fast delivery aur acche daam superb", "intent": "feedback", "sentiment": "positive", "group_id": "feedback-25", "source": "v11"}
+{"id": "test-0170", "text": "fast delivry aur acche daam superb", "intent": "feedback", "sentiment": "positive", "group_id": "feedback-25", "source": "v11"}
+{"id": "test-0171", "text": "ji fast delivery aur acche daam superb", "intent": "feedback", "sentiment": "positive", "group_id": "feedback-25", "source": "v11"}
+{"id": "test-0172", "text": "fast delivery aur acche daam superb 😊", "intent": "feedback", "sentiment": "positive", "group_id": "feedback-25", "source": "v11"}
+{"id": "test-0173", "text": "fast delivry aur acche daam superb 😊", "intent": "feedback", "sentiment": "positive", "group_id": "feedback-25", "source": "v11"}
+{"id": "test-0174", "text": "hello team fast delivery aur acche daam superb 😊", "intent": "feedback", "sentiment": "positive", "group_id": "feedback-25", "source": "v11"}
+{"id": "test-0175", "text": "fast delivery aur acche daam superb 😒", "intent": "feedback", "sentiment": "negative", "group_id": "feedback-25", "source": "v11"}
+{"id": "test-0176", "text": "fast delivry aur acche daam superb 😒", "intent": "feedback", "sentiment": "negative", "group_id": "feedback-25", "source": "v11"}
+{"id": "test-0177", "text": "ji fast delivery aur acche daam superb 😒", "intent": "feedback", "sentiment": "negative", "group_id": "feedback-25", "source": "v11"}
+{"id": "test-0178", "text": "worst experience dobara order nahi karunga", "intent": "feedback", "sentiment": "negative", "group_id": "feedback-28", "source": "v11"}
+{"id": "test-0179", "text": "worst experience dobara order nhi karunga", "intent": "feedback", "sentiment": "negative", "group_id": "feedback-28", "source": "v11"}
+{"id": "test-0180", "text": "worst experience dobara ordr nahi karunga", "intent": "feedback", "sentiment": "negative", "group_id": "feedback-28", "source": "v11"}
+{"id": "test-0181", "text": "worst experience dobara ordr nhi karunga", "intent": "feedback", "sentiment": "negative", "group_id": "feedback-28", "source": "v11"}
+{"id": "test-0182", "text": "dekhiye worst experience dobara order nahi karunga", "intent": "feedback", "sentiment": "negative", "group_id": "feedback-28", "source": "v11"}
+{"id": "test-0183", "text": "service accha nahi laga kaafi disappointed hu", "intent": "feedback", "sentiment": "negative", "group_id": "feedback-31", "source": "v11"}
+{"id": "test-0184", "text": "service accha nhi laga kaafi disappointed hu", "intent": "feedback", "sentiment": "negative", "group_id": "feedback-31", "source": "v11"}
+{"id": "test-0185", "text": "servis acha nahi laga kaafi disappointed hu", "intent": "feedback", "sentiment": "negative", "group_id": "feedback-31", "source": "v11"}
+{"id": "test-0186", "text": "servis acha nhi laga kaafi disappointed hu", "intent": "feedback", "sentiment": "negative", "group_id": "feedback-31", "source": "v11"}
+{"id": "test-0187", "text": "ji service accha nahi laga kaafi disappointed hu", "intent": "feedback", "sentiment": "negative", "group_id": "feedback-31", "source": "v11"}
+{"id": "test-0188", "text": "experience okay tha", "intent": "feedback", "sentiment": "neutral", "group_id": "feedback-38", "source": "v11"}
+{"id": "test-0189", "text": "hello team experience okay tha", "intent": "feedback", "sentiment": "neutral", "group_id": "feedback-38", "source": "v11"}
