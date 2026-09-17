@@ -1,0 +1,166 @@
+# family|sentiment(p/n/u)|persona|tags|text
+# personas: st student, el elderly, sk shopkeeper, ar angry repeat customer, pro professional, hw homemaker, gen generic
+# tags: ns negation scope, nn neutral with nahi, ng negated negative, af varied affect word, pr praise-then-request, mx mixed intent (label = main request), - none
+c001|u|st|-|hostel ka address galat daal diya, pls ye order cancel kr do
+c001|u|st|-|galat hostel address pe order chala gaya, cancel karna padega
+c001|u|st|-|bro address galat hai hostel wala, order cancel krdo na
+c002|u|el|-|beta mujhse galti se do baar dawai ka order ho gaya hai, ek wala cancel kar dijiye
+c002|u|el|-|bhaiya do baar order lag gaya dawai ka, kripya ek radd kar dijiye
+c003|u|sk|-|dukaan ke liye 20 packet mangwaye the, supplier se mil gaye, online wala order cancel karo
+c003|u|sk|-|shop ka maal local supplier se aa gaya, isliye ye bulk order cancel kar dena
+c004|n|ar|-|teesri baar bol raha hu order cancel karo, kitni baar likhna padega 😡
+c004|n|ar|-|3rd time request daal raha cancel ki, koi sunta hi nahi kya
+c004|n|ar|af|har baar cancel ke liye message karo aur kuch hota nahi, tang aa gaya hu
+c005|p|pro|pr|app ka experience hamesha smooth raha hai, bas is baar meeting ki wajah se order cancel karna hai
+c005|p|pro|pr|aapki service hamesha top rahi hai 👍 abhi plan badal gaya, order cancel kar dijiye
+c006|u|hw|-|mehmaan aane wale the, program cancel ho gaya, sabzi ka order bhi cancel kar do
+c006|u|hw|-|guest ka plan radd ho gaya toh grocery order ki zarurat nahi, cancel kar dijiye
+c007|u|gen|ns|order track mat karo, bas cancel karke confirm kar do
+c007|u|gen|ns|mujhe tracking nahi chahiye, seedha cancel karo order
+c008|u|gen|nn|kal ghar pe koi nahi rahega, isliye ye order cancel kar dena
+c008|u|gen|nn|kal main shehar mein nahi hu, parcel lene wala koi nahi, order cancel please
+c009|p|gen|ng|koi problem nahi hui cancel karne mein, bas refund ka mail bhi aa jaye toh badhiya 🙏
+c009|p|gen|ng|cancel bina kisi dikkat ke ho gaya, shukriya team
+c010|n|gen|af|cancel button dabate dabate pareshan ho gaya, order abhi bhi active dikh raha hai
+c010|n|gen|af|order cancel nahi ho raha aur main bahut pareshaan hu
+c011|u|st|-|exam ki wajah se ghar ja raha hu, order cancel krna h
+c011|u|st|-|sem break pe ghar jaana hai toh ye parcel cancel kar do bhai
+c012|u|el|-|mujhe ye phone chalana nahi aata, beta order wapas le lo, cancel kar do
+c012|u|el|nn|smartphone mere kaam ka nahi hai, order cancel karwana hai
+c013|n|sk|-|bhai 2 din se dispatch nahi hua, dukaan ka nuksaan ho raha, order cancel karo
+c013|n|sk|af|maal time pe nahi bheja toh customer chale gaye, dukhi hu, order cancel karo
+c014|u|pro|-|kindly cancel order no 88213, requirement change ho gayi hai
+c014|u|pro|-|order 88213 ko cancel karna hai please, project scope badal gaya
+c015|u|gen|-|size chart dekha toh galat size order ho gaya, cancel krna
+c015|u|gen|-|galti se XL daal diya, M chahiye tha, ye order cancel kr do
+c016|p|hw|pr|pichhli baar ki delivery bahut acchi thi, iss baar ka order cancel karna hai kyunki mummy ne mangwa liya
+c016|p|hw|pr|aap log hamesha time pe dete ho 😊 bas ye wala order cancel kar do, ghar pe aa gaya saman
+c017|n|ar|-|ye kya bakwas hai, cancel kiya tha fir bhi out for delivery dikha raha 😤
+c017|n|ar|-|cancel ke baad bhi parcel bhej diya, kya mazaak hai ye
+c018|u|gen|ns|refund ki jaldi nahi hai, pehle order cancel ho jaye bas
+c018|u|gen|ns|paise baad mein aa jayenge koi baat nahi, abhi order cancel karo
+c019|u|gen|mx|order cancel kar do aur haan refund wallet mein daal dena
+c019|u|gen|mx|ye order cancel karke paise wapas card pe bhej dena
+c020|u|st|-|cod wala order hai, paise nahi hai abhi, cancel kr sakte ho?
+c020|u|st|nn|abhi paise nahi hai mere paas cod ke liye, cancel kardo please
+c021|p|gen|af|cancel request itni jaldi accept hui, dil khush ho gaya
+c021|p|gen|af|2 minute mein cancel ho gaya, bahut raahat mili, thanks
+c022|n|gen|-|cancellation fee kyun kaat rahe ho jab dispatch hi nahi hua, bilkul galat hai
+c022|n|gen|-|dispatch se pehle cancel kiya fir bhi charge laga diya, ye loot hai
+c023|u|el|-|kripya mera kal ka order radd kar dijiye, hamein ab zarurat nahi hai
+c023|u|el|nn|ab iski zarurat nahi rahi, meherbani karke order cancel kar dijiye
+c024|u|sk|-|order mein 50 ki jagah 5 quantity chahiye thi, poora order cancel karke dobara lagaunga
+c024|u|sk|-|quantity galat chali gayi, ye order cancel karo main naya daalta hu
+c025|n|pro|af|third party seller ne cancel request reject kar di, bahut frustrating hai
+c025|n|pro|-|seller cancel accept nahi kar raha, ye professional tareeka nahi hai
+c026|u|gen|ns|order ko hold mat karo, cancel hi kar do
+c026|u|gen|ns|hold pe mat rakhna please, cancel karna hai
+c027|p|gen|ng|kuch galat nahi hai aapki service mein, bas ab zarurat nahi rahi, cancel kar dijiye 🙂
+c027|p|gen|ng|shikayat koi nahi hai, badiya app hai, bas order cancel karna hai
+c028|u|hw|-|baccho ke school ka project cancel ho gaya, craft wala saman ka order cancel karo
+c028|u|hw|-|school project nahi hoga ab, craft kit ka order cancel kar dena
+c029|n|ar|-|pichhle mahine bhi cancel nahi hua tha, is baar bhi yahi, sharam aani chahiye
+c029|n|ar|af|har mahine ki yahi kahani, cancel nahi hota, dimaag kharab ho gaya
+c030|u|st|-|cancel kaise karte h app se, option nai mil rha
+c030|u|st|-|app mein cancel ka button kidhar hai yaar
+c031|u|gen|-|subscription auto renew hua hai, usko cancel karna hai
+c031|u|gen|-|monthly plan renew ho gaya bina puche, cancel kar dijiye
+c032|p|pro|pr|customer care wale bhaiya ne pehle bhi bahut help ki thi, ab ye order cancel karwana hai
+c032|p|pro|pr|last time aapki team ne kamaal ki help ki thi 🙏 is order ka cancellation karwa dijiye
+c033|n|gen|-|40 minute se chat pe hu, koi cancel nahi kar raha, ghatiya support
+c033|n|gen|af|itni der se chat kar raha hu, cancel ka koi jawab nahi, chidh ho rahi hai
+c034|u|gen|nn|mera pin code serviceable nahi dikha raha, isliye order cancel kar do
+c034|u|gen|nn|delivery mere area mein nahi hoti shayad, order cancel karna padega
+c035|u|el|-|beta maine galti se laptop order kar diya, mujhe nahi chahiye, cancel karo
+c035|u|el|nn|poti ne galti se order daal diya, humko nahi chahiye ye, radd karo
+c036|p|gen|ng|cancel karne mein koi jhanjhat nahi hua, refund bhi aa gaya, wah
+c036|p|gen|ng|bina tension ke order cancel ho gaya, aabhaar
+c037|u|sk|mx|order cancel karo, jo advance diya tha woh adjust kar dena next order mein
+c037|u|sk|mx|is order ko cancel karke advance ka paisa agle bill mein laga dena
+c038|n|gen|-|cancel kiya toh bol rahe 7 din lagenge, ye kaisa system hai
+c038|n|gen|-|cancellation process itna slow kyun hai, bekar
+c039|u|gen|ns|delivery mat bhejna, meri cancel request process karo
+c039|u|gen|ns|parcel dispatch mat karna please, order cancel ho jana chahiye
+c040|u|st|-|pocket money khatam ho gayi, shoes ka order cancel kr do 😅
+c040|u|st|-|mahine ka budget khatam, jo shoes mangwaye the unko cancel karna hai
+c041|p|hw|af|pichhle cancel mein bahut acchi help mili thi, mann prasann hua tha, aaj bhi ek order cancel karna hai
+c041|p|hw|pr|aap sab bahut acche ho, ek aur order cancel karna tha
+c042|n|ar|-|pehle bola cancel ho jayega, ab bol rahe nahi hoga, jhoothe log 😠
+c042|n|ar|-|kal agent ne cancel confirm kiya, aaj bol rahe possible nahi, dhokha hai
+c043|u|pro|-|please cancel the order, office address change ho gaya hai
+c043|u|pro|-|office shift ho gaya hai, purane address wala order cancel kar dijiye
+c044|u|gen|nn|payment fail nahi hua par order confirm nahi dikh raha, isko cancel kar do
+c044|u|gen|-|order pending mein atka hai, cancel kardo main dobara karta hu
+c045|p|gen|-|thank you so much, cancel ho gaya aur mail bhi turant aaya ❤️
+c045|p|gen|-|shukriya, cancellation confirm ho gaya, bahut accha laga
+c046|n|el|af|beta teen din se phone kar raha hu, cancel nahi hua, bahut dukhi hu
+c046|n|el|-|budhe aadmi ko itna ghumate ho, cancel tak nahi karte, sharam karo
+c047|u|gen|mx|parcel kahan hai pata nahi, bas cancel kar do ab
+c047|u|gen|mx|tracking bhi update nahi ho rahi, isliye order cancel kardo
+c048|u|sk|-|dukaan band hai 10 din, jo order aana tha cancel karo
+c048|u|sk|nn|shop 10 din tak khuli nahi rahegi, order cancel karna hai
+c049|p|st|ng|order cancel karna easy tha, koi hassle nahi, love the app
+c049|p|st|ng|bina kisi hassle ke cancel ho gaya bro, mast app hai
+c050|n|gen|-|dispatch ho gaya bolke cancel reject kar diya, jabki tracking mein kuch nahi hai
+c050|n|gen|-|cancel reject kyun kiya jab item nikla hi nahi warehouse se, faltu bahana
+c051|u|gen|ns|exchange nahi chahiye, order hi cancel karna hai
+c051|u|gen|ns|replace mat karo, poora order cancel kar do
+c052|u|gen|-|bhai cancel
+c052|u|gen|-|order cancel pls
+c052|u|gen|-|cancel kro
+c053|n|ar|-|CANCEL KARO ORDER ABHI KE ABHI
+c053|n|ar|-|order cancel karo warna consumer court jaunga
+c054|u|pro|-|hum corporate account se order cancel karna chahte hain, GST invoice issue ho gaya tha
+c054|u|pro|-|GST details galat thi invoice mein, ye corporate order cancel karke dobara place karenge
+c055|p|gen|pr|delivery partner bahut polite the pichhli baar, iss order ko cancel karna hai kyunki gift kisi aur ne de diya
+c055|p|gen|pr|aapki packing ka jawab nahi 😊 lekin ye gift order cancel karna padega
+c056|u|gen|nn|mujhe order confirmation sms nahi mila, shayad duplicate lag gaya, ek cancel karo
+c056|u|gen|nn|confirmation nahi aaya toh dobara order kiya, ab do ho gaye, ek radd karo
+c057|n|gen|af|order cancel nahi hua aur account se paise kat gaye, bahut tension ho rahi hai
+c057|n|gen|af|cancel bhi nahi hua aur paisa bhi gaya, neend udd gayi hai
+c058|u|el|-|mere bete ne kaha online se mat lo, isliye ye order cancel kar dijiye
+c058|u|el|ns|ye saman mat bhejiye, order radd karna hai
+c059|u|st|-|cancelling my order bro, hostel mein allowed nahi hai heater
+c059|u|st|-|hostel mein heater allowed nahi, order cancel karna padega
+c060|p|gen|af|cancel ke saath refund bhi turant, sukoon mil gaya
+c060|p|gen|-|itni aasaan cancellation kahin nahi dekhi, great job 👏
+c061|n|gen|-|dus baar try kiya cancel, har baar error aata hai
+c061|n|gen|-|cancel karte hi error, app hi bekaar hai
+c062|u|gen|ns|call mat karna, chat pe hi order cancel kar do
+c062|u|gen|ns|mujhe phone nahi chahiye, bas message pe cancel confirm kar dena
+c063|u|hw|mx|ghar mein kisi ki tabiyat kharab hai, delivery nahi le paayenge, order cancel karo
+c063|u|hw|nn|tabiyat theek nahi hai, parcel lene ki halat nahi, cancel kar dena
+c064|p|pro|ng|koi complaint nahi, product accha lag raha tha, bas budget approve nahi hua, cancel please
+c064|p|pro|ng|product mein koi kami nahi, company ne budget cut kar diya, order cancel kar dijiye, thanks
+c065|n|sk|-|wholesale order cancel nahi kiya toh har baar aise hi karoge kya, pehle bhi hua tha
+c065|n|sk|af|business ka itna nuksaan, cancel bhi time pe nahi hota, nirash hu
+c066|u|gen|-|ek order mein 3 item hai, sirf blue wala cancel karna hai
+c066|u|gen|-|poora nahi, sirf ek item cancel karna hai order mein se
+c067|u|st|-|kal exam hai, delivery ke time ghar pe nahi rahunga, order cancel
+c067|u|st|nn|exam ke time delivery lene nahi aa paunga, cancel kr do
+c068|p|el|-|bahut bahut dhanyavaad beta, aapne order radd karne mein madad ki
+c068|p|el|-|aapki madad se order cancel ho gaya, bhagwan aapka bhala kare
+c069|n|gen|-|cancel dabaya toh bola "not eligible", kya matlab hai iska 😒
+c069|n|gen|-|not eligible for cancellation? pehle kyun nahi bataya, bekar policy
+c070|u|gen|ns|mujhe discount wapas nahi chahiye, sirf order cancel ho jaye
+c070|u|gen|ns|coupon ki chinta mat karo, order cancel kar do bas
+c071|u|pro|-|order ETA 10 din hai, hume 2 din mein chahiye tha, cancel kar rahe hain
+c071|u|pro|-|itni late delivery hamare kaam ki nahi, order cancel kar dijiye
+c072|p|hw|pr|sabzi hamesha fresh aati hai aapki, aaj ka order cancel karna hai, bahar ja rahe hain
+c072|p|hw|pr|fruits ki quality mast hoti hai 🍎 bas aaj wala order cancel kar do
+c073|n|ar|-|mera account block kar diya cancel karne pe? ye kaisi dadagiri hai
+c073|n|ar|-|cancel ki toh account hi band kar diya, bewakoof banate ho customers ko
+c074|u|gen|nn|koi reason nahi hai bas mann badal gaya, cancel karna hai
+c074|u|gen|nn|reason select karne ka option nahi aa raha, bas order cancel kar do
+c075|p|gen|ng|kuch bhi pareshani nahi hui, agent ne 1 min mein cancel kiya, mast
+c075|p|gen|ng|zara bhi dikkat nahi aayi cancel mein, thank you
+c076|u|gen|-|cancelation ho gaya kya mera? confirm kar do
+c076|u|gen|-|maine cancel request dali thi, status kya hai
+c077|n|gen|-|order cancel karo aur aage se mujhe promotional sms mat bhejna, irritating
+c077|n|gen|af|cancel bhi nahi karte aur spam bhi karte ho, irritate kar diya
+c078|u|sk|-|seller ne rate badha diya order ke baad, isliye cancel kar rahe hain
+c078|u|sk|-|price change hua order ke baad, humein ye order cancel karna hai
+c079|u|el|-|bhai sahab, ye order cancel karke paisa mere bank mein dalwa dijiye
+c079|u|el|mx|order radd kariye aur paisa khate mein dalwa dijiye
+c080|p|st|af|cancellation ekdum fast, maza aa gaya yaar, thanks
+c080|p|st|-|wah bhai 10 second mein cancel, op app

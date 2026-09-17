@@ -5,3 +5,4 @@ v12/bundle.zip
 v12/cache/
 **/__pycache__/
 .DS_Store
+v12/data/public/

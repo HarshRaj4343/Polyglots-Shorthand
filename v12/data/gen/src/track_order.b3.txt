@@ -1,0 +1,25 @@
+# batch 3
+t301|n|gen|-|delivery window 2 ghante ki thi, 5 ghante ho gaye, koi update nahi 😠
+t301|n|gen|-|2 ghante bola tha, 5 ghante se wait kar raha, bekar
+t302|p|gen|pr|aapki delivery hamesha fast hoti hai 🙂 aaj ka order kab tak aayega
+t302|p|gen|pr|speed ke fan hain hum, aaj ka parcel kitni der mein
+t303|u|gen|nn|order shipped hai par courier site pe nahi dikh raha, kahan hai
+t303|u|gen|nn|courier website pe tracking nahi mil rahi, status batao
+t304|n|el|af|beta subah se darwaze pe baithe hain, delivery nahi aayi, bahut thakaan hai
+t304|n|el|-|subah se intezaar, koi nahi aaya, ye kya tareeka hai
+t305|p|st|ng|koi jaldi nahi hai, bas curious hu shoes kab aayenge 😄
+t305|p|st|ng|no rush bro, bas ETA bata do
+t306|u|pro|ns|cancellation ki baat nahi, delivery ka exact date aur time slot chahiye
+t306|u|pro|ns|order hold mat kijiye, sirf delivery slot confirm kijiye
+t307|n|sk|-|3 din se "reached destination hub" hai, bas wahin pada hai, lazy courier
+t307|n|sk|af|hub pe pada maal dekh ke khoon khaulta hai
+t308|u|hw|-|doodh wala subscription order aaj aayega ya nahi
+t308|u|hw|-|milk delivery aaj subah kitne baje hogi
+t309|p|el|af|beta tracking dekh ke pata chal gaya saman aa raha hai, bahut sukoon mila
+t309|p|el|-|dhanyavaad beta, bata diya kab aayega
+t310|n|ar|-|har baar delivery date aage kar dete ho, kabhi time pe aata hi nahi
+t310|n|ar|-|date badalna band karo, aaj hi chahiye order
+t311|u|st|-|mera order abhi tak dispatch nahi hua, kab hoga
+t311|u|st|-|dispatch kab hoga mera order
+t312|u|gen|mx|parcel kahan hai aur mujhe delivery ke time phone karke aana
+t312|u|gen|mx|status batao aur rider ko bolo aane se pehle call kare

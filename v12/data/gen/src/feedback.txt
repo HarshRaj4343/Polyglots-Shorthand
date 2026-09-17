@@ -1,0 +1,108 @@
+# family|sentiment|persona|tags|text
+f001|p|st|-|app ka naya design mast hai, use karne mein maza aata hai
+f001|p|st|-|new UI bahut clean hai yaar, love it
+f001|p|st|af|naya app update dekh ke dil khush ho gaya
+f002|n|ar|-|har order mein kuch na kuch gadbad, aapki service bilkul bharosemand nahi
+f002|n|ar|af|itni baar dhokha mila ki ab nafrat ho gayi hai is app se
+f002|n|ar|-|worst service, 5 saal se use kar raha hu ab band
+f003|u|el|-|beta app mein font thoda bada kar do, humein padhne mein dikkat hoti hai
+f003|u|el|nn|akshar chhote hain, padhne mein nahi aate, suggestion hai
+f004|p|pro|-|customer support ka response time impressive hai, keep it up
+f004|p|pro|-|support team kaafi professional hai, accha experience raha
+f005|u|sk|-|seller dashboard mein GST report ka option chahiye
+f005|u|sk|-|dukaan walon ke liye bulk discount ka feature dal do
+f006|n|gen|-|delivery boy ne bahut rude baat ki, aisa behaviour theek nahi
+f006|n|gen|af|rider ki badtameezi dekh ke mood kharab ho gaya
+f007|p|gen|ng|koi shikayat nahi, sab kuch perfect tha
+f007|p|gen|ng|ek bhi problem nahi aayi, bahut accha experience
+f007|p|gen|ng|zara bhi dikkat nahi hui is baar, well done
+f008|u|gen|nn|kuch khaas nahi, normal experience tha
+f008|u|gen|nn|na accha laga na bura, theek thaak
+f009|n|gen|-|app har thodi der mein hang hota hai, bekar experience
+f009|n|gen|af|app itna slow hai ki chidh aati hai
+f010|p|hw|-|sabzi ekdum taazi aur saaf thi, bahut accha laga
+f010|p|hw|af|fruits dekh ke mann prasann ho gaya, bahut badiya
+f011|u|hw|-|order karte waqt delivery slot choose karne ka option hona chahiye
+f011|u|hw|-|suggestion hai ki time slot select karne do
+f012|n|sk|-|commission itna zyada hai ki chhote dukaandar kaise bachenge
+f012|n|sk|af|platform fees dekh ke nirash hu, chhote seller ke saath anyaay hai
+f013|p|el|-|beta aapke delivery wale bhaiya ne bahut izzat se baat ki, dhanyavaad
+f013|p|el|-|bahut sanskari ladka tha delivery wala, aashirwad
+f014|u|pro|-|feedback: invoice mein company ka GSTIN field optional hona chahiye
+f014|u|pro|-|B2B customers ke liye proper tax invoice format add kijiye
+f015|n|ar|-|customer care sirf "sorry for inconvenience" bolta hai, kaam kuch nahi
+f015|n|ar|-|copy paste sorry se kya hoga, support bilkul useless hai 😒
+f016|p|gen|pr|aapki service bahut acchi hai, bas ek feedback hai ki dark mode add karo
+f016|p|gen|pr|love the app ❤️ ek suggestion, wishlist share karne ka option do
+f017|u|gen|-|rating dene ka option kahan hai
+f017|u|gen|-|mujhe review likhna hai, kaise karu
+f018|n|gen|-|packing mein itna plastic, environment ka bhi socho
+f018|n|gen|-|har chhoti cheez ke liye bada dabba, bahut wastage, accha nahi laga
+f019|p|st|af|student discount mil gaya, maza aa gaya bro
+f019|p|st|-|student offer ke liye thanks, bahut helpful
+f020|u|gen|nn|mujhe koi complaint nahi hai, bas suggestion dena tha ki cod limit badhao
+f020|u|gen|nn|shikayat nahi hai, ek idea tha ki reorder button upar rakho
+f021|n|el|-|itne sare ads aate hain app mein, humein samajh nahi aata kya dabayein
+f021|n|el|af|ads se pareshan ho gaye hain beta, bahut ulajhan hoti hai
+f022|p|pro|ng|koi delay nahi, koi damage nahi, bilkul professional delivery
+f022|p|pro|ng|zero issues this time, bina kisi galti ke sab aaya
+f023|u|sk|-|hamare area mein delivery partner kam hain, badhane chahiye
+f023|u|sk|-|chhote shehar mein bhi same day delivery shuru karo
+f024|n|gen|-|discount dikhake checkout pe price badha dete ho, ye galat hai
+f024|n|gen|-|fake discount ka natak band karo, customers bewakoof nahi hain
+f025|p|hw|pr|aap log bahut acche ho, bas ek request hai ki atta ke bade pack bhi rakho
+f025|p|hw|pr|grocery quality top class 👌 bas organic section badhao
+f026|u|gen|-|feedback form bhara hai, dekh lena
+f026|u|gen|-|survey fill kar diya, bas bata raha tha
+f027|n|gen|af|support chat pe bot se baat karke sar dard ho gaya
+f027|n|gen|-|bot sirf gol gol ghumata hai, insaan se baat karwao
+f028|p|gen|af|delivery bhaiya ne baarish mein bhi time pe diya, prabhavit hu
+f028|p|gen|-|baarish mein bhi on time delivery, salute hai team ko 🙏
+f029|u|el|-|humein hindi mein app chahiye, english samajh nahi aati
+f029|u|el|nn|angrezi nahi aati humein, bhasha badalne ka option hai kya
+f030|n|st|-|app ke notification bahut zyada hain, irritating
+f030|n|st|af|din bhar notification, irritate ho gaya hu
+f031|p|gen|-|best app for groceries, har baar satisfied
+f031|p|gen|ng|mera favourite shopping app, kabhi nirash nahi kiya
+f032|u|pro|ns|refund ya compensation nahi chahiye, bas feedback dena tha ki delivery window chhoti karo
+f032|u|pro|ns|koi ticket mat kholo, ye sirf ek suggestion hai checkout ke baare mein
+f033|n|sk|-|seller support team kabhi phone nahi uthati, bahut bura experience
+f033|n|sk|-|seller helpline hamesha busy, chhote business ki koi sunwai nahi
+f034|p|el|ng|koi takleef nahi hui order karne mein, bahut aasan hai
+f034|p|el|ng|humein bhi bina dikkat order karna aa gaya, shabash
+f035|u|gen|-|delivery wale ka naam aur rating dikhni chahiye
+f035|u|gen|-|rider ki rating dene ka option add karo
+f036|n|gen|-|prime membership liya par koi fayda nahi mila, paisa barbaad
+f036|n|gen|af|membership lekar pachhtava ho raha hai, dukhi hu
+f037|p|st|-|campus delivery point wala idea badiya hai, thanks
+f037|p|st|-|college mein pickup point bana diya, bahut accha kiya
+f038|u|hw|nn|recipe section app mein nahi hai, ho toh accha rahega
+f038|u|hw|nn|koi recipe ya meal plan feature nahi hai, add kar sakte ho
+f039|n|ar|-|aapke app pe ab bharosa nahi raha, har cheez mein jhol
+f039|n|ar|-|sab kuch dikhawa hai, service zero
+f040|p|gen|af|itne saalon baad bhi quality same, raahat hai ki koi to bharosemand hai
+f040|p|gen|-|consistency ke liye thank you, hamesha same quality
+f041|u|gen|-|bas bata raha hu ki pichhla experience average tha
+f041|u|gen|-|experience theek tha, kuch special nahi
+f042|n|gen|-|cash on delivery pe extra charge lagana galat hai
+f042|n|gen|-|COD fee kyun, ye customers ke saath anyaay hai
+f043|p|pro|pr|excellent service overall 👏 ek feedback: invoice download ka button easily dikhe
+f043|p|pro|pr|bahut smooth experience, bas order history mein search add kar dijiye
+f044|u|sk|-|dukaan ke liye monthly credit ka option aana chahiye
+f044|u|sk|-|regular kharidne walon ko udhaar limit do, suggestion hai
+f045|n|el|-|hamare jaise budhe logon ke liye koi madad nahi, sab machine se baat
+f045|n|el|af|phone pe insaan nahi milta, bahut khinn hoti hai
+f046|p|hw|ng|kuch bhi kharab nahi aaya is mahine, sab badhiya
+f046|p|hw|ng|ek bhi sadi sabzi nahi thi, shukriya
+f047|u|gen|mx|feedback dena tha, aur haan pichhle order ka bill bhi bhej dena
+f047|u|gen|mx|suggestion hai ki bill auto mail ho, abhi wala bhi bhej do
+f048|n|st|-|cashback ka wada karke diya nahi, ye marketing jhooth hai
+f048|n|st|-|cashback kabhi aata hi nahi, fake offers
+f049|p|gen|-|five star dunga, sab kuch ekdum sahi
+f049|p|gen|-|10 mein 10, bahut badiya kaam
+f050|u|gen|nn|app theek hai, bas search results sahi nahi aate
+f050|u|gen|nn|search mein sahi product nahi dikhte, baaki theek hai
+f051|n|gen|af|delivery wale ne parcel phenk ke diya, dekh ke bura laga
+f051|n|gen|-|saman phenk ke dena koi tareeka hai, behaviour sudharo
+f052|p|el|af|beta aap sabki seva se bahut santusht hain
+f052|p|el|-|aap logon ka kaam dekh ke accha lagta hai, jeete raho

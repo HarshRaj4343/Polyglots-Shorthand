@@ -1,0 +1,136 @@
+# family|sentiment|persona|tags|text
+r001|u|st|-|return pickup ho gaya 4 din pehle, refund kab tak aayega bhai
+r001|u|st|-|pickup done hai, paise kab milenge wapas
+r001|u|st|-|return ho gaya, refund ka kya scene h
+r002|n|ar|af|15 din ho gaye refund ka intezaar karte, tang aa gaya hu ab
+r002|n|ar|-|do hafte se refund pending, har baar same jawab, bakwaas
+r002|n|ar|-|kitne din aur lagenge refund mein, aadha mahina ho gaya 😡
+r003|p|el|-|beta paise khate mein aa gaye, bahut dhanyavaad aapka
+r003|p|el|-|refund mil gaya, aap logon ka bahut aabhaar
+r004|u|sk|-|dukaan ke order ka refund GST ke saath aayega ya bina GST ke
+r004|u|sk|-|refund amount mein tax bhi wapas milega kya
+r005|u|pro|-|kindly share refund transaction id, bank ko dena hai
+r005|u|pro|-|refund ka UTR number bhej dijiye, bank verify karna chahta hai
+r006|u|gen|ns|replacement mat bhejo, refund process karo
+r006|u|gen|ns|naya piece nahi chahiye, mujhe paise wapas chahiye
+r007|u|gen|nn|refund status mein kuch update nahi dikh raha, check kar sakte ho
+r007|u|gen|nn|app pe refund ka koi status nahi aa raha, bata do kab tak
+r008|p|gen|ng|koi dikkat nahi hui, refund 2 din mein aa gaya, shukriya
+r008|p|gen|ng|bina kisi jhanjhat ke paise wapas mil gaye, great
+r009|n|gen|af|refund ke chakkar mein din kharab ho gaya, bahut pareshan hu
+r009|n|gen|af|refund nahi aaya, main pareshaan ho chuka hu
+r010|u|hw|-|mixer wapas kar diya tha, uska paisa kab aayega
+r010|u|hw|-|jo mixer return kiya uska refund abhi tak nahi aaya, kab tak aayega
+r011|p|pro|pr|support team ka response time kamaal hai, bas refund ki expected date bata dijiye
+r011|p|pro|pr|aapki team bahut professional hai 👍 refund kab tak credit hoga?
+r012|n|sk|-|dukaan ka 8000 ka refund atka hai, business kaise chalega
+r012|n|sk|af|itna bada amount atka hai refund mein, chinta ho rahi hai, kuch karo
+r013|u|gen|mx|order cancel ho gaya hai, ab refund card pe chahiye
+r013|u|gen|mx|cancel ke baad paise upi pe bhej dena
+r014|u|gen|-|wallet wala refund bank mein transfer ho sakta hai?
+r014|u|gen|-|refund wallet mein aaya, mujhe bank account mein chahiye
+r015|n|gen|-|refund amount galat hai, 1200 ki jagah 900 bheje, ye cheating hai
+r015|n|gen|-|poora paisa kyun nahi lautaya, 300 kam aaye hain 😠
+r016|u|st|nn|mere paas card nahi hai, refund upi pe ho sakta hai kya
+r016|u|st|nn|bank account nahi hai mera, refund kaise loon
+r017|p|st|af|refund aa gaya bro, dil garden garden 😁
+r017|p|st|-|paise wapas mil gaye, ekdum mast service
+r018|u|el|-|beta refund kab tak aayega, pension ka paisa tha
+r018|u|el|-|humara paisa kab wapas milega, bata dijiye
+r019|n|el|af|beta kitni baar phone karein, refund nahi aaya, bahut dukhi hain
+r019|n|el|-|budhape mein itna ghumate ho refund ke liye, thik nahi hai
+r020|u|gen|ns|abhi order track mat karo, bas refund initiate kar do
+r020|u|gen|ns|tracking ki zarurat nahi, return accept karke refund de do
+r021|p|gen|ng|koi shikayat nahi, refund time pe aaya aur poora aaya
+r021|p|gen|ng|refund mein ek rupaya bhi kam nahi aaya, thank you
+r022|n|ar|-|refund reject kar diya bina reason ke, dobara kabhi order nahi karunga
+r022|n|ar|-|return reject kar ke paise kha gaye, fraud company
+r023|u|pro|-|refund ka invoice aur credit note chahiye accounts ke liye
+r023|u|pro|-|credit note bhej dijiye refund ka, audit ke liye chahiye
+r024|u|gen|nn|refund ka sms aaya par account mein paise nahi dikhe
+r024|u|gen|nn|message aaya refund ho gaya, lekin bank statement mein nahi hai
+r025|p|hw|pr|sabzi wale order mein aap log hamesha acche rahe, ek kharab item ka refund chahiye
+r025|p|hw|pr|aapka app bahut accha hai 😊 ek item ka paisa wapas karna tha
+r026|n|gen|-|refund ke naam pe coupon de diya, mujhe paisa chahiye coupon nahi
+r026|n|gen|-|coupon kaun maanga tha, refund cash mein do, ye zabardasti hai
+r027|u|sk|-|3 order ka refund ek saath aayega ya alag alag
+r027|u|sk|-|teen return kiye the, refund combined milega kya
+r028|p|gen|af|refund dekh ke raahat mili, bahut accha kaam
+r028|p|gen|af|paise aate hi chinta khatam, aabhari hu
+r029|n|gen|-|bank bol raha aapki taraf se refund nahi bheja, aap bol rahe bhej diya, jhooth kaun bol raha
+r029|n|gen|-|aap bolte ho refund ho gaya, bank bolta hai nahi aaya, main kya karu 😤
+r030|u|gen|-|refnd kab aega
+r030|u|gen|-|refund kb tk aayega bta do
+r030|u|gen|-|refund ka time bata do
+r031|u|st|ns|exchange nahi karna, size ka issue hai, paise wapas do
+r031|u|st|ns|dusra size mat bhejo, refund kar do
+r032|p|pro|-|refund process was quick, appreciate it, shukriya
+r032|p|pro|-|well handled, refund turant credit hua, thanks team
+r033|n|sk|-|mahina bhar se refund pending, aise kaise business karenge aapke saath
+r033|n|sk|af|refund ka intezaar karte karte nirash ho gaya hu
+r034|u|gen|nn|return pickup wala aaya nahi, refund kaise milega ab
+r034|u|gen|nn|pickup nahi hua abhi tak, refund process shuru ho sakta hai kya
+r035|u|el|mx|damaged dawai ki shishi ka paisa wapas chahiye, naya nahi chahiye
+r035|u|el|mx|toota hua saman wapas le jao aur paisa lauta do
+r036|p|hw|ng|koi problem nahi aayi return mein, refund bhi aa gaya, thank you didi
+r036|p|hw|ng|bina tension ke paise wapas aa gaye, bahut accha laga
+r037|n|gen|-|refund ke liye 5 baar mail kiya, ek bhi reply nahi
+r037|n|gen|-|mail, chat, call sab kiya, refund ka koi jawab nahi 😡
+r038|u|gen|-|partial refund mila hai, baaki kab aayega
+r038|u|gen|-|aadha refund aaya hai, remaining amount ka kya hua
+r039|p|gen|pr|delivery boy ne return mein bahut help ki, bas refund ka status bata do
+r039|p|gen|pr|pickup wale bhaiya bahut acche the 🙂 refund kab tak aayega
+r040|n|ar|-|pichhli baar bhi refund 1 mahina laga tha, is baar bhi wahi drama
+r040|n|ar|af|har baar refund mein itna late, dimaag kharab kar diya hai
+r041|u|pro|-|EMI pe liya tha, refund ke baad EMI band ho jayegi na
+r041|u|pro|-|no cost EMI order return kiya, refund aur EMI cancel dono confirm karo
+r042|u|gen|ns|refund pe coupon mat dena, paisa bank mein bhejo
+r042|u|gen|ns|store credit nahi chahiye, original payment method mein refund karo
+r043|p|st|ng|refund mein koi deri nahi hui, 1 din mein aaya, legit app
+r043|p|st|ng|zero hassle refund, ekdum smooth
+r044|n|gen|af|refund nahi mila aur customer care rude hai, bahut chidh ho rahi hai
+r044|n|gen|-|refund bhi nahi diya aur agent ne phone kaat diya, badtameezi hai
+r045|u|gen|nn|mujhe refund ka option nahi dikh raha order page pe
+r045|u|gen|nn|return window band ho gayi kya, refund button nahi aa raha
+r046|u|hw|-|bacche ka school bag wapas kiya tha, paisa kab tak aayega
+r046|u|hw|-|school bag return kiya hai, refund status dekh ke bata dijiye
+r047|p|gen|af|refund jaldi aaya, sach mein prabhavit hu
+r047|p|gen|-|refund process shandaar hai, keep it up 🙏
+r048|n|sk|-|galat maal bheja, wapas bhi le gaye, paisa nahi diya, chor ho kya
+r048|n|sk|-|maal bhi le gaye aur paisa bhi nahi, ye kaisa business hai
+r049|u|gen|mx|parcel nahi aaya aur tracking band hai, bas refund de do
+r049|u|gen|mx|delivery ka bharosa nahi raha, paise wapas kar do order ke
+r050|u|el|-|beta refund cheque se milega ya khate mein
+r050|u|el|-|paisa kaise wapas milega, humara upi nahi chalta
+r051|n|gen|-|refund 7 din bola tha, aaj 20va din hai
+r051|n|gen|-|promise 7 din ka, ho gaye 20 din, refund kahan hai 😒
+r052|p|gen|ng|refund ke liye ek baar bhi follow up nahi karna pada, mast
+r052|p|gen|ng|khud se refund aa gaya bina yaad dilaye, shukriya
+r053|u|pro|-|please expedite refund for order 55610, amount 4599
+r053|u|pro|-|order 55610 ka refund jaldi process kijiye, 4599 rupaye
+r054|u|st|-|refund aane me kitna time lgta h generally
+r054|u|st|-|refund normally kitne din mein aata hai
+r055|n|ar|af|paise ke liye bheekh maangni pad rahi hai, bahut bura laga
+r055|n|ar|-|apne hi paise ke liye itna gidgidana pad raha, sharam karo
+r056|u|gen|nn|refund nahi chahiye abhi, pehle confirm karo return accept hua ya nahi
+r056|u|gen|nn|return accept hua ya nahi pata nahi, refund kab start hoga
+r057|p|hw|af|paisa wapas aa gaya, man halka ho gaya, dhanyavaad
+r057|p|hw|-|refund mil gaya, bahut bahut shukriya aap sabka
+r058|n|gen|-|refund ke liye bank details maang rahe ho, ye scam lag raha hai
+r058|n|gen|-|kisi ne call karke otp maanga refund ke naam pe, aapki security bekaar hai
+r059|u|gen|ns|abhi cancel mat karo order, sirf extra charge ka refund de do
+r059|u|gen|ns|order rehne do, jo delivery charge galti se laga uska paisa lautao
+r060|u|sk|-|bulk return ka refund GST invoice ke hisaab se chahiye
+r060|u|sk|-|wholesale return kiya hai, refund invoice amount ke hisaab se karna
+r061|p|pro|pr|app ka UI bahut clean hai, bas refund tracker mein amount nahi dikh raha, kitna aayega
+r061|p|pro|pr|great platform overall, refund ki exact amount confirm kar dijiye
+r062|n|gen|af|refund atka hai aur rent dena hai, bahut tension mein hu
+r062|n|gen|af|refund ki wajah se mahine ka budget bigad gaya, pareshan hu
+r063|u|gen|-|refund upi id pe bhejna hai, id update kaise karu
+r063|u|gen|-|galat upi id daal di, refund sahi id pe kaise aayega
+r064|p|st|-|refund aa gaya, thanks a lot, next order pakka
+r064|p|st|-|paise mil gaye, thank you, dobara yahi se lunga
+r065|n|el|-|beta ye online wale sab dhokhebaaz hain, humara paisa aaj tak nahi aaya
+r065|n|el|af|paisa nahi lautaya, mann bahut dukhi hai
+r066|u|gen|nn|delivery charge refund nahi hua, sirf item ka aaya hai
+r066|u|gen|nn|shipping fee wapas nahi mili, woh bhi refund hogi kya

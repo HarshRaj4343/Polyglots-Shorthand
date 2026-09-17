@@ -1,0 +1,100 @@
+# family|sentiment|persona|tags|text
+n001|u|st|-|app pe delivered aa gaya par hostel reception pe kuch nahi hai
+n001|u|st|-|delivered dikha raha, hostel mein check kiya, parcel nahi mila
+n001|u|st|nn|bro delivered likha hai lekin mere room tak kuch nahi aaya
+n002|n|ar|-|phir se delivered bol diya bina diye, doosri baar ho raha hai ye 😡
+n002|n|ar|-|dobara fake delivered, is baar police complaint karunga
+n002|n|ar|af|har baar fake delivery, tang aa gaya hu is company se
+n003|u|el|-|beta bol rahe hain saman de diya, humein toh kuch nahi mila
+n003|u|el|nn|humare ghar koi nahi aaya aaj, phir bhi delivered likha hai
+n004|p|pro|pr|aapka service record hamesha accha raha hai, isliye report kar raha hu, parcel delivered dikha par mila nahi
+n004|p|pro|pr|you guys are usually reliable 👍 aaj wala parcel delivered mark hua par receive nahi hua
+n005|u|sk|-|dukaan pe delivered likha hai, staff bol raha koi parcel nahi aaya
+n005|u|sk|nn|shop ke kisi ladke ne parcel receive nahi kiya, fir bhi delivered hai
+n006|u|gen|ns|refund abhi mat do, pehle pata karo parcel kisko diya
+n006|u|gen|ns|paise nahi chahiye abhi, pehle mera parcel dhundho jo delivered dikha raha
+n007|u|gen|nn|otp maine kisi ko nahi diya, fir bhi order delivered ho gaya
+n007|u|gen|nn|mere paas otp aaya hi nahi, par status delivered hai
+n008|p|gen|ng|koi shikayat nahi thi ab tak, bas aaj ka parcel delivered dikha ke nahi mila, check kar lo please
+n008|p|gen|ng|pehle kabhi problem nahi hui, is baar parcel nahi mila, help karo 🙏
+n009|n|gen|af|delivered likha hai aur parcel gayab, bahut pareshan hu
+n009|n|gen|af|gift tha birthday ka, delivered bola aur mila nahi, bahut dukhi hu
+n010|u|hw|-|society ke guard ke paas bhi nahi hai, delivered dikha raha hai
+n010|u|hw|-|guard room mein poocha, koi parcel nahi aaya, app pe delivered hai
+n011|p|gen|af|parcel neighbour ke ghar se mil gaya, raahat mili, thank you for calling
+n011|p|gen|-|aapke agent ne dhundh ke parcel dilwa diya, shukriya
+n012|n|sk|-|business ka maal tha, delivered dikha aur mila nahi, nuksaan kaun bharega
+n012|n|sk|-|500 piece ka parcel delivered aur dukaan pe kuch nahi, ye chori hai
+n013|u|pro|-|delivery proof photo share kijiye, parcel receive nahi hua
+n013|u|pro|-|POD photo bhejiye please, humein shipment nahi mila
+n014|u|gen|mx|delivered hai par mila nahi, isko dhundho warna refund de do
+n014|u|gen|mx|parcel nahi mila jo delivered dikha, investigation karo ya paise lautao
+n015|n|gen|-|delivery boy ne kisi aur ki building mein de diya, ab koi zimmedari nahi le raha
+n015|n|gen|-|galat building mein diya parcel aur ab haath khade kar diye 😤
+n016|u|el|-|beta 2 packet aane the, ek hi mila, doosra kahan hai
+n016|u|el|nn|order mein do dibbe the, ek nahi mila, dekh lijiye
+n017|p|hw|pr|pichhle 20 order bina problem ke aaye, aaj pehli baar delivered dikha par mila nahi
+n017|p|hw|pr|aap log hamesha acche rahe 😊 bas aaj ka parcel mujhe nahi mila
+n018|u|gen|-|delivered at front door likha hai, door pe kuch nahi tha
+n018|u|gen|-|photo mein jo door hai woh mera ghar nahi hai, parcel nahi mila
+n019|n|ar|-|teen order mein se do delivered bol ke gayab, ye racket chal raha hai kya
+n019|n|ar|af|baar baar parcel gayab, khoon khaul raha hai
+n020|u|st|ns|replacement mat bhejna abhi, pehle investigation karo parcel kahan gaya
+n020|u|st|ns|naya mat bhejo, pehle dhundho jo delivered hua
+n021|p|st|ng|koi tension nahi, agent ne bola 24 ghante mein dhundh lenge, thanks
+n021|p|st|ng|problem nahi hai, support ne complaint turant le li, bas update dete rehna
+n022|u|gen|nn|ghar pe koi nahi tha us time, phir bhi delivered kaise ho gaya
+n022|u|gen|nn|main office mein tha, ghar band tha, delivered kisko kiya
+n023|n|gen|-|complaint close kar di bina parcel mile, bekar support
+n023|n|gen|-|mera ticket resolve mark kar diya jabki parcel abhi bhi nahi mila
+n024|u|sk|-|shipment ka 1 carton kam aaya hai, 4 mein se 3 mile
+n024|u|sk|-|bulk order mein ek box missing hai, receive nahi hua
+n025|p|pro|af|investigation team ne 1 din mein parcel trace kiya, prabhavit hu
+n025|p|pro|-|missing parcel mil gaya aapki team ki wajah se, much appreciated
+n026|n|el|af|beta hum budhe log hain, saman nahi mila aur koi sunta nahi, mann dukhi hai
+n026|n|el|-|kitni baar phone karein, saman nahi aaya, delivered likh diya
+n027|u|gen|-|delivered par parcel locker mein nahi hai
+n027|u|gen|-|locker code aaya par locker khaali tha
+n028|u|gen|mx|parcel nahi mila, aur mera next order bhi isi address pe hai, usko hold karo
+n028|u|gen|mx|ye wala mila nahi, dusra order bhi rok do jab tak pata na chale
+n029|n|gen|-|parcel mila nahi aur agent bol raha aapne hi le liya hoga, badtameezi
+n029|n|gen|-|mujhe hi chor bana diya agent ne, parcel mila hi nahi
+n030|u|st|-|pacel nhi mila but delivrd dikha rha
+n030|u|st|-|delvrd h par mila ni
+n030|u|st|-|parcel nai aaya, app bolta delivered
+n031|p|hw|ng|koi pareshani nahi, bas report karna tha ki parcel nahi mila, aap dekh lena
+n031|p|hw|ng|gussa nahi hai, bas delivered wala parcel nahi mila, check kar dena please
+n032|n|sk|af|dukaan ka maal gayab aur complaint ka reply nahi, bahut chidh ho rahi hai
+n032|n|sk|-|maal nahi mila, 4 din se reply nahi, aise kaise chalega
+n033|u|pro|ns|refund ki baat baad mein, pehle confirm karo kisne sign kiya delivery
+n033|u|pro|ns|compensation nahi maang raha, sirf receiver ka naam batao
+n034|u|el|-|beta delivered likha hai par humare ghar ki ghanti kisi ne nahi bajayi
+n034|u|el|nn|koi aaya nahi, ghanti bhi nahi baji, saman bhi nahi mila
+n035|p|gen|pr|app bahut accha hai aur support fast hai, ek parcel receive nahi hua usme madad karo
+n035|p|gen|pr|love your service ❤️ bas delivered wala order mere paas nahi pahuncha
+n036|n|gen|-|cctv footage mein koi delivery boy nahi aaya, jhooth likha app pe
+n036|n|gen|af|cctv mein koi nahi dikha aur delivered likh diya, irritate ho gaya
+n037|u|gen|nn|order mila nahi, par mujhe cancel bhi nahi karna, parcel chahiye
+n037|u|gen|ns|cancel mat karo, bas jo delivered dikha woh parcel dilao
+n038|u|hw|-|flat number galat pe de diya shayad, humein nahi mila
+n038|u|hw|-|shayad bagal wale flat mein diya, humein receive nahi hua
+n039|n|ar|-|ye teesra parcel hai jo gayab hua, aapki company pe case karunga
+n039|n|ar|-|teen parcel gayab, ek bhi jawab nahi, fraud company
+n040|p|st|af|parcel guard ke paas mil gaya, dil halka ho gaya, thank you support
+n040|p|st|-|mil gaya bro parcel, support ne sahi guide kiya, thanks
+n041|u|gen|-|delivered hua 2 baje, main ghar pe tha, koi nahi aaya
+n041|u|gen|nn|2 baje main ghar pe hi tha par koi delivery nahi hui
+n042|n|gen|-|delivery boy ne parcel khud rakh liya lagta hai, strict action lo
+n042|n|gen|-|mujhe lagta hai rider ne chura liya parcel, bekar hiring
+n043|u|sk|mx|parcel nahi mila, invoice mein receiving sign kiska hai check karke batao
+n043|u|sk|mx|maal receive nahi hua, jo receipt pe sign hai woh bhejo
+n044|p|el|ng|koi naraazgi nahi hai beta, bas saman nahi mila, dekh lena
+n044|p|el|ng|hum gussa nahi hain, aap log acche ho, bas parcel nahi mila
+n045|u|gen|-|tracking bolta hai delivered to security, security ke paas nahi hai
+n045|u|gen|-|security desk pe diya bola, register mein entry nahi hai
+n046|n|pro|af|important documents the parcel mein, delivered bolke gayab, bahut tension hai
+n046|n|pro|-|office documents ka parcel missing hai, ye bahut serious lapse hai
+n047|u|gen|ns|abhi escalate mat karo, pehle delivery boy se pooch lo kahan diya
+n047|u|gen|ns|complaint mat daalo abhi, rider se confirm karo parcel kisko diya
+n048|u|st|nn|delivered bola par mere naam ka koi parcel hostel register mein nahi hai
+n048|u|st|nn|register mein entry nahi hai aur parcel bhi nahi mila

@@ -1,0 +1,38 @@
+# batch 3
+d301|n|gen|-|oil ki bottle phooti aur poora order ganda ho gaya, bekar packing 😠
+d301|n|gen|-|tel phail gaya sab saman pe, packing bilkul ghatiya
+d301|n|gen|af|sab saman tel mein sana hua, dekh ke gussa aa gaya
+d302|p|gen|pr|aapki grocery hamesha fresh hoti hai 🙂 aaj ande toote hue aaye, 6 toote hain
+d302|p|gen|pr|usually sab accha aata hai, aaj egg tray mein kuch ande toote
+d303|u|gen|nn|product chal nahi raha, box pe damage nahi tha, andar se hi kharab
+d303|u|gen|nn|dabba theek tha par machine start nahi hoti
+d304|n|sk|-|thok ke maal mein aadhe packet phate hue, customer ko kya dikhau
+d304|n|sk|af|aadha stock phata hua, nirash hu is supplier platform se
+d305|p|st|ng|koi problem nahi bro, bas mouse ka scroll wheel toota hai, exchange kardo
+d305|p|st|ng|chill hai, bas mouse broken aaya, replace pls
+d306|u|el|ns|beta paisa wapas mat karo, humein wahi chhadi chahiye, bas tooti hui mili hai
+d306|u|el|ns|refund nahi, wahi walking stick naya bhejo, ye tooti hai
+d307|n|el|-|beta pressure cooker ki seeti tooti aayi, khana kaise banayein
+d307|n|el|af|cooker kharab aaya, ghar mein khana nahi bana, bahut dukh hua
+d308|u|pro|-|received unit has cracked casing, requesting replacement under DOA policy
+d308|u|pro|-|dead on arrival unit, body cracked, DOA replacement chahiye
+d309|p|hw|af|tooti kadhai ka naya piece jaldi aa gaya, bahut khushi hui 🙏
+d309|p|hw|-|replacement kadhai perfect hai, shukriya
+d310|n|ar|-|teesri baar glass ka saman tootke aaya, kya aap log bubble wrap nahi khareed sakte
+d310|n|ar|-|baar baar toota kaanch, packing ka paisa bachate ho kya
+d311|u|gen|-|iron ka wire kata hua hai, use karna safe nahi lagta
+d311|u|gen|-|press ki taar kati hui hai, replacement chahiye
+d312|u|hw|mx|toote hue dabbe ki photo bhej di hai, replacement ke saath delivery charge bhi wapas karo
+d312|u|hw|mx|damaged dibba badlo aur delivery charge refund karo
+d313|n|gen|af|mehngi ghadi ka kaanch toota mila, sach mein mood kharab ho gaya 😞
+d313|n|gen|-|ghadi toot ke aayi, itne paise waste
+d314|p|el|-|beta aapne toota hua saman badalne mein bahut madad ki, aashirwad
+d314|p|el|af|replacement aa gaya, mann santusht hai
+d315|u|st|nn|laptop stand ka screw missing hai aur ek leg tedha, fit nahi hota
+d315|u|st|nn|stand ka ek part theek nahi aaya, screw bhi nahi hai
+d316|n|st|-|gaming controller ka button andar dhasa hua aaya, bilkul faltu 😒
+d316|n|st|-|controller ka button kaam nahi karta, ghatiya piece
+d317|u|sk|ns|naya maal mat bhejo abhi, pehle damage ka credit note do
+d317|u|sk|ns|replacement ki zarurat nahi, damaged stock ka adjustment chahiye
+d318|p|pro|ng|no issues with your support, bas projector lens scratched aaya hai
+d318|p|pro|ng|support se koi shikayat nahi, projector lens pe scratch hai bas

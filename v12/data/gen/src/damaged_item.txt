@@ -1,0 +1,96 @@
+# family|sentiment|persona|tags|text
+d001|u|st|-|headphone ka left side se awaaz nahi aa rahi, box khola tabhi se
+d001|u|st|nn|earphone ka ek side kaam nahi kar raha, naya hi aaya hai
+d001|u|st|-|bro earbuds ka ek bud dead hai unboxing se
+d002|n|ar|-|phir se toota hua saman bheja, ye teesri baar hai 😡
+d002|n|ar|af|har baar damaged item, tang aa gaya hu aapki packing se
+d002|n|ar|-|dobara toota piece, dimag kharab kar diya
+d003|u|el|-|beta chashma ka frame toota hua aaya hai
+d003|u|el|-|chashme ki dandi tooti hui hai dibbe mein
+d004|p|pro|pr|aapka customer service hamesha top raha hai, is baar laptop pe dent aaya hai, replacement chahiye
+d004|p|pro|pr|great platform 👍 bas monitor ki screen pe crack hai, replace kar dijiye
+d005|u|sk|-|20 mein se 4 bottle leak ho gayi transport mein
+d005|u|sk|-|carton mein 4 bottle phooti hui mili, dukaan ka maal hai
+d006|u|gen|ns|refund nahi chahiye, bas toota hua jar replace kar do
+d006|u|gen|ns|paise wapas mat karo, same item dobara bhejo jo toota tha
+d007|u|gen|nn|box bahar se theek tha par andar glass toot gaya, dikh nahi raha tha
+d007|u|gen|nn|bahar se koi damage nahi tha, andar item cracked nikla
+d008|p|gen|ng|koi badi baat nahi, thoda scratch hai, exchange ho jaye toh accha
+d008|p|gen|ng|gussa nahi hu, bas mug ka handle tooti hai, replace kar dena please 🙂
+d009|n|gen|af|naya phone aur screen pe line, mood kharab ho gaya
+d009|n|gen|af|itne paise diye aur tooti cheez aayi, bahut dukhi hu
+d010|u|hw|-|mixer ka jar leak kar raha hai pehli baar mein hi
+d010|u|hw|-|mixer jar se paani tapak raha hai, naya hai
+d011|p|gen|af|damaged kettle ka replacement 1 din mein aa gaya, sukoon mila
+d011|p|gen|-|toote item ka exchange bahut fast hua, thank you team
+d012|n|sk|-|pura carton geela aur saman kharab, kaun bharega nuksaan
+d012|n|sk|-|baarish mein bheega maal bheja, sab kharab, ghatiya logistics
+d013|u|pro|-|product serial number mismatch aur body pe crack hai, RMA initiate kijiye
+d013|u|pro|-|device pe crack hai, return merchandise authorization chahiye
+d014|u|gen|mx|toota hua lamp aaya hai, replacement nahi mil sakta toh refund kar do
+d014|u|gen|mx|lamp broken hai, naya bhejo warna paise lautao
+d015|n|gen|-|photo bheji thi damage ki, bol rahe "no damage visible", andhe ho kya
+d015|n|gen|-|damage ki 5 photo bheji fir bhi claim reject, bakwaas
+d016|u|el|-|dawai ki shishi tooti hui aayi, sab bikhar gaya
+d016|u|el|-|syrup ki bottle phooti hui thi, dabba geela hai
+d017|p|hw|pr|aapke kapde hamesha acche hote hain, is baar kurti ki silai udhdi hui hai, badal dijiye
+d017|p|hw|pr|quality usually mast hoti hai 😊 bas saree mein ched hai, exchange karna hai
+d018|u|gen|-|shoe ka sole nikla hua hai, pehna bhi nahi
+d018|u|gen|nn|joote ka sole alag hai, ek baar bhi nahi pehna
+d019|n|ar|-|expired biscuit bheje, bacche ne kha liya, ye laparwahi hai
+d019|n|ar|af|expiry wala khana bheja, bahut gussa aa raha hai
+d020|u|st|ns|return mat lena, sirf toota charger replace karo
+d020|u|st|ns|poora order wapas nahi karna, bas cable kharab hai woh badlo
+d021|p|st|ng|koi problem nahi, replacement jaldi aa gaya, bas pehla piece kharab tha
+d021|p|st|ng|bina hassle ke damaged item badal diya, legit
+d022|u|gen|nn|charger se phone charge nahi ho raha, naya hai
+d022|u|gen|nn|adapter kaam nahi kar raha, light bhi nahi jalti
+d023|n|gen|-|packaging itni kamzor thi ki TV ka corner toot gaya
+d023|n|gen|-|TV bina bubble wrap ke bheja, screen tooti, shameful
+d024|u|sk|-|glass ke 12 gilas mein 3 toote hue hain
+d024|u|sk|-|crockery set mein kuch piece chatke hue hain
+d025|p|pro|af|damaged monitor ka pickup aur replacement same week, prabhavit hu
+d025|p|pro|-|replacement process was smooth, thank you for handling the damaged unit
+d026|n|el|af|beta itni mehngi cheez tooti hui aayi, dil baith gaya
+d026|n|el|-|budhe aadmi ko toota saman bhej diya, sharam nahi aati
+d027|u|gen|-|photo kahan upload karu damage ki
+d027|u|gen|-|damage claim ke liye image kaise bhejun
+d028|u|gen|mx|cooker ka lid damaged hai, aur delivery bhi 3 din late thi
+d028|u|gen|mx|late aaya aur upar se lid tedha hai, replace karo
+d029|n|gen|-|seal tooti hui thi, kisi ne use kiya hua product bheja
+d029|n|gen|-|used item bheja aur seal khuli thi, fraud lag raha hai
+d030|u|st|-|phn ka back cover crack h
+d030|u|st|-|cover tuta hua aya
+d030|u|st|-|bhai case pe crack aaya hai delivery me
+d031|p|hw|ng|koi shikayat nahi, bas ek plate tooti thi, woh bhej dena
+d031|p|hw|ng|naraz nahi hu, bas dinner set ki ek katori chatki hui hai
+d032|n|sk|af|dukaan ka poora saman damage, customer ko kya bechu, bahut nirash hu
+d032|n|sk|-|resell ke liye mangwaya tha, aadha maal toota, business barbaad
+d033|u|pro|ns|refund process mat karo, warranty ke under repair ya replacement do
+d033|u|pro|ns|return nahi karna hai, warranty claim ke through fix karo
+d034|u|el|nn|press on nahi ho raha, bijli toh aa rahi hai
+d034|u|el|-|beta istri garam nahi ho rahi, naya hai
+d035|p|gen|pr|love your fast delivery 🚀 bas bottle ka dhakkan toota hua mila, replace kar do
+d035|p|gen|pr|app bahut acchi hai, ek chhota sa damage hai, badal dijiye
+d036|n|gen|-|dent wala fridge bheja aur installation wala bola chalta hai, bilkul nahi chalega
+d036|n|gen|af|fridge pe dent, technician bolta ignore karo, chidh gaya hu
+d037|u|gen|nn|replacement wala piece bhi theek nahi hai, same issue
+d037|u|gen|nn|doosra piece bhi sahi nahi aaya, wahi crack
+d038|u|hw|-|bacche ka toy car ka pahiya nikla hua aaya
+d038|u|hw|-|khilone ka ek part toota hai, baccha ro raha hai
+d039|n|ar|-|replacement bhi toota aaya, ab tum logon pe bharosa nahi
+d039|n|ar|-|do baar toota item, teesri baar mangwane ki himmat nahi
+d040|p|st|af|exchange mein naya headphone mast aaya, khush hu 😄
+d040|p|st|-|replacement perfect hai, thanks for fixing it
+d041|u|gen|-|sofa ka fabric fata hua hai ek side se
+d041|u|gen|-|sofa cover pe cut hai delivery ke waqt ka
+d042|n|gen|-|kitchen scale ki screen blank aur body tooti, paisa barbaad
+d042|n|gen|-|scale tooti hui aur kaam bhi nahi karti, ghatiya
+d043|u|sk|mx|damaged stock ka credit note chahiye, replacement ki zarurat nahi
+d043|u|sk|mx|toota maal wapas le jao aur agle bill mein adjust kar do
+d044|p|el|ng|koi pareshani nahi hui replacement mein, beta aapne sab samjha diya
+d044|p|el|ng|tension nahi hai, naya dabba aa gaya theek se, dhanyavaad
+d045|u|gen|ns|repair wala mat bhejo, direct naya unit chahiye kyunki body cracked hai
+d045|u|gen|ns|technician mat bhejna, crack body hai toh replace hi karo
+d046|u|pro|nn|laptop charger ka pin tedha hai, fit nahi ho raha
+d046|u|pro|nn|port mein charger nahi lag raha, pin bent hai

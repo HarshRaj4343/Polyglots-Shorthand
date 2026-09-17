@@ -1,0 +1,53 @@
+# batch 2
+t201|n|ar|-|order 12 tarikh ko aana tha, aaj 19 ho gayi, tracking mein bas "delayed" likha hai, na reason na nayi date, ye aakhri baar order kar raha hu 😡
+t201|n|ar|-|12 ka order 19 tak nahi aaya, bas delayed likha, aakhri order hai ye
+t202|p|el|pr|beta aapke delivery wale hamesha samay pe aate hain aur saman upar tak laate hain, bas yeh bata dijiye kal ka order kitne baje tak aayega
+t202|p|el|pr|aap log bahut acche ho 🙏 kal ka saman kitne baje aayega
+t203|u|gen|-|mera parcel kidhar hai, kaiku itna time lag raha
+t203|u|gen|-|apun ka order kab aayega re
+t204|p|st|af|tracking me dikh raha rider gali me aa gaya 😍 khushi ho rahi hai, bas 2 min ruk jao gate khol raha
+t204|p|st|-|rider aa gaya almost, super fast, thnx
+t205|u|pro|-|kripya shipment sankhya SH7732 ki vartaman sthiti se avgat karaayein
+t205|u|pro|-|please update the current status of shipment SH7732
+t206|n|gen|af|poora hafta ho gaya hub pe pada hai parcel, sach mein tang aa gaya hu 😤
+t206|n|gen|-|hafte bhar se hub pe, koi move nahi, bekar courier
+t207|u|gen|ns|na cancel karna hai na address badalna, bas batao order kab tak pahunchega
+t207|u|gen|ns|kuch badalna nahi hai, sirf delivery date chahiye
+t208|n|st|-|parcl kab ayga yr 5 din ho gye, tracking bhi update nai ho rhi 😒
+t208|n|st|-|tracking update nhi ho rhi 5 din se, bakwas
+t209|p|hw|ng|koi tension nahi, bas mehmaan aane wale hain toh confirm karna tha ki mithai ka dabba 5 baje tak aa jayega
+t209|p|hw|ng|kuch galat nahi hai, bas mithai ka order time pe aayega na, shukriya
+t210|u|sk|nn|delivery boy ka number app pe nahi dikh raha, dukaan ka address samjhana hai
+t210|u|sk|nn|rider ka contact nahi mil raha, shop dhoondne mein dikkat na ho
+t211|n|el|-|beta roz kehte ho kal aayega, humari aankh ki dawai khatam ho gayi hai, kab bhejoge
+t211|n|el|af|dawai khatam hai aur parcel ka pata nahi, bahut chinta hai
+t212|u|gen|mx|delivery kab hogi batao, aur jo coupon laga tha woh invoice mein dikh nahi raha
+t212|u|gen|mx|order ka ETA aur coupon discount dono check kar do
+t213|p|pro|pr|excellent tracking accuracy so far 👍 kindly confirm if delivery will be before 6 pm
+t213|p|pro|pr|tracking bahut accurate hai, bas 6 baje se pehle aayega confirm kariye
+t214|n|gen|-|delivery "rescheduled by customer" likha hai jabki maine kuch reschedule nahi kiya, jhooth kyun likh rahe ho
+t214|n|gen|af|maine reschedule kiya hi nahi, jhootha status dekh ke gussa aa raha
+t215|u|gen|-|ji saman kitthe pahunchya, kad tak aa jaavega
+t215|u|gen|-|parcel da ki haal hai ji, kado aayega
+t216|p|gen|af|parcel ki location dekh ke tension door ho gayi 🙌 approx kitne minute
+t216|p|gen|-|live tracking dekh ke acha laga, kitna time aur
+t217|u|gen|nn|delivery boy ne call nahi kiya aur tracking mein "customer unavailable" aa gaya, next attempt kab hai
+t217|u|gen|nn|main available tha par unavailable likha, dobara kab aayenge
+t218|n|pro|-|third delay notification in a row, ye business ke liye bahut nuksaan wala hai
+t218|n|pro|-|lagatar teesri baar delay, hamara client wait kar raha hai
+t219|u|hw|ns|dukaan pe mat chhodna parcel, ghar pe hi dena, abhi kahan tak aaya
+t219|u|hw|ns|padosi ko mat dena, khud aa ke dena, kitni der hai
+t220|p|st|ng|koi jaldi nahi hai bro, bas curiosity hai kahan tak pahuncha 😄
+t220|p|st|ng|no stress, bas jaana tha order kaha tak aaya
+t221|n|sk|af|shaadi ke season ka maal abhi tak nahi aaya, grahak laut rahe hain, bahut nirash hu
+t221|n|sk|-|season ka maal late, grahak jaa rahe, kya karu
+t222|u|el|-|bhaiya humara parcel dak ghar mein aaya hai kya, kaise pata karein
+t222|u|el|-|post office mein aaya ho toh batana beta, lene chale jayenge
+t223|p|gen|pr|packing aur speed dono shandaar hai aapki 🎉 bas batado aaj ka order kitne baje dispatch hoga
+t223|p|gen|pr|love the speed, aaj ka dispatch time bata do
+t224|n|ar|-|tracking id galat bheji, courier site pe "invalid" aata hai, ye bhi theek se nahi kar sakte
+t224|n|ar|-|invalid tracking number bhej diya, kya kar rahe ho tum log
+t225|u|gen|-|trackng kaise krte h app pe
+t225|u|gen|-|order track krna h, kahan dekhu
+t226|u|gen|mx|order ka status batao, aur agar 2 din mein nahi aa raha toh address badal dunga
+t226|u|gen|mx|kab tak aayega bata do, late ho toh office ka address daal dunga

@@ -1,0 +1,38 @@
+# batch 3
+n301|n|gen|-|delivered ka message aaya aur ghar pe kuch nahi, aisa doosri baar hua hai 😠
+n301|n|gen|-|fir se fake delivered, kuch nahi aaya ghar
+n301|n|gen|af|dobara fake delivery, bahut chidh ho rahi hai
+n302|p|gen|pr|aap log hamesha sahi time pe dete ho 🙂 aaj pehli baar delivered dikh raha par parcel nahi mila
+n302|p|gen|pr|usually sab perfect rehta hai, aaj ka parcel receive nahi hua bas
+n303|u|gen|nn|parcel mujhe nahi mila, bagal wale ne bhi nahi liya, tracking delivered bol raha
+n303|u|gen|nn|padosi ke paas bhi nahi hai aur mujhe bhi nahi mila, par delivered hai
+n304|n|sk|-|dukaan pe delivered likha, 200 ka COD bhi kat gaya, maal nahi aaya, loot hai
+n304|n|sk|-|COD ke paise gaye aur maal nahi mila, chor log
+n305|p|st|ng|koi problem nahi bro, bas delivered dikha raha aur mujhe mila nahi, dekh lo
+n305|p|st|ng|chill hu, bas parcel nahi mila jo delivered bola
+n306|u|el|ns|beta abhi paisa wapas mat karo, pehle humara parcel dhoondho
+n306|u|el|ns|refund ki jaldi nahi, saman chahiye jo nahi aaya
+n307|n|el|-|beta saman nahi mila aur phone pe koi sahi jawab nahi deta, bahut galat baat hai
+n307|n|el|af|saman bhi nahi aur jawab bhi nahi, mann khinn hai
+n308|u|pro|-|ticket 44821 ke saath delivery proof aur GPS location share kijiye, shipment receive nahi hua
+n308|u|pro|-|GPS location of delivery bhejiye, humein shipment nahi mila
+n309|p|hw|af|dhoondh ke parcel pahunchane ke liye dil se shukriya, bahut raahat hai 🙏
+n309|p|hw|-|missing parcel mil gaya, aap logon ka shukriya
+n310|n|ar|-|parcel chori ho gaya aapke rider se, aur ab bol rahe claim reject, ye dadagiri nahi chalegi
+n310|n|ar|-|claim reject kar diya jab parcel mila hi nahi, sharam karo
+n311|u|gen|-|delivered hai but mujhe mila nahi, kya karna chahiye
+n311|u|gen|-|parcel receive nahi hua, delivered dikh raha, next step kya hai
+n312|u|hw|mx|parcel nahi mila, aur ab mere ghar ka naya address bhi save kar lo aage ke liye
+n312|u|hw|mx|delivered wala parcel nahi aaya, address update bhi karna hai
+n313|n|gen|af|delivered dikhaya aur parcel gayab, poori raat neend nahi aayi, bahut tension hai
+n313|n|gen|-|mehnga saman gayab, delivered likha, koi responsibility nahi lete
+n314|p|el|-|beta aapne hamara khoya hua saman dhoondh diya, bahut dhanyavaad
+n314|p|el|af|khoya parcel mil gaya, mann prasann hai
+n315|u|st|nn|room lock tha, fir bhi delivered bola, parcel kahin nahi hai
+n315|u|st|nn|main room mein nahi tha, parcel ka koi nishaan nahi, par delivered
+n316|n|st|-|parcel gayab aur support bolta 48 ghante ruko, pehle bhi yahi bola tha 😤
+n316|n|st|-|48 ghante ruko sunke thak gaya, parcel abhi bhi nahi
+n317|u|sk|ns|replacement mat bhejo abhi, pehle delivery ki video footage mangwao
+n317|u|sk|ns|naya maal nahi, pehle proof chahiye ki kahan diya
+n318|p|pro|ng|no complaints about your team, bas record ke liye bata raha hu ki shipment receive nahi hua
+n318|p|pro|ng|aapki team mein koi kami nahi, bas ek shipment receive nahi hua

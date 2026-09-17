@@ -1,0 +1,25 @@
+# batch 3
+c301|n|gen|-|order cancel karne ka option hi gayab kar diya, jaanboojh ke kiya hai 😠
+c301|n|gen|-|cancel button hata diya taaki cancel na kar sakein, chalaki hai
+c302|p|gen|pr|aap log hamesha helpful rahe ho 🙂 is baar bas order cancel karna tha
+c302|p|gen|pr|bahut acchi service hai aapki, bas ye wala order cancel kar do
+c303|u|gen|nn|payment ho gaya lekin mujhe ab ye nahi lena, cancel kaise hoga
+c303|u|gen|nn|ab ye item nahi chahiye, paisa de diya hai, cancel karna hai
+c304|n|el|af|beta cancel ke liye aadha din phone pe laga raha, bahut thak gaya hu, fir bhi nahi hua
+c304|n|el|-|poora din laga diya cancel ke liye, koi fayda nahi
+c305|p|st|ng|koi issue nahi bro, bas galti se order ho gaya, cancel pls 🙏
+c305|p|st|ng|no problem with app, galti meri thi, cancel kar do
+c306|u|pro|ns|refund later process karein, pehle order cancellation confirm kijiye
+c306|u|pro|ns|payment ki baat baad mein, abhi sirf order cancel ho jaye
+c307|n|sk|-|dukaan ke liye jo order cancel kiya woh dobara place ho gaya apne aap, ye kya bug hai
+c307|n|sk|af|cancel kiya order phir se place ho gaya, dimaag ghoom gaya
+c308|u|hw|-|bacchon ki chhuttiyan cancel ho gayi, trip ka saman nahi chahiye, order cancel karo
+c308|u|hw|-|trip nahi ja rahe, travel bag order cancel kar do
+c309|p|el|af|aapne itne dhairya se cancel karwaya, bahut aabhaari hu beta
+c309|p|el|-|dhanyavaad beta, order radd ho gaya
+c310|n|ar|-|order cancel karo aur mera account delete karo, bahut ho gaya
+c310|n|ar|-|cancel karo sab kuch, is app se nafrat ho gayi
+c311|u|st|-|ek din pehle order kiya tha, abhi cancel ho sakta h?
+c311|u|st|-|kal ka order hai, cancel possible hai kya abhi
+c312|u|gen|mx|order cancel karna hai kyunki tracking 4 din se same hai
+c312|u|gen|mx|4 din se parcel nahi hila, isliye cancel kar do

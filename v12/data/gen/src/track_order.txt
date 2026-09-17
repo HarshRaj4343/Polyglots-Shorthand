@@ -1,0 +1,129 @@
+# family|sentiment|persona|tags|text
+t001|u|st|-|bhai mera parcel kidhar pahuncha, hostel gate pe wait kar raha
+t001|u|st|-|parcel abhi kaha h, main gate pe khada hu
+t001|u|st|-|delivery boy kitni der mein aayega hostel pe
+t002|u|el|-|beta humara saman kab tak aayega, ghar pe koi nahi hai dopahar mein
+t002|u|el|nn|dopahar mein ghar pe koi nahi hoga, delivery shaam ko ho sakti hai kya
+t003|n|ar|-|4 din se "arriving today" dikha raha hai, ye kya mazaak hai 😡
+t003|n|ar|-|roz bolte ho aaj aayega, kabhi aata nahi, jhoothe
+t003|n|ar|af|roz ka wahi status, tang aa chuka hu
+t004|p|pro|pr|delivery hamesha time pe hoti hai aapki, bas ye bata dijiye aaj kitne baje tak aayega
+t004|p|pro|pr|aapki logistics kamaal ki hai 👍 aaj ka delivery slot bata denge?
+t005|u|sk|-|dukaan pe maal chahiye kal subah tak, parcel kahan tak pahuncha
+t005|u|sk|-|shop ka stock khatam hai, shipment ka current status bhejo
+t006|u|gen|ns|order cancel mat karna, bas location bata do
+t006|u|gen|ns|cancel nahi karna hai, sirf tracking details chahiye
+t006|u|gen|ns|mujhe cancel nahi karna, parcel kahan hai ye batao
+t007|u|gen|nn|tracking link khul nahi raha, status bata sakte ho
+t007|u|gen|nn|link pe kuch load nahi hota, order kahan hai
+t008|p|gen|ng|koi deri nahi hui ab tak, bas confirm karna tha aaj aa jayega na
+t008|p|gen|ng|sab time pe chal raha hai, koi shikayat nahi, bas delivery time bata do
+t009|n|gen|af|parcel ki location 3 din se ek hi jagah atki hai, bahut pareshan hu
+t009|n|gen|-|3 din se same hub pe pada hai mera parcel, koi dekhta bhi hai
+t010|u|hw|-|rakhi ka gift bheja hai bhai ko, kab tak pahunchega
+t010|u|hw|-|rakhi se pehle pahunch jayega na parcel, date bata do
+t011|p|st|af|live tracking dekh ke maza aa gaya, bas ETA thoda update kar do
+t011|p|st|-|tracking feature op hai bro, delivery kitne baje tak hogi
+t012|n|sk|-|courier wala phone nahi utha raha, maal kahan hai kisi ko pata nahi
+t012|n|sk|-|delivery agent ka number band, dukaan ka order kahan gaya
+t013|u|pro|-|please share AWB number and courier partner name
+t013|u|pro|-|courier partner kaun hai aur AWB kya hai, share kijiye
+t014|u|gen|mx|parcel kahan hai batao, late hua toh cancel kar dunga
+t014|u|gen|mx|agar kal tak nahi aaya toh cancel karna padega, abhi status batao
+t015|n|gen|-|delivery date 3 baar badal di, koi reason bhi nahi bataya
+t015|n|gen|af|har din nayi date, sar dard ho gaya hai
+t016|u|el|-|beta yeh tracking kaise dekhte hain, humein samajh nahi aata
+t016|u|el|nn|mujhe app chalana nahi aata, order kahan hai phone pe bata dijiye
+t017|p|hw|pr|pichhli baar sabzi 10 minute pehle aa gayi thi, bahut accha laga, aaj wala order kab tak aayega
+t017|p|hw|pr|aap log bahut fast ho 😊 aaj ka grocery order kahan tak pahuncha
+t018|u|gen|-|out for delivery kab tak rahega
+t018|u|gen|-|out for delivery dikha raha subah se, kitne baje aayega
+t019|n|ar|-|pichhle order mein bhi yahi hua tha, parcel gayab, ab ye bhi kahin atka hai
+t019|n|ar|-|har baar tracking kharab, har baar late, ghatiya logistics
+t020|u|gen|ns|refund mat karo abhi, pehle dhundho parcel kahan hai
+t020|u|gen|ns|paise wapas nahi chahiye, mujhe mera parcel chahiye, kahan hai
+t021|u|st|-|delivery otp kab aayega mobile pe
+t021|u|st|nn|otp abhi tak nahi aaya, delivery kab hogi
+t022|p|gen|ng|delivery boy ne ek baar bhi pareshan nahi kiya, bas bata do kitne baje aayenge
+t022|p|gen|ng|bina hassle ke tracking chal rahi hai, bas final time confirm karo
+t023|n|gen|-|warehouse se nikla hi nahi 6 din se, kya kar rahe ho tum log
+t023|n|gen|-|6 din se "packed" pe atka hai, bekar service 😒
+t024|u|sk|-|ek saath 5 parcel aane the, sirf 2 ka tracking dikh raha, baaki kahan hain
+t024|u|sk|nn|baaki 3 parcel ka tracking number nahi mila, status batao
+t025|u|pro|-|delivery address update ho sakta hai kya, office pe chahiye parcel
+t025|u|pro|-|parcel ghar ki jagah office bhijwana hai, kya route change hoga
+t026|p|el|-|bahut acche log ho aap, humara parcel kal pahunch jayega na beta
+t026|p|el|-|aapne itne pyaar se samjhaya, dhanyavaad, bas bata dijiye kab aayega
+t027|n|gen|af|delivery late hone se party kharab ho gayi, mood off hai, parcel kahan hai
+t027|n|gen|-|birthday nikal gaya, gift abhi tak nahi aaya, kya fayda
+t028|u|gen|-|tracking me "in transit" hai 2 din se, normal hai kya
+t028|u|gen|-|in transit ka matlab kab tak aayega approx
+t029|u|gen|mx|order ka status batao aur invoice bhi mail kar do
+t029|u|gen|mx|parcel kahan hai aur bill ki copy bhi chahiye
+t030|p|st|af|parcel ek din pehle aa raha hai, khushi ho rahi hai 😄 exact time bata do
+t030|p|st|-|wah early delivery, kitne baje tak aayega bro
+t031|n|sk|-|dukaan band karke 3 ghante se baitha hu delivery ke liye, koi nahi aaya
+t031|n|sk|af|poora din barbaad, delivery aayi hi nahi, gussa aa raha hai
+t032|u|gen|ns|delivery boy ko call mat karne dena, bas gate pe chhod de, abhi kahan hai
+t032|u|gen|ns|call mat karwana baby so raha hai, delivery kitni der mein hogi
+t033|u|el|-|kya aaj ravivaar ko bhi delivery hoti hai
+t033|u|el|-|ravivaar ko saman aayega ya somvaar ko
+t034|n|gen|-|tracking mein "delivered to neighbour" likha hai par kaunsa neighbour, koi nahi batata
+t034|n|gen|-|kis padosi ko diya, naam tak nahi, bakwaas tracking
+t035|p|gen|pr|packing hamesha solid hoti hai, bas ye order kab dispatch hoga
+t035|p|gen|pr|pichhli delivery mast thi 🙌 is order ka dispatch date kya hai
+t036|u|gen|nn|order ship hua ya nahi, mail nahi aaya koi
+t036|u|gen|nn|dispatch ka koi sms nahi mila, check kar do
+t037|n|ar|-|customer care ko 7 call, 7 alag jawab, parcel ka koi pata nahi
+t037|n|ar|af|har agent alag kahani sunata hai, irritate ho gaya hu
+t038|u|pro|-|international shipment hai, customs clearance mein kitna time lagega
+t038|u|pro|-|customs pe atka hai kya parcel, clearance status batao
+t039|p|hw|ng|koi pareshani nahi, bas kal pooja hai, uske pehle aa jayega na
+t039|p|hw|ng|sab theek hai, bas confirm karna tha ki pooja ka saman kal tak aa jayega
+t040|u|st|-|parcl kab aayga
+t040|u|st|-|ordr kaha pohcha
+t040|u|st|-|mera saman kab aaega bhaiya
+t041|n|gen|-|map pe delivery boy ulta ja raha hai, ye kya chal raha hai
+t041|n|gen|-|live location mein rider doosri taraf ja raha, time waste kar rahe ho
+t042|u|gen|ns|address change mat karna, wahi purana sahi hai, bas delivery date batao
+t042|u|gen|ns|mujhe address update nahi karna, sirf ETA chahiye
+t043|p|gen|af|tracking dekh ke chinta door ho gayi, bas ek baar confirm kar do shaam tak aayega
+t043|p|gen|af|location dekh ke sukoon mila, kitne minute aur
+t044|n|el|-|beta 10 din ho gaye, dawai ka parcel nahi aaya, kya karein
+t044|n|el|af|dawai ka intezaar hai aur parcel ka kuch pata nahi, bahut chinta ho rahi hai
+t045|u|sk|mx|parcel kahan hai aur COD mein change milega na delivery boy ke paas
+t045|u|sk|mx|delivery kab tak aur cash ka change le ke aana bhaiya ko bol dena
+t046|u|gen|-|pin code 110092 mein delivery kab tak hoti hai usually
+t046|u|gen|-|mere area mein delivery kitne din leti hai
+t047|n|ar|-|express delivery ke extra paise liye aur normal se bhi late 😤
+t047|n|ar|-|express ka charge liya fir bhi 5 din, ye loot hai
+t048|p|pro|pr|customer support hamesha helpful hai, is shipment ka tracking link resend kar dijiye
+t048|p|pro|pr|aapki team bahut responsive hai, tracking mail dobara bhej dijiye please
+t049|u|gen|nn|delivery attempt failed likha hai par koi aaya hi nahi, ab kab aayega
+t049|u|gen|nn|attempted likha hai jabki main ghar pe tha, next attempt kab hai
+t050|n|gen|-|attempt failed jhooth likha, koi bell tak nahi bajayi, shameful
+t050|n|gen|af|jhootha failed attempt likh diya, khoon khaul raha hai
+t051|u|st|-|parcel aaj aayega ya kal, clg jana hai
+t051|u|st|-|delivery aaj hogi kya, college ke liye nikalna hai
+t052|p|gen|ng|koi jaldi nahi hai, aaram se bhejo, bas approximate date bata do
+t052|p|gen|ng|tension nahi hai delivery ki, bas pata chal jaye kab tak aayega, thanks
+t053|u|hw|-|gas cylinder wala order kab tak aayega
+t053|u|hw|-|cylinder book kiya tha, delivery ka time batao
+t054|n|sk|-|3 hafte se shipment gayab, supplier ko kya jawab du
+t054|n|sk|af|supplier baar baar pooch raha, main khud nirash hu, parcel kahan hai
+t055|u|pro|ns|refund ya replacement ki baat nahi kar raha, sirf delivery status chahiye
+t055|u|pro|ns|escalation nahi chahiye abhi, bas latest tracking update de dijiye
+t056|p|st|-|thanks for the quick dispatch, kal tak aa jayega na
+t056|p|st|-|jaldi dispatch karne ke liye shukriya, delivery date confirm karo
+t057|n|gen|-|tracking page pe har baar "something went wrong", status kaise dekhu
+t057|n|gen|-|app ka tracking page crash ho raha hai, bekar app
+t058|u|el|-|bhaiya humara parcel gaon mein aayega ya shehar ke post office mein lena padega
+t058|u|el|-|gaon tak delivery hogi ya daak ghar se lena hai
+t059|u|gen|mx|delivery kab hai, aur ek item cancel karna ho toh abhi kar sakte hain kya
+t059|u|gen|mx|parcel ka status batao, extra item baad mein cancel karunga
+t060|n|gen|af|delivery ki wajah se chutti leni padi aur koi aaya nahi, bahut khinn hu
+t060|n|gen|-|chutti leke baitha, delivery nahi aayi, paisa bhi gaya din bhi
+t061|p|hw|af|pichhli baar delivery bhaiya ne saman upar tak pahunchaya, mann khush hua, aaj kab aayenge
+t061|p|hw|-|aapke delivery bhaiya bahut acche hain, aaj ka order kitne baje tak aayega
+t062|u|gen|nn|koi update nahi aaya subah se, order kahan hai
+t062|u|gen|nn|na sms na mail, parcel ka status kya hai

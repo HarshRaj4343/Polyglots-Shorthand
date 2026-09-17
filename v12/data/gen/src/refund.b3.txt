@@ -1,0 +1,25 @@
+# batch 3
+r301|n|gen|-|refund ke liye bank statement maang rahe ho, main kyun du, paisa aapki galti se atka hai 😠
+r301|n|gen|-|statement kyun du refund ke liye, galti aapki hai
+r302|p|gen|pr|aapki return policy bahut acchi hai 🙂 bas refund kis account mein jayega confirm kar do
+r302|p|gen|pr|easy return ke liye thanks, refund kahan credit hoga
+r303|u|gen|nn|refund mera abhi tak nahi aaya, 5 working day bole the, aaj 5th day hai
+r303|u|gen|nn|5 din ka bola tha, aaj aakhri din hai, abhi nahi aaya refund
+r304|n|el|af|beta refund ke liye itni baar bank jaana pada, pair dukh gaye, bahut takleef hui
+r304|n|el|-|budhape mein bank ke chakkar, refund nahi aaya, galat hai
+r305|p|st|ng|koi tension nahi hui refund me, super smooth 🙌
+r305|p|st|ng|refund me koi problem nahi aayi, mast
+r306|u|pro|ns|replacement unit dispatch mat kijiye, full refund process kijiye
+r306|u|pro|ns|naya unit nahi chahiye, refund complete kijiye
+r307|n|sk|-|refund mein se "handling fee" kaat liya, ye kab bataya tha
+r307|n|sk|af|chupke se fee kaat li refund se, bahut gussa hai
+r308|u|hw|-|mera gas stove return hua tha, refund bank mein aayega ya wallet mein
+r308|u|hw|-|stove ka refund kahan aayega, wallet ya bank
+r309|p|el|af|paise wapas mil gaye beta, chinta mit gayi, jeete raho
+r309|p|el|-|refund aa gaya, bahut dhanyavaad
+r310|n|ar|-|refund dene ke naam pe 20 din, lene ke naam pe 2 second, dogla system
+r310|n|ar|-|paise katne mein jaldi, lautane mein mahina, bekar
+r311|u|st|-|refund status me "approved" h, ab kitna time
+r311|u|st|-|refund approved dikh rha, credit kab hoga
+r312|u|gen|mx|refund kar do aur ye product mere wishlist se bhi hata do
+r312|u|gen|mx|paise wapas karo aur ye item recommendation mein mat dikhana

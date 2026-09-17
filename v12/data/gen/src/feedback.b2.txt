@@ -1,0 +1,49 @@
+# batch 2
+f201|n|ar|-|5 saal se customer hu, pehle service acchi thi, ab har order mein late, support rude, prices zyada, sach kahu toh bahut nirash kiya hai aapne 😞
+f201|n|ar|-|pehle acchi thi service, ab bilkul bekar ho gayi
+f202|p|el|-|beta aap logon ki wajah se humein bazaar nahi jaana padta, ghar baithe sab mil jata hai, bahut aashirwad 🙏
+f202|p|el|af|ghar baithe saman milta hai, bahut santusht hain aapse
+f203|u|gen|-|apun ko bas bolna tha app theek hai, kuch special nahi
+f203|u|gen|-|app kaiku itna bada hai, phone mein jagah leta hai, suggestion hai
+f204|p|st|af|app ka dark mode dekh ke maza aa gaya 😍 aankhon ko sukoon
+f204|p|st|-|dark mode 🔥 finally, thanks devs
+f205|u|pro|-|sujhav hai ki aap vyapaarik graahakon ke liye alag sahayata number uplabdh karayein
+f205|u|pro|-|suggestion: B2B customers ke liye dedicated support line honi chahiye
+f206|n|gen|af|customer care pe 45 minute hold, fir call cut, sach mein tang aa gaye hain
+f206|n|gen|-|45 min hold aur call disconnect, poor support
+f207|u|gen|ns|koi refund ya complaint nahi daalni, bas feedback hai ki delivery boy ko mask pehenna chahiye
+f207|u|gen|ns|ticket mat kholna, sirf suggestion hai packaging ke baare mein
+f208|n|st|-|app ka update aane ke baad sab slow ho gya, pehle accha tha 😒
+f208|n|st|-|naya update bekar h, sab lag krta h
+f209|p|hw|ng|kabhi bhi sadi sabzi nahi aayi, koi shikayat nahi, aise hi chalte raho
+f209|p|hw|ng|ek bhi baar kharab maal nahi mila, badhiya
+f210|u|sk|nn|seller app mein hindi option nahi hai, humare staff ko dikkat hoti hai
+f210|u|sk|nn|dukaan ke staff ko english nahi aati, hindi add karo
+f211|n|el|af|beta itne button aur itne pop up, hum budhe log ulajh jaate hain, bahut pareshani hoti hai
+f211|n|el|-|app bahut complicated hai humare liye, aasaan banao
+f212|p|pro|pr|overall very satisfied 👍 ek feedback: monthly spending report ka feature do
+f212|p|pro|pr|excellent platform, bas expense summary download ka option add karo
+f213|n|gen|-|delivery boy ne gaali di jab maine change maanga, aisa staff rakhte ho
+f213|n|gen|af|rider ki badtameezi se bahut apmaan laga
+f214|u|gen|-|ji app vadiya hai, bas punjabi bhasha vi add karo
+f214|u|gen|-|ek suggestion si ji, punjabi language da option dena
+f215|p|gen|af|festival pe bhi time pe delivery, prabhavit hu aapki team se 🎉
+f215|p|gen|-|diwali rush mein bhi perfect service, well done
+f216|u|gen|nn|koi shikayat nahi hai, bas rating system thoda confusing hai
+f216|u|gen|nn|problem nahi hai koi, bas review section mein photo upload ka option do
+f217|n|sk|-|chhote shehar ke sellers ke saath bhedbhaav hota hai platform pe, listing hi nahi dikhti
+f217|n|sk|af|humari listing kabhi upar nahi aati, bahut nirasha hai
+f218|p|st|-|campus pe free delivery 🙌 best app for students
+f218|p|st|ng|students ke liye koi extra charge nahi, great move
+f219|u|hw|-|mera feedback hai ki sabzi ke saath dhaniya free milta tha, woh wapas shuru karo 😄
+f219|u|hw|-|pehle dhaniya free aata tha, fir se de sakte ho kya
+f220|n|pro|-|invoices mein baar baar galat GST number aata hai, compliance ke liye bahut problem hai
+f220|n|pro|-|galat tax invoice har mahine, very unprofessional
+f221|p|el|ng|koi takleef nahi hui is baar, delivery wale ne sab samjha diya, bahut accha
+f221|p|el|ng|bina kisi pareshani ke sab ho gaya, shukriya beta
+f222b|p|gen|pr,mx|feedback dena tha ki app accha hai, aur ek sawaal, gift wrap ka option kahan hai
+f222|u|gen|mx|app theek hai, bas batao gift wrap kaise select karte hain
+f223|n|gen|-|reviews mein sirf 5 star dikhate ho, negative review delete karte ho, ye beimaani hai
+f223|n|gen|-|bure reviews hata dete ho, fake ratings
+f224|p|gen|-|yaar sach mein itni acchi service expect nahi ki thi, 10/10 ❤️
+f224|p|gen|af|expectation se zyada accha experience, dil khush

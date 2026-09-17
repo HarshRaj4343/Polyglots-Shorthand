@@ -1,0 +1,68 @@
+{
+  "sources": {
+    "sentimix": {
+      "raw_rows": 20000,
+      "not_hinglish": 6987,
+      "kept": 12080,
+      "non_latin_script": 123,
+      "length": 126,
+      "exact_duplicate": 448,
+      "empty": 236
+    },
+    "hinglid": {
+      "raw_rows": 44455,
+      "kept": 42543,
+      "not_hinglish": 922,
+      "exact_duplicate": 515,
+      "length": 475
+    },
+    "phinc": {
+      "raw_rows": 13738,
+      "not_hinglish": 3886,
+      "kept": 9561,
+      "length": 79,
+      "empty": 114,
+      "exact_duplicate": 79,
+      "non_latin_script": 19
+    },
+    "cmu_hinglish_dog": {
+      "raw_rows": 9962,
+      "length": 1085,
+      "not_hinglish": 1419,
+      "kept": 7146,
+      "exact_duplicate": 302,
+      "too_long": 7,
+      "non_latin_script": 3
+    },
+    "abhishek_tweets": {
+      "raw_rows": 498,
+      "kept": 25,
+      "not_hinglish": 88,
+      "exact_duplicate": 385
+    }
+  },
+  "near_dup_threshold": 0.6,
+  "protected_sets": "v1.1 validation, test, audit + contrast",
+  "sentiment_labeled": {
+    "rows": 12105,
+    "by_source": {
+      "abhishek_tweets": 25,
+      "sentimix": 12080
+    },
+    "labels": {
+      "positive": 2784,
+      "negative": 4777,
+      "neutral": 4544
+    }
+  },
+  "unlabeled_pool": {
+    "rows": 50000,
+    "cap": 50000,
+    "by_source": {
+      "cmu_hinglish_dog": 6043,
+      "hinglid": 35957,
+      "phinc": 8000
+    }
+  },
+  "near_duplicates_removed_total": 0
+}

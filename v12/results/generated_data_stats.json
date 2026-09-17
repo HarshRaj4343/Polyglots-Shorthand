@@ -1,0 +1,317 @@
+{
+  "rows": 1202,
+  "families": 591,
+  "authored_lines": 1203,
+  "exact_duplicates_removed": 0,
+  "near_duplicates_removed_vs_val_test_audit_contrast": 1,
+  "near_duplicate_examples": [
+    {
+      "text": "refund ka intezaar karte karte nirash ho gaya hu",
+      "jaccard": 0.844,
+      "matched": "refund ka intezaar karke nirash ho gaya hu"
+    }
+  ],
+  "max_jaccard_to_protected_after_filter": 0.582,
+  "families_with_mixed_sentiment": [],
+  "intent_x_sentiment": {
+    "cancel_order": {
+      "negative": 65,
+      "positive": 56,
+      "neutral": 127
+    },
+    "refund": {
+      "negative": 62,
+      "positive": 54,
+      "neutral": 98
+    },
+    "track_order": {
+      "negative": 59,
+      "positive": 48,
+      "neutral": 97
+    },
+    "not_received": {
+      "negative": 54,
+      "positive": 42,
+      "neutral": 84
+    },
+    "damaged_item": {
+      "negative": 50,
+      "positive": 42,
+      "neutral": 80
+    },
+    "feedback": {
+      "negative": 61,
+      "positive": 66,
+      "neutral": 57
+    }
+  },
+  "sentiment": {
+    "negative": 351,
+    "positive": 308,
+    "neutral": 543
+  },
+  "persona": {
+    "ar": 86,
+    "el": 138,
+    "gen": 494,
+    "sk": 107,
+    "pro": 124,
+    "st": 153,
+    "hw": 100
+  },
+  "tags": {
+    "pr": 82,
+    "af": 151,
+    "ns": 97,
+    "mx": 66,
+    "ng": 99,
+    "nn": 119
+  },
+  "words": {
+    "min": 2,
+    "max": 36,
+    "mean": 11.3
+  },
+  "emoji_rate": 0.104,
+  "affect_word_overlap_risk": {
+    "validation": {
+      "affect_words_in_split": [
+        "accha",
+        "acha",
+        "awesome",
+        "bekar",
+        "frustrating",
+        "great",
+        "khush",
+        "loot",
+        "love",
+        "mast",
+        "shukriya",
+        "thank",
+        "useless"
+      ],
+      "also_in_generated": [
+        "accha",
+        "acha",
+        "bekar",
+        "frustrating",
+        "great",
+        "khush",
+        "loot",
+        "love",
+        "mast",
+        "shukriya",
+        "thank",
+        "useless"
+      ],
+      "also_in_v11_train": [
+        "accha",
+        "acha",
+        "bekar",
+        "great",
+        "khush",
+        "love",
+        "mast",
+        "shukriya",
+        "thank"
+      ],
+      "new_via_generated_only": [
+        "frustrating",
+        "loot",
+        "useless"
+      ],
+      "vocab_coverage_by_v11_train": 0.687,
+      "vocab_coverage_by_v11_train_plus_generated": 0.949
+    },
+    "test": {
+      "affect_words_in_split": [
+        "accha",
+        "acchi",
+        "acha",
+        "bakwaas",
+        "bekar",
+        "disappointed",
+        "fraud",
+        "ghatiya",
+        "great",
+        "mast",
+        "pareshan",
+        "shukriya",
+        "superb",
+        "thank",
+        "worst"
+      ],
+      "also_in_generated": [
+        "accha",
+        "acchi",
+        "acha",
+        "bakwaas",
+        "bekar",
+        "fraud",
+        "ghatiya",
+        "great",
+        "mast",
+        "pareshan",
+        "shukriya",
+        "thank",
+        "worst"
+      ],
+      "also_in_v11_train": [
+        "accha",
+        "acchi",
+        "acha",
+        "bakwaas",
+        "bekar",
+        "ghatiya",
+        "great",
+        "mast",
+        "shukriya",
+        "superb",
+        "thank",
+        "worst"
+      ],
+      "new_via_generated_only": [
+        "fraud",
+        "pareshan"
+      ],
+      "vocab_coverage_by_v11_train": 0.701,
+      "vocab_coverage_by_v11_train_plus_generated": 0.944
+    },
+    "audit": {
+      "affect_words_in_split": [
+        "badhiya",
+        "bakwas",
+        "bekar",
+        "ghatiya",
+        "khush",
+        "thank"
+      ],
+      "also_in_generated": [
+        "badhiya",
+        "bakwas",
+        "bekar",
+        "ghatiya",
+        "khush",
+        "thank"
+      ],
+      "also_in_v11_train": [
+        "bekar",
+        "ghatiya",
+        "khush",
+        "thank"
+      ],
+      "new_via_generated_only": [
+        "badhiya",
+        "bakwas"
+      ],
+      "vocab_coverage_by_v11_train": 0.77,
+      "vocab_coverage_by_v11_train_plus_generated": 0.952
+    },
+    "contrast": {
+      "affect_words_in_split": [
+        "aabhaar",
+        "aabhari",
+        "accha",
+        "badiya",
+        "bekar",
+        "bura",
+        "chidh",
+        "chinta",
+        "dhanyavaad",
+        "dhokha",
+        "dukhi",
+        "fraud",
+        "ghatiya",
+        "great",
+        "gussa",
+        "irritate",
+        "khinn",
+        "khush",
+        "lajawab",
+        "mast",
+        "nirash",
+        "pareshaan",
+        "pareshan",
+        "prabhavit",
+        "prasann",
+        "raahat",
+        "shukriya",
+        "sukoon",
+        "tang",
+        "tension",
+        "thank",
+        "thanks"
+      ],
+      "also_in_generated": [
+        "aabhaar",
+        "aabhari",
+        "accha",
+        "badiya",
+        "bekar",
+        "bura",
+        "chidh",
+        "chinta",
+        "dhanyavaad",
+        "dhokha",
+        "dukhi",
+        "fraud",
+        "ghatiya",
+        "great",
+        "gussa",
+        "irritate",
+        "khinn",
+        "khush",
+        "mast",
+        "nirash",
+        "pareshaan",
+        "pareshan",
+        "prabhavit",
+        "prasann",
+        "raahat",
+        "shukriya",
+        "sukoon",
+        "tang",
+        "tension",
+        "thank",
+        "thanks"
+      ],
+      "also_in_v11_train": [
+        "accha",
+        "badiya",
+        "bekar",
+        "bura",
+        "dhanyavaad",
+        "ghatiya",
+        "great",
+        "gussa",
+        "khush",
+        "mast",
+        "shukriya",
+        "thank",
+        "thanks"
+      ],
+      "new_via_generated_only": [
+        "aabhaar",
+        "aabhari",
+        "chidh",
+        "chinta",
+        "dhokha",
+        "dukhi",
+        "fraud",
+        "irritate",
+        "khinn",
+        "nirash",
+        "pareshaan",
+        "pareshan",
+        "prabhavit",
+        "prasann",
+        "raahat",
+        "sukoon",
+        "tang",
+        "tension"
+      ],
+      "vocab_coverage_by_v11_train": 0.567,
+      "vocab_coverage_by_v11_train_plus_generated": 0.945
+    }
+  }
+}
