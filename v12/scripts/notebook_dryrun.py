@@ -36,7 +36,8 @@ exec(src, g)
 assert (Path(g['PERSIST']) / 'hash_test.txt').exists()
 # cell 4 (train) with the smoke config written into the unpacked bundle
 Path(g['WORK'], 'configs', 'dryrun.json').write_text(json.dumps(smoke_cfg))
-src = cells[3].replace("'--config', 'configs/teacher_v11data.json'", "'--config', 'configs/dryrun.json', '--smoke'")
+import re
+src = re.sub(r"'--config', 'configs/teacher_[a-z0-9_]+\.json'", "'--config', 'configs/dryrun.json', '--smoke'", cells[3])
 src = src.replace("'--config', 'configs/student.json'", "'--config', 'configs/dryrun.json'")
 exec(src, g)
 # cell 5 (package); md.version works locally, cuda name needs a stub

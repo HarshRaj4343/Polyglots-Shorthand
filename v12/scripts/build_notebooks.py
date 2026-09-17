@@ -15,6 +15,16 @@ NOTEBOOKS = {
         'module': 'polyglot12.teacher',
         'config': 'configs/teacher_v11data.json',
     },
+    '02_teacher_kd': {
+        'title': '02 - Teacher v2 (v1.1 train + generated + augmented + public sentiment) and KD pseudo-labels',
+        'what': 'Fine-tunes hing-roberta-mixed at 2 learning rates on v1.1 train + 1,202 generated support messages + 2,323 '
+                'augmented variants + 4,000 public sentiment tweets (intent loss masked), early-stops on v1.1 validation NLL, '
+                'and writes logits for validation/test/test_stress/audit/contrast plus the KD sets (train, generated, '
+                'augmented, 12,105 public labeled, 50,000 unlabeled pool).',
+        'gpu': '~30-50 min on a T4 (2 runs x <=6 epochs of ~8k rows, then ~75k rows of inference per run). Hard guard: 100 min.',
+        'module': 'polyglot12.teacher',
+        'config': 'configs/teacher_kd.json',
+    },
 }
 
 SETUP = r'''# ---- 1. Platform, persistent storage, bundle location --------------------------------

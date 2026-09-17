@@ -1,0 +1,23 @@
+{
+  "source_rows": 1738,
+  "variants": 2323,
+  "counts": {
+    "map_unchanged_or_duplicate": 952,
+    "noise_rejected_near_duplicate": 2,
+    "noise_kept": 1537,
+    "noise_unchanged_or_duplicate": 199,
+    "map_kept": 786
+  },
+  "near_duplicates_removed": 2,
+  "by_source": {
+    "aug_noise_v11_train": 459,
+    "aug_map_v11_train": 135,
+    "aug_map_gen_v12": 651,
+    "aug_noise_gen_v12": 1078
+  },
+  "sentiment": {
+    "neutral": 1011,
+    "negative": 687,
+    "positive": 625
+  }
+}

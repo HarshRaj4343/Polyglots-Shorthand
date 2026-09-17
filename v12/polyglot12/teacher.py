@@ -65,9 +65,14 @@ def clean_text(t):
 
 
 def load_rows(cfg):
+    import random
     rows = []
     for spec in cfg['train_files']:
-        for r in read_jsonl(BUNDLE_ROOT / spec['path']):
+        file_rows = read_jsonl(BUNDLE_ROOT / spec['path'])
+        if spec.get('sample') and len(file_rows) > spec['sample']:
+            # fixed seeded subset (same rows every epoch / every run) so large out-of-domain files do not dominate
+            file_rows = random.Random(cfg['seed']).sample(file_rows, spec['sample'])
+        for r in file_rows:
             rows.append({'text': clean_text(r['text']),
                          'yi': label_index(r, 'intent') if spec.get('intent', True) else -1,
                          'ys': label_index(r, 'sentiment') if spec.get('sentiment', True) else -1})
@@ -250,8 +255,12 @@ def main(argv=None):
     ap.add_argument('--smoke', action='store_true', help='tiny random encoders, CPU-friendly')
     ap.add_argument('--out', help='override output dir (default: platform persistent dir)')
     ap.add_argument('--stop-after-epochs', type=int, default=0, help='testing: exit after N epochs to test resume')
+    ap.add_argument('--override', action='append', default=[], help='testing: key=json_value, e.g. max_epochs=1')
     args = ap.parse_args(argv)
     cfg = json.loads((BUNDLE_ROOT / args.config).read_text() if not Path(args.config).is_absolute() else Path(args.config).read_text())
+    for kv in args.override:
+        k, v = kv.split('=', 1)
+        cfg[k] = json.loads(v)
     out = Path(args.out) if args.out else persist_dir(cfg['notebook'])
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
     plat = detect_platform()
