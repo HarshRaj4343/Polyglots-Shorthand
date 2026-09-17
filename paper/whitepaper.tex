@@ -65,7 +65,8 @@
 \title{\vspace{-1.2em}\textbf{The Polyglot's Shorthand}\\[0.3em]
   \large A Hashed Sparse Multi-Head Classifier for Intent and Sentiment\\
   in Romanized Hindi--English Customer-Support Text\\[0.4em]
-  \normalsize\color{muted}Technical Whitepaper --- Q4, CS/AI Practice Problem Statements}
+  \normalsize\color{muted}Technical Whitepaper --- Q4, CS/AI Practice Problem Statements\\[0.2em]
+  \normalsize\color{accent}\textbf{Version 1.1} --- enriched data and a self-attention branch (\cref{sec:v11})}
 \author{Harsh Raj}
 \date{September 2026}
 
@@ -98,6 +99,21 @@ We report ablations, stress tests under unseen misspellings, calibration
 error, hash-collision statistics and a qualitative error analysis, and we
 argue explicitly which of the problem's robustness claims are \emph{not}
 established by this evidence.
+
+\smallskip\noindent
+\textbf{Version 1.1.} Following the v1.0 diagnosis that positive affect
+existed only inside \lbl{feedback}, we (i)~enrich the benchmark from 96 to 213
+seeds (221 to 884 rows) with positive, negative and neutral affect in
+\emph{every} intent, and (ii)~add a NumPy self-attention branch with
+hand-derived gradients whose logits are summed with the linear model. On the
+regenerated 190-row development test, the v1.1 \lbl{full} model reaches intent
+macro-F1 $0.901$ $[0.782, 0.970]$ and sentiment macro-F1 $0.845$
+$[0.718, 0.944]$, with positive recall $0.72$ and 9 of 12 sarcasm pairs solved.
+A linear-only model trained on the same enriched data scores $0.860$ and
+$0.810$, so most of the sentiment gain comes from data and a smaller, paired
+improvement comes from attention. The model has 827{,}721 parameters and a p95
+latency of 0.427\,ms. The small frozen audit set regresses from 3 to 6 errors
+(\cref{sec:v11}).
 \end{abstract}
 
 \tableofcontents
@@ -147,6 +163,12 @@ variation, shorthand, emoji and punctuation.
 claim of a production-ready multilingual model. Intent classification is
 the primary task; sentiment is reported as an experimental secondary task
 whose failures we document in detail.
+
+\paragraph{Versions.} \Cref{sec:related,sec:problem,sec:arch,sec:training,sec:data,sec:protocol,sec:results,sec:analysis,sec:discussion}
+describe and evaluate \textbf{version 1.0}, the purely linear baseline, and
+are kept unchanged as the historical record. \Cref{sec:v11} describes
+\textbf{version 1.1}, which enriches the data, adds a self-attention branch
+and re-runs the complete evaluation protocol.
 
 % ============================================================================
 \section{Background and Related Work}
@@ -1033,6 +1055,640 @@ Reproducibility & \textcolor{okgreen}{\textbf{Met}} & Seeded data and training, 
 \end{enumerate}
 
 % ============================================================================
+\section{Version 1.1: Enriched Data and a Self-Attention Branch}
+\label{sec:v11}
+
+Version 1.1 acts on the first two items of the v1.0 future-work list. It adds
+data first, then a representation upgrade, and re-runs the full protocol of
+\cref{sec:protocol}. Everything in v1.0 that is not mentioned here is
+unchanged: normalization, the six feature channels, hashing, class balancing,
+checkpointing and calibration.
+
+% ----------------------------------------------------------------------------
+\subsection{Motivation}
+The v1.0 analysis pointed to two separate causes of failure.
+\begin{enumerate}
+  \item \textbf{Label--intent confounding.} All 8 positive seeds belonged to
+        \lbl{feedback} (\cref{tab:seeds}). The model could not separate
+        ``positive'' from ``feedback vocabulary'', so positive recall on the
+        test split was $0/10$ (\cref{tab:confusion}).
+  \item \textbf{No word order beyond bigrams.} A bag of hashed features cannot
+        represent which word a negator or an emoji modifies
+        (\cref{tab:errors}). A layer in which every token can attend to every
+        other token is the smallest change that gives the model this
+        capacity.
+\end{enumerate}
+
+% ----------------------------------------------------------------------------
+\subsection{Data Enrichment}
+\label{sec:v11data}
+
+We authored 117 new seeds, bringing the total to 213
+(\cref{tab:v11seeds}). They were designed to break the confounding and to add
+harder cases:
+\begin{itemize}
+  \item \textbf{Positive affect in every intent}, e.g.\ \hi{refund aa gaya
+        account mein thank you so much} \emo{smile}, \hi{cancel ho gaya bina
+        kisi hassle ke superb experience}, and resolved not-received cases
+        (\hi{missing parcel neighbour ke paas mil gaya thank you});
+  \item \textbf{explicit and implicit negatives} with varied vocabulary
+        (\hi{loot}, \hi{jhoothe log}, \hi{fake otp}) and new emoji
+        (\emo{huff});
+  \item \textbf{negation minimal pairs} in \lbl{feedback}
+        (\hi{service accha nahi laga} is \lbl{negative});
+  \item \textbf{operational neutrals} with numbers and English terms
+        (\hi{awb number se track kaise karu}, \hi{cod order ka refund kaise milega});
+  \item \textbf{mixed messages} where praise and a request co-occur, labelled
+        by the dominant expressed affect.
+\end{itemize}
+New seeds were checked against the audit set: no lower-cased audit text
+appears in any split.
+
+\begin{table}[h]
+\centering\small
+\caption{v1.1 seed composition by intent and base sentiment (negative / neutral / positive). Compare \cref{tab:seeds}.}
+\label{tab:v11seeds}
+\begin{tabular}{@{}lcccccc|c@{}}
+\toprule
+ & \lbl{cancel} & \lbl{refund} & \lbl{track} & \lbl{not\_recv} & \lbl{damaged} & \lbl{feedback} & Total \\
+\midrule
+Neg / Neu / Pos & 12/17/11 & 11/15/10 & 11/15/10 & 11/14/6 & 12/13/6 & 11/10/18 & 68/84/61 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\paragraph{Augmentation.} Each form now yields up to five deduplicated variants
+instead of three: the original, the shorthand rewrite, a \emph{respelling /
+code-switch} rewrite from a 12-entry map (\hi{bahut}$\to$\hi{bohot},
+\hi{parcel}$\to$\hi{parcl}, \hi{paise}$\to$\hi{money}, \hi{kab}$\to$\hi{when},
+\dots), the composition of the two, and the original prefixed with one
+tone-free opener chosen by the seeded generator (\hi{bhai}, \hi{hello team},
+\hi{hi}, \hi{sir}, \hi{dekhiye}, \hi{ji}). The respelling map is disjoint from
+the stress-test map, so the stress test still measures \emph{unseen} spellings.
+Seven respellings were added to the alias channel (27 entries total).
+Group-first splitting (\cref{sec:data}) is unchanged.
+
+\begin{table}[h]
+\centering\small
+\caption{v1.1 split statistics after augmentation. Compare \cref{tab:splits}.}
+\label{tab:v11splits}
+\begin{tabular}{@{}lrrc@{}}
+\toprule
+Split & Rows & Groups & Negative / Neutral / Positive \\
+\midrule
+Train      & 536 & 130 & 187 / 181 / 168 \\
+Validation & 158 &  39 & \phantom{0}50 / \phantom{0}58 / \phantom{0}50 \\
+Test       & 190 &  44 & \phantom{0}64 / \phantom{0}65 / \phantom{0}61 \\
+\midrule
+Audit (unchanged) & 24 & 24 & \phantom{00}7 / \phantom{0}15 / \phantom{00}2 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Sentiment is now close to balanced, so the class-balance weight of a positive
+training row falls from $2.86$ to $536/(3\cdot168)=1.06$. The test split has
+twice as many groups as in v1.0 (44 vs.\ 22), which narrows the bootstrap
+intervals. Because the test split was \emph{regenerated}, v1.0 and v1.1 test
+numbers are not paired and should be compared with caution.
+
+% ----------------------------------------------------------------------------
+\subsection{Self-Attention Branch}
+\label{sec:v11att}
+
+\paragraph{Token representation.} Let $t_{1:T}$ be the tokens of
+$\nu(s)$ (after symbol stripping in \lbl{strip\_symbols} mode), truncated to
+$T\le T_{\max}=128$ for this branch only. The linear branch still sees the
+whole message. Each token $t_i$ is mapped to a set of hashed \emph{pieces}
+$\mathcal{B}_i\subset\{0,\dots,B-1\}$, $B=2^{14}$: the word itself
+(\texttt{tw:}), its alias (\texttt{ta:}, modes F and S) and its boundary-padded
+character 3- and 4-grams (\texttt{tc3:}, \texttt{tc4:}, modes F, C and S).
+With an embedding table $\bm E\in\R^{B\times d}$, $d=32$, and learned position
+embeddings $\bm P\in\R^{T_{\max}\times d}$,
+\begin{equation}
+  \bm X_i = \frac{1}{|\mathcal{B}_i|}\sum_{j\in\mathcal{B}_i}\bm E_j + \bm P_i .
+  \label{eq:v11embed}
+\end{equation}
+Averaging subword pieces, as in fastText~\cite{bojanowski2017enriching}, places
+\hi{ordr} near \hi{order} before any training on the respelling.
+
+\paragraph{Contextual layer and pooling.} One single-head scaled dot-product
+self-attention layer with a residual connection and a $\tanh$ non-linearity,
+followed by learned attention pooling:
+\begin{align}
+  \bm A &= \softmax_{\text{row}}\!\Big(\frac{(\bm X\bm W_Q)(\bm X\bm W_K)^{\!\top}}{\sqrt d}\Big) \in \R^{T\times T}, \label{eq:v11attn}\\
+  \bm H &= \tanh\!\big(\bm X + \bm A\,\bm X\bm W_V\,\bm W_O\big) \in \R^{T\times d}, \label{eq:v11ctx}\\
+  \bm\alpha &= \softmax(\bm H\bm u)\in\R^{T},\qquad
+  \z^{\text{att}} = \Big(\textstyle\sum_{i}\alpha_i\bm H_i\Big)\bm W_{\text{out}}\in\R^{9}. \label{eq:v11pool}
+\end{align}
+Row $i$ of $\bm A$ controls which tokens update token $i$. For example, \hi{accha}
+can take information from a following \hi{nahi}, and a trailing \emo{unamused}
+can change the representation of the praise words before it. The pooling
+weights $\bm\alpha$ show which contextualized tokens drive the decision, and
+the app displays them.
+
+\paragraph{Combination with v1.0.} The two branches are summed \emph{before}
+the heads:
+\begin{equation}
+  \z = \underbrace{\W^{\!\top}\x + \bb}_{\text{v1.0 linear}} + \z^{\text{att}},\qquad
+  \p^{I} = \softmax\!\big(\z_{1:6}/T_I\big),\quad
+  \p^{S} = \softmax\!\big(\z_{7:9}/T_S\big).
+  \label{eq:v11sum}
+\end{equation}
+The residual design keeps the v1.0 lexical strengths, while attention only
+has to model what the linear branch gets wrong.
+
+\begin{remark}
+\Cref{prop:decouple} no longer holds. The heads now share $\bm E$, $\bm P$,
+$\bm W_{Q,K,V,O}$ and $\bm u$, so the attention branch is a genuinely shared
+multi-task layer. Only $\W_{\text{out}}$ and the linear parameters stay
+column-separable.
+\end{remark}
+
+\begin{figure}[t]
+\centering
+\begin{tikzpicture}[
+  node distance=0.45cm and 0.55cm,
+  box/.style={draw=accent,rounded corners=2pt,fill=accentlight!60,
+              minimum height=0.85cm,align=center,font=\small,inner sep=4pt},
+  arr/.style={-{Stealth[length=2.2mm]},thick,accent!80!black},
+  lab/.style={font=\scriptsize\itshape,text=muted}]
+  \node[box,fill=white] (in) {Normalized\\[-1pt]\scriptsize message};
+  \node[box,above right=0.15cm and 0.7cm of in] (lin) {v1.0 features $\to$ hash\\[-1pt]\scriptsize$\W^{\!\top}\x+\bb$};
+  \node[box,below right=0.15cm and 0.7cm of in] (emb) {Token pieces\\[-1pt]\scriptsize$\bar{\bm E}+\bm P$};
+  \node[box,right=of emb] (att) {Self-attention\\[-1pt]\scriptsize$\tanh(\bm X+\bm A\bm X\bm W_V\bm W_O)$};
+  \node[box,right=of att] (pool) {Attn.\ pooling\\[-1pt]\scriptsize$\sum\alpha_i\bm H_i\,\bm W_{\text{out}}$};
+  \node[box,circle,inner sep=1pt,minimum height=0.6cm,right=3.2cm of lin] (plus) {$+$};
+  \node[box,right=0.6cm of plus] (heads) {Heads\\[-1pt]\scriptsize$T_I,T_S,\tau_I,\tau_S$};
+  \draw[arr] (in) |- (lin);
+  \draw[arr] (in) |- (emb);
+  \draw[arr] (emb) -- node[lab,above]{$\bm X$} (att);
+  \draw[arr] (att) -- node[lab,above]{$\bm H$} (pool);
+  \draw[arr] (lin) -- node[lab,above]{$\z^{\text{lin}}$} (plus);
+  \draw[arr] (pool) -| node[lab,pos=0.75,right]{$\z^{\text{att}}$} (plus);
+  \draw[arr] (plus) -- (heads);
+\end{tikzpicture}
+\caption{v1.1 architecture. The unchanged v1.0 linear branch (top) and the new
+self-attention branch (bottom) produce 9 logits each. These are summed before
+the temperature-scaled intent and sentiment heads.}
+\label{fig:v11arch}
+\end{figure}
+
+\paragraph{Parameter budget.}
+\begin{equation*}
+  |\theta_{\text{att}}| = \underbrace{2^{14}\!\cdot\!32}_{\bm E=524{,}288}
+  + \underbrace{128\!\cdot\!32}_{\bm P=4{,}096}
+  + \underbrace{4\!\cdot\!32^2}_{\bm W_{Q,K,V,O}=4{,}096}
+  + \underbrace{32}_{\bm u} + \underbrace{32\!\cdot\!9}_{\bm W_{\text{out}}=288}
+  = 532{,}800,
+\end{equation*}
+so $|\theta| = 294{,}921 + 532{,}800 = 827{,}721$, still about $600\times$
+below the 500M cap. The float32 arrays occupy 3{,}310{,}884 bytes. The
+compressed checkpoint grows from 106\,KB to 2.22\,MB because $\bm E$ is dense
+random-initialized, unlike the mostly zero $\W$.
+
+\paragraph{Complexity.} The branch adds $O(\sum_i|\mathcal{B}_i|\,d + T^2 d + T d^2)$
+per message. For typical messages ($T\approx 8$) this is dominated by the
+embedding gather and the $d\times d$ projections, not the quadratic term.
+
+% ----------------------------------------------------------------------------
+\subsection{Training}
+\label{sec:v11train}
+
+Both branches are trained jointly on the class-balanced objective
+\eqref{eq:loss}, using the combined logits \eqref{eq:v11sum}. The per-sample
+logit gradient $\bm g$ of \cref{alg:train} is shared: the linear update is
+unchanged, and $\bm g$ is also back-propagated through
+\eqref{eq:v11pool}--\eqref{eq:v11embed}.
+
+\paragraph{Gradients.} No autograd framework is used. With $\bm c=\sum_i\alpha_i\bm H_i$,
+$\bm S=\bm Q\bm K^{\!\top}\!/\sqrt d$ and $\odot$ the element-wise product,
+the backward pass is
+\begin{align*}
+  \nabla\bm W_{\text{out}} &= \bm c\,\bm g^{\!\top}, &
+  \bm\delta_c &= \bm W_{\text{out}}\bm g,\\
+  \delta\alpha_i &= \bm H_i\cdot\bm\delta_c, &
+  \bm\delta_s &= \bm\alpha\odot\big(\bm{\delta\alpha} - (\bm\alpha^{\!\top}\bm{\delta\alpha})\bm 1\big),\\
+  \nabla\bm u &= \bm H^{\!\top}\bm\delta_s, &
+  \bm\delta_H &= \bm\alpha\,\bm\delta_c^{\!\top} + \bm\delta_s\bm u^{\!\top},\\
+  \bm\Delta &= \bm\delta_H\odot(1-\bm H\odot\bm H), &
+  \nabla\bm W_O &= (\bm A\bm V)^{\!\top}\bm\Delta,\\
+  \bm\delta_A &= \bm\Delta\bm W_O^{\!\top}\bm V^{\!\top}, &
+  \nabla\bm W_V &= \bm X^{\!\top}\bm A^{\!\top}\bm\Delta\bm W_O^{\!\top},\\
+  \bm\delta_S &= \tfrac{1}{\sqrt d}\,\bm A\odot\big(\bm\delta_A - (\bm\delta_A\odot\bm A)\bm 1\bm 1^{\!\top}\big), &
+  \nabla\bm W_Q &= \bm X^{\!\top}\bm\delta_S\bm K,\\
+  \nabla\bm W_K &= \bm X^{\!\top}\bm\delta_S^{\!\top}\bm Q, &
+  \bm V &= \bm X\bm W_V,
+\end{align*}
+and
+\begin{equation*}
+  \bm\delta_X=\bm\Delta+\bm\delta_S\bm K\bm W_Q^{\!\top}+\bm\delta_S^{\!\top}\bm Q\bm W_K^{\!\top}
+  +\bm A^{\!\top}\bm\Delta\bm W_O^{\!\top}\bm W_V^{\!\top}.
+\end{equation*}
+Row $i$ of $\bm\delta_X$ goes to $\bm P_i$ and, divided by $|\mathcal{B}_i|$, to every
+piece row $\bm E_j$, $j\in\mathcal{B}_i$. Every parameter group was checked against central
+finite differences ($\epsilon=10^{-6}$, float64), with a maximum relative error
+of $1.7\times10^{-5}$. The same check runs as a unit test.
+
+\paragraph{Optimizers and regularization.} Dense attention parameters use Adam
+($\beta=(0.9,0.999)$) and $\bm E$ uses sparse Adagrad, which updates only the
+rows touched by a message. Both learning rates follow the v1.0 decay
+$1/(1+e/20)$. Two regularizers proved necessary:
+(i)~\textbf{token dropout}: each token is removed from the attention branch with
+probability $0.2$ during training, so the branch cannot rely on a single
+keyword; (ii)~\textbf{decoupled decay} of the dense attention matrices by
+a factor $0.99$ once per epoch.
+
+\paragraph{Hyper-parameter selection.} An untuned first run (Adam $3\!\times\!10^{-3}$,
+Adagrad $0.05$, no regularization) overfit immediately: its validation-NLL
+checkpoint was epoch~1. We then searched 11 settings and selected the one with
+the \emph{lowest validation NLL} (\cref{tab:v11grid}). Test labels were not
+used for this choice. However, the untuned run was scored once on the
+development test, which remains a \emph{development} test as in v1.0.
+
+\begin{table}[h]
+\centering\small
+\caption{Attention hyper-parameter search on the \lbl{full} configuration. NLL
+is mean unweighted validation NLL at $T{=}1$ (before temperature scaling); the
+linear-only v1.1 model scores $0.592$ on the same scale. Selected row in bold.}
+\label{tab:v11grid}
+\begin{tabular}{@{}cccc cc@{}}
+\toprule
+Adam lr & Adagrad lr ($\bm E$) & Token dropout & Dense decay & Best epoch & Val.\ NLL \\
+\midrule
+$10^{-3}$           & 0.02  & 0.0  & 0     &  2 & 0.659 \\
+$3\times10^{-4}$    & 0.01  & 0.0  & 0     &  5 & 0.595 \\
+$10^{-3}$           & 0.02  & 0.2  & 0     &  6 & 0.591 \\
+$3\times10^{-4}$    & 0.01  & 0.2  & 0     & 18 & 0.558 \\
+$10^{-3}$           & 0.02  & 0.2  & 0.02  & 18 & 0.557 \\
+$10^{-4}$           & 0.005 & 0.1  & 0     & 18 & 0.550 \\
+$3\times10^{-4}$    & 0.005 & 0.2  & 0.01  & 55 & 0.547 \\
+$10^{-4}$           & 0.005 & 0.2  & 0     & 55 & 0.533 \\
+$3\times10^{-4}$    & 0.01  & 0.3  & 0.01  & 52 & 0.526 \\
+$2\times10^{-4}$    & 0.01  & 0.25 & 0.005 & 55 & 0.524 \\
+$\mathbf{10^{-4}}$  & \textbf{0.01} & \textbf{0.2} & \textbf{0.01} & \textbf{55} & \textbf{0.516} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+The pattern is consistent: without token dropout, the attention branch
+memorizes the 536 training rows within a few epochs and pulls the shared
+logits away from the better-generalizing linear solution. With dropout and a
+small learning rate, validation NLL improves over all 55 epochs. As in v1.0,
+the checkpoint rule therefore never stops early. Training the \lbl{full}
+configuration takes 12\,s on the same laptop, compared with 0.57\,s in v1.0.
+
+% ----------------------------------------------------------------------------
+\subsection{Results}
+\label{sec:v11results}
+
+\begin{table}[t]
+\centering\small
+\caption{v1.1 development-test results (190 rows, 44 groups). Macro-F1 with 95\%
+group-bootstrap interval (5{,}000 resamples, seed 0). ``Linear only'' is the
+\lbl{full} feature set trained on the enriched data \emph{without} the attention
+branch. Best clean score per column in bold.}
+\label{tab:v11main}
+\setlength{\tabcolsep}{4pt}
+\resizebox{\linewidth}{!}{%
+\begin{tabular}{@{}l cc cc cc c@{}}
+\toprule
+& \multicolumn{2}{c}{Intent} & \multicolumn{2}{c}{Sentiment} & \multicolumn{2}{c}{Stress macro-F1} & Pos. \\
+\cmidrule(lr){2-3}\cmidrule(lr){4-5}\cmidrule(lr){6-7}
+Config & Acc. & Macro-F1 [95\% CI] & Acc. & Macro-F1 [95\% CI] & Intent & Sent. & recall \\
+\midrule
+Linear only (v1.1 data) & .863 & .860 [.720, .947] & .811 & .810 [.676, .911] & .797 & \textbf{.828} & .672 \\
+\midrule
+\lbl{full} + attention          & \textbf{.905} & \textbf{.901} [.782, .970] & \textbf{.847} & \textbf{.845} [.718, .944] & \textbf{.865} & .826 & \textbf{.721} \\
+\lbl{word\_only} + attention    & .853 & .847 [.709, .929] & .826 & .827 [.714, .919] & .667 & .806 & \textbf{.721} \\
+\lbl{char\_word} + attention    & \textbf{.905} & \textbf{.901} [.782, .970] & .832 & .831 [.704, .929] & \textbf{.865} & .816 & \textbf{.721} \\
+\lbl{strip\_symbols} + attention& .884 & .888 [.757, .972] & .763 & .760 [.642, .860] & .853 & .795 & .639 \\
+\midrule
+\color{muted}v1.0 \lbl{full} (58-row test) & \color{muted}.810 & \color{muted}.820 [.568, .960] & \color{muted}.603 & \color{muted}.423 [.307, .526] & \color{muted}.717 & \color{muted}.449 & \color{muted}.000 \\
+\bottomrule
+\end{tabular}}
+\end{table}
+
+\begin{figure}[t]
+\centering
+\begin{tikzpicture}
+\begin{axis}[
+  ybar=2pt, width=0.95\linewidth, height=5.4cm,
+  ymin=0, ymax=1.05, ylabel={Macro-F1 (test)},
+  symbolic x coords={v1.0 full,linear only,full,word\_only,char\_word,strip\_symbols},
+  xtick=data, xticklabel style={font=\scriptsize\ttfamily},
+  enlarge x limits=0.12, bar width=9pt,
+  legend style={font=\small,draw=none}, legend columns=2,
+  legend pos=north west, ymajorgrids, grid style={muted!25},
+  error bars/y dir=both, error bars/y explicit,
+  error bars/error bar style={thin,black!70}]
+\addplot[fill=accent,draw=accent] coordinates {
+  (v1.0 full,0.820) += (0,0.140) -= (0,0.252)
+  (linear only,0.860) += (0,0.087) -= (0,0.140)
+  (full,0.901) += (0,0.069) -= (0,0.119)
+  (word\_only,0.847) += (0,0.082) -= (0,0.138)
+  (char\_word,0.901) += (0,0.069) -= (0,0.119)
+  (strip\_symbols,0.888) += (0,0.084) -= (0,0.131)};
+\addplot[fill=warn!75,draw=warn] coordinates {
+  (v1.0 full,0.423) += (0,0.103) -= (0,0.116)
+  (linear only,0.810) += (0,0.101) -= (0,0.134)
+  (full,0.845) += (0,0.099) -= (0,0.127)
+  (word\_only,0.827) += (0,0.092) -= (0,0.113)
+  (char\_word,0.831) += (0,0.098) -= (0,0.127)
+  (strip\_symbols,0.760) += (0,0.100) -= (0,0.118)};
+\legend{Intent, Sentiment}
+\end{axis}
+\end{tikzpicture}
+\caption{Macro-F1 with 95\% group-bootstrap intervals. ``v1.0 full'' is measured
+on the v1.0 test split; all other bars use the v1.1 test split. The largest
+jump in sentiment (v1.0 $\to$ linear only) comes from the data. The step
+from linear only to \lbl{full} comes from attention.}
+\label{fig:v11bars}
+\end{figure}
+
+\begin{table}[h]
+\centering\small
+\caption{Paired group-bootstrap differences in v1.1 test macro-F1 relative to
+\lbl{full}+attention (same 5{,}000 resamples). $P(\Delta>0)$ is the fraction of
+resamples favouring the alternative.}
+\label{tab:v11paired}
+\begin{tabular}{@{}l ccc ccc@{}}
+\toprule
+& \multicolumn{3}{c}{Intent} & \multicolumn{3}{c}{Sentiment}\\
+\cmidrule(lr){2-4}\cmidrule(lr){5-7}
+Alternative & $\overline\Delta$ & 95\% CI & $P(\Delta>0)$ & $\overline\Delta$ & 95\% CI & $P(\Delta>0)$\\
+\midrule
+Linear only          & $-0.044$ & $[-0.101,+0.000]$ & 0.00 & $-0.036$ & $[-0.092,+0.002]$ & 0.04\\
+\lbl{char\_word}     & $\phantom{+}0.000$ & $[\phantom{+}0.000,\phantom{+}0.000]$ & 0.00 & $-0.015$ & $[-0.043,+0.004]$ & 0.08\\
+\lbl{word\_only}     & $\mathbf{-0.060}$ & $[-0.135,-0.007]$ & 0.00 & $-0.019$ & $[-0.108,+0.075]$ & 0.33\\
+\lbl{strip\_symbols} & $-0.013$ & $[-0.056,+0.017]$ & 0.25 & $-0.086$ & $[-0.186,+0.019]$ & 0.05\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\Cref{tab:v11main,tab:v11paired,fig:v11bars} support four conclusions.
+\begin{enumerate}
+  \item \textbf{Data fixed the positive class.} Trained on the enriched data,
+        even the linear-only model raises sentiment macro-F1 from $0.423$ to
+        $0.810$ and positive recall from $0$ to $0.67$. This is the largest
+        single improvement and confirms the v1.0 conclusion that data, not
+        model size, was the bottleneck.
+  \item \textbf{Attention adds a consistent, paired gain.} On identical data,
+        adding the attention branch improves intent macro-F1 by $+0.044$ and
+        sentiment by $+0.036$. None of the 5{,}000 resamples favours the
+        linear-only model on intent, and 4\% favour it on sentiment. Both
+        intervals touch zero at their upper end, so the gain is consistent
+        but small relative to the data effect. Validation NLL after
+        calibration improves from $0.543$ to $0.469$.
+  \item \textbf{Attention mainly improves robustness to unseen spellings.}
+        Stress-test intent macro-F1 rises from $0.797$ to $0.865$, and intent
+        prediction consistency from $92.1\%$ to $97.4\%$. The subword-averaged
+        embeddings \eqref{eq:v11embed} map \hi{orrder} and \hi{refnd} close
+        to their clean forms.
+  \item \textbf{Symbols still matter; alias/interaction channels still do not
+        separate.} \lbl{strip\_symbols} is again the weakest on sentiment
+        ($-0.086$, 95\% of resamples favour \lbl{full}). \lbl{char\_word}
+        makes identical intent predictions to \lbl{full} and is within
+        $0.015$ on sentiment, so the v1.0 finding in \cref{tab:paired} is
+        unchanged.
+\end{enumerate}
+
+\begin{table}[h]
+\centering\small
+\caption{Row-normalized confusion matrices of the v1.1 \lbl{full} model on the
+development test (counts; shading $\propto$ row share). Compare \cref{tab:confusion}.}
+\label{tab:v11confusion}
+\setlength{\tabcolsep}{5pt}
+\begin{tabular}{@{}l cccccc c@{}}
+\toprule
+\multicolumn{8}{@{}l}{\textbf{(a) Intent}}\\
+True $\backslash$ Pred & cancel & refund & track & not\_recv & damaged & feedback & F1 \\
+\midrule
+\lbl{cancel\_order} & \cm{60}{36} & 0 & 0 & 0 & 0 & 0 & .960 \\
+\lbl{refund}        & \cm{9}{3} & \cm{51}{17} & 0 & 0 & 0 & 0 & .919 \\
+\lbl{track\_order}  & 0 & 0 & \cm{58}{30} & \cm{2}{1} & 0 & 0 & .938 \\
+\lbl{not\_received} & 0 & 0 & 0 & \cm{48}{21} & 0 & \cm{12}{5} & .875 \\
+\lbl{damaged\_item} & 0 & 0 & 0 & 0 & \cm{43}{15} & \cm{17}{6} & .833 \\
+\lbl{feedback}      & 0 & 0 & \cm{3}{3} & 0 & 0 & \cm{57}{53} & .883 \\
+\midrule
+\multicolumn{8}{@{}l}{\textbf{(b) Sentiment}}\\
+True $\backslash$ Pred & negative & neutral & positive & & & & F1 \\
+\midrule
+\lbl{negative} & \cm{55}{59} & \cm{2}{2} & \cm{3}{3} & & & & .843 \\
+\lbl{neutral}  & \cm{6}{7} & \cm{54}{58} & 0 & & & & .879 \\
+\lbl{positive} & \cm{10}{10} & \cm{7}{7} & \cm{43}{44} & & & & .815 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\paragraph{Per-class behaviour.} The collapse toward \lbl{neutral} seen in
+v1.0 is gone: sentiment recall is $0.92$ / $0.89$ / $0.72$ and precision
+$0.78$ / $0.87$ / $0.94$ for negative / neutral / positive
+(\cref{tab:v11confusion}). The linear-only model reaches the same positive
+precision but lower recall ($41$ vs.\ $44$ of $61$), and sends nine negatives
+to neutral where attention sends two. Of the 17 remaining positive misses, 10 are predicted
+\lbl{negative} and 7 \lbl{neutral}. Most are mixed messages in which praise
+sits next to a complaint word or an unseen phrasing (\cref{tab:v11errors}). Intent errors
+have moved: \lbl{cancel}$\leftrightarrow$\lbl{track} confusions are gone, and
+most errors are now \lbl{not\_received}/\lbl{damaged\_item}$\to$\lbl{feedback}
+for messages that open with praise of the support team.
+
+\begin{table}[h]
+\centering\small
+\caption{Calibration, review coverage, stress test and emoji pairs (v1.1 \lbl{full}
+vs.\ linear only, v1.1 test). ECE uses 10 bins.}
+\label{tab:v11calib}
+\begin{tabular}{@{}l cc cc@{}}
+\toprule
+& \multicolumn{2}{c}{Intent} & \multicolumn{2}{c}{Sentiment}\\
+\cmidrule(lr){2-3}\cmidrule(lr){4-5}
+Quantity & Linear only & \lbl{full}+att. & Linear only & \lbl{full}+att. \\
+\midrule
+Temperature $T$                 & 0.550 & 0.550 & 1.216 & 1.316 \\
+Review threshold $\tau$          & 0.665 & 0.651 & 0.724 & 0.655 \\
+ECE (test)                      & 0.043 & 0.082 & 0.102 & 0.106 \\
+Mean confidence / accuracy      & .903 / .863 & .932 / .905 & .714 / .811 & .794 / .847 \\
+Coverage / acc.\ on accepted    & --- & .953 / .906 & --- & .753 / .951 \\
+Stress prediction consistency   & 92.1\% & 97.4\% & 90.0\% & 92.6\% \\
+\midrule
+Emoji contrast pairs both correct & \multicolumn{4}{l}{\footnotesize linear only 9/12 \quad \lbl{full} 9/12 \quad \lbl{char\_word} 9/12 \quad \lbl{word\_only} 7/12 \quad \lbl{strip\_symbols} 0/12} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\paragraph{Calibration and review.} The selective-prediction policy is now
+useful for both heads (\cref{tab:v11calib}). The sentiment head accepts
+$75.3\%$ of test messages at $95.1\%$ accepted accuracy, compared with $13.8\%$
+coverage in v1.0. The intent head accepts $95.3\%$ at $90.6\%$, meeting the
+$0.90$ target that v1.0 missed. Attention makes the intent head slightly
+\emph{over}-confident (ECE $0.043\to0.082$). Unlike v1.0 ($T_I=0.40$), neither temperature
+is pinned at the grid boundary ($T_I=0.55$, $T_S=1.32$).
+
+\paragraph{Emoji contrast pairs.} The held-out test now contains 12 pairs from
+four independent seed groups. \lbl{full} solves 9 of 12, compared with 0 of 5
+in v1.0. All three failures come from one group,
+\hi{five star service keep it up} \emo{thumbs-up}, whose base form is
+predicted negative. Removing symbols gives 0 of 12, as expected. The linear-only
+model also solves 9 of 12, so on this metric the gain is attributable to the
+data, not to attention.
+
+\begin{table}[h]
+\centering\small
+\caption{Development test vs.\ independent audit for the v1.1 \lbl{full} model. Compare \cref{tab:audit}.}
+\label{tab:v11audit}
+\begin{tabular}{@{}l r cc cc@{}}
+\toprule
+& & \multicolumn{2}{c}{Intent} & \multicolumn{2}{c}{Sentiment}\\
+\cmidrule(lr){3-4}\cmidrule(lr){5-6}
+Set & $N$ & Accuracy & Macro-F1 & Accuracy & Macro-F1\\
+\midrule
+v1.1 development test & 190 & .905 & .901 & .847 & .845 \\
+v1.1 audit            &  24 & .875 & .865 & .875 & .806 \\
+\color{muted}v1.0 audit & \color{muted}24 & \color{muted}.958 & \color{muted}.958 & \color{muted}.917 & \color{muted}.831 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\paragraph{Audit regression.} On the frozen 24-message audit, v1.1 makes 6
+errors, while v1.0 made 3 (\cref{tab:v11audit}). One old error was fixed
+(\hi{order cancellation chahiye bahut bekar experience hua} is now negative),
+two remain (\hi{cancel mat karna \dots}, \hi{bohot badhiya service}) and four
+are new. Two of the new errors are neutral negations predicted
+\lbl{negative} (\hi{\dots kal ghar pe nahi hu}, \hi{normal sa experience tha
+nothing special}). In the v1.1 training split, 74 of the 138 rows containing \hi{nahi}/\hi{nhi}
+are negative (54\%, compared with 35\% of all rows). The model has partly
+learned \hi{nahi}$\Rightarrow$\lbl{negative}. The other two are intent errors on short
+messages (\hi{delivery phir late ghatiya service}$\to$\lbl{feedback},
+\hi{parcel aaya par glass broken hai}$\to$\lbl{not\_received}). The audit is
+tiny, with a Wilson interval on $21/24$ of $[0.69, 0.96]$, so this difference
+is not statistically resolved. We did not tune on the audit, and we report
+the regression as a warning that the new seeds introduced a spurious negation
+cue.
+
+\begin{table}[h]
+\centering\small
+\caption{v1.1 warm single-request latency (600 calls each; Apple M2, Python 3.14.7, NumPy 2.3.5). Compare \cref{tab:latency}.}
+\label{tab:v11latency}
+\begin{tabular}{@{}l cccr@{}}
+\toprule
+Workload & p50 (ms) & p95 (ms) & p99 (ms) & Msg/s \\
+\midrule
+Test messages                 & 0.307 & 0.427 & 0.478 & 3{,}165 \\
+Synthetic, 32 code points     & 0.225 & 0.238 & 0.247 & 4{,}377 \\
+Synthetic, 128 code points    & 0.571 & 0.584 & 0.613 & 1{,}763 \\
+Synthetic, 512 code points    & 1.552 & 1.581 & 1.619 & 643 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\paragraph{Efficiency.} The attention branch roughly doubles latency
+(\cref{tab:v11latency}). The worst case, a 512-code-point message, is still
+$1.6$\,ms at p99, well inside the single-digit-millisecond target. Latency
+now grows faster with length ($6.9\times$ from 32 to 512 code points, compared
+with $5.6\times$ in v1.0) because the attention branch processes every token.
+
+% ----------------------------------------------------------------------------
+\subsection{What Attention Looks At}
+\label{sec:v11qual}
+
+\begin{table}[h]
+\centering\small
+\caption{Attention-pooling weights $\bm\alpha$ of the v1.1 \lbl{full} model and its sentiment prediction.}
+\label{tab:v11alpha}
+\begin{tabularx}{\linewidth}{@{}X l@{}}
+\toprule
+Tokens with pooling weight & Sentiment \\
+\midrule
+\hi{accha}\,.50 \ \hi{laga}\,.50 & \lbl{positive} \\
+\hi{accha}\,.30 \ \textbf{\hi{nahi}\,.40} \ \hi{laga}\,.30 & \lbl{negative} \\
+\hi{bahut}\,.21 \ \hi{acchi}\,.21 \ \hi{service}\,.22 \ \hi{thank}\,.18 \ \hi{you}\,.18 & \lbl{positive} \\
+\hi{bahut}\,.18 \ \hi{acchi}\,.19 \ \hi{service}\,.21 \ \hi{thank}\,.06 \ \hi{you}\,.10 \ \textbf{\emo{unamused}\,.25} & \lbl{negative} \\
+\hi{cancel}\,.12 \ \hi{mat}\,.13 \ \hi{karna}\,.11 \ \hi{sirf}\,.16 \ \hi{order}\,.11 \ \hi{track}\,.11 \ \hi{karke}\,.14 \ \hi{batao}\,.12 & \lbl{neutral} (intent still \lbl{cancel}) \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\Cref{tab:v11alpha} shows the intended behaviour on minimal pairs. Adding
+\hi{nahi} or a trailing \emo{unamused} draws the largest pooling weight
+\emph{and} shifts weight away from the praise tokens (\hi{thank} drops from
+$0.18$ to $0.06$), and the sentiment flips. The negation-scope case from
+v1.0 is \emph{not} solved. Pooling is almost uniform over
+\hi{cancel mat karna sirf order track karke batao}, and the intent remains
+\lbl{cancel\_order}. One attention layer trained on 536 rows has the capacity
+to represent scope, but the data contain no ``\hi{X mat karna}, do Y''
+examples from which to learn it. Pooling weights show what the classifier
+reads. They are not a faithful causal explanation, and the linear branch
+contributes independently.
+
+\begin{table}[h]
+\centering\small
+\caption{Representative v1.1 errors on the development test (\lbl{full} model).}
+\label{tab:v11errors}
+\begin{tabularx}{\linewidth}{@{}p{5.0cm} p{3.0cm} X@{}}
+\toprule
+Message & Gold $\to$ predicted & Interpretation \\
+\midrule
+\hi{support team bahut acchi hai ek parcel receive nahi hua usme help karo} &
+intent \lbl{not\_recv}$\to$\lbl{feedback} (0.86) &
+\emph{Opening praise dominates.} The request comes after a long praise
+clause, so both branches weight the \lbl{feedback} vocabulary. \\
+\addlinespace
+\hi{cancel ho gaya bina kisi hassle ke superb experience} &
+sentiment \lbl{pos}$\to$\lbl{neg} (0.82) &
+\emph{Negated negative.} \hi{bina \dots\ hassle} (``without hassle'') is
+positive, but \hi{hassle} never occurs in training and \hi{bina} occurs only in
+negative rows (\hi{bina parcel diye delivered kar diya}). This is the mirror
+image of the negation-scope problem. \\
+\addlinespace
+\hi{bahut pareshan hu mera order cancel karo} &
+sentiment \lbl{neg}$\to$\lbl{pos}/\lbl{neu} (0.37--0.44) &
+\emph{Unseen affect word.} \hi{pareshan} (``troubled'') never occurs in
+training, and \hi{bahut} often co-occurs with praise. The low confidence correctly triggers review. \\
+\addlinespace
+\hi{gate pe check kiya parcel nahi hai app says delivered} &
+sentiment \lbl{neu}$\to$\lbl{neg} (0.71) &
+\emph{Spurious \hi{nahi} cue}, the same mechanism as the audit regression. \\
+\addlinespace
+\hi{cancel ho gaya ab paise wapas chahiye} &
+intent \lbl{refund}$\to$\lbl{cancel} (0.96) &
+\emph{Keyword position.} The message opens with \hi{cancel}; the actual request
+comes after \hi{ab}. \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+% ----------------------------------------------------------------------------
+\subsection{Updated Scorecard}
+
+\begin{table}[h]
+\centering\small
+\caption{Requirement status after v1.1. Compare \cref{tab:scorecard}.}
+\label{tab:v11scorecard}
+\begin{tabularx}{\linewidth}{@{}l l X@{}}
+\toprule
+Requirement & Status & Evidence \\
+\midrule
+$\le$500M parameters & \textcolor{okgreen}{\textbf{Met}} & 827{,}721 parameters (\cref{sec:v11att}). \\
+Single-digit ms latency & \textcolor{okgreen}{\textbf{Met locally}} & p99 1.62\,ms at 512 code points (\cref{tab:v11latency}). \\
+Spelling/shorthand robustness & \textcolor{okgreen}{\textbf{Improved}} & Unseen-misspelling intent F1 $0.865$ (v1.0: $0.717$); 97.4\% of intents unchanged. \\
+Emoji and punctuation semantics & \textcolor{warn}{\textbf{Partial}} & Sarcasm pairs 9/12 (v1.0: 0/5), but from only four seed groups. \\
+Positive sentiment & \textcolor{okgreen}{\textbf{Improved}} & Recall $0.72$, precision $0.94$ (v1.0: 0/10). \\
+Negation scope & \textcolor{warn}{\textbf{Not met}} & \hi{cancel mat karna \dots} still wrong; new spurious \hi{nahi}$\Rightarrow$negative cue. \\
+Reproducibility & \textcolor{okgreen}{\textbf{Met}} & Seeded, NumPy-only, 13 unit tests including a finite-difference gradient check. \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\paragraph{Next steps after v1.1.} (i)~Add neutral seeds that contain
+\hi{nahi} and positive seeds that contain negated negatives (\hi{koi problem
+nahi}, \hi{bina hassle}) to remove the spurious negation cue.
+(ii)~Add explicit negation-scope minimal pairs (\hi{cancel mat karna, track
+karo}). (iii)~Report variance over several training seeds. The attention
+branch adds randomness from initialization and token dropout, which a single
+seed hides. (iv)~Refresh the audit with new, independently written messages,
+because the current 24 examples are now partly out of distribution for the
+enriched training set.
+
+% ============================================================================
 \section{Conclusion}
 \label{sec:conclusion}
 
@@ -1047,6 +1703,19 @@ human review. The main lesson is methodological---group-level splitting and
 cluster-bootstrap intervals reveal that apparent improvements from additional
 feature channels are not statistically supported at this data scale---and the
 clear next step is more and better-annotated data rather than a larger model.
+
+\paragraph{Version 1.1.} Following that lesson, v1.1 first enriched the data
+(213 seeds, 884 rows, positive affect in every intent) and then added a
+532{,}800-parameter self-attention branch trained with hand-derived gradients.
+Together they raise development-test macro-F1 to $0.901$ for intent and
+$0.845$ for sentiment, with positive recall $0.72$, 9/12 sarcasm pairs and
+$0.865$ intent F1 under unseen misspellings. All of this runs at 0.43\,ms p95
+with 828K parameters. The data change accounts for most of the sentiment gain.
+The attention branch adds a paired improvement of about $+0.04$ macro-F1 on
+both heads and a clear gain in spelling robustness. Negation scope remains
+unsolved, and a smaller audit regression shows that new data can introduce new
+spurious cues. The next version should therefore again start with targeted
+data rather than a larger model.
 
 % ============================================================================
 \appendix
@@ -1073,6 +1742,18 @@ Checkpoint criterion & min.\ unweighted validation NLL \\
 Temperature grid & 30 log-spaced values in $[0.4,4.0]$ \\
 Review rule & max coverage s.t.\ $\ge5$ accepted and $\ge90\%$ val.\ accuracy; else 1.01 \\
 Random seed & 42 (split, shuffle, SGD order) \\
+\midrule
+\multicolumn{2}{@{}l}{\textbf{Added in v1.1 (attention branch)}} \\
+Embedding buckets $B$ / width $d$ & $2^{14}=16{,}384$ / 32 \\
+Max tokens $T_{\max}$ & 128 (attention branch only) \\
+Token pieces & word, alias (F,S), char 3/4-grams (F,C,S) \\
+Layers & 1 single-head self-attention + residual + $\tanh$, attention pooling \\
+Initialization & $\bm E\sim\mathcal N(0,0.1^2)$, $\bm P=\bm 0$, $\bm W_{Q,K,V}\sim\mathcal N(0,1/d)$, $\bm W_O,\bm u\sim\mathcal N(0,0.1^2)$, $\bm W_{\text{out}}\sim\mathcal N(0,0.01^2)$; seed 0 \\
+Optimizers & Adam lr $10^{-4}$ (dense), sparse Adagrad lr $0.01$ ($\bm E$), both $\times1/(1+e/20)$ \\
+Regularization & token dropout 0.2; dense decay $\times0.99$ per epoch \\
+Selection & min.\ validation NLL over 11 settings (\cref{tab:v11grid}) \\
+Augmentation & $\le5$ variants: original, shorthand, respelling (12), both, opener (6) \\
+Alias map & 27 entries \\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -1084,7 +1765,10 @@ Random seed & 42 (split, shuffle, SGD order) \\
 python3 -m venv .venv
 .venv/bin/python -m pip install -r requirements.txt   # numpy==2.3.5
 .venv/bin/python solution.py predict "refund kab milega bhai"
-PYTHON=.venv/bin/python ./run.sh   # data, 4 models, audit, 11 tests
+PYTHON=.venv/bin/python ./run.sh   # data, 4 models, audit, 13 tests (v1.1)
+# v1.1: interactive app with a model drop-down
+.venv/bin/python -m pip install -r requirements-app.txt
+.venv/bin/streamlit run app.py
 \end{lstlisting}
 
 \noindent Example output:
@@ -1098,14 +1782,21 @@ training, calibration, portable \texttt{.npz} I/O with schema check and
 \texttt{allow\_pickle=False}); \texttt{make\_data.py} (seeds, group split,
 augmentation); \texttt{solution.py} (CLI, evaluation, ablations, stress test,
 benchmark); \texttt{audit.py} (frozen audit); \texttt{test\_solution.py}
-(11 invariant tests). Bootstrap intervals, ECE and collision statistics in
+(11 invariant tests in v1.0; 13 in v1.1, adding a finite-difference gradient
+check, word-order sensitivity and loading of v1.0 checkpoints). v1.1 also adds
+\texttt{app.py}, a Streamlit interface whose sidebar drop-down selects
+\texttt{full.npz}, \texttt{strip\_symbols.npz}, \texttt{word\_only.npz} or
+\texttt{char\_word.npz}, and which plots the pooling weights $\bm\alpha$.
+v1.0 \texttt{.npz} files still load as linear-only models. v1.1 checkpoints
+store the attention arrays under \texttt{att\_*} keys. Bootstrap intervals, ECE and collision statistics in
 this paper were computed from the released checkpoints by a separate
 read-only analysis script with bootstrap seed 0.
 
 \section{Emoji Notation}
 Because this document is typeset with pdf\LaTeX, emoji are written as named
 placeholders: \emo{unamused} = U+1F612, \emo{smile} = U+1F60A,
-\emo{angry} = U+1F621 / U+1F620. The system itself operates on the actual
+\emo{angry} = U+1F621 / U+1F620, \emo{huff} = U+1F624,
+\emo{thumbs-up} = U+1F44D. The system itself operates on the actual
 code points.
 
 % ============================================================================
