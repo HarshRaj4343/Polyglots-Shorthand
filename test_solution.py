@@ -1,9 +1,3 @@
-# ============================================================================
-# test_solution.py - AUTOMATED TESTS (run: python -m unittest -v test_solution.py)
-# ----------------------------------------------------------------------------
-# Each test checks one promise the code makes (emojis kept, negation kept,
-# input limits, save/load, valid probabilities, ...).
-# ============================================================================
 import tempfile
 import unittest
 from pathlib import Path
@@ -15,7 +9,6 @@ class SolutionTests(unittest.TestCase):
     # Train/validation/test must not share groups or texts, and labels must be valid.
     def test_split_integrity(self):
         validate_data({s:read_data(s) for s in ('train','validation','test')})
-    # Normalization must keep emojis/punctuation, and an emoji must change the features.
     def test_emoji_preserved(self):
         self.assertEqual(normalize('  BOHOT  badhiya 😒?! '),'bohot badhiya 😒?!')
         self.assertFalse(np.array_equal(features('badhiya service')[0],features('badhiya service 😒')[0]))

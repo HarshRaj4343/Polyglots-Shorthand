@@ -1,17 +1,8 @@
-"""Unicode-preserving hashed sparse softmax classifiers. NumPy only."""
-# ============================================================================
-# model.py - THE BRAIN OF THE PROJECT
-# ----------------------------------------------------------------------------
-# This file turns a text message into numbers ("features") and trains a small
+# This turns a text message into numbers ("features") and trains a small
 # linear model that predicts TWO things at once:
 #   1. intent    -> what the customer wants (cancel, refund, track, ...)
 #   2. sentiment -> how they feel (negative / neutral / positive)
-# Flow: text -> normalize() -> features() -> Model.probabilities() -> predict()
-# ============================================================================
 
-# ---------------------------------------------------------------------------
-# Imports: only the Python standard library + NumPy (no PyTorch/sklearn).
-# ---------------------------------------------------------------------------
 import json
 import re
 import unicodedata
@@ -20,9 +11,6 @@ from collections import Counter
 from pathlib import Path
 import numpy as np
 
-# ---------------------------------------------------------------------------
-# Global constants
-# ---------------------------------------------------------------------------
 # The 6 possible intent labels. Their index (0..5) is the model's output slot.
 INTENTS = ['cancel_order', 'refund', 'track_order', 'not_received', 'damaged_item', 'feedback']
 # The 3 possible sentiment labels. They use output slots 6..8.
@@ -32,9 +20,7 @@ SENTIMENTS = ['negative', 'neutral', 'positive']
 DIM = 32768
 # Longest message we accept (in Unicode characters).
 MAX_CHARS = 512
-# Spelling-normalisation table for common Hinglish shorthand, e.g. "nhi" -> "nahi".
-# Used to create extra "a:" (alias) features so shorthand and full spellings
-# share a feature.
+
 ALIASES = {'krdo':'kar do', 'kr':'kar', 'kro':'karo', 'krna':'karna',
            'nhi':'nahi', 'nai':'nahi', 'nh':'nahi', 'rha':'raha', 'rhe':'rahe',
            'plz':'please', 'pls':'please', 'mera':'mera', 'bht':'bahut',
@@ -44,14 +30,9 @@ ALIASES = {'krdo':'kar do', 'kr':'kar', 'kro':'karo', 'krna':'karna',
 # any script) OR a single non-space symbol (so emojis and "?" / "!" survive).
 TOKEN = re.compile(r'\w+|[^\w\s]', re.UNICODE)
 
-# ---------------------------------------------------------------------------
-# normalize(): clean the raw input text into a consistent form.
-# ---------------------------------------------------------------------------
 def normalize(text):
-    # Reject anything that isn't a string.
     if not isinstance(text, str):
         raise TypeError('text must be a string')
-    # Reject overly long messages.
     if len(text) > MAX_CHARS:
         raise ValueError(f'maximum input is {MAX_CHARS} Unicode code points; split long chats upstream')
     # NFC = combine accented/composed characters into a single standard form,
@@ -59,7 +40,6 @@ def normalize(text):
     text = unicodedata.normalize('NFC', text).lower()
     # Collapse repeated spaces/tabs/newlines into single spaces and trim ends.
     text = ' '.join(text.split())
-    # Empty (or whitespace-only) input is not allowed.
     if not text:
         raise ValueError('text must not be empty')
     return text
@@ -74,37 +54,21 @@ def normalize(text):
 #   'strip_symbols' -> like 'full' but emojis/punctuation removed first
 # ---------------------------------------------------------------------------
 def features(text, mode='full'):
-    # Step 1: clean the text.
     s = normalize(text)
-    # Step 2 (ablation only): drop all Symbol (S*) and Punctuation (P*) chars.
     if mode == 'strip_symbols':
         s = ' '.join(''.join(c for c in s if not unicodedata.category(c).startswith(('S', 'P'))).split())
-    # Step 3: split into tokens (words, emojis, punctuation).
     ts = TOKEN.findall(s)
-    # Feature family "w:" = each individual word/token (unigram).
     fs = ['w:' + t for t in ts]
-    # Feature family "b:" = each pair of neighbouring tokens (bigram),
-    # e.g. "nahi|mila" - helps capture short negations.
     fs += ['b:' + a + '|' + b for a,b in zip(ts,ts[1:])]
-    # Feature family "c3/c4/c5:" = character n-grams of length 3,4,5 over the
-    # whole string (with ^ and $ marking start/end). These make the model robust
-    # to spelling variations like "delivry" vs "delivery".
     if mode != 'word_only':
         padded = '^' + s + '$'
         fs += [f'c{n}:' + padded[i:i+n] for n in (3,4,5) for i in range(len(padded)-n+1)]
-    # Extra families only used by 'full' and 'strip_symbols' modes.
     if mode in ('full', 'strip_symbols'):
-        # Replace shorthand with canonical spelling via ALIASES ("nhi" -> "nahi").
         canon = [u for t in ts for u in ALIASES.get(t,t).split()]
-        # "a:" = canonical unigrams, "ab:" = canonical bigrams.
         fs += ['a:' + t for t in canon]
         fs += ['ab:' + a + '|' + b for a,b in zip(canon,canon[1:])]
-        # Learned token-symbol interactions; never hard-code an emoji's sentiment.
-        # Collect up to 8 unique symbol tokens (emojis etc.) and 64 unique words...
         symbols = list(dict.fromkeys(t for t in ts if any(unicodedata.category(c).startswith('S') for c in t)))[:8]
         words = list(dict.fromkeys(t for t in ts if any(c.isalnum() for c in t)))[:64]
-        # ...and pair every emoji with every word ("e:😒|badhiya"), so the model
-        # can learn that "badhiya + 😒" is sarcastic/negative.
         fs += ['e:' + e + '|' + t for e in symbols for t in words]
     # Step 4: "hashing trick" - map each feature string to a bucket number with
     # CRC32 % DIM, and count how often each bucket appears.
@@ -117,20 +81,11 @@ def features(text, mode='full'):
     vals /= max(float(np.linalg.norm(vals)), 1e-12)
     return ix, vals
 
-# ---------------------------------------------------------------------------
-# softmax(): turn raw scores (logits) into probabilities that sum to 1.
-# Subtracting the max first avoids numeric overflow in exp().
-# ---------------------------------------------------------------------------
 def softmax(z):
     e = np.exp(z - np.max(z))
     return e / e.sum()
 
-# ---------------------------------------------------------------------------
-# Model: two linear softmax classifiers sharing ONE weight matrix.
-# Columns 0..5 of the output are intent scores, columns 6..8 sentiment scores.
-# ---------------------------------------------------------------------------
 class Model:
-    # ----- Constructor: create an untrained (all-zero) model -----
     def __init__(self, mode='full'):
         self.mode = mode                                   # which feature set to use
         self.w = np.zeros((DIM,9), dtype=np.float32)       # weights: 32768 buckets x 9 outputs
@@ -138,7 +93,6 @@ class Model:
         self.temperature = [1.0,1.0]                       # calibration temps [intent, sentiment]
         self.threshold = [0.0,0.0]                         # "needs human review" cutoffs [intent, sentiment]
 
-    # ----- probabilities(): text -> [intent probs (6), sentiment probs (3)] -----
     def probabilities(self, text):
         ix,v = features(text,self.mode)
         # Linear score: sum of the weight rows of active buckets (scaled by value) + bias.
@@ -219,32 +173,20 @@ class Model:
         # Loop over the two heads: task 0 = intent (slots 0..5), task 1 = sentiment (6..8).
         for task,(start,end,labels,key) in enumerate(((0,6,INTENTS,'intent'),(6,9,SENTIMENTS,'sentiment'))):
             targets=[labels.index(r[key]) for r in valid]
-            # Temperature scaling: try 30 temperatures between 0.4 and 4.0 and keep
-            # the one that gives the lowest validation loss. This makes the
-            # reported "confidence" numbers more honest.
             candidates=np.geomspace(0.4,4.0,30)
             losses=[np.mean([-np.log(max(float(softmax(z[start:end]/t)[y]),1e-9)) for z,y in zip(logits,targets)]) for t in candidates]
             self.temperature[task]=float(candidates[int(np.argmin(losses))])
-            # Calibrated probabilities, confidence of top label, and whether it was right.
             p=np.array([softmax(z[start:end]/self.temperature[task]) for z in logits])
             confidence=p.max(axis=1); correct=p.argmax(axis=1)==targets
-            # Pick maximum coverage achieving >=90% observed validation precision.
-            # This tiny-sample rule is not a statistical precision guarantee.
-            # Try every observed confidence as a cutoff; keep ones where the
-            # accepted predictions (>=5 of them) are at least 90% correct.
             options=[]
             for th in sorted(set([0.0]+[float(x) for x in confidence])):
                 keep=confidence>=th
                 if keep.sum()>=5 and correct[keep].mean()>=0.90:
                     options.append((int(keep.sum()),-th))
-            # Choose the cutoff that keeps the most rows (ties -> lowest cutoff).
-            # If none qualify, 1.01 means "always send to human review".
             self.threshold[task]=-max(options)[1] if options else 1.01
 
-    # ----- save(): write weights + settings to a compressed .npz file -----
     def save(self,path):
         path=Path(path); path.parent.mkdir(parents=True,exist_ok=True)
-        # Metadata stored as JSON text alongside the weight arrays.
         meta={'mode':self.mode,'temperature':self.temperature,'threshold':self.threshold,
               'best_epoch':getattr(self,'best_epoch',None),'dim':DIM,'max_chars':MAX_CHARS,
               'intents':INTENTS,'sentiments':SENTIMENTS}

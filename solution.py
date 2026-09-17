@@ -1,19 +1,11 @@
-"""Reproduce training, evaluation, ablations, latency and JSON inference."""
-# ============================================================================
-# solution.py - THE COMMAND-LINE ENTRY POINT
-# ----------------------------------------------------------------------------
-# Ties everything together. Commands:
+#   Commands:
 #   python solution.py predict "refund kab milega"  -> classify one message
 #   python solution.py predict --stdin              -> classify one per line
 #   python solution.py train --mode full            -> train and save one model
 #   python solution.py evaluate                     -> metrics on test set
 #   python solution.py benchmark                    -> speed measurements
 #   python solution.py reproduce                    -> rebuild EVERYTHING
-# ============================================================================
 
-# ---------------------------------------------------------------------------
-# Imports (standard library, NumPy, and our own model.py / make_data.py)
-# ---------------------------------------------------------------------------
 import argparse
 import hashlib
 import json
@@ -27,22 +19,18 @@ import numpy as np
 from model import Model, INTENTS, SENTIMENTS, DIM, features
 from make_data import build
 
-# Folder containing this file, and the folder where trained models/results go.
 ROOT=Path(__file__).resolve().parent
 ART=ROOT/'artifacts'
 
-# ---------------------------------------------------------------------------
 # read_data(): load data/<split>.jsonl into a list of dicts.
-# ---------------------------------------------------------------------------
+
 def read_data(split):
     return [json.loads(s) for s in (ROOT/'data'/f'{split}.jsonl').read_text(encoding='utf-8').splitlines() if s.strip()]
 
-# ---------------------------------------------------------------------------
 # validate_data(): sanity checks on the dataset before training.
-# ---------------------------------------------------------------------------
+
 def validate_data(parts):
-    # 1. No seed group and no identical text may appear in two different splits
-    #    (otherwise test scores would be inflated by "leaked" examples).
+    # No seed group and no identical text may appear in two different splits (otherwise test scores would be inflated by "leaked" examples).
     groups={s:{r['group'] for r in rows} for s,rows in parts.items()}
     texts={s:{r['text'].lower() for r in rows} for s,rows in parts.items()}
     for a,b in [('train','validation'),('train','test'),('validation','test')]:
@@ -58,9 +46,6 @@ def validate_data(parts):
         if {r['intent'] for r in rows} != set(INTENTS):
             raise ValueError(f'missing intent in {split}')
 
-# ---------------------------------------------------------------------------
-# summarize(): compute metrics from true labels (y) and predicted labels (p).
-# ---------------------------------------------------------------------------
 def summarize(y,p,labels,conf=None,threshold=0):
     # Confusion matrix: cm[true, predicted] counts.
     cm=np.zeros((len(labels),len(labels)),dtype=int)
@@ -71,6 +56,8 @@ def summarize(y,p,labels,conf=None,threshold=0):
         tp=int(cm[i,i]); fp=int(cm[:,i].sum())-tp; fn=int(cm[i,:].sum())-tp
         precision=tp/max(tp+fp,1); recall=tp/max(tp+fn,1)
         per[label]={'precision':precision,'recall':recall,'f1':2*tp/max(2*tp+fp+fn,1),'support':int(cm[i,:].sum())}
+
+    # number of actual examples belonging to that class.
     # Overall accuracy and macro-F1 (average F1 across classes).
     out={'n':len(y),'accuracy':float(np.mean(np.array(y)==p)),
          'macro_f1':float(np.mean([v['f1'] for v in per.values()])),
@@ -83,9 +70,8 @@ def summarize(y,p,labels,conf=None,threshold=0):
         out['accepted_accuracy']=float((np.array(y)[keep]==np.array(p)[keep]).mean()) if keep.any() else None
     return out
 
-# ---------------------------------------------------------------------------
 # evaluate(): run the model on labelled rows and return metrics + error list.
-# ---------------------------------------------------------------------------
+
 def evaluate(model,rows):
     preds=[model.predict(r['text']) for r in rows]
     out={}
@@ -100,18 +86,16 @@ def evaluate(model,rows):
                    for r,p in zip(rows,preds) if any(r[k]!=p[k]['label'] for k in ('intent','sentiment'))]
     return out
 
-# ---------------------------------------------------------------------------
 # Stress test: misspell words in NEW ways the model never saw in training.
-# ---------------------------------------------------------------------------
 # New transformations are used only for the frozen test set, never for model selection.
+
 def stress_text(text):
     mapping={'nahi':'nahii','nhi':'nahii','kar':'karr','kr':'karr','hai':'hey',
              'h':'hey','mila':'milaa','mera':'meraa','kya':'kyaa','please':'pleez',
              'order':'orrder','delivery':'delivary','refund':'refnd','service':'serrvice'}
     return ' '.join(mapping.get(t,t) for t in text.lower().split())
 
-# Evaluate on the misspelled test set, and also measure how often the
-# prediction stays the same as on the original text ("consistency").
+# Evaluate on the misspelled test set, and also measure how often the prediction stays the same as on the original text ("consistency").
 def stress_evaluate(model,rows):
     changed=[dict(r,text=stress_text(r['text'])) for r in rows]
     out=evaluate(model,changed)
@@ -123,10 +107,8 @@ def stress_evaluate(model,rows):
         out[key]['prediction_consistency']=float(np.mean([a[key]['label']==b[key]['label'] for a,b in zip(original,altered)]))
     return out
 
-# ---------------------------------------------------------------------------
-# emoji_pairs(): sarcasm check. For "text" (positive) vs "text 😒" (negative),
-# does the model get BOTH right?
-# ---------------------------------------------------------------------------
+# emoji_pairs(): sarcasm check. For "text" (positive) vs "text 😒" (negative)
+
 def emoji_pairs(model,rows):
     # Exact held-out base +/- one emoji; count one pair per lowercased base.
     lookup={r['text'].lower():r for r in rows}
@@ -142,9 +124,8 @@ def emoji_pairs(model,rows):
                               'both_correct':pa['sentiment']['label']=='positive' and pb['sentiment']['label']=='negative'})
     return {'n_pairs':len(pairs),'both_correct_rate':float(np.mean([r['both_correct'] for r in pairs])) if pairs else None,'pairs':pairs}
 
-# ---------------------------------------------------------------------------
 # benchmark(): measure prediction speed (latency percentiles + throughput).
-# ---------------------------------------------------------------------------
+
 def benchmark(model,rows,repeats=600):
     # Time `repeats` predictions over the given texts.
     def measure(texts):
@@ -221,9 +202,6 @@ def reproduce():
     (ART/'results.json').write_text(json.dumps(summary,ensure_ascii=False,indent=2),encoding='utf-8')
     print('Saved artifacts/results.json',flush=True)
 
-# ---------------------------------------------------------------------------
-# main(): parse command-line arguments and run the chosen command.
-# ---------------------------------------------------------------------------
 def main():
     # Define the available sub-commands and their options.
     p=argparse.ArgumentParser(description=__doc__)

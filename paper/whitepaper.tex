@@ -1,0 +1,1181 @@
+% ============================================================================
+%  The Polyglot's Shorthand -- Technical Whitepaper
+%  Compile:  pdflatex whitepaper && pdflatex whitepaper   (or: latexmk -pdf)
+%  Engine:   pdfLaTeX (emoji are written as named placeholders, see \emo)
+% ============================================================================
+\documentclass[11pt,a4paper]{article}
+
+% ---------------------------------------------------------------- packages --
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage[margin=2.4cm]{geometry}
+\usepackage{microtype}
+\usepackage{amsmath,amssymb,amsthm,bm}
+\usepackage{booktabs,tabularx,multirow}
+\usepackage[table]{xcolor}
+\usepackage{graphicx}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,positioning,fit,calc,backgrounds}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.17}
+\usepackage{algorithm}
+\usepackage[noend]{algpseudocode}
+\usepackage{caption}
+\usepackage{enumitem}
+\usepackage{listings}
+\usepackage[colorlinks=true,linkcolor=accent,citecolor=accent,urlcolor=accent]{hyperref}
+\usepackage[nameinlink,capitalise]{cleveref}
+
+% ------------------------------------------------------------------ styling --
+\definecolor{accent}{RGB}{31,78,121}
+\definecolor{accentlight}{RGB}{214,228,240}
+\definecolor{warn}{RGB}{176,58,46}
+\definecolor{okgreen}{RGB}{39,119,72}
+\definecolor{muted}{RGB}{110,110,110}
+\captionsetup{font=small,labelfont={bf,color=accent}}
+\setlist{nosep,leftmargin=1.4em}
+\lstset{basicstyle=\ttfamily\small,columns=fullflexible,frame=single,
+        rulecolor=\color{muted!40},backgroundcolor=\color{accentlight!35},
+        xleftmargin=0.5em,xrightmargin=0.5em}
+
+\newtheorem{definition}{Definition}
+\newtheorem{proposition}{Proposition}
+\theoremstyle{remark}
+\newtheorem*{remark}{Remark}
+
+% ------------------------------------------------------------------- macros --
+\newcommand{\lbl}[1]{\texttt{#1}}                      % class label
+\newcommand{\hi}[1]{\textit{#1}}                       % Hinglish text
+\newcommand{\emo}[1]{\textsf{\small$\langle$#1$\rangle$}} % emoji placeholder
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\x}{\bm{x}}
+\newcommand{\W}{\bm{W}}
+\newcommand{\bb}{\bm{b}}
+\newcommand{\z}{\bm{z}}
+\newcommand{\p}{\bm{p}}
+\DeclareMathOperator*{\argmin}{arg\,min}
+\DeclareMathOperator*{\argmax}{arg\,max}
+\DeclareMathOperator{\softmax}{softmax}
+\DeclareMathOperator{\CE}{CE}
+% confusion-matrix cell: \cm{shade 0-100}{count}
+\newcommand{\cm}[2]{\cellcolor{accent!#1}\ifnum#1>45\color{white}\fi#2}
+
+% ----------------------------------------------------------------- metadata --
+\title{\vspace{-1.2em}\textbf{The Polyglot's Shorthand}\\[0.3em]
+  \large A Hashed Sparse Multi-Head Classifier for Intent and Sentiment\\
+  in Romanized Hindi--English Customer-Support Text\\[0.4em]
+  \normalsize\color{muted}Technical Whitepaper --- Q4, CS/AI Practice Problem Statements}
+\author{Harsh Raj}
+\date{September 2026}
+
+% ============================================================================
+\begin{document}
+\maketitle
+
+\begin{abstract}
+\noindent
+Customer-support messages in India are frequently written in \emph{Romanized
+code-mixed} Hindi--English (``Hinglish''): non-standard spelling, texting
+shorthand (\hi{nhi}, \hi{kr}, \hi{plz}), English loanwords and emoji that can
+invert the literal polarity of a sentence. We present a compact, fully
+reproducible reference system that maps such a message to one of six
+support \emph{intents} and one of three \emph{sentiment} classes, together
+with calibrated confidences and a human-review flag. The system combines a
+Unicode-preserving normalizer, eight prefixed feature channels (word and
+character $n$-grams, a shorthand-alias channel, and symbol$\times$word
+interaction features), CRC32 feature hashing into $D=2^{15}$ buckets, and two
+softmax heads trained jointly by class-balanced stochastic gradient descent.
+Post-hoc temperature scaling and a coverage-maximizing selective-prediction
+threshold are fitted on a validation split. The complete model has
+294{,}921 parameters (1.13\,MiB as float32; 106\,KB compressed), depends only
+on NumPy, and serves a request in 0.218\,ms at the 95th percentile on a
+laptop CPU. On a leakage-controlled, group-split synthetic benchmark the
+system reaches an intent macro-F1 of $0.820$ (group-bootstrap 95\% CI
+$[0.568, 0.960]$) but a sentiment macro-F1 of only $0.423$, with zero recall
+on held-out positive messages and zero of five sarcasm contrast pairs solved.
+We report ablations, stress tests under unseen misspellings, calibration
+error, hash-collision statistics and a qualitative error analysis, and we
+argue explicitly which of the problem's robustness claims are \emph{not}
+established by this evidence.
+\end{abstract}
+
+\tableofcontents
+\vspace{1em}\hrule
+
+% ============================================================================
+\section{Introduction}
+\label{sec:intro}
+
+Code-mixing---alternating between two or more languages inside a single
+utterance---is the default register of informal Indian digital
+communication~\cite{bali2014borrowing}. When Hindi is written in Latin script
+there is no orthographic standard: \hi{nahi}, \hi{nhi}, \hi{nai} and
+\hi{nahii} all denote the same negator, and spelling varies by region,
+keyboard and individual. Benchmarks such as GLUECoS~\cite{khanuja2020gluecos}
+and SemEval-2020 Task~9~\cite{patwa2020semeval} show that these properties
+degrade models built for monolingual, standardized text.
+
+Customer-support triage adds operational constraints. Messages must be
+routed in real time, so latency is measured in milliseconds; the deployment
+footprint must be small; and wrong-but-confident predictions are costly, so
+the system should know when to defer to a human agent. The problem
+statement that motivates this work fixes a hard cap of 500M parameters and a
+single-digit-millisecond latency target, and asks for robustness to spelling
+variation, shorthand, emoji and punctuation.
+
+\paragraph{Contributions.}
+\begin{enumerate}
+  \item A \textbf{Unicode-preserving feature architecture} (\cref{sec:features})
+        that retains negation tokens, punctuation and emoji, and adds
+        \emph{learned} symbol$\times$word interaction features instead of a
+        hand-coded emoji-polarity lexicon.
+  \item A \textbf{two-head sparse linear classifier} with class-balanced
+        SGD, validation checkpointing, per-head temperature scaling and a
+        selective-prediction (review) threshold (\cref{sec:model,sec:training}).
+  \item A \textbf{leakage-controlled synthetic benchmark}: 96 authored seeds
+        are split \emph{before} augmentation so that paraphrase families never
+        cross partitions (\cref{sec:data}).
+  \item A \textbf{measured, deliberately conservative evaluation}: ablations
+        with group-level bootstrap intervals, an unseen-misspelling stress
+        test, emoji contrast pairs, calibration error, collision analysis,
+        latency percentiles and an independently authored audit set
+        (\cref{sec:protocol,sec:results,sec:analysis}).
+\end{enumerate}
+
+\paragraph{Positioning.} This is a strong-engineering \emph{baseline}, not a
+claim of a production-ready multilingual model. Intent classification is
+the primary task; sentiment is reported as an experimental secondary task
+whose failures we document in detail.
+
+% ============================================================================
+\section{Background and Related Work}
+\label{sec:related}
+
+\paragraph{Linear text classifiers.}
+Bag-of-$n$-gram linear models remain competitive baselines for short-text
+classification~\cite{wang2012baselines}. fastText~\cite{joulin2017bag} showed
+that a linear classifier over hashed word and $n$-gram features can approach
+neural accuracy at orders-of-magnitude lower cost; subword character
+$n$-grams further improve handling of rare and misspelled
+words~\cite{bojanowski2017enriching}. Character $n$-gram profiles have long
+been used for noisy-text categorization~\cite{cavnar1994ngram}. Our model is a
+\emph{sparse linear} relative of these ideas; it does not learn dense
+embeddings and is not a reproduction of fastText.
+
+\paragraph{Feature hashing.}
+The hashing trick~\cite{weinberger2009feature} maps an unbounded feature
+vocabulary into a fixed-dimensional space, eliminating a vocabulary table and
+out-of-vocabulary handling. Weinberger et al.\ analyse a \emph{signed} hash
+that makes collisions unbiased in expectation; we use the simpler unsigned
+variant and quantify its collisions empirically (\cref{sec:collisions}).
+
+\paragraph{Calibration and selective prediction.}
+Temperature scaling~\cite{guo2017calibration} rescales logits by a single
+scalar fitted on held-out data, improving probability calibration without
+changing the argmax. Selective classification~\cite{chow1970optimum,
+geifman2017selective} abstains when confidence is low, trading coverage for
+accuracy on accepted predictions. We use both, but with a small validation
+set and no formal risk guarantee.
+
+\paragraph{Code-mixed sentiment and data leakage.}
+Code-mixed sentiment is hard even for large pretrained encoders because of
+sarcasm, transliteration noise and polarity carried by emoji~\cite{patwa2020semeval}.
+Augmented datasets are also vulnerable to \emph{leakage}~\cite{kaufman2012leakage}:
+if two spelling variants of one sentence fall into train and test, test
+accuracy measures memorization. We therefore split by paraphrase group.
+
+% ============================================================================
+\section{Problem Formulation}
+\label{sec:problem}
+
+Let $\mathcal{S}$ be the set of Unicode strings of at most $L_{\max}=512$ code
+points. Each message $s\in\mathcal{S}$ carries two labels:
+\begin{align*}
+  y^{I} &\in \mathcal{Y}^{I} = \{\lbl{cancel\_order},\lbl{refund},\lbl{track\_order},\lbl{not\_received},\lbl{damaged\_item},\lbl{feedback}\}, && K_I=6,\\
+  y^{S} &\in \mathcal{Y}^{S} = \{\lbl{negative},\lbl{neutral},\lbl{positive}\}, && K_S=3.
+\end{align*}
+We seek a predictor $f:\mathcal{S}\to(\mathcal{Y}^{I}\times[0,1]\times\{0,1\})
+\times(\mathcal{Y}^{S}\times[0,1]\times\{0,1\})$ that returns, per task, a label,
+a confidence and a \emph{review-required} flag, subject to
+\begin{enumerate}
+  \item \textbf{Footprint:} $|\theta| < 5\times10^{8}$ parameters;
+  \item \textbf{Latency:} single-digit milliseconds per message on commodity CPU;
+  \item \textbf{Robustness:} stable predictions under spelling and shorthand
+        variation, while remaining \emph{sensitive} to meaning-changing
+        signals (negation, emoji, punctuation).
+\end{enumerate}
+Requirement~3 is internally in tension: a representation that is invariant to
+every surface change would also erase \hi{nahi} and \emo{unamused}. The
+architecture below therefore aims for \emph{shared} rather than
+\emph{identical} representations of spelling variants.
+
+\paragraph{Sentiment annotation convention.} Sentiment describes
+\emph{expressed affect}, not whether the intent is operationally undesirable.
+A neutral request that reports a problem (\hi{parcel nahi mila}) is
+\lbl{neutral}; explicit frustration (\hi{bekar service}, \emo{angry}) is
+\lbl{negative}.
+
+% ============================================================================
+\section{System Architecture}
+\label{sec:arch}
+
+\Cref{fig:arch} shows the end-to-end pipeline. All stages are deterministic at
+inference time; the only learned components are $\W$, $\bb$, two temperatures
+and two thresholds.
+
+\begin{figure}[t]
+\centering
+\begin{tikzpicture}[
+  node distance=0.55cm and 0.5cm,
+  box/.style={draw=accent,rounded corners=2pt,fill=accentlight!60,
+              minimum height=0.9cm,align=center,font=\small,inner sep=4pt},
+  ch/.style={draw=accent!70,rounded corners=1.5pt,fill=white,
+             minimum width=2.25cm,minimum height=0.55cm,align=center,font=\scriptsize},
+  arr/.style={-{Stealth[length=2.2mm]},thick,accent!80!black},
+  lab/.style={font=\scriptsize\itshape,text=muted}]
+
+  % input + normalizer
+  \node[box,fill=white] (in) {Raw message\\[-1pt]\scriptsize\hi{order nhi mila} \emo{unamused}};
+  \node[box,right=of in] (norm) {Normalize\\[-1pt]\scriptsize NFC, lower,\\[-2pt]\scriptsize collapse ws, $\le$512};
+  \node[box,right=of norm] (tok) {Tokenize\\[-1pt]\scriptsize\verb!\w+|[^\w\s]!};
+
+  % feature channels
+  \node[ch,below=0.9cm of in,xshift=0.2cm]   (w)  {\texttt{w:}\ word unigrams};
+  \node[ch,below=0.12cm of w]                (b)  {\texttt{b:}\ word bigrams};
+  \node[ch,right=0.25cm of w]                (c)  {\texttt{c3/c4/c5:}\ char};
+  \node[ch,below=0.12cm of c]                (a)  {\texttt{a:}/\texttt{ab:}\ alias};
+  \node[ch,right=0.25cm of c]                (e)  {\texttt{e:}\ symbol$\times$word};
+  \node[ch,below=0.12cm of e,draw=none,fill=none] (dummy) {\color{muted}\scriptsize$\le 8\times 64$ pairs};
+  \begin{scope}[on background layer]
+    \node[draw=accent,dashed,rounded corners=3pt,fill=accentlight!25,
+          fit=(w)(b)(c)(a)(e)(dummy),inner sep=5pt,
+          label={[lab,anchor=south west]north west:Feature multiset $\Phi(s)$}] (feat) {};
+  \end{scope}
+
+  % hashing + heads
+  \node[box,right=0.7cm of feat] (hash) {Hash \& weight\\[-1pt]\scriptsize$h(f)=\mathrm{CRC32}(f)\bmod 2^{15}$\\[-2pt]\scriptsize$1+\ln c_j$, $\ell_2$-norm};
+  \node[box,below=0.9cm of hash,xshift=-2.1cm] (hi) {Intent head\\[-1pt]\scriptsize$\W_{\cdot,1:6}$, $T_I$};
+  \node[box,below=0.9cm of hash,xshift=2.1cm]  (hs) {Sentiment head\\[-1pt]\scriptsize$\W_{\cdot,7:9}$, $T_S$};
+  \node[box,below=0.6cm of hi,fill=white] (oi) {\scriptsize label, $\max p$,\\[-2pt]\scriptsize review if $\max p<\tau_I$};
+  \node[box,below=0.6cm of hs,fill=white] (os) {\scriptsize label, $\max p$,\\[-2pt]\scriptsize review if $\max p<\tau_S$};
+
+  \draw[arr] (in) -- (norm);
+  \draw[arr] (norm) -- (tok);
+  \draw[arr] (tok.south) |- ($(feat.north east)+(0,0.35)$) -- ($(feat.north)+(0,0.35)$) -- (feat.north);
+  \draw[arr] (feat) -- node[lab,above]{sparse} (hash);
+  \draw[arr] (hash.south) -- ++(0,-0.35) -| node[lab,pos=0.25,above]{$\x\in\R^{D}$} (hi.north);
+  \draw[arr] (hash.south) -- ++(0,-0.35) -| (hs.north);
+  \draw[arr] (hi) -- node[lab,right]{$\softmax(\z_{1:6}/T_I)$} (oi);
+  \draw[arr] (hs) -- node[lab,right]{$\softmax(\z_{7:9}/T_S)$} (os);
+\end{tikzpicture}
+\caption{Inference pipeline. A message is normalized, tokenized and expanded
+into prefixed feature strings, which are hashed into a sparse,
+$\ell_2$-normalized vector $\x$. Two linear softmax heads read disjoint columns
+of one weight matrix and emit a label, a temperature-scaled confidence and a
+review flag.}
+\label{fig:arch}
+\end{figure}
+
+% ----------------------------------------------------------------------------
+\subsection{Normalization and Tokenization}
+\label{sec:norm}
+
+The normalizer $\nu$ applies, in order: (i)~type check and rejection of inputs
+longer than 512 code points; (ii)~Unicode NFC composition; (iii)~lower-casing;
+(iv)~whitespace collapse; (v)~rejection of the empty string. Over-long input is
+\emph{rejected} rather than truncated, because truncation can silently remove
+a trailing negation or emoji---exactly the tokens that decide sentiment.
+Lower-casing deliberately discards emphasis carried by capitalization
+(\hi{SERIOUSLY}); this is a documented simplicity trade-off.
+
+Tokens are extracted with the Unicode-aware pattern \verb!\w+|[^\w\s]!: a
+maximal run of word characters in any script, or a \emph{single} non-space,
+non-word code point. Consequently \hi{nahi!!!} yields
+$\langle\hi{nahi},\,!,\,!,\,!\rangle$ and each emoji code point becomes its own
+token. This is not a full grapheme-cluster segmenter: a skin-tone-modified or
+ZWJ-joined emoji is split into several code-point tokens, though the character
+channel still observes the contiguous sequence.
+
+% ----------------------------------------------------------------------------
+\subsection{Feature Channels}
+\label{sec:features}
+
+Given normalized string $\tilde s$ with tokens $t_{1:m}$, alias-expanded tokens
+$u_{1:m'}$ and boundary-padded string $\hat s = {\texttt{\^{}}}\,\tilde s\,\texttt{\$}$, the
+feature multiset is the union of the channels in \cref{tab:features}. Every
+feature string carries a channel prefix, so a word \hi{kar} and a character
+trigram \texttt{kar} hash independently.
+
+\begin{table}[h]
+\centering\small
+\caption{Feature channels. \emph{Modes} lists the ablation configurations
+that enable each channel (F = \lbl{full}, W = \lbl{word\_only}, C =
+\lbl{char\_word}, S = \lbl{strip\_symbols}). Counts are distinct strings over
+all 221 benchmark rows.}
+\label{tab:features}
+\begin{tabularx}{\linewidth}{@{}l X l r@{}}
+\toprule
+Prefix & Definition and purpose & Modes & Distinct \\
+\midrule
+\texttt{w:}  & $\{t_i\}$ --- unigrams; loanwords, emoji and punctuation as tokens & FWCS & 272 \\
+\texttt{b:}  & $\{t_i|t_{i+1}\}$ --- adjacent pairs; short negation such as \hi{nahi|mila} & FWCS & 670 \\
+\texttt{c3:}, \texttt{c4:}, \texttt{c5:} & all $n$-grams of $\hat s$, $n\in\{3,4,5\}$; spans word boundaries; shares substrings between \hi{delivery}/\hi{delivry} & F\,CS & 5{,}137 \\
+\texttt{a:}  & $\{u_i\}$ --- tokens after the 20-entry alias map (\hi{nhi}$\to$\hi{nahi}, \hi{krdo}$\to$\hi{kar do}) & F\,\,\,\,S & 263 \\
+\texttt{ab:} & $\{u_i|u_{i+1}\}$ --- alias bigrams & F\,\,\,\,S & 600 \\
+\texttt{e:}  & $\{\sigma|\omega\}$ for the first $\le\!8$ unique Unicode-symbol tokens $\sigma$ and first $\le\!64$ unique alphanumeric tokens $\omega$; lets the model learn that \hi{badhiya} $\wedge$ \emo{unamused} differs from either alone & F\,\,\,\,S & 170 \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+Two design decisions deserve emphasis.
+
+\emph{Additive, not destructive, aliasing.} The alias channel \emph{adds}
+canonical-spelling features while keeping the raw tokens. Overwriting would
+merge genuinely ambiguous forms (e.g.\ \hi{kaha} is both ``said'' and a
+shorthand for \hi{kahan} ``where''); adding lets the learner weigh both.
+
+\emph{Learned emoji semantics.} No emoji is assigned a fixed polarity. The
+interaction channel only creates the \emph{opportunity} to learn
+context-dependent polarity; whether it is learned depends on data
+(\cref{sec:emoji}). In \lbl{strip\_symbols} mode every code point in Unicode
+general categories \texttt{S*} and \texttt{P*} is removed before tokenization,
+so the \texttt{e:} channel is empty; this mode isolates the contribution of
+symbols.
+
+% ----------------------------------------------------------------------------
+\subsection{Hashing and Vectorization}
+\label{sec:hashing}
+
+\begin{definition}[Hashed representation]
+Let $D=2^{15}=32{,}768$ and $h(f) = \mathrm{CRC32}(\mathrm{UTF8}(f)) \bmod D$.
+For multiset $\Phi(s)$ define counts $c_j=\lvert\{f\in\Phi(s): h(f)=j\}\rvert$ and
+\begin{equation}
+  \tilde x_j = \begin{cases} 1+\ln c_j & c_j>0\\ 0 & \text{otherwise}\end{cases},
+  \qquad
+  \x = \tilde\x \,/\, \max(\lVert\tilde\x\rVert_2,\,10^{-12}).
+  \label{eq:vector}
+\end{equation}
+\end{definition}
+
+CRC32 is stable across processes and platforms, unlike Python's salted
+\texttt{hash()}, so a saved model is portable. Sub-linear term frequency
+($1+\ln c$) prevents a repeated token (\hi{!!!!!!}) from dominating, and
+$\ell_2$ normalization makes scores comparable across message lengths---at the
+cost of diluting a single decisive cue in a long message. $\x$ is stored
+sparsely as sorted index/value arrays; messages in the benchmark activate
+$F=130$ buckets on average (range 62--206).
+
+% ----------------------------------------------------------------------------
+\subsection{Two-Head Linear Model}
+\label{sec:model}
+
+A single matrix $\W\in\R^{D\times 9}$ and bias $\bb\in\R^{9}$ produce logits
+$\z = \W^{\!\top}\x + \bb$. Columns $1{:}6$ form the intent head and $7{:}9$
+the sentiment head:
+\begin{equation}
+  \p^{I} = \softmax\!\big(\z_{1:6}/T_I\big),\qquad
+  \p^{S} = \softmax\!\big(\z_{7:9}/T_S\big).
+  \label{eq:heads}
+\end{equation}
+For each task $k\in\{I,S\}$ the output is
+$\hat y^{k}=\argmax_c p^{k}_c$, confidence $\max_c p^{k}_c$ and review flag
+$\mathbb{1}[\max_c p^{k}_c<\tau_k]$. Because $\x$ is sparse, computing $\z$
+costs $O(9F)$ rather than $O(9D)$.
+
+\begin{proposition}[Decoupling]
+\label{prop:decouple}
+The heads share the input representation $\x$ but no trainable parameters.
+The joint objective \eqref{eq:loss} is a sum of a term depending only on
+$(\W_{\cdot,1:6},\bb_{1:6})$ and a term depending only on
+$(\W_{\cdot,7:9},\bb_{7:9})$; weight decay is column-separable. Hence joint
+training is exactly equivalent to training two independent classifiers with an
+identical sample order.
+\end{proposition}
+
+\begin{remark}
+The ``multi-task'' benefit of this architecture is therefore purely
+computational (one feature extraction, one sparse row gather). Sharing
+\emph{statistical strength} between intent and sentiment would require a
+shared learned layer, which is out of scope for this baseline.
+\end{remark}
+
+\paragraph{Parameter budget.}
+$|\theta| = 9D + 9 = 294{,}921$ learned scalars plus four fitted scalars
+$(T_I,T_S,\tau_I,\tau_S)$---about $1{,}700\times$ below the 500M cap. Float32
+weights occupy $1{,}179{,}684$ bytes; the compressed checkpoint is
+$105{,}953$ bytes because only 4{,}556 of the 32{,}768 rows are non-zero after
+training.
+
+% ============================================================================
+\section{Learning}
+\label{sec:training}
+
+\subsection{Objective}
+For a training set $\{(s_i,y^I_i,y^S_i)\}_{i=1}^{N}$ define class-balance
+weights from training labels only,
+$\alpha^{k}_{c}=N/\big(K_k\cdot\max(n^{k}_c,1)\big)$, where $n^{k}_c$ is the
+count of class $c$ in task $k$. The per-sample objective (with $T=1$ during
+training) is
+\begin{equation}
+  \mathcal{L}_i = \alpha^{I}_{y^I_i}\,\CE\!\big(\p^{I}(s_i),y^I_i\big)
+                + \alpha^{S}_{y^S_i}\,\CE\!\big(\p^{S}(s_i),y^S_i\big).
+  \label{eq:loss}
+\end{equation}
+On the training split, sentiment counts are 42/64/14, so a
+\lbl{positive} example receives weight $120/(3\cdot14)=2.86$, versus $0.63$
+for \lbl{neutral}.
+
+\subsection{Optimization}
+The softmax cross-entropy gradient with respect to the logits is
+$\bm{g}=\alpha\,(\p-\bm{e}_y)$. Because $\x$ is sparse, only rows in
+$\operatorname{supp}(\x)$ are touched. \Cref{alg:train} gives the procedure.
+
+\begin{algorithm}[h]
+\caption{Class-balanced sparse SGD with validation checkpointing}
+\label{alg:train}
+\small
+\begin{algorithmic}[1]
+\Require training rows, validation rows, epochs $E=55$, seed $42$
+\State Precompute $(\mathcal{J}_i,\x_i)\gets$ \Call{Features}{$s_i$} for all training rows
+\State $\W\gets\bm 0$, $\bb\gets\bm 0$, $\mathcal{L}^\star\gets\infty$
+\For{$e=0,\dots,E-1$}
+  \State $\eta_e\gets 0.6/(1+e/20)$
+  \State $\W\gets 0.999\cdot\W$ \Comment{decoupled decay, once per epoch; bias not decayed}
+  \For{$i$ in a seeded random permutation of $1..N$}
+    \State $\z\gets\x_i^{\!\top}\W_{\mathcal{J}_i,\cdot}+\bb$
+    \State $\bm g\gets[\softmax(\z_{1:6})-\bm e_{y^I_i}]\,\alpha^I_{y^I_i}\;\Vert\;[\softmax(\z_{7:9})-\bm e_{y^S_i}]\,\alpha^S_{y^S_i}$
+    \State $\W_{\mathcal{J}_i,\cdot}\gets\W_{\mathcal{J}_i,\cdot}-\eta_e\,\x_i\bm g^{\!\top}$
+    \State $\bb\gets\bb-0.1\,\eta_e\,\bm g$
+  \EndFor
+  \State $\mathcal{L}_{\text{val}}\gets$ mean \emph{unweighted} NLL over both heads on validation
+  \If{$\mathcal{L}_{\text{val}}<\mathcal{L}^\star$} \State $\mathcal{L}^\star\gets\mathcal{L}_{\text{val}}$;\ store $(\W,\bb,e+1)$ \EndIf
+\EndFor
+\State \Return stored checkpoint
+\end{algorithmic}
+\end{algorithm}
+
+\paragraph{Observation: the checkpoint rule never fired early.}
+In all four configurations the selected epoch was $e^\star=55=E$, i.e.\
+validation NLL was still decreasing at the end of the budget. Checkpointing
+therefore acted as a safeguard rather than as early stopping, and the models
+may be under-trained with respect to validation likelihood. A longer schedule
+was not explored.
+
+\subsection{Calibration and Selective Prediction}
+\label{sec:calibration}
+
+After checkpoint selection, each head is calibrated independently on the
+validation logits (\cref{alg:calib}).
+
+\begin{algorithm}[h]
+\caption{Per-head temperature scaling and review-threshold selection}
+\label{alg:calib}
+\small
+\begin{algorithmic}[1]
+\Require validation logits $\{\z_i\}$ and labels $\{y_i\}$ for one head
+\State $\mathcal{G}\gets\{0.4\cdot 10^{k/29}: k=0,\dots,29\}$ \Comment{30 log-spaced values in $[0.4,4]$}
+\State $T^\star\gets\argmin_{T\in\mathcal{G}}\frac1n\sum_i-\ln\softmax(\z_i/T)_{y_i}$
+\State $q_i\gets\max_c\softmax(\z_i/T^\star)_c$, \ $r_i\gets\mathbb 1[\argmax=y_i]$
+\State $\mathcal{C}\gets\big\{\tau\in\{0\}\cup\{q_i\}:\ |A_\tau|\ge5\ \wedge\ \overline{r}_{A_\tau}\ge0.90\big\}$, where $A_\tau=\{i:q_i\ge\tau\}$
+\State $\tau^\star\gets$ element of $\mathcal{C}$ maximizing $|A_\tau|$, ties to the smallest $\tau$; \ $\tau^\star\gets1.01$ if $\mathcal{C}=\emptyset$
+\State \Return $(T^\star,\tau^\star)$
+\end{algorithmic}
+\end{algorithm}
+
+The rule maximizes \emph{coverage} subject to an observed validation accuracy
+of at least 90\% on accepted items, and falls back to ``review everything'' if
+no threshold qualifies. With 43 validation rows from 18 groups this is a
+demonstration policy, not a statistical precision guarantee; the same split
+is also used for checkpoint selection, so the estimate is optimistic.
+
+\paragraph{Fitted values (full model).} $T_I=0.400$, $T_S=1.316$,
+$\tau_I=0.000$ (accept all), $\tau_S=0.829$. Notably, $T_I$ lies on the
+\emph{lower boundary} of the grid for all four configurations: the raw intent
+logits are under-confident and the true NLL optimum may be sharper still.
+
+% ============================================================================
+\section{Benchmark Construction}
+\label{sec:data}
+
+\subsection{Seed Authoring}
+No real customer data, scraped corpus or teacher model is used. We authored
+96 independent Hinglish seed messages, 16 per intent
+(\cref{tab:seeds}). Sentiment is heavily skewed: positive affect exists
+only within \lbl{feedback}, reflecting the realistic observation that
+operational requests rarely express delight.
+
+\begin{table}[h]
+\centering\small
+\caption{Seed composition by intent and base sentiment (negative / neutral / positive).}
+\label{tab:seeds}
+\begin{tabular}{@{}lcccccc|c@{}}
+\toprule
+ & \lbl{cancel} & \lbl{refund} & \lbl{track} & \lbl{not\_recv} & \lbl{damaged} & \lbl{feedback} & Total \\
+\midrule
+Neg / Neu / Pos & 4/12/0 & 5/11/0 & 4/12/0 & 6/10/0 & 7/9/0 & 4/4/8 & 30/58/8 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Group-First Splitting}
+Each seed defines a \emph{group}. Within every (intent, base sentiment) stratum
+with $n\ge3$ seeds, groups are shuffled with a fixed seed and assigned
+$n_v=\max(1,\operatorname{round}(0.18n))$ to validation,
+$n_t=\max(1,\operatorname{round}(0.22n))$ to test and the remainder to train;
+strata with $n<3$ go entirely to train. Splitting happens \emph{before}
+augmentation, and a validator rejects any group or lower-cased text that
+appears in two splits.
+
+\subsection{Augmentation}
+Each form of a seed is expanded into up to three deduplicated variants:
+\begin{enumerate}
+  \item the original;
+  \item a \emph{shorthand} rewrite via a 10-entry map
+        (\hi{nahi}$\to$\hi{nhi}, \hi{hai}$\to$\hi{h}, \hi{please}$\to$\hi{plz}, \dots);
+  \item an \emph{orthographic} rewrite (\hi{order}$\to$\hi{ordr},
+        \hi{delivery}$\to$\hi{delivry}, \hi{service}$\to$\hi{servis}).
+\end{enumerate}
+Augmentations never add or remove negation, emoji or punctuation. In
+addition, each of the 8 positive \lbl{feedback} seeds spawns two contrast
+forms: $s\,\emo{smile}$ labelled \lbl{positive} and $s\,\emo{unamused}$
+labelled \lbl{negative}. This sarcasm convention is an annotation assumption
+for these constructed pairs, not a universal emoji rule.
+
+Because substitutions often do not apply, groups have 1, 2, 3, 6 or 9 rows
+(22, 44, 26, 1 and 3 groups respectively), for $221$ rows in total
+(\cref{tab:splits}).
+
+\begin{table}[h]
+\centering\small
+\caption{Split statistics after augmentation.}
+\label{tab:splits}
+\begin{tabular}{@{}lrrc@{}}
+\toprule
+Split & Rows & Groups & Negative / Neutral / Positive \\
+\midrule
+Train      & 120 & 56 & 42 / 64 / 14 \\
+Validation &  43 & 18 & 15 / 22 / \phantom{0}6 \\
+Test       &  58 & 22 & 20 / 28 / 10 \\
+\midrule
+Audit (independent) & 24 & 24 & \phantom{0}7 / 15 / \phantom{0}2 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\paragraph{Row-level vs.\ group-level sample size.} Rows within a group are
+highly correlated. The effective sample size of the test split is closer to
+its 22 groups than to its 58 rows, which motivates the cluster bootstrap in
+\cref{sec:protocol}.
+
+\subsection{Audit Set}
+A separate 24-example audit set (four per intent) was authored \emph{after} the
+final model configuration was frozen and was never used for training,
+calibration or tuning. It is still synthetic, single-author and partly
+paraphrases the problem statement's own examples.
+
+% ============================================================================
+\section{Evaluation Protocol}
+\label{sec:protocol}
+
+\paragraph{Metrics.} Accuracy; per-class precision, recall and F1; macro-F1
+(unweighted mean of class F1, the primary metric given class imbalance);
+confusion matrices; \emph{coverage} (fraction with $\max p\ge\tau$) and
+\emph{accepted accuracy}; expected calibration error (ECE, 10 equal-width bins).
+
+\paragraph{Uncertainty.} For macro-F1 we report a 95\% percentile interval from a
+\textbf{group-level cluster bootstrap} (5{,}000 resamples of the 22 test groups
+with replacement, seed 0). Paired differences between configurations are
+computed on the same resamples. For accuracies we additionally give Wilson
+intervals, which treat rows as independent and are therefore optimistic.
+
+\paragraph{Ablations.} Four configurations (\lbl{full}, \lbl{word\_only},
+\lbl{char\_word}, \lbl{strip\_symbols}; \cref{tab:features}) are each
+retrained and recalibrated from scratch with identical splits, seed and budget.
+
+\paragraph{Stress test.} At evaluation time only, a 14-entry map introduces
+spellings \emph{never seen in training or augmentation}
+(\hi{nahi}/\hi{nhi}$\to$\hi{nahii}, \hi{refund}$\to$\hi{refnd},
+\hi{order}$\to$\hi{orrder}, \hi{hai}$\to$\hi{hey}, \dots) while preserving
+negation, emoji and punctuation. It alters 89.7\% of test messages. We report
+macro-F1 on the perturbed set and \emph{prediction consistency}---agreement
+with the model's own prediction on the clean text, which measures stability,
+not correctness.
+
+\paragraph{Emoji contrast pairs.} For every held-out pair
+$(s,\ s\,\emo{unamused})$ labelled (\lbl{positive}, \lbl{negative}) we record
+whether \emph{both} predictions are correct.
+
+\paragraph{Honest status of the test split.} Test labels were never used for
+checkpointing or calibration. However, preliminary test findings informed
+development fixes, so we call it a \emph{development test}; the audit set is
+the cleaner held-out estimate.
+
+\paragraph{Latency.} Warm, serial, batch size 1; 80 warm-up and 600 timed
+calls per workload; timing covers normalization, feature extraction, both
+heads and JSON serialization, and excludes process start, model load, network
+and queueing. Environment: Apple Silicon (arm64), macOS (Darwin 25.6.0),
+Python 3.12.14, NumPy 2.3.5.
+
+% ============================================================================
+\section{Results}
+\label{sec:results}
+
+\subsection{Main Result and Ablations}
+
+\begin{table}[t]
+\centering\small
+\caption{Development-test results for all configurations (58 rows, 22 groups).
+Macro-F1 with 95\% group-bootstrap interval. Best clean score per column in bold.}
+\label{tab:ablation}
+\setlength{\tabcolsep}{4.5pt}
+\begin{tabular}{@{}l cc cc cc c@{}}
+\toprule
+& \multicolumn{2}{c}{Intent} & \multicolumn{2}{c}{Sentiment} & \multicolumn{2}{c}{Stress macro-F1} & Train \\
+\cmidrule(lr){2-3}\cmidrule(lr){4-5}\cmidrule(lr){6-7}
+Config & Acc. & Macro-F1 [95\% CI] & Acc. & Macro-F1 [95\% CI] & Intent & Sent. & (s) \\
+\midrule
+\lbl{full}          & .810 & .820 [.568, .960] & .603 & .423 [.307, .526] & .717 & .449 & 0.57 \\
+\lbl{word\_only}    & .586 & .607 [.405, .778] & \textbf{.638} & \textbf{.470} [.366, .573] & .454 & \textbf{.609} & 0.20 \\
+\lbl{char\_word}    & \textbf{.845} & \textbf{.854} [.631, .955] & .603 & .429 [.321, .529] & .717 & .438 & 0.51 \\
+\lbl{strip\_symbols}& .828 & .849 [.590, 1.00] & .483 & .327 [.207, .448] & \textbf{.736} & .400 & 0.56 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{figure}[t]
+\centering
+\begin{tikzpicture}
+\begin{axis}[
+  ybar=2pt, width=0.92\linewidth, height=5.4cm,
+  ymin=0, ymax=1.05, ylabel={Macro-F1 (test)},
+  symbolic x coords={full,word\_only,char\_word,strip\_symbols},
+  xtick=data, xticklabel style={font=\small\ttfamily},
+  enlarge x limits=0.18, bar width=11pt,
+  legend style={font=\small,draw=none}, legend columns=2,
+  legend pos=north east, ymajorgrids, grid style={muted!25},
+  error bars/y dir=both, error bars/y explicit,
+  error bars/error bar style={thin,black!70}]
+\addplot[fill=accent,draw=accent] coordinates {
+  (full,0.820) += (0,0.140) -= (0,0.252)
+  (word\_only,0.607) += (0,0.171) -= (0,0.202)
+  (char\_word,0.854) += (0,0.101) -= (0,0.223)
+  (strip\_symbols,0.849) += (0,0.151) -= (0,0.259)};
+\addplot[fill=warn!75,draw=warn] coordinates {
+  (full,0.423) += (0,0.103) -= (0,0.116)
+  (word\_only,0.470) += (0,0.103) -= (0,0.104)
+  (char\_word,0.429) += (0,0.100) -= (0,0.108)
+  (strip\_symbols,0.327) += (0,0.121) -= (0,0.120)};
+\legend{Intent, Sentiment}
+\end{axis}
+\end{tikzpicture}
+\caption{Ablation macro-F1 with 95\% group-bootstrap intervals. Intervals on
+intent are wide because the test split contains only 22 paraphrase groups.}
+\label{fig:ablation}
+\end{figure}
+
+\Cref{tab:ablation,fig:ablation} summarize the development test. Paired
+bootstrap differences against \lbl{full} (\cref{tab:paired}) support three
+conclusions and reject one tempting claim:
+
+\begin{enumerate}
+  \item \textbf{Character $n$-grams matter for intent.} Removing them
+        (\lbl{word\_only}) lowers intent macro-F1 by $0.19$ (95\% CI
+        $[-0.37,-0.03]$), and lowers stress-test intent F1 from
+        $0.717$ to $0.454$.
+  \item \textbf{Symbols carry sentiment signal.} Stripping symbols lowers
+        sentiment macro-F1 by $0.09$ (CI $[-0.19,-0.01]$), and
+        not one of the 5{,}000 resamples favoured \lbl{strip\_symbols}.
+  \item \textbf{Sentiment is the bottleneck.} No configuration exceeds
+        $0.47$ sentiment macro-F1.
+  \item \textbf{Not supported: that alias and interaction channels help.}
+        The simpler \lbl{char\_word} scores $+0.037$ above \lbl{full} on
+        intent (CI $[-0.03,+0.12]$) and is statistically indistinguishable
+        on sentiment. \lbl{word\_only} even has the best point estimate on
+        sentiment. We keep \lbl{full} as the reference because it is the only
+        configuration that \emph{can} represent emoji$\times$word context, not
+        because it wins on this split.
+\end{enumerate}
+
+\begin{table}[h]
+\centering\small
+\caption{Paired group-bootstrap differences in test macro-F1 relative to \lbl{full}
+(5{,}000 resamples). $P(\Delta>0)$ is the fraction of resamples favouring the alternative.}
+\label{tab:paired}
+\begin{tabular}{@{}l ccc ccc@{}}
+\toprule
+& \multicolumn{3}{c}{Intent} & \multicolumn{3}{c}{Sentiment}\\
+\cmidrule(lr){2-4}\cmidrule(lr){5-7}
+Alternative & $\overline\Delta$ & 95\% CI & $P(\Delta>0)$ & $\overline\Delta$ & 95\% CI & $P(\Delta>0)$\\
+\midrule
+\lbl{char\_word}     & $+0.037$ & $[-0.032,+0.115]$ & 0.81 & $+0.007$ & $[-0.031,+0.056]$ & 0.56\\
+\lbl{word\_only}     & $\mathbf{-0.192}$ & $[-0.372,-0.030]$ & 0.01 & $+0.050$ & $[-0.061,+0.142]$ & 0.84\\
+\lbl{strip\_symbols} & $+0.036$ & $[-0.030,+0.148]$ & 0.79 & $\mathbf{-0.094}$ & $[-0.192,-0.013]$ & 0.00\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Per-Class Behaviour}
+
+\begin{table}[h]
+\centering\small
+\caption{Row-normalized confusion matrices of the \lbl{full} model on the
+development test (counts; shading $\propto$ row share). Rows are true labels.}
+\label{tab:confusion}
+\setlength{\tabcolsep}{5pt}
+\begin{tabular}{@{}l cccccc c@{}}
+\toprule
+\multicolumn{8}{@{}l}{\textbf{(a) Intent}}\\
+True $\backslash$ Pred & cancel & refund & track & not\_recv & damaged & feedback & F1 \\
+\midrule
+\lbl{cancel\_order} & \cm{44}{8} & 0 & \cm{16}{3} & 0 & 0 & 0 & .842 \\
+\lbl{refund}        & 0 & \cm{60}{4} & 0 & 0 & 0 & 0 & 1.00 \\
+\lbl{track\_order}  & 0 & 0 & \cm{60}{9} & 0 & 0 & 0 & .750 \\
+\lbl{not\_received} & 0 & 0 & 0 & \cm{60}{8} & 0 & 0 & .889 \\
+\lbl{damaged\_item} & 0 & 0 & 0 & \cm{17}{2} & \cm{34}{4} & \cm{9}{1} & .615 \\
+\lbl{feedback}      & 0 & 0 & \cm{10}{3} & 0 & \cm{6}{2} & \cm{44}{14} & .824 \\
+\midrule
+\multicolumn{8}{@{}l}{\textbf{(b) Sentiment}}\\
+True $\backslash$ Pred & negative & neutral & positive & & & & F1 \\
+\midrule
+\lbl{negative} & \cm{27}{9} & \cm{27}{9} & \cm{6}{2} & & & & .514 \\
+\lbl{neutral}  & \cm{4}{2} & \cm{56}{26} & 0 & & & & .754 \\
+\lbl{positive} & \cm{24}{4} & \cm{36}{6} & 0 & & & & .000 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\Cref{tab:confusion} exposes two systematic failure modes. \textbf{Intent}
+errors concentrate on semantically adjacent pairs:
+\lbl{damaged\_item}$\to$\lbl{not\_received} (both involve ``delivered'') and
+\lbl{cancel\_order}$\to$\lbl{track\_order} (``dispatch''). Four of 22 test
+groups account for all 11 intent errors; 18 groups are fully correct.
+\textbf{Sentiment} collapses toward the majority class: neutral recall is
+0.93, but \emph{no} positive message is predicted positive. The positive
+training signal comes from only 14 rows spanning a handful of praise words,
+and held-out praise vocabulary (\hi{zabardast}, \hi{fantastic}) is unseen.
+
+\subsection{Independent Audit}
+
+\begin{table}[h]
+\centering\small
+\caption{Development test vs.\ independent audit (\lbl{full} model). Accuracy
+with Wilson 95\% interval (row-independent, optimistic).}
+\label{tab:audit}
+\begin{tabular}{@{}l r cc cc@{}}
+\toprule
+& & \multicolumn{2}{c}{Intent} & \multicolumn{2}{c}{Sentiment}\\
+\cmidrule(lr){3-4}\cmidrule(lr){5-6}
+Set & $N$ & Acc. [95\% CI] & Macro-F1 & Acc. [95\% CI] & Macro-F1\\
+\midrule
+Development test & 58 & .810 [.691, .891] & .820 & .603 [.475, .719] & .423 \\
+Audit            & 24 & .958 [.798, .993] & .958 & .917 [.742, .977] & .831 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+The audit scores are markedly higher (\cref{tab:audit}). We interpret this as
+\emph{sampling sensitivity}, not generalization: the audit contains only two
+positive messages, draws on vocabulary close to the training seeds, and has
+no augmentation variants. The two sets must not be pooled.
+
+\subsection{Calibration and Review Coverage}
+
+\begin{table}[h]
+\centering\small
+\caption{Calibration and selective prediction for the \lbl{full} model.
+ECE uses 10 bins; ``mean conf.'' is the average top-class probability.}
+\label{tab:calib}
+\begin{tabular}{@{}ll cccc cc@{}}
+\toprule
+Head & Split & $T$ & ECE & Mean conf. & Accuracy & Coverage & Acc.\ on accepted\\
+\midrule
+Intent    & Validation & 0.400 & 0.102 & 0.852 & 0.907 & --- & --- \\
+Intent    & Test ($T{=}1$)   & 1.000 & 0.333 & 0.534 & 0.810 & --- & --- \\
+Intent    & Test       & 0.400 & 0.155 & 0.763 & 0.810 & 1.000 & 0.810 \\
+\midrule
+Sentiment & Validation & 1.316 & 0.134 & 0.715 & 0.605 & --- & --- \\
+Sentiment & Test       & 1.316 & 0.139 & 0.657 & 0.603 & 0.138 & 1.000 \\
+Audit: intent / sent.  & & & & & & 1.000 / 0.500 & 0.958 / 1.000 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Temperature scaling halves intent ECE on test ($0.333\to0.155$) by sharpening
+under-confident logits; for sentiment it barely changes ECE, and the head
+remains \emph{over}-confident on validation. The review policy behaves very
+differently per head (\cref{tab:calib}). For intent, $\tau_I=0$ accepts every
+test item and the accepted accuracy (0.81) \emph{misses} the 0.90 validation
+target---a direct consequence of fitting a threshold on 43 correlated rows.
+For sentiment, $\tau_S=0.829$ accepts only 13.8\% of test messages, all of which
+are correct; in practice the sentiment head functions as a
+``flag-for-human'' signal rather than an autonomous classifier.
+
+\subsection{Robustness to Unseen Misspellings}
+
+\begin{table}[h]
+\centering\small
+\caption{Clean vs.\ stress-test performance (\lbl{full} model).}
+\label{tab:stress}
+\begin{tabular}{@{}l ccc@{}}
+\toprule
+Head & Clean macro-F1 & Stress macro-F1 & Prediction consistency \\
+\midrule
+Intent    & 0.820 & 0.717 \textcolor{warn}{($-0.103$)} & 79.3\% \\
+Sentiment & 0.423 & 0.449 \textcolor{okgreen}{($+0.026$)} & 93.1\% \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Intent degrades by about ten points and one in five predictions flips
+(\cref{tab:stress}). Character $n$-grams provide partial tolerance---47.6\% of
+the feature strings in an average test message never occur in training, yet
+most predictions survive---but invariance is clearly not achieved. The small
+sentiment \emph{gain} is within noise and reflects predictions that are
+already near the majority class.
+
+\subsection{Emoji Contrast Pairs}
+\label{sec:emoji}
+
+All four configurations solve \textbf{0 of 5} held-out
+$(s,\ s\,\emo{unamused})$ pairs. The five pairs are spelling variants of only
+two seed groups (\hi{support ekdum zabardast hai}, \hi{wah kya fantastic
+service hai}), so this is two independent constructions, not five. The model
+does predict \lbl{negative} for the \emo{unamused} form of the first seed, but
+it also fails on the plain positive form, so the pair is not ``both correct.''
+The interaction channel creates capacity for context-dependent emoji meaning;
+eight training seeds are not enough to learn it.
+
+\subsection{Efficiency}
+
+\begin{table}[h]
+\centering\small
+\caption{Warm single-request latency (600 calls each) and serial throughput.}
+\label{tab:latency}
+\begin{tabular}{@{}l cccr@{}}
+\toprule
+Workload & p50 (ms) & p95 (ms) & p99 (ms) & Msg/s \\
+\midrule
+Test messages (mean 35 chars) & 0.155 & 0.218 & 0.227 & 6{,}218 \\
+Synthetic, 32 code points     & 0.137 & 0.167 & 0.184 & 7{,}065 \\
+Synthetic, 128 code points    & 0.327 & 0.376 & 0.425 & 2{,}982 \\
+Synthetic, 512 code points    & 0.763 & 0.847 & 0.906 & 1{,}295 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{figure}[h]
+\centering
+\begin{tikzpicture}
+\begin{axis}[
+  width=0.62\linewidth, height=4.6cm,
+  xmode=log, log basis x=2, xtick={32,128,512},
+  xticklabels={32,128,512}, xlabel={Input length (code points)},
+  ylabel={Latency (ms)}, ymin=0, ymax=1.0,
+  legend pos=north west, legend style={font=\small,draw=none},
+  ymajorgrids, grid style={muted!25}, mark size=1.8pt]
+\addplot[accent,thick,mark=*] coordinates {(32,0.137)(128,0.327)(512,0.763)};
+\addplot[warn,thick,mark=square*] coordinates {(32,0.167)(128,0.376)(512,0.847)};
+\addplot[muted,thick,dashed,mark=triangle*] coordinates {(32,0.184)(128,0.425)(512,0.906)};
+\legend{p50, p95, p99}
+\end{axis}
+\end{tikzpicture}
+\caption{Latency grows sub-linearly with length (16$\times$ longer input,
+$\approx$5.6$\times$ slower). Even at the 512-code-point limit p99 is below 1\,ms.}
+\label{fig:latency}
+\end{figure}
+
+Every workload meets the single-digit-millisecond target by roughly an order
+of magnitude (\cref{tab:latency,fig:latency}). Training all four
+configurations takes under two seconds in total. The fixed-length probes
+repeat one sentence and thus produce fewer distinct features than varied text
+of equal length; they are not a worst-case bound.
+
+% ============================================================================
+\section{Analysis}
+\label{sec:analysis}
+
+\subsection{Computational Complexity}
+Let $L$ be the input length, $m$ the token count, $E\le8$ the selected symbol
+tokens, $V\le64$ the selected word tokens and $F$ the number of distinct active
+buckets. Feature extraction is $O(L+m+EV)$ string operations (three $n$-gram
+lengths are a constant factor), sorting active indices is $O(F\log F)$, and
+scoring is $O(F\cdot K)$ with $K=9$. Memory is $O(D\cdot K)$ for weights, and
+$O(F)$ per request. The $EV\le512$ cross term bounds the worst case of the
+interaction channel independently of $L$.
+
+\subsection{Hash Collisions}
+\label{sec:collisions}
+Training data produce 4{,}921 distinct feature strings, which occupy 4{,}556
+buckets---closely matching the $D\,[1-(1-1/D)^{n}]\approx4{,}569$ buckets
+expected under uniform hashing. 14.4\% of training feature strings share a
+bucket with at least one other string. Because hashing is unsigned, each
+collision adds a biased rather than zero-mean perturbation. At this data scale
+the effect is second-order compared with data scarcity; at production scale,
+where the distinct-feature count would grow by orders of magnitude, a signed
+hash~\cite{weinberger2009feature} or a larger $D$ (linear memory cost) would be
+necessary.
+
+\subsection{Qualitative Error Analysis}
+
+\begin{table}[h]
+\centering\small
+\caption{Representative errors (\lbl{full} model) and their likely mechanism.}
+\label{tab:errors}
+\begin{tabularx}{\linewidth}{@{}p{4.9cm} p{2.9cm} X@{}}
+\toprule
+Message (set) & Gold $\to$ predicted & Interpretation \\
+\midrule
+\hi{cancel mat karna sirf order track karke batao} (audit) &
+intent \lbl{track}$\to$\lbl{cancel} (conf.\ 0.996) &
+\emph{Negation scope.} \hi{mat} negates \hi{cancel} two tokens later; bigrams
+see \hi{cancel|mat} but cannot represent ``do \emph{not} cancel''. Highly
+confident and wrong---the review flag does not fire. \\
+\addlinespace
+\hi{dispatch se pehle order rok do please} (test) &
+intent \lbl{cancel}$\to$\lbl{track} (0.97) &
+\emph{Lexical proxy.} \hi{dispatch} occurs in \lbl{track\_order} training
+seeds; the paraphrase \hi{rok do} (``stop it'') for cancel is unseen. \\
+\addlinespace
+\hi{delivered item mein crack hai replace karna hai} (test) &
+intent \lbl{damaged}$\to$\lbl{not\_recv} &
+\emph{Keyword dominance.} \hi{delivered} is the strongest cue for
+\lbl{not\_received}. \\
+\addlinespace
+\hi{bahut kharab experience tha} (test) &
+sentiment \lbl{neg}$\to$\lbl{pos} &
+\emph{Lexical co-occurrence.} \hi{bahut} and \hi{experience tha} occur in
+positive \lbl{feedback} seeds (\hi{mast experience tha yaar}, \hi{service se
+bahut khush hu}); the decisive \hi{kharab} is rare in training. \\
+\addlinespace
+\hi{bohot badhiya service} (audit) &
+sentiment \lbl{pos}$\to$\lbl{neg} &
+\emph{Contrast data dilutes praise words.} Every positive training seed also
+appears with \emo{unamused} labelled negative, so praise words are observed
+under both labels and carry little polarity alone; \hi{service} also occurs in
+negative seeds (\hi{bekar service}). \\
+\addlinespace
+\hi{do hafte ho gaye refund nahi mila} (test) &
+sentiment \lbl{neg}$\to$\lbl{neu} (flagged) &
+\emph{Implicit affect.} Frustration expressed through elapsed time, not an
+explicit sentiment word. Correctly routed to review. \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\Cref{tab:errors} suggests that the dominant limitations are not tokenization
+or speed, but (i)~a representation without compositional scope, and (ii)~a
+training set too small to disentangle intent vocabulary, sentiment vocabulary
+and emoji context.
+
+% ============================================================================
+\section{Discussion}
+\label{sec:discussion}
+
+\subsection{Requirements Scorecard}
+
+\begin{table}[h]
+\centering\small
+\caption{Status of each problem requirement against the evidence in this paper.}
+\label{tab:scorecard}
+\begin{tabularx}{\linewidth}{@{}l l X@{}}
+\toprule
+Requirement & Status & Evidence \\
+\midrule
+$\le$500M parameters & \textcolor{okgreen}{\textbf{Met}} & 294{,}921 parameters (\cref{sec:model}). \\
+Single-digit ms latency & \textcolor{okgreen}{\textbf{Met locally}} & p99 $\le$0.906\,ms at 512 code points; deployment hardware and load untested. \\
+Spelling/shorthand robustness & \textcolor{warn}{\textbf{Partial}} & Char $n$-grams help ($+0.19$ F1); unseen misspellings still cost $-0.10$ F1 and flip 21\% of intents. \\
+Emoji and punctuation semantics & \textcolor{warn}{\textbf{Partial}} & Symbols measurably help sentiment; sarcasm pairs 0/5. \\
+Reproducibility & \textcolor{okgreen}{\textbf{Met}} & Seeded data and training, NumPy-only, 11 unit tests, SHA-256 manifest. \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\subsection{Threats to Validity}
+\begin{itemize}
+  \item \textbf{Construct validity.} All data are synthetic and single-author;
+        labels for implicit frustration and sarcasm are debatable and have no
+        inter-annotator agreement estimate.
+  \item \textbf{Internal validity.} The validation split serves checkpointing,
+        temperature and threshold selection; the development test informed
+        fixes. Reported validation and test numbers are therefore optimistic.
+  \item \textbf{Statistical conclusion validity.} 22 test groups yield intent
+        macro-F1 intervals $\sim$0.4 wide; most ablation differences are not
+        resolved. A single training seed hides optimizer variance.
+  \item \textbf{External validity.} Only Hindi--English is evaluated. Accepting
+        Tamil, Bengali or Devanagari input (unit-tested) is not evidence of
+        understanding those languages; out-of-scope messages always receive
+        one of the six intents.
+\end{itemize}
+
+\subsection{Future Work}
+\begin{enumerate}
+  \item \textbf{Data first.} Collect consented real messages; multi-annotator
+        labels with adjudication; balance sentiment within every intent; add
+        negation-scope minimal pairs, mixed intents, genuine emoji ambiguity
+        and dialectal spellings. Split by conversation, author and time, and
+        keep a blind final set untouched.
+  \item \textbf{Cheap model improvements.} Signed hashing; longer training
+        schedule (the checkpoint never stopped early); a wider temperature
+        grid; multiple seeds with reported variance; an explicit out-of-scope
+        class.
+  \item \textbf{Representation upgrade.} If lexical features plateau, a
+        compact contextual encoder over character/subword input, trained or
+        distilled on code-mixed text, can model negation scope. A consistency
+        loss should be applied only to \emph{verified} meaning-preserving
+        variants, with separate contrastive pairs for meaning-changing edits
+        (negation, emoji). Any such model must be re-measured against the
+        parameter cap and latency target after quantization, on target
+        hardware.
+  \item \textbf{Risk-controlled deferral.} Replace the heuristic threshold with
+        a selective-prediction procedure that provides finite-sample coverage
+        or risk guarantees on a larger calibration set.
+\end{enumerate}
+
+% ============================================================================
+\section{Conclusion}
+\label{sec:conclusion}
+
+A 295K-parameter, NumPy-only hashed linear model with Unicode-preserving,
+multi-granular features classifies the intent of Romanized Hindi--English
+support messages with 0.82 macro-F1 on a leakage-controlled development test
+and 0.96 on a small independent audit, at sub-millisecond latency. It meets
+the footprint and speed requirements with wide margin. Its sentiment head,
+however, is not reliable: it misses every held-out positive message and every
+sarcasm contrast pair, and its practical role is to route uncertain cases to
+human review. The main lesson is methodological---group-level splitting and
+cluster-bootstrap intervals reveal that apparent improvements from additional
+feature channels are not statistically supported at this data scale---and the
+clear next step is more and better-annotated data rather than a larger model.
+
+% ============================================================================
+\appendix
+\section{Hyperparameters}
+\label{app:hparams}
+
+\begin{table}[h]
+\centering\small
+\begin{tabular}{@{}ll@{}}
+\toprule
+Setting & Value \\
+\midrule
+Hash dimension $D$ & $2^{15}=32{,}768$ \\
+Outputs $K$ & 9 (6 intent + 3 sentiment) \\
+Max input length & 512 code points (reject, never truncate) \\
+Character $n$-gram orders & 3, 4, 5 (boundary-padded) \\
+Interaction caps & 8 symbol tokens $\times$ 64 word tokens \\
+Alias map / shorthand map / stress map & 20 / 10 / 14 entries \\
+Epochs & 55 \\
+Learning rate & $0.6/(1+e/20)$; bias $\times0.1$ \\
+Weight decay & $\W\gets0.999\,\W$ once per epoch \\
+Class weighting & $N/(K\cdot n_c)$ per head \\
+Checkpoint criterion & min.\ unweighted validation NLL \\
+Temperature grid & 30 log-spaced values in $[0.4,4.0]$ \\
+Review rule & max coverage s.t.\ $\ge5$ accepted and $\ge90\%$ val.\ accuracy; else 1.01 \\
+Random seed & 42 (split, shuffle, SGD order) \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\section{Reproduction}
+\label{app:repro}
+
+\begin{lstlisting}
+python3 -m venv .venv
+.venv/bin/python -m pip install -r requirements.txt   # numpy==2.3.5
+.venv/bin/python solution.py predict "refund kab milega bhai"
+PYTHON=.venv/bin/python ./run.sh   # data, 4 models, audit, 11 tests
+\end{lstlisting}
+
+\noindent Example output:
+\begin{lstlisting}
+{"intent":    {"label": "refund",  "confidence": 0.9999, "review_required": false},
+ "sentiment": {"label": "neutral", "confidence": 0.8672, "review_required": false}}
+\end{lstlisting}
+
+\noindent Module map: \texttt{model.py} (normalization, features, heads,
+training, calibration, portable \texttt{.npz} I/O with schema check and
+\texttt{allow\_pickle=False}); \texttt{make\_data.py} (seeds, group split,
+augmentation); \texttt{solution.py} (CLI, evaluation, ablations, stress test,
+benchmark); \texttt{audit.py} (frozen audit); \texttt{test\_solution.py}
+(11 invariant tests). Bootstrap intervals, ECE and collision statistics in
+this paper were computed from the released checkpoints by a separate
+read-only analysis script with bootstrap seed 0.
+
+\section{Emoji Notation}
+Because this document is typeset with pdf\LaTeX, emoji are written as named
+placeholders: \emo{unamused} = U+1F612, \emo{smile} = U+1F60A,
+\emo{angry} = U+1F621 / U+1F620. The system itself operates on the actual
+code points.
+
+% ============================================================================
+\begin{thebibliography}{99}\small
+
+\bibitem{bali2014borrowing}
+K.~Bali, J.~Sharma, M.~Choudhury, and Y.~Vyas.
+``I am borrowing ya mixing?'' An analysis of English-Hindi code mixing in Facebook.
+In \emph{Proc.\ First Workshop on Computational Approaches to Code Switching}, 2014.
+
+\bibitem{bojanowski2017enriching}
+P.~Bojanowski, E.~Grave, A.~Joulin, and T.~Mikolov.
+Enriching word vectors with subword information.
+\emph{Transactions of the ACL}, 5:135--146, 2017.
+
+\bibitem{cavnar1994ngram}
+W.~B.~Cavnar and J.~M.~Trenkle.
+N-gram-based text categorization.
+In \emph{Proc.\ SDAIR}, 1994.
+
+\bibitem{chow1970optimum}
+C.~K.~Chow.
+On optimum recognition error and reject tradeoff.
+\emph{IEEE Transactions on Information Theory}, 16(1):41--46, 1970.
+
+\bibitem{geifman2017selective}
+Y.~Geifman and R.~El-Yaniv.
+Selective classification for deep neural networks.
+In \emph{Advances in Neural Information Processing Systems}, 2017.
+
+\bibitem{guo2017calibration}
+C.~Guo, G.~Pleiss, Y.~Sun, and K.~Q.~Weinberger.
+On calibration of modern neural networks.
+In \emph{Proc.\ ICML}, 2017.
+
+\bibitem{joulin2017bag}
+A.~Joulin, E.~Grave, P.~Bojanowski, and T.~Mikolov.
+Bag of tricks for efficient text classification.
+In \emph{Proc.\ EACL}, 2017. \url{https://aclanthology.org/E17-2068/}
+
+\bibitem{kaufman2012leakage}
+S.~Kaufman, S.~Rosset, C.~Perlich, and O.~Stitelman.
+Leakage in data mining: Formulation, detection, and avoidance.
+\emph{ACM Transactions on Knowledge Discovery from Data}, 6(4), 2012.
+
+\bibitem{khanuja2020gluecos}
+S.~Khanuja, S.~Dandapat, A.~Srinivasan, S.~Sitaram, and M.~Choudhury.
+GLUECoS: An evaluation benchmark for code-switched NLP.
+In \emph{Proc.\ ACL}, 2020.
+
+\bibitem{patwa2020semeval}
+P.~Patwa, G.~Aguilar, S.~Kar, S.~Pandey, S.~PYKL, B.~Gamb\"ack, T.~Chakraborty, T.~Solorio, and A.~Das.
+SemEval-2020 Task 9: Overview of sentiment analysis of code-mixed tweets.
+In \emph{Proc.\ SemEval}, 2020.
+
+\bibitem{unicode51}
+Unicode Consortium.
+Unicode Technical Standard \#51: Unicode Emoji.
+\url{https://www.unicode.org/reports/tr51/}
+
+\bibitem{wang2012baselines}
+S.~Wang and C.~D.~Manning.
+Baselines and bigrams: Simple, good sentiment and topic classification.
+In \emph{Proc.\ ACL}, 2012.
+
+\bibitem{weinberger2009feature}
+K.~Weinberger, A.~Dasgupta, J.~Langford, A.~Smola, and J.~Attenberg.
+Feature hashing for large scale multitask learning.
+In \emph{Proc.\ ICML}, 2009. \url{https://arxiv.org/abs/0902.2206}
+
+\end{thebibliography}
+
+\end{document}
