@@ -58,6 +58,9 @@
 \DeclareMathOperator*{\argmax}{arg\,max}
 \DeclareMathOperator{\softmax}{softmax}
 \DeclareMathOperator{\CE}{CE}
+\DeclareMathOperator{\KL}{KL}
+\DeclareMathOperator{\LN}{LN}
+\DeclareMathOperator{\GELU}{GELU}
 % confusion-matrix cell: \cm{shade 0-100}{count}
 \newcommand{\cm}[2]{\cellcolor{accent!#1}\ifnum#1>45\color{white}\fi#2}
 
@@ -66,7 +69,8 @@
   \large A Hashed Sparse Multi-Head Classifier for Intent and Sentiment\\
   in Romanized Hindi--English Customer-Support Text\\[0.4em]
   \normalsize\color{muted}Technical Whitepaper --- Q4, CS/AI Practice Problem Statements\\[0.2em]
-  \normalsize\color{accent}\textbf{Version 1.1} --- enriched data and a self-attention branch (\cref{sec:v11})}
+  \normalsize\color{accent}\textbf{Version 1.1} --- enriched data and a self-attention branch (\cref{sec:v11})\\[0.1em]
+  \normalsize\color{accent}\textbf{Version 1.2} --- teacher distillation into a hashed-piece Transformer (\cref{sec:v12})}
 \author{Harsh Raj}
 \date{September 2026}
 
@@ -114,6 +118,23 @@ $0.810$, so most of the sentiment gain comes from data and a smaller, paired
 improvement comes from attention. The model has 827{,}721 parameters and a p95
 latency of 0.427\,ms. The small frozen audit set regresses from 3 to 6 errors
 (\cref{sec:v11}).
+
+\smallskip\noindent
+\textbf{Version 1.2.} We separate pretrained knowledge from new data and then
+distil. On the exact v1.1 splits, a pretrained Hinglish encoder
+(hing-roberta-mixed, 278M parameters) trained only on the v1.1 training data
+fixes sentiment (paired $+0.159$ $[+0.056, +0.282]$) but not intent. Adding
+1{,}202 generated support messages, 2{,}323 augmented variants and 4{,}000
+public tweets (teacher~v2) reaches intent $0.966$ $[0.92, 0.99]$ and solves 29
+of 40 pairs in a new hand-written contrast set (v1.1: 10). Its soft labels on
+66{,}166 sentences train an 11.88M-parameter student that keeps the v1.1
+hashed pieces, adds four pre-LN Transformer blocks and runs without PyTorch
+(ONNX INT8; p95 0.81\,ms, 4.29\,ms at 512 code points). The student does
+\emph{not} keep the teacher's gains. Its intent $0.914$ and sentiment $0.916$
+are not resolved against v1.1, and sentiment is significantly below teacher~v2
+($-0.092$ $[-0.184, -0.020]$). Distillation is not shown to help over a no-KD
+student, and sentiment varies across seeds (sd $0.049$). Every evaluation set
+remains LLM-generated (\cref{sec:v12}).
 \end{abstract}
 
 \tableofcontents
@@ -168,7 +189,11 @@ whose failures we document in detail.
 describe and evaluate \textbf{version 1.0}, the purely linear baseline, and
 are kept unchanged as the historical record. \Cref{sec:v11} describes
 \textbf{version 1.1}, which enriches the data, adds a self-attention branch
-and re-runs the complete evaluation protocol.
+and re-runs the complete evaluation protocol. \Cref{sec:v12} describes
+\textbf{version 1.2}, which fine-tunes pretrained Hinglish teachers, adds
+public and generated data, distils the teacher into a deployable
+hashed-piece Transformer and evaluates everything with the v1.1 protocol on
+the exact v1.1 splits.
 
 % ============================================================================
 \section{Background and Related Work}
@@ -1689,6 +1714,788 @@ because the current 24 examples are now partly out of distribution for the
 enriched training set.
 
 % ============================================================================
+\section{Version 1.2: Distilling a Pretrained Hinglish Encoder into a Hashed-Piece Transformer}
+\label{sec:v12}
+
+Version 1.2 asks whether the remaining v1.1 failures are caused by missing
+\emph{knowledge} or missing \emph{data}, and whether a small model can inherit
+whatever fixes them. It fine-tunes a pretrained Hinglish encoder (the
+\emph{teacher}) twice---once on the v1.1 training split alone and once with new
+data---and distils the second teacher into an 11.88M-parameter \emph{student}
+that keeps the v1.1 hashed pieces and the v1.0 linear branch and runs without
+PyTorch. All numbers in this section come from \texttt{v12/results/*.json}.
+
+% ----------------------------------------------------------------------------
+\subsection{Motivation and Research Questions}
+\label{sec:v12motivation}
+
+The v1.1 error analysis (\cref{tab:v11errors}) and audit regression left four
+documented failures: (a)~affect words unseen in training (\hi{pareshan},
+\hi{bina \dots\ hassle}); (b)~a spurious \hi{nahi}$\Rightarrow$\lbl{negative}
+cue; (c)~negation scope (\hi{cancel mat karna sirf order track karke batao});
+and (d)~keyword-driven intent routing. The v1.1 next steps proposed targeted
+data for (b) and (c), several seeds and a refreshed audit. v1.2 addresses the
+first three and replaces the audit refresh with a separate hand-written
+contrast set (\cref{sec:v12contrast}); the frozen 24-message audit is kept
+unchanged for comparability.
+
+\begin{enumerate}
+  \item[\textbf{Q1}] Does pretrained Hinglish knowledge alone fix (a)--(d)? Teacher trained on the v1.1 split only (\cref{sec:v12teacher1}).
+  \item[\textbf{Q2}] Does more diverse, targeted data help beyond pretraining? Same encoder and selection rule with new data (\cref{sec:v12teacher2}).
+  \item[\textbf{Q3}] Does a student with at most 15M parameters and a p95 below 5\,ms (batch~1, laptop CPU, including hashing) keep the teacher's gains? (\cref{sec:v12student,sec:v12results})
+\end{enumerate}
+
+\begin{figure}[t]
+\centering
+\begin{tikzpicture}[
+  node distance=0.5cm and 0.45cm,
+  box/.style={draw=accent,rounded corners=2pt,fill=accentlight!60,minimum height=0.95cm,align=center,font=\scriptsize,inner sep=3pt,text width=2.3cm},
+  dat/.style={box,fill=white,text width=2.15cm},
+  gpu/.style={box,fill=okgreen!12,draw=okgreen},
+  arr/.style={-{Stealth[length=2mm]},thick,accent!80!black},
+  lab/.style={font=\scriptsize\itshape,text=muted}]
+  \node[dat] (v11) {v1.1 splits\\(train/val/test/audit)};
+  \node[dat,below=of v11] (gen) {Generated support\\1{,}202 $+$ 2{,}323 aug.};
+  \node[dat,below=of gen] (pub) {Public tweets\\12{,}105 labeled\\50{,}000 unlabeled};
+  \node[gpu,right=0.75cm of v11] (t1) {\textbf{01} Teacher\\v1.1 train only\\4 encoders $\times$ 3 LR};
+  \node[gpu,right=0.75cm of gen] (t2) {\textbf{02} Teacher v2\\hing-roberta-mixed\\all training data};
+  \node[box,right=0.75cm of t2] (kd) {Pseudo-labels\\66{,}166 sentences\\intent mask $p{\ge}0.6$};
+  \node[gpu,right=0.75cm of kd] (st) {\textbf{03} Student\\11.88M parameters\\CE $+$ KD $+$ consistency};
+  \node[box,below=of st] (onnx) {Export: NumPy\\pieces $+$ ONNX\\encoder (INT8)};
+  \node[box,above=of st] (eval) {Shared evaluator\\(reproduces v1.1)\\validation-only calibration};
+  \node[dat,right=0.75cm of t1,text width=2.2cm] (con) {Contrast set\\40 pairs, never trained};
+  \draw[arr] (v11) -- (t1);
+  \draw[arr] (v11) -- (t2);
+  \draw[arr] (gen) -- (t2);
+  \draw[arr] (pub) -| node[lab,pos=0.3,below]{4{,}000 sampled} (t2);
+  \draw[arr] (t2) -- (kd);
+  \draw[arr] (kd) -- (st);
+  \draw[arr] (pub.east) -| (kd.south);
+  \draw[arr] (st) -- (onnx);
+  \draw[arr] (st) -- (eval);
+  \draw[arr,dashed] (t1) -- (con);
+  \draw[arr,dashed] (con) -| (eval);
+\end{tikzpicture}
+\caption{v1.2 pipeline. Green boxes ran on a free Colab T4 as self-contained, automatically resuming notebooks (01: 38.4\,min; 02: 10.2\,min; 03: about 45\,min with one disconnect). Everything else ran on the laptop. Test, audit and contrast data are only scored.}
+\label{fig:v12pipeline}
+\end{figure}
+
+% ----------------------------------------------------------------------------
+\subsection{Protocol and Invariants}
+\label{sec:v12protocol}
+
+\begin{enumerate}
+  \item \textbf{Exact v1.1 splits.} Train, validation, test and audit, with their group ids, are exported from the files whose SHA-256 digests are recorded in the v1.1 \texttt{results.json}; nothing is regenerated or reshuffled. A \texttt{test\_stress} copy applies the unchanged 14-entry stress map.
+  \item \textbf{Validation only for choices.} Early stopping, model and learning-rate selection, temperature and review threshold use validation data only. Notebooks write test, audit and contrast logits; only the evaluator reads them.
+  \item \textbf{All new data go to TRAIN, filtered.} A new message is dropped if its character-3-gram Jaccard similarity to any validation, test, audit or contrast message exceeds $0.6$:
+  \begin{equation}
+    J(a,b) = \frac{|G_3(a)\cap G_3(b)|}{|G_3(a)\cup G_3(b)|},\qquad G_3(s)=\{\text{3-grams of } \texttt{"\ "}\,\nu(s)\,\texttt{"\ "}\}.
+    \label{eq:v12jaccard}
+  \end{equation}
+  An inverted index returns the exact intersection size and matches brute force on all 616 checked queries.
+  \item \textbf{One evaluator.} A single evaluator scores every system from saved logits and reproduces every v1.1 test number in \cref{sec:v11results} exactly (macro-F1 and intervals, ECE, coverage, stress, emoji pairs, audit), so v1.1, teachers and students in this section are directly comparable.
+  \item \textbf{Uncertainty.} As in v1.0 and v1.1: 5{,}000 resamples of the 44 test groups (seed 0); paired differences on identical resamples.
+  \item \textbf{Hash parity.} The v1.1 hashing (\cref{eq:vector,eq:v11embed}) is copied into the training bundle and checked against 50 stored fixtures (indices exactly, values to $10^{-6}$) and a digest over all 1{,}148 exported rows. Results are identical under Python 3.10, 3.12, 3.13 (Colab) and 3.14, spanning Unicode databases 13.0--16.0. Every notebook reruns the fixture test before training.
+\end{enumerate}
+
+% ----------------------------------------------------------------------------
+\subsection{Data}
+\label{sec:v12data}
+
+\subsubsection{Public Hinglish Data (Out of Domain)}
+No public Hinglish customer-support \emph{intent} data was found. Public data
+therefore contribute sentiment labels and unlabeled text for distillation only
+(\cref{tab:v12public}). Cleaning repairs cp1252 mojibake, removes mentions,
+URLs, \texttt{t.co} fragments and \texttt{RT}, keeps Latin-script letters only
+(emoji and punctuation allowed), requires 3--60 words and at least two distinct
+Romanized Hindi function words (English-ambiguous \hi{the, to, me, do, hi, ho,
+na} excluded), and removes exact duplicates. \textbf{No public message was a
+near-duplicate of a protected message.}
+
+\begin{table}[h]
+\centering\small
+\caption{Public sources after cleaning. The unlabeled pool is capped at 50{,}000 by seeded sampling.}
+\label{tab:v12public}
+\begin{tabularx}{\linewidth}{@{}l l r r X@{}}
+\toprule
+Source & License & Raw & Kept & Use \\
+\midrule
+SemEval-2020 Task 9 SentiMix, Hinglish~\cite{patwa2020semeval} (re-upload \texttt{RTT1/SentiMix}) & research-use Twitter data & 20{,}000 & 12{,}080 & labeled sentiment; intent loss masked \\
+Code-mixed tweets (\texttt{Abhishek4896/...}) & MIT & 498 & 25 & labeled sentiment (385 exact duplicates) \\
+PHINC~\cite{srivastava2020phinc} (\texttt{LingoIITGN/PHINC}) & CC-BY-4.0 & 13{,}738 & 9{,}561 & unlabeled pool (8{,}000) \\
+L3Cube-HingLID~\cite{nayak2022l3cube} (GitHub) & CC-BY-NC-SA-4.0 & 44{,}455 & 42{,}543 & unlabeled pool (35{,}957) \\
+CMU Hinglish DoG~\cite{zhou2018dog} (\texttt{festvox/cmu\_hinglish\_dog}) & CC-BY-SA-3.0 & 9{,}962 & 7{,}146 & unlabeled pool (6{,}043) \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+Two candidates were rejected. A 100k ``code-mixed sentiment'' dataset turned out
+to be machine-translated reviews mixing Devanagari, Bengali and English, not
+Romanized Hinglish. The multi-GB L3Cube-HingCorpus file was not needed: HingLID
+comes from the same L3Cube Twitter source. Twenty samples per source showed
+political, cricket and movie content, frequent abuse and visible label noise in
+SentiMix (for example, \hi{bht acha kiya \dots\ kr dena chahiye tha} labelled
+neutral).
+
+\subsubsection{Generated Support Data}
+1{,}202 support messages in 591 paraphrase families (the plan was about 1{,}500)
+were written by the LLM assistant in three batches. They cover all six intents
+and three sentiments (\cref{tab:v12gen}); seven personas (student, elderly user,
+shopkeeper, angry repeat customer, professional, homemaker, generic); 2--36
+words (mean 11.3); 10.4\% with emoji; regional spellings (\hi{kaiku, apun,
+kithe, kado}); formal Hindi (\hi{nivedan, nirast}) and heavy shorthand
+(\hi{cncl, delvrd}). Rows are tagged by the phenomenon they target. One
+near-duplicate was removed, and a lexical self-audit corrected two labels.
+
+\begin{table}[h]
+\centering\small
+\caption{Generated data: label distribution (left) and targeted phenomena (right).}
+\label{tab:v12gen}
+\begin{tabular}{@{}lccc@{}}
+\toprule
+Intent & Neg & Neu & Pos \\
+\midrule
+\lbl{cancel\_order}  & 65 & 127 & 56 \\
+\lbl{refund}         & 62 & 98 & 54 \\
+\lbl{track\_order}   & 59 & 97 & 48 \\
+\lbl{not\_received}  & 54 & 84 & 42 \\
+\lbl{damaged\_item}  & 50 & 80 & 42 \\
+\lbl{feedback}       & 61 & 57 & 66 \\
+\midrule
+Total (1{,}202)      & 351 & 543 & 308 \\
+\bottomrule
+\end{tabular}
+\hspace{1.2em}
+\begin{tabular}{@{}lr@{}}
+\toprule
+Tag & Rows \\
+\midrule
+negation scope & 97 \\
+neutral with \hi{nahi} & 119 \\
+negated negative & 99 \\
+varied affect word & 151 \\
+praise, then request & 82 \\
+mixed intent (main request) & 66 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\emph{Augmentation.} Each v1.1-train or generated row yields up to two
+variants. The \emph{map} variant applies the v1.1 shorthand and respelling maps
+per token with probability 0.6. The \emph{noise} variant applies vowel drop, a
+QWERTY-neighbour swap, elongation or a transposition per editable token with
+probability 0.3. Negators (\hi{nahi, mat, bina, koi, na, not}, \dots), emoji,
+punctuation and numbers are never edited; token counts never change; and a
+variant is rejected if it introduces a stress-map output (\hi{nahii, karr, hey,
+orrder, refnd}, \dots), so the stress test stays unseen. This gives 2{,}323
+variants (786 map, 1{,}537 noise), with 2 near-duplicates removed. A check over
+17{,}680 noisy variants of every v1.1 text found no stress outputs and no edited
+protected tokens.
+
+\subsubsection{Diagnostic Contrast Set}
+\label{sec:v12contrast}
+Forty hand-written minimal pairs (80 messages) were written before any generated
+data and are never used for training or selection: ten pairs each for
+\emph{negation scope} (a negated action is not the request), \emph{neutral
+nahi}, \emph{negated negative} and \emph{unseen affect}. The maximum Jaccard
+similarity to any v1.1 message is 0.37. Each phenomenon is reported as the
+fraction of messages with both labels correct and as the number of pairs whose
+two members are both fully correct.
+
+\paragraph{Overlap risk.} 18 of the 32 affect words in the contrast set
+(\hi{pareshan, tang, dukhi, nirash, raahat, sukoon, chinta, prasann}, \dots)
+enter training only through the generated data. Generated vocabulary also
+raises coverage of the validation and test vocabulary from 0.687 and 0.701 to
+0.949 and 0.944. For any model trained on generated data, \emph{unseen affect}
+therefore measures learning from that data, not generalisation to new words.
+
+% ----------------------------------------------------------------------------
+\subsection{Teacher}
+\label{sec:v12teacher}
+
+\paragraph{Model.} A pretrained encoder $f_\phi$ produces subword states $\bm h_{1:n}$; masked mean pooling feeds two linear heads:
+\begin{equation}
+  \bar{\bm h} = \frac{\sum_{i} m_i \bm h_i}{\sum_i m_i},\qquad
+  \z^{I} = \W_I\,\mathrm{Drop}(\bar{\bm h}) + \bb_I \in\R^{6},\qquad
+  \z^{S} = \W_S\,\mathrm{Drop}(\bar{\bm h}) + \bb_S \in\R^{3}.
+  \label{eq:v12teacher}
+\end{equation}
+The loss is the class-balanced cross-entropy of \cref{eq:loss}, with per-row head masks $\mu^k_i\in\{0,1\}$ (public sentiment rows have $\mu^I_i=0$):
+\begin{equation}
+  \mathcal{L}_{\text{T}} = \sum_{k\in\{I,S\}} \frac{1}{\sum_i\mu^k_i}\sum_i \mu^k_i\,\alpha^k_{y^k_i}\,\CE\big(\softmax(\z^k_i), y^k_i\big).
+  \label{eq:v12teacherloss}
+\end{equation}
+Optimization uses AdamW (weight decay 0.01, none on biases or LayerNorm), linear warm-up then linear decay, gradient clipping at 1.0 and fp16 autocast with dynamic loss scaling. Early stopping uses the unweighted validation NLL of both heads, the v1.1 checkpoint criterion.
+
+\begin{algorithm}[h]
+\caption{Resumable fine-tuning run on a free GPU}
+\label{alg:v12resume}
+\small
+\begin{algorithmic}[1]
+\If{\texttt{status.json} marks the run done} \State \Return \Comment{``Run all'' again after a disconnect}\EndIf
+\State load encoder; build optimizer, scheduler and loss scaler
+\If{\texttt{last.pt} exists} \State restore weights (fp16), scheduler, RNG state, best NLL, patience counter, history \EndIf
+\For{epoch $e$ from the resumed epoch to $E$}
+  \State shuffle with a generator seeded by $1000\cdot\text{seed}+e$ \Comment{identical order after resuming}
+  \State train; compute validation NLL; write \texttt{best.pt} if it improved
+  \State write \texttt{last.pt} atomically (temporary file, then rename) to Google Drive
+  \If{patience is exhausted} \textbf{break} \EndIf
+\EndFor
+\State load \texttt{best.pt}; write logits for every prediction file; mark done; delete checkpoints
+\end{algorithmic}
+\end{algorithm}
+
+\subsubsection{Q1: Pretraining Only}
+\label{sec:v12teacher1}
+Four encoders---hing-roberta and hing-roberta-mixed~\cite{nayak2022l3cube}, both
+XLM-R~\cite{conneau2020xlmr} base models; hing-bert~\cite{nayak2022l3cube}; and
+MuRIL~\cite{khanuja2021muril}---were each fine-tuned at three learning rates on
+the 536-row v1.1 training split (batch 16, at most 12 epochs, patience 3).
+
+\begin{table}[h]
+\centering\small
+\caption{Teacher runs on the v1.1 training split (Colab T4, 38.4\,min in total). Selection uses validation NLL only; test columns are shown for transparency and were not used.}
+\label{tab:v12teacher1}
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{@{}l c c c c c c@{}}
+\toprule
+Run & Val.\ NLL & Test intent F1 & Test sent.\ F1 & Emoji pairs & Audit err. & Contrast both-correct \\
+\midrule
+hing-roberta, 2e-5          & 0.132 & .955 & 1.000 & 12/12 & 3 & .750 \\
+hing-roberta, 3e-5          & 0.094 & .954 & 1.000 & 12/12 & 1 & .762 \\
+hing-roberta, 5e-5          & 0.101 & .951 & 1.000 & 12/12 & 1 & .738 \\
+hing-roberta-mixed, 2e-5    & 0.114 & .955 & 1.000 & 12/12 & 1 & .713 \\
+hing-roberta-mixed, 3e-5    & 0.085 & .951 & 1.000 & 12/12 & 1 & .725 \\
+\textbf{hing-roberta-mixed, 5e-5} & \textbf{0.080} & \textbf{.929} & \textbf{1.000} & \textbf{12/12} & \textbf{1} & \textbf{.738} \\
+hing-bert, 2e-5             & 0.260 & .871 & .861 & 3/12 & 2 & .425 \\
+hing-bert, 3e-5             & 0.253 & .903 & .896 & 9/12 & 2 & .475 \\
+hing-bert, 5e-5             & 0.269 & .891 & .882 & 6/12 & 2 & .475 \\
+muril-base-cased, 2e-5      & 1.296 & .863 & .791 & 0/12 & 3 & .500 \\
+muril-base-cased, 3e-5      & 1.238 & .934 & .822 & 0/12 & 3 & .575 \\
+muril-base-cased, 5e-5      & 1.143 & .923 & .828 & 0/12 & 4 & .475 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\paragraph{Emoji visibility.} The BERT-vocabulary tokenizers (hing-bert and
+MuRIL) map every emoji in all 261 emoji-bearing messages to \texttt{[UNK]}; the
+XLM-R tokenizers keep them. This alone explains the 0--9/12 emoji-pair results.
+The selected run has the lowest validation NLL even though it is not the best on
+test intent, because selection never looks at test.
+
+\paragraph{Verdict for Q1.} Pretraining fixes \emph{sentiment} on every set. Test sentiment macro-F1 is $1.000$, a paired $+0.159$ $[+0.056, +0.282]$ over v1.1; positive recall is $1.00$; average contrast sentiment accuracy is 0.96 versus 0.70; audit errors fall from 6 to 1. The 1.000 is a ceiling rather than leakage: validation sentiment accuracy is 0.943, no train and test groups overlap, and no test message has Jaccard similarity above 0.6 to any training message. \emph{Intent} is not resolved ($0.929$, paired $+0.032$ $[-0.061, +0.142]$). The teacher is also \emph{less} stable than v1.1 under unseen misspellings (consistency 92.6\% versus 97.4\%) and still routes \hi{cancel mat karna sirf order track karke batao} to \lbl{cancel\_order}.
+
+\subsubsection{Q2: Teacher v2 (Pretraining and New Data)}
+\label{sec:v12teacher2}
+The same encoder and selection rule were trained on 8{,}061 rows: the v1.1
+training split (536), generated messages (1{,}202), augmented variants (2{,}323)
+and a fixed seeded sample of 4{,}000 public tweets with the intent loss masked
+(batch 32, at most 6 epochs, patience 2, two learning rates; 10.2\,min on a T4).
+The optional public-only pre-fine-tuning stage was skipped for time. Both runs
+peaked at epoch 2, with validation NLL 0.0528 at 3e-5 and \textbf{0.0472} at
+5e-5 (selected). The 3e-5 run scored higher on the contrast set (0.863 versus
+0.825) and on stress intent (0.955 versus 0.933); it was not selected because
+selection uses validation only.
+
+\begin{table}[h]
+\centering\small
+\caption{Row-normalized test intent confusion matrices (counts; shading $\propto$ row share). Compare \cref{tab:v11confusion}.}
+\label{tab:v12cm}
+\setlength{\tabcolsep}{3.5pt}
+\resizebox{\linewidth}{!}{%
+\begin{tabular}{@{}l cccccc c cccccc c cccccc@{}}
+\toprule
+& \multicolumn{6}{c}{\textbf{v1.1}} && \multicolumn{6}{c}{\textbf{Teacher v2}} && \multicolumn{6}{c}{\textbf{Student $+$ KD (INT8)}}\\
+\cmidrule(lr){2-7}\cmidrule(lr){9-14}\cmidrule(lr){16-21}
+True & can & ref & trk & nrc & dmg & fb && can & ref & trk & nrc & dmg & fb && can & ref & trk & nrc & dmg & fb \\
+\midrule
+\lbl{cancel}   & \cm{60}{36} & 0 & 0 & 0 & 0 & 0 && \cm{60}{36} & 0 & 0 & 0 & 0 & 0 && \cm{58}{35} & 0 & \cm{2}{1} & 0 & 0 & 0 \\
+\lbl{refund}   & \cm{9}{3} & \cm{51}{17} & 0 & 0 & 0 & 0 && \cm{3}{1} & \cm{57}{19} & 0 & 0 & 0 & 0 && \cm{9}{3} & \cm{51}{17} & 0 & 0 & 0 & 0 \\
+\lbl{track}    & 0 & 0 & \cm{58}{30} & \cm{2}{1} & 0 & 0 && 0 & 0 & \cm{52}{27} & \cm{2}{1} & 0 & \cm{6}{3} && \cm{10}{5} & \cm{6}{3} & \cm{43}{22} & 0 & \cm{2}{1} & 0 \\
+\lbl{not\_rcv} & 0 & 0 & 0 & \cm{48}{21} & 0 & \cm{12}{5} && 0 & 0 & 0 & \cm{60}{26} & 0 & 0 && 0 & 0 & 0 & \cm{60}{26} & 0 & 0 \\
+\lbl{damaged}  & 0 & 0 & 0 & 0 & \cm{43}{15} & \cm{17}{6} && 0 & 0 & 0 & 0 & \cm{60}{21} & 0 && 0 & 0 & 0 & 0 & \cm{60}{21} & 0 \\
+\lbl{feedback} & 0 & 0 & \cm{3}{3} & 0 & 0 & \cm{57}{53} && 0 & 0 & \cm{2}{2} & 0 & 0 & \cm{58}{54} && \cm{1}{1} & 0 & \cm{1}{1} & 0 & 0 & \cm{58}{54} \\
+\bottomrule
+\end{tabular}}
+\end{table}
+
+\paragraph{Verdict for Q2.} New data raise contrast negation-scope intent accuracy from 0.70 to 0.90 and fix the long-standing audit error. The \lbl{not\_received}$\to$\lbl{feedback} and \lbl{damaged}$\to$\lbl{feedback} confusions of v1.1 disappear (\cref{tab:v12cm}), stress intent F1 rises to 0.933, and 29 of 40 contrast pairs are solved. Against v1.1, intent is $0.966$ $[0.92, 0.99]$, a paired $+0.071$ $[-0.007, +0.172]$ that is borderline. The data effect over the Q1 teacher (same encoder) is \emph{not} resolved on 44 test groups: intent $+0.040$ $[-0.028, +0.121]$ with $P(\Delta>0)=0.85$, while sentiment is at the ceiling for both. The remaining errors are keyword-driven: \hi{otp nahi mila} and complaints about delays go to \lbl{not\_received}, and feedback about packing or delivery goes to operational intents.
+
+\subsubsection{Pseudo-labels}
+For every sentence $s$, teacher v2 provides logits $(\z^{I}_{\text{T}}, \z^{S}_{\text{T}})$. The KD masks are
+\begin{equation}
+  \kappa^I(s) = \mathbb{1}[s \in \text{support data}]\cdot\mathbb{1}\big[\max_c \softmax(\z^I_{\text{T}}(s))_c \ge 0.6\big],\qquad
+  \kappa^S(s) = 1 .
+  \label{eq:v12mask}
+\end{equation}
+
+\begin{table}[h]
+\centering\small
+\caption{Pseudo-label statistics for the 66{,}166 distillation sentences.}
+\label{tab:v12kd}
+\begin{tabular}{@{}l r c c c@{}}
+\toprule
+KD set & Rows & Teacher = gold (intent) & Teacher = gold (sentiment) & Intent KD kept \\
+\midrule
+v1.1 train      & 536    & 1.000 & 1.000 & 1.000 \\
+Generated       & 1{,}202 & 0.997 & 0.994 & 0.997 \\
+Augmented       & 2{,}323 & 1.000 & 0.997 & 0.997 \\
+Public labeled  & 12{,}105 & -- & 0.710 & 0 (masked) \\
+Unlabeled pool  & 50{,}000 & -- & -- & 0 (masked) \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+On support rows the teacher reproduces the gold labels it was trained on, so KD
+there mainly transfers the \emph{shape} of the distribution. The new information
+lies in the 62{,}105 public sentences. On the unlabeled pool the teacher predicts
+22{,}902 neutral, 15{,}189 negative and 11{,}909 positive; its agreement with the
+noisy SentiMix labels is 0.71.
+
+% ----------------------------------------------------------------------------
+\subsection{Student Architecture}
+\label{sec:v12student}
+
+\subsubsection{Input: the v1.1 Hashed Pieces}
+Let $t_{1:T}$ be the tokens of $\nu(s)$ under the pattern \verb!\w+|[^\w\s]!, with $T\le T_{\max}=128$. Token $t_i$ yields the piece set
+\begin{equation}
+  \mathcal{B}_i = \Big\{h_B(\texttt{tw:}t_i),\; h_B(\texttt{ta:}\mathrm{alias}(t_i))\Big\}\cup\Big\{h_B(\texttt{tc}n\texttt{:}g) : g \in \text{$n$-grams of } \texttt{<}t_i\texttt{>},\ n\in\{3,4\}\Big\},
+  \label{eq:v12pieces}
+\end{equation}
+where $h_B(f)=\mathrm{CRC32}(\mathrm{UTF8}(f)) \bmod B$. The key strings are exactly those of v1.1 (\cref{eq:v11embed}); only the bucket count grows from $2^{14}$ to $B=2^{15}$ to reduce collisions from the 50{,}000-sentence pool.
+
+\subsubsection{Encoder}
+A pre-LayerNorm Transformer~\cite{vaswani2017attention,xiong2020layernorm} replaces the single v1.1 attention layer:
+\begin{align}
+  \bm X^{(0)}_i &= \frac{1}{|\mathcal{B}_i|}\sum_{j\in\mathcal{B}_i}\bm E_j + \bm P_i, && \bm E\in\R^{B\times d},\ \bm P\in\R^{T_{\max}\times d}, \label{eq:v12embed}\\
+  \bm U^{(\ell)} &= \bm X^{(\ell-1)} + \mathrm{MHA}\big(\LN(\bm X^{(\ell-1)})\big), && \ell = 1,\dots,4, \\
+  \bm X^{(\ell)} &= \bm U^{(\ell)} + \bm W_2\,\GELU\big(\bm W_1 \LN(\bm U^{(\ell)}) + \bm c_1\big) + \bm c_2, && \bm W_1\in\R^{1024\times d}, \\
+  \mathrm{MHA}(\bm Y) &= \Big[\softmax\Big(\tfrac{\bm Q_h\bm K_h^{\!\top}}{\sqrt{d/4}} + \bm M\Big)\bm V_h\Big]_{h=1}^{4}\bm W_O, && [\bm Q,\bm K,\bm V] = \bm Y\bm W_{QKV}, \\
+  \bm H &= \LN\big(\bm X^{(4)}\big),\quad \alpha_i = \softmax_i\big(\bm H_i\bm w_\alpha + b_\alpha + M_i\big),\quad \bm c = \textstyle\sum_i\alpha_i\bm H_i, \label{eq:v12pool}\\
+  \z^{\text{enc}} &= \bm W_{\text{out}}\,\bm c + \bm b_{\text{out}} \in\R^{9}.
+\end{align}
+The width is $d=256$. Dropout 0.1 is applied to embeddings, attention weights and both residual branches. $\bm M$ adds $-10^4$ on padded keys, and attention and pooling softmaxes are computed in float32 under fp16 autocast. The token embedding is an \texttt{EmbeddingBag} in mean mode, the batched form of \cref{eq:v11embed}.
+
+\subsubsection{Residual Hashed Linear Branch}
+As in v1.1 (\cref{eq:v11sum}), the v1.0 linear model over the feature channels of \cref{tab:features} is kept and its logits are added before the heads:
+\begin{equation}
+  \z = \underbrace{\z^{\text{enc}}}_{\text{contextual}} + \underbrace{\W_L^{\!\top}\x + \bb_L}_{\text{lexical (v1.0)}},\qquad
+  \p^{I}=\softmax(\z_{1:6}/T_I),\quad \p^{S}=\softmax(\z_{7:9}/T_S),
+  \label{eq:v12sum}
+\end{equation}
+where $\W_L$ is initialised to zero (as in v1.0) and implemented as a sum-mode \texttt{EmbeddingBag} with per-sample weights $\x$.
+
+\begin{figure}[t]
+\centering
+\begin{tikzpicture}[
+  node distance=0.35cm and 0.45cm,
+  box/.style={draw=accent,rounded corners=2pt,fill=accentlight!60,minimum height=0.8cm,align=center,font=\scriptsize,inner sep=3pt},
+  np/.style={box,fill=white},
+  onnx/.style={box,fill=okgreen!12,draw=okgreen},
+  arr/.style={-{Stealth[length=2mm]},thick,accent!80!black},
+  lab/.style={font=\scriptsize\itshape,text=muted}]
+  \node[np] (txt) {$\nu(s)$};
+  \node[np,right=of txt] (tok) {tokens $t_{1:T}$\\pieces $\mathcal{B}_i$ (hash $2^{15}$)};
+  \node[np,right=of tok] (emb) {mean $\bm E[\mathcal{B}_i]$\\$\bm X\in\R^{T\times256}$};
+  \node[onnx,right=of emb] (pos) {$+\bm P$};
+  \node[onnx,right=of pos] (blk) {4 $\times$ pre-LN block\\4 heads, FFN 1024};
+  \node[onnx,right=of blk] (pool) {LN, attention\\pooling $\alpha$};
+  \node[onnx,below=0.6cm of pool] (head) {$\z^{\text{enc}}\in\R^9$};
+  \node[np,below=1.5cm of tok] (feat) {v1.0 features $\x$\\($D{=}2^{15}$)};
+  \node[np,right=1.1cm of feat] (lin) {$\W_L^{\!\top}\x+\bb_L$};
+  \node[box,circle,inner sep=1pt,minimum height=0.55cm,below=0.5cm of head] (plus) {$+$};
+  \node[np,left=0.6cm of plus] (cal) {$T_I,T_S$; $\tau_I,\tau_S$\\label, confidence, review};
+  \draw[arr] (txt) -- (tok);
+  \draw[arr] (tok) -- (emb);
+  \draw[arr] (emb) -- (pos);
+  \draw[arr] (pos) -- (blk);
+  \draw[arr] (blk) -- (pool);
+  \draw[arr] (pool) -- (head);
+  \draw[arr] (txt) |- (feat);
+  \draw[arr] (feat) -- (lin);
+  \draw[arr] (lin) -| (plus);
+  \draw[arr] (head) -- (plus);
+  \draw[arr] (plus) -- (cal);
+  \begin{scope}[on background layer]
+    \node[draw=okgreen,dashed,rounded corners=3pt,fit=(pos)(blk)(pool)(head),inner sep=5pt,
+          label={[lab,anchor=south east]north east:ONNX encoder (INT8)}] {};
+  \end{scope}
+\end{tikzpicture}
+\caption{Student at inference. White boxes run in NumPy (hashing, embedding mean, linear branch, calibration); the green region is the exported ONNX encoder. Compare the v1.1 architecture in \cref{fig:v11arch}.}
+\label{fig:v12student}
+\end{figure}
+
+\begin{table}[h]
+\centering\small
+\caption{Parameter breakdown compared with v1.1 (\cref{sec:v11att}).}
+\label{tab:v12params}
+\begin{tabular}{@{}l r r@{}}
+\toprule
+Component & v1.1 & v1.2 student \\
+\midrule
+Piece embeddings & $2^{14}\times32 = 524{,}288$ & $2^{15}\times256 = 8{,}388{,}608$ \\
+Positions & $128\times32 = 4{,}096$ & $128\times256 = 32{,}768$ \\
+Contextual layers & 1 single-head attention: 4{,}096 & 4 pre-LN blocks: 3{,}159{,}040 \\
+Pooling and output & $32 + 288 = 320$ & 3{,}082 \\
+Hashed linear branch & 294{,}921 & 294{,}921 \\
+\midrule
+\textbf{Total} & \textbf{827{,}721} & \textbf{11{,}878{,}419} \\
+Without the linear branch & 532{,}800 & 11{,}583{,}498 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{table}[h]
+\centering\small
+\caption{Architectural differences between the v1.1 attention branch and the v1.2 student.}
+\label{tab:v12diff}
+\begin{tabularx}{\linewidth}{@{}l X X@{}}
+\toprule
+& v1.1 attention branch & v1.2 student \\
+\midrule
+Token representation & mean of hashed pieces, $B=2^{14}$, $d=32$ & same pieces, $B=2^{15}$, $d=256$ \\
+Context & 1 layer, 1 head, residual $\tanh$, no FFN, no LayerNorm & 4 pre-LN layers, 4 heads, GELU FFN 1024 \\
+Pooling & $\softmax(\bm H\bm u)$ & $\softmax(\bm H\bm w_\alpha + b_\alpha)$ with padding mask \\
+Lexical branch & v1.0 linear, logits added & identical \\
+Training signal & gold labels only & gold labels, teacher soft labels and consistency \\
+Optimizer & per-example Adam and sparse Adagrad (NumPy, hand-derived gradients) & AdamW, cosine schedule, fp16, batch 64 (PyTorch) \\
+Runtime & NumPy & NumPy and ONNX Runtime (INT8) \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\subsubsection{Objective}
+With student logits $\z$, teacher logits $\z_{\text{T}}$, gold-label masks $\mu$, KD masks $\kappa$ (\cref{eq:v12mask}) and a meaning-preserving noisy copy $\tilde s$, following knowledge distillation~\cite{hinton2015distilling}:
+\begin{align}
+  \mathcal{L}_{\text{CE}} &= \sum_{k} \frac{1}{\sum_i\mu^k_i}\sum_i \mu^k_i\,\alpha^k_{y^k_i}\,\CE\big(\softmax(\z^k_i), y^k_i\big), \\
+  \mathcal{L}_{\text{KD}} &= \sum_{k} \frac{1}{\sum_i\kappa^k_i}\sum_i \kappa^k_i\; \tau^2\,\KL\Big(\softmax(\z^k_{\text{T},i}/\tau)\,\Big\|\,\softmax(\z^k_i/\tau)\Big),\qquad \tau = 2, \\
+  \mathcal{L}_{\text{cons}} &= \frac{1}{N}\sum_i\sum_k \KL\Big(\mathrm{sg}\big[\softmax(\z^k(s_i))\big]\,\Big\|\,\softmax(\z^k(\tilde s_i))\Big), \\
+  \mathcal{L}_{\text{S}} &= \mathcal{L}_{\text{CE}} + \lambda_{\text{KD}}\,\mathcal{L}_{\text{KD}} + \lambda_{\text{cons}}\,\mathcal{L}_{\text{cons}},\qquad \lambda_{\text{KD}}=1,\ \lambda_{\text{cons}}=0.1 .
+  \label{eq:v12loss}
+\end{align}
+Here $\mathrm{sg}$ is stop-gradient. The noisy copy $\tilde s$ uses only the character noise of \cref{sec:v12data}, so consistency is never imposed across meaning-changing edits (negation, emoji).
+
+\paragraph{Training.} Every epoch uses all 4{,}061 support rows plus 4{,}000 public labeled tweets and 8{,}000 pool sentences, both re-sampled each epoch with a generator seeded by $1000\cdot\text{seed}+e$ (16{,}061 rows, 251 steps at batch 64, about 42\,s per epoch on a T4). Token dropout removes whole tokens with probability 0.15, always keeping at least one. Optimization uses AdamW (learning rate $5\times10^{-4}$, weight decay 0.01 except on embeddings, norms and biases), 5\% warm-up then cosine decay, clipping at 1.0 and fp16 autocast. Early stopping uses validation NLL (patience 5, at most 30 epochs). The full optimizer, scheduler, scaler and RNG state is checkpointed every epoch. Temperatures and review thresholds are fitted on validation with the v1.0 algorithm (\cref{alg:calib}).
+
+\paragraph{Variants.} In order: student $+$ KD (seed 42, the pre-specified primary model); student without KD on identical labeled data (pool rows drop out automatically); student $+$ KD without the linear branch; and student $+$ KD with seeds 43 and 44. All five finished, with one Colab disconnect resumed automatically.
+
+\begin{figure}[t]
+\centering
+\begin{tikzpicture}
+\begin{axis}[
+  width=0.92\linewidth, height=5.6cm,
+  xlabel={Epoch}, ylabel={Validation NLL ($T=1$)}, ymin=0, ymax=0.6, xmin=1, xmax=19,
+  legend style={font=\scriptsize,draw=none,fill=white,fill opacity=0.8,text opacity=1}, legend pos=north east, legend columns=2,
+  ymajorgrids, grid style={muted!25}, mark size=1.3pt]
+\addplot[accent,thick,mark=*] coordinates {(1,0.4644)(2,0.4127)(3,0.1273)(4,0.3137)(5,0.1062)(6,0.1315)(7,0.2342)(8,0.1571)(9,0.1045)(10,0.0647)(11,0.0913)(12,0.1414)(13,0.0872)(14,0.0656)(15,0.1256)};
+\addplot[warn,thick,mark=square*] coordinates {(1,0.5154)(2,0.3312)(3,0.2702)(4,0.2330)(5,0.1483)(6,0.1740)(7,0.1833)(8,0.2280)(9,0.2104)(10,0.1590)};
+\addplot[okgreen,thick,mark=triangle*] coordinates {(1,0.4641)(2,0.4148)(3,0.1957)(4,0.1719)(5,0.1809)(6,0.1483)(7,0.1723)(8,0.2530)(9,0.2605)(10,0.1926)(11,0.2059)};
+\addplot[accent!50,dashed,mark=o] coordinates {(1,0.5468)(2,0.2811)(3,0.2371)(4,0.3529)(5,0.2335)(6,0.1558)(7,0.2114)(8,0.3812)(9,0.2006)(10,0.2536)(11,0.2954)};
+\addplot[muted,dashed,mark=diamond] coordinates {(1,0.4933)(2,0.3088)(3,0.2567)(4,0.2339)(5,0.2409)(6,0.1741)(7,0.2008)(8,0.1763)(9,0.1716)(10,0.1555)(11,0.1495)(12,0.2235)(13,0.1195)(14,0.1018)(15,0.1233)(16,0.1872)(17,0.1754)(18,0.1428)(19,0.1629)};
+\addplot[black,thin,densely dotted,domain=1:19] {0.0472};
+\legend{KD s42, no-KD s42, KD w/o linear s42, KD s43, KD s44, teacher v2 best}
+\end{axis}
+\end{tikzpicture}
+\caption{Student validation NLL per epoch. The curves are noisy, and the best epoch per variant ranges from 5 to 14. The primary variant's best value (0.0647, epoch 10) is close to the teacher's (0.0472), while seed 43 reaches only 0.156.}
+\label{fig:v12curves}
+\end{figure}
+
+% ----------------------------------------------------------------------------
+\subsection{Deployment Runtime}
+\label{sec:v12deploy}
+
+The trained student is split at the boundary between sparse lookups and dense computation:
+\begin{enumerate}
+  \item \texttt{embeddings.npz}: $\bm E$, $\W_L$ and $\bb_L$, used from NumPy (\texttt{np.add.reduceat} computes \cref{eq:v12embed});
+  \item \texttt{encoder.onnx}: positions, four blocks, pooling and head. Inputs are $\bm X\in\R^{1\times T\times256}$ and the mask; outputs are $\z^{\text{enc}}$ and $\bm\alpha$. Opset 17 with a dynamic token axis;
+  \item \texttt{encoder.int8.onnx}: ONNX Runtime dynamic quantization (INT8 weights, dynamic activation scales), 12.8\,MB$\to$3.4\,MB;
+  \item \texttt{meta.json}: configuration and calibration fitted on the \emph{deployed INT8 model's} validation logits.
+\end{enumerate}
+Across all evaluation messages, the maximum absolute logit difference between PyTorch and ONNX (fp32) is $5.8\times10^{-6}$. INT8 changes no intent prediction and one of 190 test sentiment predictions. One exporter pitfall was found and fixed: exporting through a wrapper module restores the wrapper's training flag \emph{recursively}, which had silently re-enabled dropout during the parity check (a 0.29 logit difference before the fix). \texttt{python v12/predict.py "text"} returns the same JSON as \texttt{solution.py predict}, optionally with $\bm\alpha$.
+
+\subsubsection{Latency}
+The hardware is an Apple M2 (Python 3.12, NumPy 2.3.5, ONNX Runtime 1.30), using the protocol of \cref{tab:latency}: 80 warm-up and 600 timed calls, batch 1, warm and serial. Each call includes hashing, the embedding mean, the encoder, the linear branch, calibration and JSON serialization.
+
+\begin{table}[h]
+\centering\small
+\caption{Latency of the trained student by precision and ONNX Runtime intra-op threads (ms).}
+\label{tab:v12latency}
+\begin{tabular}{@{}l ccc ccc r@{}}
+\toprule
+& \multicolumn{3}{c}{Test messages} & \multicolumn{3}{c}{p95 by input length (code points)} & \\
+\cmidrule(lr){2-4}\cmidrule(lr){5-7}
+Configuration & p50 & p95 & p99 & 32 & 128 & 512 & Msg/s \\
+\midrule
+INT8, 1 thread  & 0.64 & 0.92 & 1.15 & 0.55 & 1.68 & 5.98 & 1{,}497 \\
+\textbf{INT8, 2 threads} & \textbf{0.57} & \textbf{0.81} & \textbf{0.90} & 0.49 & 1.31 & \textbf{4.29} & 1{,}686 \\
+INT8, 4 threads & 0.53 & 0.77 & 0.95 & 0.49 & 1.30 & 3.45 & 1{,}782 \\
+FP32, 1 thread  & 1.14 & 1.62 & 1.75 & 0.90 & 2.98 & 10.96 & 867 \\
+FP32, 2 threads & 0.81 & 1.14 & 1.23 & 0.68 & 1.97 & 6.83 & 1{,}201 \\
+FP32, 4 threads & 0.68 & 1.00 & 1.39 & 0.61 & 1.65 & 4.91 & 1{,}388 \\
+\midrule
+v1.1, same machine & 0.27 & 0.38 & 0.45 & 0.25 & 0.55 & 1.40 & -- \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+At 512 code points (106 tokens, 920 pieces), the encoder takes about 4.3\,ms of the 6.0\,ms single-thread total. The rest is hashing (0.30\,ms token pieces, 0.80\,ms v1.0 features) and the embedding mean (0.30\,ms). Two threads keep p95 below 5\,ms. Four threads were noisy on the M2's mixed performance and efficiency cores (3.45 to 5.10\,ms across three measurements), and p99 at 512 code points exceeded 5\,ms in an earlier thread sweep. The runtime therefore defaults to two threads. v1.1 remains two to three times faster (0.38 versus 0.81\,ms on test messages; 1.40 versus 4.29\,ms at 512 code points).
+
+% ----------------------------------------------------------------------------
+\subsection{Results}
+\label{sec:v12results}
+
+\begin{table}[t]
+\centering\small
+\caption{v1.2 development-test results (190 rows, 44 groups): macro-F1 with 95\% group-bootstrap interval and paired difference against v1.1 on identical resamples. Compare \cref{tab:v11main}.}
+\label{tab:v12main}
+\setlength{\tabcolsep}{3.2pt}
+\resizebox{\linewidth}{!}{%
+\begin{tabular}{@{}l r cc cc c cc c c@{}}
+\toprule
+& & \multicolumn{2}{c}{Intent} & \multicolumn{2}{c}{Sentiment} & Pos. & \multicolumn{2}{c}{Stress F1 (consistency)} & Emoji & Audit \\
+\cmidrule(lr){3-4}\cmidrule(lr){5-6}\cmidrule(lr){8-9}
+System & Params & F1 [95\% CI] & $\Delta$ vs v1.1 & F1 [95\% CI] & $\Delta$ vs v1.1 & recall & Intent & Sent. & pairs & err. \\
+\midrule
+v1.1 full & 0.83M & .901 [.78, .97] & -- & .845 [.72, .94] & -- & .72 & .865 (97.4\%) & .826 (92.6\%) & 9/12 & 6 \\
+Teacher (v1.1 data) & 278M & .929 [.82, 1.00] & $+.032$ [$-.06$, $+.14$] & 1.000 [1.00, 1.00] & $\mathbf{+.159}$ [$+.06$, $+.28$] & 1.00 & .852 (92.6\%) & 1.000 (100\%) & 12/12 & 1 \\
+Teacher v2 & 278M & \textbf{.966} [.92, .99] & $+.071$ [$-.007$, $+.172$] & 1.000 [1.00, 1.00] & $\mathbf{+.159}$ [$+.06$, $+.28$] & 1.00 & \textbf{.933} (95.8\%) & 1.000 (100\%) & 12/12 & 1 \\
+\midrule
+Student $+$ KD (s42) & 11.88M & .914 [.81, .98] & $+.014$ [$-.10$, $+.13$] & .911 [.82, .98] & $+.068$ [$-.07$, $+.21$] & 1.00 & .914 (97.9\%) & .917 (96.3\%) & 12/12 & 2 \\
+Student no-KD (s42) & 11.88M & .888 [.77, .97] & $-.011$ [$-.12$, $+.11$] & .878 [.77, .96] & $+.034$ [$-.07$, $+.14$] & .93 & .895 (96.8\%) & .836 (92.6\%) & 12/12 & 3 \\
+Student $+$ KD w/o linear (s42) & 11.58M & .958 [.89, .99] & $+.062$ [$-.03$, $+.17$] & .909 [.81, .98] & $+.066$ [$-.04$, $+.17$] & .93 & .918 (94.7\%) & .925 (96.3\%) & 11/12 & 1 \\
+Student $+$ KD (s43) & 11.88M & .911 [.82, .98] & $+.014$ [$-.09$, $+.14$] & .853 [.74, .94] & $+.009$ [$-.11$, $+.13$] & .95 & .910 (98.9\%) & .813 (88.9\%) & 12/12 & 3 \\
+Student $+$ KD (s44) & 11.88M & .919 [.82, .98] & $+.020$ [$-.09$, $+.13$] & .952 [.87, 1.00] & $+.110$ [$-.00$, $+.23$] & .93 & .914 (97.9\%) & .925 (97.4\%) & 12/12 & 1 \\
+\textbf{Student $+$ KD, ONNX INT8 (deployed)} & 11.88M & .914 [.81, .98] & $+.014$ [$-.10$, $+.13$] & .916 [.83, .98] & $+.073$ [$-.06$, $+.22$] & 1.00 & .914 (97.9\%) & .917 (95.8\%) & 12/12 & 2 \\
+\bottomrule
+\end{tabular}}
+\end{table}
+
+\begin{figure}[t]
+\centering
+\begin{tikzpicture}
+\begin{axis}[
+  ybar=1.5pt, width=0.98\linewidth, height=5.6cm,
+  ymin=0.6, ymax=1.04, ylabel={Macro-F1 (test)},
+  symbolic x coords={v1.1,Teacher,Teacher v2,Student KD,No-KD,No linear,KD s43,KD s44,INT8},
+  xtick=data, xticklabel style={font=\scriptsize,rotate=20,anchor=north east},
+  enlarge x limits=0.07, bar width=6pt,
+  legend style={font=\small,draw=none}, legend columns=2, legend pos=south east,
+  ymajorgrids, grid style={muted!25},
+  error bars/y dir=both, error bars/y explicit, error bars/error bar style={thin,black!70}]
+\addplot[fill=accent,draw=accent] coordinates {
+  (v1.1,0.901) += (0,0.069) -= (0,0.119)
+  (Teacher,0.929) += (0,0.071) -= (0,0.106)
+  (Teacher v2,0.966) += (0,0.028) -= (0,0.042)
+  (Student KD,0.914) += (0,0.064) -= (0,0.103)
+  (No-KD,0.888) += (0,0.081) -= (0,0.121)
+  (No linear,0.958) += (0,0.037) -= (0,0.066)
+  (KD s43,0.911) += (0,0.071) -= (0,0.096)
+  (KD s44,0.919) += (0,0.061) -= (0,0.101)
+  (INT8,0.914) += (0,0.064) -= (0,0.103)};
+\addplot[fill=warn!75,draw=warn] coordinates {
+  (v1.1,0.845) += (0,0.098) -= (0,0.127)
+  (Teacher,1.000) += (0,0.0) -= (0,0.0)
+  (Teacher v2,1.000) += (0,0.0) -= (0,0.0)
+  (Student KD,0.911) += (0,0.069) -= (0,0.095)
+  (No-KD,0.878) += (0,0.082) -= (0,0.107)
+  (No linear,0.909) += (0,0.074) -= (0,0.096)
+  (KD s43,0.853) += (0,0.089) -= (0,0.114)
+  (KD s44,0.952) += (0,0.048) -= (0,0.080)
+  (INT8,0.916) += (0,0.065) -= (0,0.088)};
+\legend{Intent, Sentiment}
+\end{axis}
+\end{tikzpicture}
+\caption{v1.2 test macro-F1 with 95\% group-bootstrap intervals (exact bootstrap percentiles). The teachers' sentiment is at the ceiling; every student interval overlaps v1.1.}
+\label{fig:v12bars}
+\end{figure}
+
+\begin{table}[h]
+\centering\small
+\caption{Paired differences on the same 5{,}000 resamples: data ablation, distillation gap and student ablations.}
+\label{tab:v12paired}
+\begin{tabular}{@{}l cc cc@{}}
+\toprule
+& \multicolumn{2}{c}{Intent} & \multicolumn{2}{c}{Sentiment} \\
+\cmidrule(lr){2-3}\cmidrule(lr){4-5}
+Comparison & $\overline\Delta$ [95\% CI] & $P(\Delta>0)$ & $\overline\Delta$ [95\% CI] & $P(\Delta>0)$ \\
+\midrule
+Data: teacher v2 $-$ teacher (v1.1 data) & $+0.040$ [$-0.028$, $+0.121$] & 0.85 & $0.000$ [$0.000$, $0.000$] & -- \\
+Distillation gap: student $+$ KD $-$ teacher v2 & $-0.057$ [$-0.136$, $+0.004$] & 0.04 & $\mathbf{-0.092}$ [$-0.184$, $-0.020$] & 0.00 \\
+KD effect: student $+$ KD $-$ no-KD (s42) & $+0.025$ [$-0.034$, $+0.113$] & 0.70 & $+0.034$ [$-0.055$, $+0.124$] & 0.78 \\
+Linear branch: with $-$ without (s42) & $-0.048$ [$-0.124$, $+0.014$] & 0.07 & $+0.002$ [$-0.091$, $+0.094$] & 0.51 \\
+Quantization: INT8 $-$ FP32 (s42) & $+0.000$ [$+0.000$, $+0.000$] & -- & $+0.005$ [$+0.000$, $+0.017$] & 0.64 \\
+\bottomrule
+\end{tabular}
+\\[3pt]{\footnotesize Seed spread of student $+$ KD (seeds 42/43/44): intent mean 0.915, sd 0.004; sentiment mean 0.906, sd 0.049. Best validation NLL: 0.065, 0.156 and 0.102.}
+\end{table}
+
+\begin{table}[h]
+\centering\small
+\caption{Contrast set per phenomenon: intent accuracy and sentiment accuracy over rows, and the number of pairs with both members fully correct. NS negation scope, NN neutral \hi{nahi}, NG negated negative, UA unseen affect ($^\dagger$ affect words present in generated training data).}
+\label{tab:v12contrast}
+\begin{tabular}{@{}l cc cc cc cc c@{}}
+\toprule
+& \multicolumn{2}{c}{NS} & \multicolumn{2}{c}{NN} & \multicolumn{2}{c}{NG} & \multicolumn{2}{c}{UA$^\dagger$} & Pairs \\
+\cmidrule(lr){2-3}\cmidrule(lr){4-5}\cmidrule(lr){6-7}\cmidrule(lr){8-9}
+System & int & sent & int & sent & int & sent & int & sent & (of 40) \\
+\midrule
+v1.1                      & .65 & .90 & .85 & .75 & .90 & .45 & .85 & .70 & 10 \\
+Teacher (v1.1 data)       & .70 & .95 & .80 & 1.00 & .70 & 1.00 & .90 & .90 & 24 \\
+Teacher v2                & \textbf{.90} & .90 & \textbf{.90} & .95 & .70 & 1.00 & .95 & 1.00 & \textbf{29} \\
+Student $+$ KD (s42, INT8) & .80 & .85 & .90 & .85 & .75 & .65 & .85 & .85 & 17 \\
+Student no-KD (s42)       & .70 & .85 & .90 & .85 & .80 & .65 & .80 & .95 & 18 \\
+Student $+$ KD w/o linear & .85 & .85 & .90 & .90 & .65 & .70 & .85 & .95 & 20 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{table}[h]
+\centering\small
+\caption{Row-normalized test sentiment confusion matrices. Compare \cref{tab:v11confusion}(b).}
+\label{tab:v12sentcm}
+\begin{tabular}{@{}l ccc c ccc@{}}
+\toprule
+& \multicolumn{3}{c}{\textbf{v1.1}} && \multicolumn{3}{c}{\textbf{Student $+$ KD (INT8)}} \\
+\cmidrule(lr){2-4}\cmidrule(lr){6-8}
+True & neg & neu & pos && neg & neu & pos \\
+\midrule
+\lbl{negative} & \cm{55}{59} & \cm{2}{2} & \cm{3}{3} && \cm{52}{55} & \cm{3}{3} & \cm{6}{6} \\
+\lbl{neutral}  & \cm{6}{7} & \cm{54}{58} & 0 && 0 & \cm{54}{58} & \cm{6}{7} \\
+\lbl{positive} & \cm{10}{10} & \cm{7}{7} & \cm{43}{44} && 0 & 0 & \cm{60}{61} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{table}[h]
+\centering\small
+\caption{Calibration and selective prediction on test (temperature and review threshold fitted on validation). Compare \cref{tab:v11calib}.}
+\label{tab:v12calib}
+\begin{tabular}{@{}l cc cc cc cc@{}}
+\toprule
+& \multicolumn{2}{c}{Temperature} & \multicolumn{2}{c}{ECE} & \multicolumn{2}{c}{Coverage} & \multicolumn{2}{c}{Acc.\ on accepted} \\
+\cmidrule(lr){2-3}\cmidrule(lr){4-5}\cmidrule(lr){6-7}\cmidrule(lr){8-9}
+System & $T_I$ & $T_S$ & int & sent & int & sent & int & sent \\
+\midrule
+v1.1 & 0.550 & 1.316 & .082 & .106 & .953 & .753 & .906 & .951 \\
+Teacher (v1.1 data) & 0.595 & 1.316 & .070 & .014 & 1.000 & 1.000 & .916 & 1.000 \\
+Teacher v2 & 0.400$^\ast$ & 0.508 & .044 & .000 & 1.000 & 1.000 & .963 & 1.000 \\
+Student $+$ KD (s42) & 0.400$^\ast$ & 0.755 & .070 & .048 & 1.000 & 1.000 & .921 & .911 \\
+Student $+$ KD, INT8 & 0.400$^\ast$ & 0.755 & .070 & .045 & 1.000 & 1.000 & .921 & .916 \\
+\bottomrule
+\end{tabular}
+\\[2pt]{\footnotesize $^\ast$ lower boundary of the temperature grid.}
+\end{table}
+
+\paragraph{Q3: does the student keep the teacher's gains?} No, and the evidence (\cref{tab:v12main,tab:v12paired,tab:v12contrast}) points the same way throughout:
+\begin{enumerate}
+  \item \textbf{Distillation gap.} Sentiment is significantly below teacher v2 ($-0.092$ $[-0.184, -0.020]$) and intent trends below it ($P(\Delta>0)=0.04$). Against v1.1, the deployed student's gains ($+0.014$ intent, $+0.073$ sentiment) are not resolved. The student solves 17 contrast pairs against the teacher's 29.
+  \item \textbf{KD is not shown to help.} Both point estimates over the no-KD student are positive ($+0.025$, $+0.034$) but unresolved, and smaller than the seed standard deviation of the primary variant's sentiment (0.049). The no-KD student even solves one more contrast pair.
+  \item \textbf{The linear branch appears to hurt intent.} Without it, intent is 0.958 with 20 contrast pairs; keeping it scores $-0.048$ $[-0.124, +0.014]$ with $P(\Delta>0)=0.07$. The deployed model keeps the branch because it was the pre-specified primary variant, and a single seed does not justify switching. In v1.1 the small attention branch helped on top of the lexical model (\cref{tab:v11paired}); with a four-layer encoder and teacher signal, the lexical branch no longer appears to add to intent.
+  \item \textbf{Instability across seeds.} Intent is stable (sd 0.004), but sentiment ranges from 0.853 to 0.952 and best validation NLL from 0.065 to 0.156.
+  \item \textbf{Sentiment errors changed direction.} v1.1 missed positives (recall 0.72, 17 of 61 predicted negative or neutral). The student finds every positive (recall 1.00) but calls 13 negative or neutral messages positive (\cref{tab:v12sentcm}), including negated complaints such as \hi{bahut problem hui, refund time pe nahi aaya}. This suggests over-learning of the negated-negative $\Rightarrow$ positive pattern from the generated data.
+  \item \textbf{What did improve.} Stability under unseen misspellings is at least v1.1's (intent consistency 97.9\% versus 97.4\%, stress F1 0.914 versus 0.865); emoji pairs are 12/12; positive recall is 1.00; the student solves 17 contrast pairs against v1.1's 10; and INT8 quantization is lossless on these sets.
+  \item \textbf{Calibration.} Validation thresholds collapse to 0 for every v1.2 model, so the review flag never fires on this split. v1.1's sentiment head deferred 24.7\% of messages.
+\end{enumerate}
+
+% ----------------------------------------------------------------------------
+\subsection{Qualitative Error Analysis}
+\label{sec:v12errors}
+
+\begin{table}[h]
+\centering\small
+\caption{Representative errors of the deployed student (INT8) and teacher v2.}
+\label{tab:v12errors}
+\begin{tabularx}{\linewidth}{@{}p{5.0cm} p{3.0cm} X@{}}
+\toprule
+Message (set) & Gold $\to$ predicted & Interpretation \\
+\midrule
+\hi{bahut problem hui, refund time pe nahi aaya} (contrast, student) &
+sentiment \lbl{neg}$\to$\lbl{pos} &
+\emph{Negation over-learned.} The generated \hi{koi problem nahi} / \hi{bina hassle} rows teach ``negative word $+$ \hi{nahi} $\Rightarrow$ positive''; here \hi{nahi} negates the refund arriving, not the problem. \\
+\addlinespace
+\hi{itni jhanjhat ke baad bhi order cancel nahi hua} (contrast, student) &
+sentiment \lbl{neg}$\to$\lbl{pos} &
+Same mechanism; the teacher gets it right. \\
+\addlinespace
+\hi{replacement mat bhejna, paise account mein wapas daal do} (contrast, student) &
+intent \lbl{refund}$\to$\lbl{cancel} &
+\emph{Scope.} The negated action is ignored, but the real request (\hi{paise wapas}) is routed to the wrong operational intent. \\
+\addlinespace
+\hi{delivery mein bahut deri hui, parcel teen din late aaya} (contrast, both) &
+intent \lbl{feedback}$\to$\lbl{not\_rcv} &
+\emph{Keyword routing}, shared by teacher and student: delay vocabulary implies \lbl{not\_received}. \\
+\addlinespace
+\hi{mujhe abhi delivery ka otp nahi mila, kaise milega} (contrast, teacher v2) &
+intent \lbl{track}$\to$\lbl{not\_rcv} &
+\hi{nahi mila} is the strongest cue for \lbl{not\_received} in all training data. \\
+\addlinespace
+\hi{delivery phir late ghatiya service} (audit, teacher v2 and every student) &
+intent \lbl{track}$\to$\lbl{not\_rcv}/\lbl{feedback} &
+A short message with no request verb; the audit label assumes a tracking request. \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+% ----------------------------------------------------------------------------
+\subsection{Application}
+The Streamlit application (\texttt{app.py}) now defaults to the deployed student.
+Of the models with weights available locally, it is the most accurate on both
+heads (test accuracy 92.1\% intent and 91.6\% sentiment, against 90.5\% and
+84.7\% for v1.1). It also has the highest validation accuracy (100\% and
+96.8\%), so the choice does not rest on test data alone. The sidebar shows each
+model's test accuracy, and the four v1.1 checkpoints remain selectable.
+Teacher v2 is more accurate (96.3\% and 100\%), but its 1.1\,GB weights were
+not retained after pseudo-labelling and it is not deployable within the
+latency budget. Attention-pooling weights $\bm\alpha$ (\cref{eq:v12pool}) are
+plotted per token as in v1.1.
+
+% ----------------------------------------------------------------------------
+\subsection{Threats to Validity}
+\begin{itemize}
+  \item \textbf{Same generator.} The v1.1 test and audit sets, most training data, the generated messages and the contrast set were all written by LLMs, the last two by the same assistant. Gains may partly reflect matching the generator's style: generated data lift validation and test vocabulary coverage to about 0.94. Sentiment of 1.000 is a ceiling on this distribution.
+  \item \textbf{Contrast vocabulary overlap.} 18 contrast affect words enter training through generated data; UA results after data enrichment are not evidence of generalisation.
+  \item \textbf{Out-of-domain public data.} Political, cricket, movie and chit-chat tweets with visible label noise (teacher--gold agreement 0.71) and restrictive licenses; they are not redistributed.
+  \item \textbf{Pseudo-label noise.} Sentiment soft labels on 50{,}000 unlabeled tweets come from a teacher trained on 4{,}000 such tweets and support data.
+  \item \textbf{Seeds and power.} One seed per teacher. Three student seeds exist only for the primary variant; the KD and linear-branch ablations use a single seed and are smaller than the primary variant's sentiment standard deviation. The test split has 44 groups.
+  \item \textbf{Free-GPU training.} Colab T4 sessions; teacher checkpoints omit optimizer moments (weights, schedule and RNG state are kept); at most three learning rates; no student hyper-parameter search; the public-only pre-fine-tuning stage was skipped.
+  \item \textbf{No human data.} No real customer messages were available. The evaluator scores a \texttt{human\_test.jsonl} file separately if one is added.
+\end{itemize}
+
+% ----------------------------------------------------------------------------
+\subsection{Updated Scorecard}
+
+\begin{table}[h]
+\centering\small
+\caption{Requirement status after v1.2. Compare \cref{tab:scorecard,tab:v11scorecard}.}
+\label{tab:v12scorecard}
+\begin{tabularx}{\linewidth}{@{}l l X@{}}
+\toprule
+Requirement & Status & Evidence \\
+\midrule
+$\le$500M parameters (problem statement) & \textcolor{okgreen}{\textbf{Met}} & Student 11{,}878{,}419; teacher 278{,}050{,}569 (not deployed). \\
+Student $\le$15M parameters (v1.2 constraint) & \textcolor{okgreen}{\textbf{Met}} & \cref{tab:v12params}. \\
+p95 $<5$\,ms at batch 1 on a laptop CPU, incl.\ hashing & \textcolor{okgreen}{\textbf{Met}} (2 threads) & 0.81\,ms on test messages; 4.29\,ms at 512 code points; 5.98\,ms with 1 thread (\cref{tab:v12latency}). \\
+Spelling and shorthand robustness & \textcolor{okgreen}{\textbf{Maintained}} & Student stress intent F1 0.914, consistency 97.9\% (v1.1: 0.865, 97.4\%). \\
+Emoji and punctuation semantics & \textcolor{okgreen}{\textbf{Improved}} & Emoji pairs 12/12 (v1.1: 9/12), from only four seed groups. \\
+Positive sentiment & \textcolor{okgreen}{\textbf{Improved}} & Recall 1.00, but precision 0.82: negated complaints are now called positive. \\
+Sentiment overall (deployed student) & \textcolor{warn}{\textbf{Not resolved}} & $+0.073$ $[-0.06, +0.22]$ vs v1.1; seed sd 0.049. \\
+Negation scope & \textcolor{warn}{\textbf{Partial}} & Teacher v2: 6/10 scope pairs; deployed student 5/10; negated negatives 1/10 pairs. \\
+Distillation keeps teacher gains & \textcolor{warn}{\textbf{Not met}} & Student $-$ teacher v2 sentiment $-0.092$ $[-0.184, -0.020]$. \\
+Reproducibility & \textcolor{okgreen}{\textbf{Met}} & Exact v1.1 splits, seeded everything, hash-parity fixtures, resumable notebooks, one evaluator reproducing v1.1. \\
+Real-world validation & \textcolor{warn}{\textbf{Not met}} & No human-collected data. \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\paragraph{Next steps after v1.2.}
+(i)~Collect real, consented messages for a human test set; this is now the main limitation.
+(ii)~Re-run the linear-branch ablation over several seeds and switch the deployed model if the intent gain holds.
+(iii)~Add minimal pairs in which \hi{nahi} negates the \emph{resolution} (\hi{problem hui, refund nahi aaya}) next to pairs in which it negates the problem, to undo the over-learned negated-negative cue.
+(iv)~Distil with a stronger KD signal on support data---for example teacher logits on many more augmented variants, or intermediate-layer matching---since output KD on 4{,}061 support rows did not transfer the teacher's sentiment.
+(v)~Retain teacher v2 weights and measure it as a slower, higher-accuracy tier behind the review flag.
+(vi)~Widen the temperature grid below 0.4 and re-fit review thresholds on a larger validation set so that deferral works again.
+
+% ============================================================================
 \section{Conclusion}
 \label{sec:conclusion}
 
@@ -1716,6 +2523,24 @@ both heads and a clear gain in spelling robustness. Negation scope remains
 unsolved, and a smaller audit regression shows that new data can introduce new
 spurious cues. The next version should therefore again start with targeted
 data rather than a larger model.
+
+\paragraph{Version 1.2.} v1.2 tested that advice directly. A pretrained
+Hinglish encoder trained on the same 536 v1.1 examples resolves sentiment on
+every set (paired $+0.159$ $[+0.056, +0.282]$) but not intent. Targeted data
+then raise the teacher's negation-scope intent accuracy on a hand-written
+contrast set from 0.70 to 0.90, fix the long-standing \hi{cancel mat karna}
+audit error and bring intent to 0.966, although the data effect on the 44-group
+test is not statistically resolved. Distilling that teacher into an
+11.88M-parameter hashed-piece Transformer meets the deployment constraints
+(p95 0.81\,ms; 4.29\,ms at 512 code points; lossless INT8) and keeps v1.1's
+robustness to unseen misspellings. It does \emph{not}, however, keep the
+teacher's gains: its sentiment is significantly below the teacher's, its
+improvements over v1.1 are not resolved, knowledge distillation is not shown
+to help, and sentiment varies strongly across seeds. The lessons are
+therefore twofold. Pretraining is what fixed sentiment, and targeted data are
+what moved negation scope. Both conclusions now rest on synthetic evaluation
+data written by the same kind of generator as the training data, so the next
+step is a human-collected test set rather than another model.
 
 % ============================================================================
 \appendix
@@ -1754,6 +2579,25 @@ Regularization & token dropout 0.2; dense decay $\times0.99$ per epoch \\
 Selection & min.\ validation NLL over 11 settings (\cref{tab:v11grid}) \\
 Augmentation & $\le5$ variants: original, shorthand, respelling (12), both, opener (6) \\
 Alias map & 27 entries \\
+\midrule
+\multicolumn{2}{@{}l}{\textbf{Added in v1.2 (teachers)}} \\
+Encoders (01) & hing-roberta, hing-roberta-mixed, hing-bert, MuRIL; lr $\in\{2,3,5\}\times10^{-5}$ \\
+Encoder (02) & hing-roberta-mixed; lr $\in\{3,5\}\times10^{-5}$ \\
+Batch / epochs / patience & 16 / 12 / 3 (01); 32 / 6 / 2 (02) \\
+Schedule & AdamW, wd 0.01, 10\% (01) or 6\% (02) warm-up, linear decay, clip 1.0, fp16 \\
+Pooling / max length & masked mean / 128 subwords \\
+Public sentiment sample (02) & 4{,}000 fixed seeded rows, intent loss masked \\
+\midrule
+\multicolumn{2}{@{}l}{\textbf{Added in v1.2 (student)}} \\
+Pieces / buckets / width & word, alias, char 3/4-grams / $2^{15}$ / $d=256$ \\
+Encoder & 4 pre-LN blocks, 4 heads, GELU FFN 1024, dropout 0.1, $T_{\max}=128$ \\
+Linear branch & v1.0 channels, $D=2^{15}$, zero init \\
+Loss & CE $+$ 1.0 KD ($\tau=2$) $+$ 0.1 consistency; intent-KD mask $\max p\ge0.6$ on support rows \\
+Optimizer & AdamW lr $5\times10^{-4}$, wd 0.01, 5\% warm-up, cosine, clip 1.0, fp16, batch 64 \\
+Epoch composition & 4{,}061 support $+$ 4{,}000 public labeled $+$ 8{,}000 pool (re-sampled) \\
+Regularization & token dropout 0.15; early stopping on validation NLL, patience 5, $\le$30 epochs \\
+Seeds & 42 (all variants); 43, 44 (student $+$ KD) \\
+Deployment & ONNX opset 17, dynamic INT8 (ONNX Runtime 1.30), 2 intra-op threads \\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -1769,6 +2613,21 @@ PYTHON=.venv/bin/python ./run.sh   # data, 4 models, audit, 13 tests (v1.1)
 # v1.1: interactive app with a model drop-down
 .venv/bin/python -m pip install -r requirements-app.txt
 .venv/bin/streamlit run app.py
+\end{lstlisting}
+
+\noindent v1.2 (\texttt{v12/}; GPU steps are Colab notebooks that run end to end):
+\begin{lstlisting}
+uv venv --python 3.12 .venv-v12
+uv pip install --python .venv-v12/bin/python -r v12/requirements-v12.txt
+cd v12
+make smoke        # CPU smoke test of every trainer, incl. disconnect + resume
+make bundle       # notebooks + bundle.zip for Colab/Kaggle
+# Colab T4: notebooks/01_teacher -> 02_teacher_kd -> 03_student ("Run all")
+unzip -o 01_teacher_outputs.zip -d runs/01_teacher && make eval-teacher
+unzip -o 02_teacher_kd_outputs.zip -d runs/02_teacher_kd && make teacher-v2
+unzip -o 03_student_outputs.zip -d runs/03_student && make deploy
+make compare      # results/phase5_table.md
+python predict.py "cancel mat karna, bas track karke batao"
 \end{lstlisting}
 
 \noindent Example output:
@@ -1788,7 +2647,11 @@ check, word-order sensitivity and loading of v1.0 checkpoints). v1.1 also adds
 \texttt{full.npz}, \texttt{strip\_symbols.npz}, \texttt{word\_only.npz} or
 \texttt{char\_word.npz}, and which plots the pooling weights $\bm\alpha$.
 v1.0 \texttt{.npz} files still load as linear-only models. v1.1 checkpoints
-store the attention arrays under \texttt{att\_*} keys. Bootstrap intervals, ECE and collision statistics in
+store the attention arrays under \texttt{att\_*} keys. v1.2 adds the
+\texttt{v12/polyglot12} package (hashing copy, teacher and student trainers,
+augmentation, near-duplicate index, evaluator, ONNX runtime),
+\texttt{v12/predict.py}, a data card (\texttt{v12/data/DATA\_CARD.md}), and
+\texttt{app.py} defaulting to the deployed student. Bootstrap intervals, ECE and collision statistics in
 this paper were computed from the released checkpoints by a separate
 read-only analysis script with bootstrap seed 0.
 
@@ -1866,6 +2729,46 @@ In \emph{Proc.\ ACL}, 2012.
 K.~Weinberger, A.~Dasgupta, J.~Langford, A.~Smola, and J.~Attenberg.
 Feature hashing for large scale multitask learning.
 In \emph{Proc.\ ICML}, 2009. \url{https://arxiv.org/abs/0902.2206}
+
+\bibitem{conneau2020xlmr}
+A.~Conneau, K.~Khandelwal, N.~Goyal, V.~Chaudhary, G.~Wenzek, F.~Guzm\'an, E.~Grave, M.~Ott, L.~Zettlemoyer, and V.~Stoyanov.
+Unsupervised cross-lingual representation learning at scale.
+In \emph{Proc.\ ACL}, 2020.
+
+\bibitem{hinton2015distilling}
+G.~Hinton, O.~Vinyals, and J.~Dean.
+Distilling the knowledge in a neural network.
+\emph{arXiv preprint arXiv:1503.02531}, 2015.
+
+\bibitem{khanuja2021muril}
+S.~Khanuja et~al.
+MuRIL: Multilingual representations for Indian languages.
+\emph{arXiv preprint arXiv:2103.10730}, 2021.
+
+\bibitem{nayak2022l3cube}
+R.~Nayak and R.~Joshi.
+L3Cube-HingCorpus and HingBERT: A code mixed Hindi-English dataset and BERT language models.
+In \emph{Proc.\ WILDRE-6 Workshop at LREC}, 2022. \url{https://arxiv.org/abs/2204.08398}
+
+\bibitem{srivastava2020phinc}
+V.~Srivastava and M.~Singh.
+PHINC: A parallel Hinglish social media code-mixed corpus for machine translation.
+In \emph{Proc.\ W-NUT Workshop at EMNLP}, 2020.
+
+\bibitem{vaswani2017attention}
+A.~Vaswani, N.~Shazeer, N.~Parmar, J.~Uszkoreit, L.~Jones, A.~N.~Gomez, {\L}.~Kaiser, and I.~Polosukhin.
+Attention is all you need.
+In \emph{Advances in Neural Information Processing Systems}, 2017.
+
+\bibitem{xiong2020layernorm}
+R.~Xiong, Y.~Yang, D.~He, K.~Zheng, S.~Zheng, C.~Xing, H.~Zhang, Y.~Lan, L.~Wang, and T.-Y.~Liu.
+On layer normalization in the Transformer architecture.
+In \emph{Proc.\ ICML}, 2020.
+
+\bibitem{zhou2018dog}
+K.~Zhou, S.~Prabhumoye, and A.~W.~Black.
+A dataset for document grounded conversations.
+In \emph{Proc.\ EMNLP}, 2018.
 
 \end{thebibliography}
 
