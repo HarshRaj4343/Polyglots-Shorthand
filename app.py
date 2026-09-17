@@ -4,12 +4,17 @@
 # Run:  .venv/bin/streamlit run app.py
 # Type a Hinglish customer message and see the predicted intent, sentiment,
 # confidence for every class, and whether a human should review it.
-# Uses the already-trained models in artifacts/*.npz (no training here); pick
-# one from the drop-down in the sidebar.
+# Default model: the v1.2 distilled student (ONNX INT8, v12/deploy/student_kd_s42),
+# the most accurate model with weights available locally on BOTH heads
+# (test accuracy intent 0.921 / sentiment 0.916 vs 0.905 / 0.847 for v1.1).
+# The v1.1 models in artifacts/*.npz stay selectable in the sidebar.
 # ============================================================================
 
+import json
+import sys
 from pathlib import Path
 
+import numpy as np
 import pandas as pd
 import streamlit as st
 
@@ -17,8 +22,31 @@ from model import INTENTS, SENTIMENTS, MAX_CHARS, Model, features
 
 ROOT = Path(__file__).resolve().parent
 ART = ROOT / 'artifacts'
+V12_DEPLOY = ROOT / 'v12' / 'deploy' / 'student_kd_s42'
+V12_KEY = 'v1.2 student + KD (ONNX INT8)'
+
+# Test-set accuracy (190 rows) from the evaluation reports, shown in the sidebar.
+def _load_accuracy():
+    acc = {}
+    try:
+        r = json.loads((ART / 'results.json').read_text())['models']
+        for mode, v in r.items():
+            acc[f'{mode}.npz'] = (v['test']['intent']['accuracy'], v['test']['sentiment']['accuracy'])
+    except (OSError, KeyError, ValueError):
+        pass
+    try:
+        c = json.loads((ROOT / 'v12' / 'results' / 'phase5_comparison.json').read_text())['full_reports']['deploy_int8']['test']
+        acc[V12_KEY] = (c['intent']['accuracy'], c['sentiment']['accuracy'])
+    except (OSError, KeyError, ValueError):
+        pass
+    return acc
+
+
+ACCURACY = _load_accuracy()
 # Order and short descriptions for the models produced by `solution.py reproduce`.
 MODEL_INFO = {
+    V12_KEY:             'v1.2: hashed word/alias/char pieces -> 4 transformer blocks + v1.0 linear branch, '
+                         'distilled from hing-roberta-mixed; 11.9M parameters, INT8 ONNX. Best available accuracy.',
     'full.npz':          'All features: words, char n-grams, aliases, emoji context + attention',
     'strip_symbols.npz': 'Like full, but emojis and punctuation are removed first',
     'word_only.npz':     'Words and word pairs only (no char n-grams / aliases) + attention',
@@ -55,9 +83,50 @@ st.set_page_config(page_title="Polyglot's Shorthand", layout='wide')
 # ---------------------------------------------------------------------------
 # Load the model once and reuse it for every request.
 # ---------------------------------------------------------------------------
+class StudentAdapter:
+    """Gives the v1.2 ONNX student the same interface the page uses for v1.1 models."""
+
+    def __init__(self, deploy_dir):
+        sys.path.insert(0, str(ROOT / 'v12'))
+        from polyglot12.runtime import StudentRuntime
+        self.rt = StudentRuntime(deploy_dir, precision='int8', threads=2)
+        cal = self.rt.meta['calibration']
+        self.mode = 'full (hashed pieces + transformer)'
+        self.att = True
+        self.temperature = [cal['intent']['temperature'], cal['sentiment']['temperature']]
+        self.threshold = [cal['intent']['review_threshold'], cal['sentiment']['review_threshold']]
+
+    def parameter_count(self):
+        return self.rt.meta['params']['total']
+
+    def predict(self, text):
+        return self.rt.predict(text)
+
+    def probabilities(self, text):
+        z = self.rt.logits(text)[0]
+        soft = lambda v: np.exp(v - v.max()) / np.exp(v - v.max()).sum()
+        return [soft(z[:6] / self.temperature[0]), soft(z[6:] / self.temperature[1])]
+
+    def attention_weights(self, text):
+        _, toks, alpha = self.rt.logits(text)
+        return list(zip(toks, (float(a) for a in alpha)))
+
+
+def student_available():
+    if not (V12_DEPLOY / 'meta.json').exists() or not (V12_DEPLOY / 'encoder.int8.onnx').exists():
+        return False, 'v1.2 student not exported (run `make -C v12 deploy`).'
+    try:
+        import onnxruntime  # noqa: F401
+    except ImportError:
+        return False, 'v1.2 student needs onnxruntime (`pip install -r requirements-app.txt`).'
+    return True, ''
+
+
 @st.cache_resource
-def load_model(path):
-    return Model.load(path)
+def load_model(choice):
+    if choice == V12_KEY:
+        return StudentAdapter(V12_DEPLOY)
+    return Model.load(ART / choice)
 
 
 # ---------------------------------------------------------------------------
@@ -95,8 +164,10 @@ st.title("The Polyglot's Shorthand")
 st.markdown('Classify **Hinglish customer-support messages** by *what the customer wants* '
             '(intent) and *how they feel* (sentiment).')
 
-available = sorted((p.name for p in ART.glob('*.npz')),
-                   key=lambda n: (list(MODEL_INFO).index(n) if n in MODEL_INFO else len(MODEL_INFO), n))
+ok_student, student_note = student_available()
+available = ([V12_KEY] if ok_student else []) + sorted(
+    (p.name for p in ART.glob('*.npz')),
+    key=lambda n: (list(MODEL_INFO).index(n) if n in MODEL_INFO else len(MODEL_INFO), n))
 if not available:
     st.error('No trained model found in `artifacts/`. '
              'Run `python solution.py reproduce` (or `./run.sh`) first.')
@@ -105,13 +176,21 @@ if not available:
 # Sidebar: model picker, model facts and honest limitations.
 with st.sidebar:
     st.header('Model')
-    choice = st.selectbox('Run inference with', available,
-                          help='All models are trained by `solution.py reproduce`.')
+    choice = st.selectbox('Run inference with', available, index=0,
+                          help='Default: the most accurate model available locally. v1.1 models are trained by '
+                               '`solution.py reproduce`; the v1.2 student by the v12 notebooks.')
     if choice in MODEL_INFO:
         st.caption(MODEL_INFO[choice])
+    if not ok_student:
+        st.info(student_note)
+    if choice in ACCURACY:
+        a, b = ACCURACY[choice]
+        c1, c2 = st.columns(2)
+        c1.metric('Test acc. intent', f'{a:.1%}')
+        c2.metric('Test acc. sentiment', f'{b:.1%}')
     try:
-        model = load_model(str(ART / choice))
-    except (ValueError, KeyError, OSError) as e:
+        model = load_model(choice)
+    except (ValueError, KeyError, OSError, ImportError) as e:
         st.error(f'Could not load `{choice}`: {e}')
         st.stop()
     st.divider()
@@ -122,9 +201,15 @@ with st.sidebar:
     st.write(f'Temperature — intent **{model.temperature[0]:.2f}**, sentiment **{model.temperature[1]:.2f}**')
     st.write(f'Review threshold — intent **{model.threshold[0]:.2f}**, sentiment **{model.threshold[1]:.2f}**')
     st.divider()
-    st.caption('Known limitations: sentiment is still weaker than intent, sarcasm and negation scope '
-               '("cancel mat karna…") can fool it, and the training data is small and synthetic. Every '
-               'message is forced into one of the 6 intents, even if unrelated.')
+    if choice == V12_KEY:
+        st.caption('Known limitations: the teacher it was distilled from is more accurate (not deployable here); '
+                   'negated negatives ("koi problem nahi hui") are often wrong; the review flag rarely fires '
+                   '(thresholds calibrated to 0); all evaluation data are synthetic. Every message is forced into '
+                   'one of the 6 intents.')
+    else:
+        st.caption('Known limitations: sentiment is still weaker than intent, sarcasm and negation scope '
+                   '("cancel mat karna…") can fool it, and the training data is small and synthetic. Every '
+                   'message is forced into one of the 6 intents, even if unrelated.')
 
 single_tab, batch_tab = st.tabs(['Single message', 'Batch (many messages)'])
 
