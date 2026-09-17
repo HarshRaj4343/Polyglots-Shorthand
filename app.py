@@ -4,7 +4,8 @@
 # Run:  .venv/bin/streamlit run app.py
 # Type a Hinglish customer message and see the predicted intent, sentiment,
 # confidence for every class, and whether a human should review it.
-# Uses the already-trained model in artifacts/full.npz (no training here).
+# Uses the already-trained models in artifacts/*.npz (no training here); pick
+# one from the drop-down in the sidebar.
 # ============================================================================
 
 from pathlib import Path
@@ -15,7 +16,14 @@ import streamlit as st
 from model import INTENTS, SENTIMENTS, MAX_CHARS, Model, features
 
 ROOT = Path(__file__).resolve().parent
-MODEL_PATH = ROOT / 'artifacts' / 'full.npz'
+ART = ROOT / 'artifacts'
+# Order and short descriptions for the models produced by `solution.py reproduce`.
+MODEL_INFO = {
+    'full.npz':          'All features: words, char n-grams, aliases, emoji context + attention',
+    'strip_symbols.npz': 'Like full, but emojis and punctuation are removed first',
+    'word_only.npz':     'Words and word pairs only (no char n-grams / aliases) + attention',
+    'char_word.npz':     'Words, word pairs and character n-grams + attention',
+}
 
 # Friendly display names for each label.
 INTENT_INFO = {
@@ -48,8 +56,8 @@ st.set_page_config(page_title="Polyglot's Shorthand", layout='wide')
 # Load the model once and reuse it for every request.
 # ---------------------------------------------------------------------------
 @st.cache_resource
-def load_model():
-    return Model.load(MODEL_PATH)
+def load_model(path):
+    return Model.load(path)
 
 
 # ---------------------------------------------------------------------------
@@ -59,7 +67,7 @@ def analyse(model, text):
     pred = model.predict(text)
     p_intent, p_sentiment = model.probabilities(text)
     n_features = len(features(text, model.mode)[0])
-    return pred, p_intent, p_sentiment, n_features
+    return pred, p_intent, p_sentiment, n_features, model.attention_weights(text)
 
 
 # ---------------------------------------------------------------------------
@@ -87,24 +95,36 @@ st.title("The Polyglot's Shorthand")
 st.markdown('Classify **Hinglish customer-support messages** by *what the customer wants* '
             '(intent) and *how they feel* (sentiment).')
 
-if not MODEL_PATH.exists():
-    st.error(f'Trained model not found at `{MODEL_PATH.relative_to(ROOT)}`. '
-             'Run `python solution.py train` (or `./run.sh`) first.')
+available = sorted((p.name for p in ART.glob('*.npz')),
+                   key=lambda n: (list(MODEL_INFO).index(n) if n in MODEL_INFO else len(MODEL_INFO), n))
+if not available:
+    st.error('No trained model found in `artifacts/`. '
+             'Run `python solution.py reproduce` (or `./run.sh`) first.')
     st.stop()
 
-model = load_model()
-
-# Sidebar: model facts and honest limitations.
+# Sidebar: model picker, model facts and honest limitations.
 with st.sidebar:
+    st.header('Model')
+    choice = st.selectbox('Run inference with', available,
+                          help='All models are trained by `solution.py reproduce`.')
+    if choice in MODEL_INFO:
+        st.caption(MODEL_INFO[choice])
+    try:
+        model = load_model(str(ART / choice))
+    except (ValueError, KeyError, OSError) as e:
+        st.error(f'Could not load `{choice}`: {e}')
+        st.stop()
+    st.divider()
     st.header('About the model')
-    st.metric('Parameters', f'{model.w.size + model.b.size:,}')
+    st.metric('Parameters', f'{model.parameter_count():,}')
     st.metric('Feature mode', model.mode)
+    st.metric('Attention layer', 'yes' if model.att is not None else 'no')
     st.write(f'Temperature — intent **{model.temperature[0]:.2f}**, sentiment **{model.temperature[1]:.2f}**')
     st.write(f'Review threshold — intent **{model.threshold[0]:.2f}**, sentiment **{model.threshold[1]:.2f}**')
     st.divider()
-    st.caption('Known limitations: sentiment is much weaker than intent, sarcasm is usually missed, '
-               'and negation scope ("cancel mat karna…") can fool it. Every message is forced into one '
-               'of the 6 intents, even if unrelated.')
+    st.caption('Known limitations: sentiment is still weaker than intent, sarcasm and negation scope '
+               '("cancel mat karna…") can fool it, and the training data is small and synthetic. Every '
+               'message is forced into one of the 6 intents, even if unrelated.')
 
 single_tab, batch_tab = st.tabs(['Single message', 'Batch (many messages)'])
 
@@ -124,7 +144,7 @@ with single_tab:
 
     if st.button('Analyse', type='primary'):
         try:
-            pred, p_int, p_sent, n_feat = analyse(model, text)
+            pred, p_int, p_sent, n_feat, att = analyse(model, text)
         except (ValueError, TypeError) as e:   # empty or over-long input
             st.error(f'Cannot analyse this message: {e}')
         else:
@@ -135,9 +155,14 @@ with single_tab:
             with right:
                 result_card('SENTIMENT — how the customer feels', pred['sentiment'], SENTIMENTS, p_sent,
                             SENTIMENT_INFO, model.threshold[1])
+            if att:
+                with st.expander('Attention: which words the model focused on', expanded=True):
+                    st.bar_chart(pd.DataFrame({'token': [f'{i+1}. {t}' for i, (t, _) in enumerate(att)],
+                                               'attention': [a for _, a in att]}),
+                                 x='token', y='attention', height=240)
             with st.expander('Raw JSON output'):
-                st.json(pred)
-            st.caption(f'{n_feat} active hashed features were used for this message.')
+                st.json({'model': choice, **pred})
+            st.caption(f'Model `{choice}` - {n_feat} active hashed features were used for this message.')
 
 # ------------------------------- batch mode ---------------------------------
 with batch_tab:
@@ -162,7 +187,7 @@ with batch_tab:
             for msg in messages:
                 try:
                     p = model.predict(msg)
-                    rows.append({'text': msg,
+                    rows.append({'text': msg, 'model': choice,
                                  'intent': p['intent']['label'],
                                  'intent_conf': round(p['intent']['confidence'], 3),
                                  'sentiment': p['sentiment']['label'],
@@ -170,7 +195,7 @@ with batch_tab:
                                  'needs_review': p['intent']['review_required'] or p['sentiment']['review_required'],
                                  'error': ''})
                 except (ValueError, TypeError) as e:   # one bad line must not stop the batch
-                    rows.append({'text': msg, 'intent': None, 'intent_conf': None, 'sentiment': None,
+                    rows.append({'text': msg, 'model': choice, 'intent': None, 'intent_conf': None, 'sentiment': None,
                                  'sentiment_conf': None, 'needs_review': None, 'error': str(e)})
             df = pd.DataFrame(rows)
             ok = df[df['error'] == '']

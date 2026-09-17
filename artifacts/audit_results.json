@@ -1,8 +1,8 @@
 {
   "intent": {
     "n": 24,
-    "accuracy": 0.9583333333333334,
-    "macro_f1": 0.9576719576719577,
+    "accuracy": 0.875,
+    "macro_f1": 0.865079365079365,
     "per_class": {
       "cancel_order": {
         "precision": 0.8,
@@ -18,26 +18,26 @@
       },
       "track_order": {
         "precision": 1.0,
-        "recall": 0.75,
-        "f1": 0.8571428571428571,
+        "recall": 0.5,
+        "f1": 0.6666666666666666,
         "support": 4
       },
       "not_received": {
-        "precision": 1.0,
+        "precision": 0.8,
         "recall": 1.0,
-        "f1": 1.0,
+        "f1": 0.8888888888888888,
         "support": 4
       },
       "damaged_item": {
         "precision": 1.0,
-        "recall": 1.0,
-        "f1": 1.0,
+        "recall": 0.75,
+        "f1": 0.8571428571428571,
         "support": 4
       },
       "feedback": {
-        "precision": 1.0,
+        "precision": 0.8,
         "recall": 1.0,
-        "f1": 1.0,
+        "f1": 0.8888888888888888,
         "support": 4
       }
     },
@@ -61,25 +61,25 @@
       [
         1,
         0,
+        2,
+        0,
+        0,
+        1
+      ],
+      [
+        0,
+        0,
+        0,
+        4,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        1,
         3,
-        0,
-        0,
-        0
-      ],
-      [
-        0,
-        0,
-        0,
-        4,
-        0,
-        0
-      ],
-      [
-        0,
-        0,
-        0,
-        0,
-        4,
         0
       ],
       [
@@ -99,24 +99,24 @@
       "damaged_item",
       "feedback"
     ],
-    "coverage": 1.0,
-    "accepted_accuracy": 0.9583333333333334
+    "coverage": 0.9166666666666666,
+    "accepted_accuracy": 0.9545454545454546
   },
   "sentiment": {
     "n": 24,
-    "accuracy": 0.9166666666666666,
-    "macro_f1": 0.8305171530977983,
+    "accuracy": 0.875,
+    "macro_f1": 0.8062558356676003,
     "per_class": {
       "negative": {
-        "precision": 0.8571428571428571,
-        "recall": 0.8571428571428571,
-        "f1": 0.8571428571428571,
+        "precision": 0.7,
+        "recall": 1.0,
+        "f1": 0.8235294117647058,
         "support": 7
       },
       "neutral": {
-        "precision": 0.9375,
-        "recall": 1.0,
-        "f1": 0.967741935483871,
+        "precision": 1.0,
+        "recall": 0.8666666666666667,
+        "f1": 0.9285714285714286,
         "support": 15
       },
       "positive": {
@@ -128,13 +128,13 @@
     },
     "confusion_matrix": [
       [
-        6,
-        1,
+        7,
+        0,
         0
       ],
       [
-        0,
-        15,
+        2,
+        13,
         0
       ],
       [
@@ -148,27 +148,27 @@
       "neutral",
       "positive"
     ],
-    "coverage": 0.5,
-    "accepted_accuracy": 1.0
+    "coverage": 0.875,
+    "accepted_accuracy": 0.9523809523809523
   },
   "errors": [
     {
-      "text": "order cancellation chahiye bahut bekar experience hua",
-      "group": "audit-02",
+      "text": "mujhe booking cancel karni padegi kal ghar pe nahi hu",
+      "group": "audit-01",
       "expected": {
         "intent": "cancel_order",
-        "sentiment": "negative"
+        "sentiment": "neutral"
       },
       "predicted": {
         "intent": {
           "label": "cancel_order",
-          "confidence": 0.943138837814331,
+          "confidence": 0.9955644521864071,
           "review_required": false
         },
         "sentiment": {
-          "label": "neutral",
-          "confidence": 0.7692825794219971,
-          "review_required": true
+          "label": "negative",
+          "confidence": 0.7545205648587684,
+          "review_required": false
         }
       }
     },
@@ -182,12 +182,52 @@
       "predicted": {
         "intent": {
           "label": "cancel_order",
-          "confidence": 0.9961993098258972,
+          "confidence": 0.9965679406837445,
           "review_required": false
         },
         "sentiment": {
           "label": "neutral",
-          "confidence": 0.9133630990982056,
+          "confidence": 0.937355658246754,
+          "review_required": false
+        }
+      }
+    },
+    {
+      "text": "delivery phir late ghatiya service",
+      "group": "audit-07",
+      "expected": {
+        "intent": "track_order",
+        "sentiment": "negative"
+      },
+      "predicted": {
+        "intent": {
+          "label": "feedback",
+          "confidence": 0.5402312688092601,
+          "review_required": true
+        },
+        "sentiment": {
+          "label": "negative",
+          "confidence": 0.9735245908390099,
+          "review_required": false
+        }
+      }
+    },
+    {
+      "text": "parcel aaya par glass broken hai",
+      "group": "audit-16",
+      "expected": {
+        "intent": "damaged_item",
+        "sentiment": "neutral"
+      },
+      "predicted": {
+        "intent": {
+          "label": "not_received",
+          "confidence": 0.5669924445552024,
+          "review_required": true
+        },
+        "sentiment": {
+          "label": "neutral",
+          "confidence": 0.8173652710735496,
           "review_required": false
         }
       }
@@ -202,12 +242,32 @@
       "predicted": {
         "intent": {
           "label": "feedback",
-          "confidence": 0.9664031267166138,
+          "confidence": 0.9987488842888639,
           "review_required": false
         },
         "sentiment": {
           "label": "negative",
-          "confidence": 0.6695988774299622,
+          "confidence": 0.5332080812523149,
+          "review_required": true
+        }
+      }
+    },
+    {
+      "text": "normal sa experience tha nothing special",
+      "group": "audit-23",
+      "expected": {
+        "intent": "feedback",
+        "sentiment": "neutral"
+      },
+      "predicted": {
+        "intent": {
+          "label": "feedback",
+          "confidence": 0.9997697944478061,
+          "review_required": false
+        },
+        "sentiment": {
+          "label": "negative",
+          "confidence": 0.5874726120860441,
           "review_required": true
         }
       }

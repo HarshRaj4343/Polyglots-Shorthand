@@ -1,3 +1,5 @@
+test_attention_gradients (test_solution.SolutionTests.test_attention_gradients) ... ok
+test_attention_order_and_legacy_load (test_solution.SolutionTests.test_attention_order_and_legacy_load) ... ok
 test_case_and_whitespace (test_solution.SolutionTests.test_case_and_whitespace) ... ok
 test_emoji_preserved (test_solution.SolutionTests.test_emoji_preserved) ... ok
 test_input_limits (test_solution.SolutionTests.test_input_limits) ... ok
@@ -11,6 +13,6 @@ test_symbol_ablation (test_solution.SolutionTests.test_symbol_ablation) ... ok
 test_unicode_and_zwj (test_solution.SolutionTests.test_unicode_and_zwj) ... ok
 
 ----------------------------------------------------------------------
-Ran 11 tests in 0.065s
+Ran 13 tests in 0.329s
 
 OK

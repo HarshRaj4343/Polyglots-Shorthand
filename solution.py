@@ -145,7 +145,7 @@ def benchmark(model,rows,repeats=600):
     texts=[r['text'] for r in rows]
     sample='mera order delivered bol raha hai but mila hi nahi 😒 '
     lengths={str(n):measure([(sample*20)[:n]]) for n in (32,128,512)}
-    return {'scope':'Warm, serial, batch=1. Includes text normalization, features, both heads and JSON serialization. Excludes process startup, model loading, network and queueing.',
+    return {'scope':'Warm, serial, batch=1. Includes text normalization, features, attention branch, both heads and JSON serialization. Excludes process startup, model loading, network and queueing.',
             'test_messages':measure(texts),'fixed_length_synthetic':lengths}
 
 # ---------------------------------------------------------------------------
@@ -172,6 +172,7 @@ def reproduce():
         # Collect all evaluations for this model.
         result={'training_seconds':elapsed,'best_epoch':model.best_epoch,
                 'temperature':model.temperature,'review_threshold':model.threshold,
+                'validation_nll':model.nll(parts['validation']),
                 'validation':evaluate(model,parts['validation']),
                 'test':evaluate(model,parts['test']),
                 'stress_test':stress_evaluate(model,parts['test']),
@@ -180,13 +181,23 @@ def reproduce():
         # Print a one-line progress summary.
         print(json.dumps({'mode':mode,'test_intent_f1':result['test']['intent']['macro_f1'],
                           'test_sentiment_f1':result['test']['sentiment']['macro_f1'],
+                          'test_positive_recall':result['test']['sentiment']['per_class']['positive']['recall'],
                           'seconds':elapsed}),flush=True)
+    # Baseline without the attention branch (metrics only, not saved), so the
+    # effect of attention on the same data is visible in results.json.
+    print('Training full (linear only baseline)',flush=True)
+    base=Model('full',attention=False).fit(parts['train'],parts['validation'])
+    base.calibrate(parts['validation'])
+    summary['baseline_full_linear_only']={'best_epoch':base.best_epoch,
+        'validation_nll':base.nll(parts['validation']),
+        'test':evaluate(base,parts['test']),'stress_test':stress_evaluate(base,parts['test']),
+        'emoji_pairs':emoji_pairs(base,parts['test'])}
     # Reload the saved main model (proves save/load works) and benchmark it.
     model=Model.load(ART/'full.npz')
     summary['benchmark']=benchmark(model,parts['test'])
     # Model size information.
-    summary['parameter_count']=int(model.w.size+model.b.size)
-    summary['weight_bytes']=int(model.w.nbytes+model.b.nbytes)
+    summary['parameter_count']=int(model.parameter_count())
+    summary['weight_bytes']=int(model.w.nbytes+model.b.nbytes+sum(x.nbytes for x in model.att.params.values()))
     summary['saved_model_bytes']=(ART/'full.npz').stat().st_size
     # Record the machine/software environment (CPU name via sysctl on macOS).
     cpu=platform.processor()

@@ -112,6 +112,139 @@ SEEDS = {
 ('u','bas feedback dena tha koi khas baat nahi')]
 }
 
+# Enrichment (v2). The original seeds had positive sentiment ONLY inside
+# `feedback` (8 seeds), so the model learned "positive == feedback" and test
+# recall for positive was 0. These extra seeds add positive tone to EVERY
+# intent, harder negatives/neutrals, negation ("accha nahi laga"), English-heavy
+# code-mixing and longer multi-clause messages where context decides the label.
+MORE_SEEDS = {
+'cancel_order': [
+('p','thank you team bas mera order cancel kar do please 😊'),
+('p','aap log bahut helpful ho ek order cancel karna tha'),
+('p','shukriya jaldi reply ke liye booking cancel kar dijiye'),
+('p','great service hamesha is baar order cancel karna padega'),
+('p','love this app 😍 bas galat size order ho gaya cancel kar do'),
+('p','bahut accha support mila cancellation ho gaya thanks'),
+('p','itni fast cancellation ke liye dil se dhanyavaad 🙏'),
+('p','awesome team order cancel karne mein help karo please'),
+('p','cancel ho gaya bina kisi hassle ke superb experience'),
+('p','aapka app mast hai bas ye wala order cancel kar do'),
+('p','khushi hui itni aasaan cancellation dekh ke thank you'),
+('n','teen baar cancel dabaya kuch nahi hua ghatiya app 😡'),
+('n','cancel karne ke paise kaat liye ye toh loot hai'),
+('n','order cancel kyun nahi ho raha bakwaas system'),
+('n','customer care phone nahi uthata cancel kaise karu 😤'),
+('n','bina puche order confirm kar diya turant cancel karo bekar'),
+('n','sabse worst app cancel button hi kaam nahi karta'),
+('n','ye order chahiye hi nahi tha cancel karo bahut gussa aa raha hai'),
+('n','cancellation reject kyun kiya faltu policy hai'),
+('u','order number 4521 cancel karna hai'),
+('u','kya shipped order bhi cancel ho sakta hai'),
+('u','cash on delivery wala order cancel karna hai'),
+('u','cancel karne par koi charge lagega kya'),
+('u','subscription cancel karni hai next month se')],
+'refund': [
+('p','refund aa gaya account mein thank you so much 😊'),
+('p','itni jaldi refund mil gaya bahut badiya'),
+('p','paise wapas aa gaye great support team'),
+('p','refund process ekdum smooth tha khush hu'),
+('p','shukriya refund do din mein credit ho gaya'),
+('p','aap logon ne refund jaldi kar diya dil se thanks 🙏'),
+('p','wallet mein refund turant mila awesome service'),
+('p','refund ke liye itni acchi help mili superb'),
+('p','agent bahut helpful tha refund status clear kar diya'),
+('p','love the quick refund ekdum mast'),
+('n','refund ke naam pe sirf jhooth bolte ho 😡'),
+('n','ek mahina ho gaya paise nahi aaye bakwaas'),
+('n','refund amount kam kyun bheja ye cheating hai'),
+('n','har baar bolte ho teen din mein aayega faltu log'),
+('n','mera paisa kha gaye kya refund do abhi 😤'),
+('n','refund pending pending pending bahut ghatiya service'),
+('u','refund upi mein aayega ya card mein'),
+('u','partial refund ka calculation samjha do'),
+('u','refund ka reference number chahiye'),
+('u','cod order ka refund kaise milega')],
+'track_order': [
+('p','order time pe aa raha hai thanks for the update 😊'),
+('p','tracking bahut accurate hai great app'),
+('p','delivery boy bahut polite tha abhi location share kar do'),
+('p','itni fast shipping wah kab tak pahunchega'),
+('p','thank you tracking link mil gaya super helpful'),
+('p','aapka tracking feature mast hai parcel kal aayega na'),
+('p','shukriya update ke liye order ka status dekh liya'),
+('p','love it order ek din pehle hi dispatch ho gaya 😍'),
+('p','bahut accha laga live tracking dekh ke'),
+('p','excellent service bas delivery time confirm kar do'),
+('n','paanch din se out for delivery dikha raha hai bakwaas 😡'),
+('n','tracking page hamesha error deta hai ghatiya'),
+('n','kal aana tha abhi tak nahi aaya koi jawab nahi deta'),
+('n','courier wale ka number band hai bahut frustrating 😤'),
+('n','har din nayi delivery date jhoothe log'),
+('n','order kahan gaya kisi ko pata hi nahi worst'),
+('n','bahut der ho gayi status batao warna complaint karunga'),
+('u','awb number se track kaise karu'),
+('u','order shipped hua hai kya'),
+('u','kaunsa courier partner hai mere order ka')],
+'not_received': [
+('p','aap log hamesha reliable ho is baar parcel delivered dikha ke nahi mila check kar do 🙏'),
+('p','thank you quick reply ke liye order delivered hai lekin mujhe mila nahi'),
+('p','support team bahut acchi hai ek parcel receive nahi hua usme help karo'),
+('p','shukriya aapne turant complaint le li parcel nahi mila tha'),
+('p','missing parcel neighbour ke paas mil gaya thank you 😊'),
+('p','delivered dikha raha tha par mila nahi aapne replacement bhej diya thanks a lot'),
+('n','delivered likha hai par ghar pe kuch nahi aaya fraud hai kya 😡'),
+('n','teesri baar parcel gayab ghatiya delivery'),
+('n','guard bhi bol raha koi parcel nahi aaya bakwaas service'),
+('n','order mila nahi aur complaint bhi close kar di 😤'),
+('n','delivery boy ne fake otp daal diya saman mila hi nahi'),
+('u','delivered status aaya but parcel receive nahi hua'),
+('u','parcel receive nahi hua delivery otp bhi nahi aaya'),
+('u','kisi ne mera parcel receive kiya kya mere paas nahi aaya'),
+('u','delivered bola hai lekin mere address pe nahi pahuncha')],
+'damaged_item': [
+('p','item thoda damage tha par replacement fast mila thank you 😊'),
+('p','packaging usually acchi hoti hai is baar product toota aaya replace kar do please'),
+('p','aapki team ne damaged phone ka turant replacement diya great'),
+('p','shukriya broken glass ki photo bhej di aap log bahut helpful ho'),
+('p','cracked screen tha lekin support superb tha exchange ho gaya'),
+('p','love your service bas mug toota hua mila replace kar do 🙏'),
+('n','naya phone aur screen pe crack ye kaisi quality hai 😡'),
+('n','dusri baar bhi toota hua item bheja bakwaas'),
+('n','kharab product bheja aur return bhi nahi le rahe bahut gussa'),
+('n','shoes phate hue the worst packaging ever 😤'),
+('n','expiry wala saman bheja sab kharab nikla'),
+('u','mixer grinder ka lid damaged aaya hai'),
+('u','product dented hai return request dalni hai'),
+('u','bottle ka cap tuta hua hai'),
+('u','laptop pe dent hai replacement policy kya hai')],
+'feedback': [
+('p','delivery boy ka behaviour bahut accha tha'),
+('p','app use karna bahut easy hai love it ❤️'),
+('p','best shopping experience ever thank you'),
+('p','customer care ne dil khush kar diya'),
+('p','packaging bahut sundar thi great job'),
+('p','aapki service se hamesha satisfied rehta hu'),
+('p','five star service keep it up 👍'),
+('p','bahut shukriya itne acche support ke liye 🙏'),
+('p','quality ekdum top class thi maza aa gaya'),
+('p','fast delivery aur acche daam superb'),
+('n','app bahut slow hai bilkul pasand nahi aaya'),
+('n','customer care ka behaviour rude tha 😡'),
+('n','worst experience dobara order nahi karunga'),
+('n','support wale sirf script padhte hain useless'),
+('n','itna bura experience kabhi nahi hua'),
+('n','service accha nahi laga kaafi disappointed hu'),
+('n','quality ghatiya thi paisa barbaad 😤'),
+('u','app ka naya update theek hai'),
+('u','delivery time normal tha'),
+('u','app ke liye kuch suggestions dene the'),
+('u','packaging theek thi kuch khaas nahi'),
+('u','bas rating dena tha'),
+('u','experience okay tha')],
+}
+for _intent, _extra in MORE_SEEDS.items():
+    SEEDS[_intent] = SEEDS[_intent] + _extra
+
 # Sentiment Categories: p = positive, n = negative, u = neutral.
 # Intent Categories: cancel_order, refund, track_order, not_received, damaged_item, feedback.
 
@@ -123,13 +256,26 @@ SHORT = {'kar':'kr','karo':'kro','karna':'krna','raha':'rha','rahe':'rhe',
 def shorthand(text):
     return ' '.join(SHORT.get(t,t) for t in text.split())
 
-def variants(text):
+# Alternative spellings / code-switches. Deliberately DIFFERENT from the stress
+# test's misspellings in solution.py, so that stress test stays unseen.
+SPELLING = {'order':'ordr','delivery':'delivry','service':'servis','parcel':'parcl',
+            'bahut':'bohot','accha':'acha','thank':'thnk','paise':'money',
+            'jaldi':'fast','mujhe':'mujhko','chahiye':'chaiye','kab':'when'}
+# Tone-free openers people type before the real message.
+OPENERS = ['bhai','hello team','hi','sir','dekhiye','ji']
+
+def respell(text):
+    return ' '.join(SPELLING.get(t,t) for t in text.split())
+
+def variants(text, rng=None):
     # Do not add/delete negation, emojis or sentiment-bearing punctuation.
-    # Returns up to 3 unique versions: original, shorthand, and a misspelled
-    # version ("ordr", "delivry", "servis"). dict.fromkeys removes duplicates
-    # while keeping order.
-    return list(dict.fromkeys([text, shorthand(text),
-                              text.replace('order','ordr').replace('delivery','delivry').replace('service','servis')]))
+    # Returns up to 5 unique versions: original, shorthand, respelled,
+    # shorthand+respelled and (when an rng is given) a tone-free opener.
+    # dict.fromkeys removes duplicates while keeping order.
+    forms = [text, shorthand(text), respell(text), shorthand(respell(text))]
+    if rng is not None:
+        forms.append(rng.choice(OPENERS) + ' ' + text)
+    return list(dict.fromkeys(forms))
 
 
 def build(root):
@@ -154,7 +300,7 @@ def build(root):
                 forms += [(text+' 😊','positive'),(text+' 😒','negative')]
             # Add every spelling variant as its own row, all in the seed's split.
             for base,sentiment in forms:
-                for text_variant in variants(base):
+                for text_variant in variants(base, rng):
                     rows.append({'text':text_variant,'intent':intent,'sentiment':sentiment,
                                  'group':group,'split':assignments[i], 'language':'hi-en',
                                  'source':'authored_synthetic'})

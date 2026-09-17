@@ -5,7 +5,9 @@ This is a complete, runnable reference solution for Question 4 of the CS/AI prac
 1. **Intent classification** - determines what the customer wants.
 2. **Sentiment classification** - estimates whether the expressed tone is negative, neutral, or positive.
 
-The system uses Unicode-preserving preprocessing, word and character features, fixed-size feature hashing, and two linear softmax classifiers written with NumPy. It needs no GPU, API key, external model, or large ML framework.
+The system uses Unicode-preserving preprocessing, word and character features, fixed-size feature hashing, and two softmax heads written with NumPy. Each head's score is the sum of a linear branch (hashed features) and a small **self-attention branch** (hashed token embeddings + position embeddings, one self-attention layer, attention pooling) that sees word order and context. Gradients are written by hand. It needs no GPU, API key, external model, or large ML framework.
+
+**v2 update.** The training data was enriched from 96 to 213 seeds (884 rows, up from 221). Positive sentiment now appears in every intent, not only `feedback`, and more respelling and opener variants were added. The attention branch was also added. On the new development test, full-model sentiment macro-F1 is 0.845, with positive recall 0.72; the original model had 0.423 and a positive recall of 0/10. A linear-only model trained on the same new data reaches 0.810, recorded in `results.json` as `baseline_full_linear_only`. The Streamlit app (`app.py`) has a sidebar drop-down to choose `full.npz`, `strip_symbols.npz`, `word_only.npz` or `char_word.npz`, and shows the attention weight on each token.
 
 This is a measured baseline. Intent is the stronger task. Sentiment, sarcasm, and long-distance negation remain difficult; the supplied reports document those failures.
 
@@ -23,7 +25,8 @@ Q4_Polyglots_Shorthand/
 |-- solution.py                  # CLI, evaluation, ablations, stress test, benchmark
 |-- audit.py                     # Separate post-development audit runner
 |-- audit.jsonl                  # 24 additional audit examples
-|-- test_solution.py             # 11 implementation tests
+|-- test_solution.py             # 13 implementation tests
+|-- app.py                       # Streamlit UI with model drop-down
 |-- data/
 |   |-- train.jsonl              # Generated training split
 |   |-- validation.jsonl         # Model-selection/calibration split
@@ -208,7 +211,7 @@ from pathlib import Path
 ('u', 'bhai refund kab tak aayega')
 ```
 
-contains a sentiment code and text. Codes are `n` for negative, `u` for neutral, and `p` for positive. There are 96 base seeds total. No customer data or downloaded corpus is used.
+contains a sentiment code and text. Codes are `n` for negative, `u` for neutral, and `p` for positive. There are 213 base seeds total (96 original + 117 added in `MORE_SEEDS`). No customer data or downloaded corpus is used.
 
 Most positive examples belong to `feedback`, creating an intent-sentiment correlation. This helps explain why sentiment generalizes poorly.
 
@@ -324,7 +327,7 @@ The class initializes:
 - two review thresholds;
 - the chosen feature mode.
 
-The learned arrays contain `32768 * 9 + 9 = 294,921` parameters, far below 500 million.
+The linear arrays contain `32768 * 9 + 9 = 294,921` parameters and the attention branch adds `16384*32 + 128*32 + 4*32*32 + 32 + 32*9 = 532,800`, for 827,721 in total, far below 500 million.
 
 ### `probabilities(text)` and `predict(text)`
 
@@ -642,27 +645,38 @@ Confusion-matrix rows are true labels and columns are predicted labels. Always u
 
 | Metric | Result |
 |---|---:|
-| Learned weights and biases | 294,921 |
-| Float32 array storage | 1,179,684 bytes |
-| Compressed full checkpoint | 105,953 bytes |
-| Development test | 58 rows from 22 seed groups |
-| Full intent accuracy / macro-F1 | 81.0% / 0.820 |
-| Full sentiment accuracy / macro-F1 | 60.3% / 0.423 |
-| Spelling-stress intent macro-F1 | 0.717 |
+| Learned weights and biases (linear + attention) | 827,721 |
+| Float32 array storage | 3,310,884 bytes |
+| Compressed full checkpoint | 2,222,197 bytes |
+| Development test | 190 rows from 44 seed groups |
+| Full intent accuracy / macro-F1 | 90.5% / 0.901 |
+| Full sentiment accuracy / macro-F1 | 84.7% / 0.845 |
+| Positive sentiment precision / recall | 0.94 / 0.72 |
+| Linear-only baseline (same data) intent / sentiment macro-F1 | 0.860 / 0.810 |
+| Spelling-stress intent macro-F1 | 0.865 |
 | Frozen synthetic audit | 24 messages |
-| Audit intent accuracy / macro-F1 | 95.8% / 0.958 |
-| Audit sentiment accuracy / macro-F1 | 91.7% / 0.831 |
-| Warm development-message p95 | 0.218 ms |
-| Warm repeated 512-code-point p95 | 0.847 ms |
+| Audit intent accuracy / macro-F1 | 87.5% / 0.865 |
+| Audit sentiment accuracy / macro-F1 | 87.5% / 0.806 |
+| Warm development-message p95 | 0.427 ms |
+| Warm repeated 512-code-point p95 | 1.581 ms |
 
-Timing environment: Darwin 25.6.0, arm64, Python 3.12.14, NumPy 2.3.5. The exact CPU model was unavailable. Timings exclude loading, startup, transport, queues, framework overhead, and concurrency.
+| Model | Test intent macro-F1 | Test sentiment macro-F1 |
+|---|---:|---:|
+| `full` | 0.901 | 0.845 |
+| `char_word` | 0.901 | 0.831 |
+| `word_only` | 0.847 | 0.827 |
+| `strip_symbols` | 0.888 | 0.760 |
+
+Timing environment: Darwin 25.6.0, arm64 (Apple M2), Python 3.14.7, NumPy 2.3.5. The v2 test split is regenerated from the enriched seeds, so its numbers are not directly comparable with v1's 58-row test. Timings exclude loading, startup, transport, queues, framework overhead, and concurrency.
 
 The development test influenced code fixes and is not a blind benchmark. The later audit was not used for more tuning but is also small and synthetic. Their score difference demonstrates sampling sensitivity.
 
 ## 16. Known failures and limitations
 
-- Positive sentiment recall is 0/10 on the development test.
-- Both labels are correct on 0/5 held-out praise-versus-`😒` pairs; these come from only two seed groups.
+- Positive sentiment recall is 44/61 (0.72) on the development test. Most misses are praise mixed with a complaint in the same message, predicted as negative.
+- Both labels are correct on 9/12 (0.75) held-out praise-versus-`😒` pairs.
+- The frozen 24-message audit got worse after v2: 6 errors, up from 3. New errors include `mujhe booking cancel karni padegi kal ghar pe nahi hu` (predicted negative) and `normal sa experience tha nothing special` (predicted negative). The added negative seeds with `nahi` pushed some neutral negations toward negative. The audit is tiny, so this is noisy, but it was deliberately not used for tuning.
+- Attention hyper-parameters (learning rates, token dropout 0.2, decay) were chosen by validation NLL only.
 - `cancel mat karna sirf order track karke batao` is incorrectly classified as cancellation with about 0.996 confidence. The model retains negation but does not reliably understand its scope.
 - `bohot badhiya service` is incorrectly negative in the audit, so the motivating sarcasm contrast is not reliably solved.
 - Temperature scaling adjusts probability sharpness but cannot fix systematic errors.
