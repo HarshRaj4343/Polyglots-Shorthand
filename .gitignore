@@ -9,3 +9,4 @@ v12/data/public/
 v12/data/kd/kd_public_labeled.jsonl
 v12/data/kd/kd_pool.jsonl
 v12/deploy/*/embeddings.npz
+v12/deploy/*/encoder*.onnx

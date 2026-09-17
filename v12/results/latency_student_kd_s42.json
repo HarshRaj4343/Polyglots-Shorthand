@@ -1,0 +1,255 @@
+{
+  "protocol": "Warm, serial, batch=1, 80 warm-up + 600 timed calls. Includes hashing, piece-embedding mean, ONNX encoder, linear branch, calibration and JSON serialization. Excludes process start-up, model loading, network, queueing.",
+  "configs": {
+    "int8_threads1": {
+      "test_messages": {
+        "requests": 600,
+        "p50_ms": 0.634688,
+        "p95_ms": 0.91852295,
+        "p99_ms": 1.15016625,
+        "messages_per_second": 1496.943738619532
+      },
+      "fixed_length_synthetic": {
+        "32": {
+          "requests": 600,
+          "p50_ms": 0.48754200000000003,
+          "p95_ms": 0.5530473,
+          "p99_ms": 0.6386633399999999,
+          "messages_per_second": 2002.1843297121338
+        },
+        "128": {
+          "requests": 600,
+          "p50_ms": 1.523021,
+          "p95_ms": 1.6771246999999998,
+          "p99_ms": 1.8156666699999997,
+          "messages_per_second": 644.8782317707154
+        },
+        "512": {
+          "requests": 600,
+          "p50_ms": 5.635604,
+          "p95_ms": 5.977054149999999,
+          "p99_ms": 6.237842999999999,
+          "messages_per_second": 174.34180009427695
+        }
+      }
+    },
+    "int8_threads2": {
+      "test_messages": {
+        "requests": 600,
+        "p50_ms": 0.5671045,
+        "p95_ms": 0.8061931,
+        "p99_ms": 0.8964525,
+        "messages_per_second": 1685.66690466785
+      },
+      "fixed_length_synthetic": {
+        "32": {
+          "requests": 600,
+          "p50_ms": 0.4438335,
+          "p95_ms": 0.48653929999999995,
+          "p99_ms": 0.6117820899999998,
+          "messages_per_second": 2204.858957928535
+        },
+        "128": {
+          "requests": 600,
+          "p50_ms": 1.234146,
+          "p95_ms": 1.3140417,
+          "p99_ms": 1.4238020799999997,
+          "messages_per_second": 802.4069533911892
+        },
+        "512": {
+          "requests": 600,
+          "p50_ms": 4.0432085,
+          "p95_ms": 4.293499399999999,
+          "p99_ms": 4.544039819999999,
+          "messages_per_second": 242.0240267997271
+        }
+      }
+    },
+    "int8_threads4": {
+      "test_messages": {
+        "requests": 600,
+        "p50_ms": 0.5288539999999999,
+        "p95_ms": 0.7730455499999997,
+        "p99_ms": 0.9465021699999998,
+        "messages_per_second": 1782.0037667104618
+      },
+      "fixed_length_synthetic": {
+        "32": {
+          "requests": 600,
+          "p50_ms": 0.418625,
+          "p95_ms": 0.48728954999999974,
+          "p99_ms": 0.6093543399999998,
+          "messages_per_second": 2324.155823027155
+        },
+        "128": {
+          "requests": 600,
+          "p50_ms": 1.075479,
+          "p95_ms": 1.3023600999999998,
+          "p99_ms": 1.535877,
+          "messages_per_second": 902.5705778677136
+        },
+        "512": {
+          "requests": 600,
+          "p50_ms": 3.1612915,
+          "p95_ms": 3.452333,
+          "p99_ms": 3.8355149999999996,
+          "messages_per_second": 305.5223223932263
+        }
+      }
+    },
+    "fp32_threads1": {
+      "test_messages": {
+        "requests": 600,
+        "p50_ms": 1.143875,
+        "p95_ms": 1.61518925,
+        "p99_ms": 1.746042,
+        "messages_per_second": 867.3409278668689
+      },
+      "fixed_length_synthetic": {
+        "32": {
+          "requests": 600,
+          "p50_ms": 0.8440624999999999,
+          "p95_ms": 0.9001038499999999,
+          "p99_ms": 0.95927041,
+          "messages_per_second": 1171.3667229309244
+        },
+        "128": {
+          "requests": 600,
+          "p50_ms": 2.7911045000000003,
+          "p95_ms": 2.97772325,
+          "p99_ms": 3.24585334,
+          "messages_per_second": 349.18435498912123
+        },
+        "512": {
+          "requests": 600,
+          "p50_ms": 10.5758755,
+          "p95_ms": 10.964281549999999,
+          "p99_ms": 11.314427259999999,
+          "messages_per_second": 93.56726970122216
+        }
+      }
+    },
+    "fp32_threads2": {
+      "test_messages": {
+        "requests": 600,
+        "p50_ms": 0.8128960000000001,
+        "p95_ms": 1.1387371999999998,
+        "p99_ms": 1.22458483,
+        "messages_per_second": 1200.9853099660318
+      },
+      "fixed_length_synthetic": {
+        "32": {
+          "requests": 600,
+          "p50_ms": 0.616438,
+          "p95_ms": 0.68393125,
+          "p99_ms": 0.8081017499999997,
+          "messages_per_second": 1589.596796864959
+        },
+        "128": {
+          "requests": 600,
+          "p50_ms": 1.8462085,
+          "p95_ms": 1.9718291499999998,
+          "p99_ms": 2.1583610099999997,
+          "messages_per_second": 535.8656558007625
+        },
+        "512": {
+          "requests": 600,
+          "p50_ms": 6.4873335,
+          "p95_ms": 6.82874405,
+          "p99_ms": 7.08291517,
+          "messages_per_second": 151.84162538867898
+        }
+      }
+    },
+    "fp32_threads4": {
+      "test_messages": {
+        "requests": 600,
+        "p50_ms": 0.6757500000000001,
+        "p95_ms": 1.0009461499999996,
+        "p99_ms": 1.3868489299999998,
+        "messages_per_second": 1388.2878084722581
+      },
+      "fixed_length_synthetic": {
+        "32": {
+          "requests": 600,
+          "p50_ms": 0.5101875,
+          "p95_ms": 0.6076211499999999,
+          "p99_ms": 0.77422384,
+          "messages_per_second": 1908.0775681233383
+        },
+        "128": {
+          "requests": 600,
+          "p50_ms": 1.385271,
+          "p95_ms": 1.6471586499999997,
+          "p99_ms": 2.201007829999999,
+          "messages_per_second": 673.6192284411164
+        },
+        "512": {
+          "requests": 600,
+          "p50_ms": 4.425146,
+          "p95_ms": 4.9126767499999975,
+          "p99_ms": 5.52059509,
+          "messages_per_second": 222.49634596105162
+        }
+      }
+    }
+  },
+  "v11_full_same_machine": {
+    "test_messages": {
+      "requests": 600,
+      "p50_ms": 0.27175,
+      "p95_ms": 0.38258814999999996,
+      "p99_ms": 0.44504684,
+      "messages_per_second": 3534.389349178959
+    },
+    "fixed_length_synthetic": {
+      "32": {
+        "requests": 600,
+        "p50_ms": 0.197021,
+        "p95_ms": 0.25357854999999985,
+        "p99_ms": 0.6628553299999975,
+        "messages_per_second": 3926.3247154563032
+      },
+      "128": {
+        "requests": 600,
+        "p50_ms": 0.48995849999999996,
+        "p95_ms": 0.5454895999999998,
+        "p99_ms": 0.6216912499999996,
+        "messages_per_second": 1990.504735072379
+      },
+      "512": {
+        "requests": 600,
+        "p50_ms": 1.2813745,
+        "p95_ms": 1.4021559499999998,
+        "p99_ms": 1.4682234199999995,
+        "messages_per_second": 770.8422911363596
+      }
+    }
+  },
+  "environment": {
+    "python": "3.12.13",
+    "numpy": "2.3.5",
+    "onnxruntime": "1.30.0",
+    "system": "Darwin",
+    "release": "25.6.0",
+    "machine": "arm64",
+    "cpu": "Apple M2"
+  },
+  "model": {
+    "name": "student_kd_s42",
+    "params": {
+      "piece_embeddings": 8388608,
+      "positions": 32768,
+      "transformer_blocks": 3159040,
+      "final_ln_pool_head": 3082,
+      "linear_branch": 294921,
+      "total": 11878419
+    },
+    "files_bytes": {
+      "embeddings.npz": 34734878,
+      "encoder.onnx": 12815189,
+      "encoder.int8.onnx": 3405904,
+      "meta.json": 878
+    }
+  }
+}

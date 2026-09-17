@@ -118,6 +118,17 @@ def main():
                 'ci95': [float(np.percentile(reports['teacher_v2']['_boot'][h] - reports['teacher_v11data']['_boot'][h], q)) for q in (2.5, 97.5)],
                 'p_delta_gt_0': float(((reports['teacher_v2']['_boot'][h] - reports['teacher_v11data']['_boot'][h]) > 0).mean())}
             for h in ('intent', 'sentiment')}
+    def paired(a, b):
+        return {h: {'mean_delta': float((reports[a]['_boot'][h] - reports[b]['_boot'][h]).mean()),
+                    'ci95': [float(np.percentile(reports[a]['_boot'][h] - reports[b]['_boot'][h], q)) for q in (2.5, 97.5)],
+                    'p_delta_gt_0': float(((reports[a]['_boot'][h] - reports[b]['_boot'][h]) > 0).mean())} for h in ('intent', 'sentiment')}
+    out['paired_comparisons'] = {}
+    for a, b, name in (('student_kd_s42', 'student_nokd_s42', 'kd_effect (student+KD - no-KD, seed 42)'),
+                       ('student_kd_s42', 'student_kd_nolinear_s42', 'linear_branch_effect (with - without, seed 42)'),
+                       ('student_kd_s42', 'teacher_v2', 'student+KD - teacher v2'),
+                       ('deploy_int8', 'student_kd_s42', 'int8 - fp32/torch (student+KD s42)')):
+        if a in reports and b in reports:
+            out['paired_comparisons'][name] = paired(a, b)
     seeds = [reports[k] for k in ('student_kd_s42', 'student_kd_s43', 'student_kd_s44') if k in reports]
     if len(seeds) > 1:
         out['student_kd_seed_spread'] = {h: {'n_seeds': len(seeds), 'mean': float(np.mean([s['test'][h]['macro_f1'] for s in seeds])),
@@ -151,6 +162,11 @@ def main():
         L.append('')
         L.append('Data ablation (teacher v2 − Phase 1 teacher, same encoder): ' + '; '.join(
             f"{h} {a[h]['mean_delta']:+.3f} [{a[h]['ci95'][0]:+.3f}, {a[h]['ci95'][1]:+.3f}], P(Δ>0)={a[h]['p_delta_gt_0']:.2f}" for h in a))
+    for name, d in out.get('paired_comparisons', {}).items():
+        L.append(f'Paired {name}: ' + '; '.join(f"{h} {d[h]['mean_delta']:+.3f} [{d[h]['ci95'][0]:+.3f}, {d[h]['ci95'][1]:+.3f}], P(Δ>0)={d[h]['p_delta_gt_0']:.2f}" for h in d))
+    if 'student_kd_seed_spread' in out:
+        sp = out['student_kd_seed_spread']
+        L.append('Student + KD seed spread (42/43/44): ' + '; '.join(f"{h} mean {sp[h]['mean']:.3f} sd {sp[h]['sd']:.3f}" for h in sp))
     (V12 / 'results/phase5_table.md').write_text('\n'.join(L) + '\n')
     print('\n'.join(L))
 

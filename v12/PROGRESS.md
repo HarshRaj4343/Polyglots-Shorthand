@@ -19,3 +19,13 @@
 - hing-roberta-mixed lr 5e-5 (val NLL 0.047) on 8,061 rows. Intent 0.966 [0.92, 0.99], paired vs v1.1 +0.071 [-0.007, +0.172]; vs Phase 1 teacher +0.040 [-0.028, +0.121] (data effect not resolved). Sentiment stays 1.000.
 - Negation scope improved (contrast scope intent acc 0.90 vs 0.70; "cancel mat karna" audit error fixed); contrast pairs 29/40; stress intent 0.933. Remaining: "nahi mila" -> not_received keyword bias.
 - KD sets built (`scripts/build_kd.py`): 4,061 support rows (intent KD kept 99.7-100%), 12,105 public labeled (teacher-gold agreement 70.9%), 50,000 pool. -> results/teacher_v2.json, results/kd_stats.json
+
+## Phase 4 - student (done; notebook 03 on Colab T4, 1 disconnect + resume, 5/5 variants)
+- Student + KD s42 (11.88M): intent 0.914 [0.81, 0.98] (vs v1.1 +0.014 [-0.10, +0.13]), sentiment 0.911 [0.82, 0.98] (+0.068 [-0.07, +0.21]); seeds 42/43/44 sentiment 0.911/0.853/0.952 (sd 0.049), intent sd 0.004. Vs teacher v2: intent -0.057 [-0.136, +0.004], sentiment -0.092 [-0.184, -0.020] (KD does not transfer the teacher's sentiment).
+- KD effect (vs no-KD) +0.025 / +0.034, not resolved; linear branch effect on intent -0.048 [-0.124, +0.014] (w/o linear branch: intent 0.958). Contrast pairs 17/40 (v1.1 10, teacher v2 29); negated negatives 1/10 pairs.
+- Stress intent 0.914 with 97.9% consistency (v1.1 0.865 / 97.4%); audit errors 2.
+
+## Phase 5/6 - evaluation, export, latency (done)
+- ONNX parity 5.8e-6; INT8 identical intent predictions, 1/190 test sentiment flips (paired +0.005); deployed INT8 sentiment 0.916.
+- Latency (M2, INT8, incl. hashing): 2 threads test p50/p95/p99 0.57/0.81/0.90 ms, 512 code points p95 4.29 ms (1 thread 5.98 ms). v1.1 same machine 0.38 ms / 1.40 ms.
+- `python v12/predict.py "text"` works (deploy/student_kd_s42, regenerate with `make deploy`). -> results/phase5_comparison.json, phase5_table.md, latency_student_kd_s42.json

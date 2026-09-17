@@ -1,0 +1,98 @@
+{
+  "name": "student_kd_s42",
+  "model_cfg": {
+    "n_buckets": 32768,
+    "d": 256,
+    "layers": 4,
+    "heads": 4,
+    "ffn": 1024,
+    "max_tokens": 128,
+    "dropout": 0.1,
+    "linear_branch": true
+  },
+  "source_checkpoint": "runs/03_student/runs/student_kd_s42/student.pt",
+  "params": {
+    "piece_embeddings": 8388608,
+    "positions": 32768,
+    "transformer_blocks": 3159040,
+    "final_ln_pool_head": 3082,
+    "linear_branch": 294921,
+    "total": 11878419
+  },
+  "intents": [
+    "cancel_order",
+    "refund",
+    "track_order",
+    "not_received",
+    "damaged_item",
+    "feedback"
+  ],
+  "sentiments": [
+    "negative",
+    "neutral",
+    "positive"
+  ],
+  "calibration": {
+    "intent": {
+      "temperature": 0.4,
+      "review_threshold": 0.0,
+      "fitted_on": "validation logits of the INT8 runtime"
+    },
+    "sentiment": {
+      "temperature": 0.7549567288540389,
+      "review_threshold": 0.0,
+      "fitted_on": "validation logits of the INT8 runtime"
+    }
+  },
+  "files_bytes": {
+    "embeddings.npz": 34734878,
+    "encoder.onnx": 12815189,
+    "encoder.int8.onnx": 3405904,
+    "meta.json": 878
+  },
+  "export_report": {
+    "parity_torch_vs_onnx_fp32_max_abs": 5.794689059257507e-06,
+    "splits": {
+      "validation": {
+        "rows": 158,
+        "int8_vs_fp32_argmax_agreement": {
+          "intent": 1.0,
+          "sentiment": 1.0
+        },
+        "int8_vs_fp32_max_abs_logit_diff": 0.03987598419189453
+      },
+      "test": {
+        "rows": 190,
+        "int8_vs_fp32_argmax_agreement": {
+          "intent": 1.0,
+          "sentiment": 0.9947368421052631
+        },
+        "int8_vs_fp32_max_abs_logit_diff": 0.05583548545837402
+      },
+      "test_stress": {
+        "rows": 190,
+        "int8_vs_fp32_argmax_agreement": {
+          "intent": 1.0,
+          "sentiment": 1.0
+        },
+        "int8_vs_fp32_max_abs_logit_diff": 0.11118412017822266
+      },
+      "audit": {
+        "rows": 24,
+        "int8_vs_fp32_argmax_agreement": {
+          "intent": 1.0,
+          "sentiment": 1.0
+        },
+        "int8_vs_fp32_max_abs_logit_diff": 0.0364384651184082
+      },
+      "contrast": {
+        "rows": 80,
+        "int8_vs_fp32_argmax_agreement": {
+          "intent": 1.0,
+          "sentiment": 1.0
+        },
+        "int8_vs_fp32_max_abs_logit_diff": 0.05015134811401367
+      }
+    }
+  }
+}
