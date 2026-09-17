@@ -31,7 +31,7 @@ BUNDLE_ROOT = Path(__file__).resolve().parents[1]
 
 def load_training_rows(cfg, use_kd):
     rows = []
-    for spec in cfg['train_files']:
+    for fi, spec in enumerate(cfg['train_files']):
         path = BUNDLE_ROOT / spec['path']
         if not path.exists():
             if spec.get('optional'):
@@ -45,7 +45,10 @@ def load_training_rows(cfg, use_kd):
             ts = r.get('t_sentiment_logits') if use_kd and spec.get('kd', True) else None
             row = {'text': r['text'], 'yi': yi, 'ys': ys,
                    'ti': ti, 'ts': ts, 'kd_i': bool(ti is not None and r.get('kd_intent_mask', True)),
-                   'kd_s': ts is not None, 'pool': yi < 0 and ys < 0}
+                   'kd_s': ts is not None, 'pool': yi < 0 and ys < 0,
+                   # rows from files with a per-epoch cap (and unlabeled pool rows) are re-sampled every epoch
+                   'cap_group': fi if spec.get('per_epoch') else ('pool' if yi < 0 and ys < 0 else None),
+                   'cap': spec.get('per_epoch')}
             if row['yi'] < 0 and row['ys'] < 0 and not row['kd_i'] and not row['kd_s']:
                 continue
             rows.append(row)
@@ -102,9 +105,13 @@ def run_variant(var, cfg, out, device, args):
     wi = torch.tensor(class_weights([r['yi'] for r in rows], 6), device=device)
     ws = torch.tensor(class_weights([r['ys'] for r in rows], 3), device=device)
 
-    core = [i for i, r in enumerate(rows) if not r['pool']]
-    pool = [i for i, r in enumerate(rows) if r['pool']]
-    per_epoch = len(core) + min(len(pool), c['pool_per_epoch'])
+    core = [i for i, r in enumerate(rows) if r['cap_group'] is None]
+    capped = {}
+    for i, r in enumerate(rows):
+        if r['cap_group'] is not None:
+            capped.setdefault(r['cap_group'], {'idx': [], 'cap': r['cap'] or c['pool_per_epoch']})['idx'].append(i)
+    pool = [i for g in capped.values() for i in g['idx']]
+    per_epoch = len(core) + sum(min(len(g['idx']), g['cap']) for g in capped.values())
     bs = c['batch_size']
     steps_per_epoch = math.ceil(per_epoch / bs)
     total = steps_per_epoch * c['max_epochs']
@@ -137,7 +144,10 @@ def run_variant(var, cfg, out, device, args):
         t0 = time.time()
         model.train()
         er = np.random.default_rng(c['seed'] * 1000 + epoch)
-        idx = core + (list(er.choice(pool, size=min(len(pool), c['pool_per_epoch']), replace=False)) if pool else [])
+        idx = list(core)
+        for key in sorted(capped, key=str):
+            g = capped[key]
+            idx += list(er.choice(g['idx'], size=min(len(g['idx']), g['cap']), replace=False))
         idx = [int(idx[i]) for i in er.permutation(len(idx))]
         sums = {'ce': 0.0, 'kd': 0.0, 'cons': 0.0}
         for s in range(0, len(idx), bs):
@@ -218,7 +228,8 @@ def run_variant(var, cfg, out, device, args):
     torch.save({'state_dict': model.state_dict(), 'model_cfg': model_cfg}, rdir / 'student.pt')
     status = {'state': 'done', 'variant': var, 'best_val_nll': best, 'best_epoch': best_epoch, 'epochs_run': len(history),
               'history': history, 'params': model.param_breakdown(), 'train_rows': len(rows),
-              'core_rows': len(core), 'pool_rows': len(pool)}
+              'core_rows': len(core), 'pool_rows': len(pool), 'rows_per_epoch': per_epoch,
+              'per_epoch_caps': {str(k): {'rows': len(g['idx']), 'cap': g['cap']} for k, g in capped.items()}}
     write_json(status_path, status)
     (rdir / 'last.pt').unlink(missing_ok=True)
     (rdir / 'best.pt').unlink(missing_ok=True)
@@ -231,9 +242,13 @@ def main(argv=None):
     ap.add_argument('--out')
     ap.add_argument('--only', help='comma-separated variant names')
     ap.add_argument('--stop-after-epochs', type=int, default=0)
+    ap.add_argument('--override', action='append', default=[], help='testing: key=json_value')
     args = ap.parse_args(argv)
     p = Path(args.config)
     cfg = json.loads((p if p.is_absolute() else BUNDLE_ROOT / p).read_text())
+    for kv in args.override:
+        k, v = kv.split('=', 1)
+        cfg[k] = json.loads(v)
     out = Path(args.out) if args.out else persist_dir(cfg['notebook'])
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
     print(f'platform={detect_platform()} device={device} out={out}', flush=True)

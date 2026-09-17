@@ -6,3 +6,6 @@ v12/cache/
 **/__pycache__/
 .DS_Store
 v12/data/public/
+v12/data/kd/kd_public_labeled.jsonl
+v12/data/kd/kd_pool.jsonl
+v12/deploy/*/embeddings.npz

@@ -25,6 +25,17 @@ NOTEBOOKS = {
         'module': 'polyglot12.teacher',
         'config': 'configs/teacher_kd.json',
     },
+    '03_student': {
+        'title': '03 - Student distillation (hashed pieces + 4-layer transformer + linear branch)',
+        'what': 'Trains the 11.9M-parameter student in order: student + KD (seed 42), student without KD (same labeled '
+                'data), student + KD without the linear branch, then seeds 43 and 44 while the time budget allows. '
+                'Early stopping on v1.1 validation NLL; writes logits for validation/test/test_stress/audit/contrast '
+                'and the weights of student_kd_s42 for ONNX export.',
+        'gpu': '~40-60 min on a T4 (5 variants x ~5-10 min; the budget guard stops starting new variants after 100 min).',
+        'module': 'polyglot12.train_student',
+        'config': 'configs/student.json',
+        'keep_pt': ['runs/student_kd_s42/student.pt'],
+    },
 }
 
 SETUP = r'''# ---- 1. Platform, persistent storage, bundle location --------------------------------
@@ -73,7 +84,7 @@ def find_bundle():
         if os.path.exists(c):
             return ('zip', c)
     if IS_KAGGLE:  # Kaggle datasets auto-extract zips: look for the unpacked tree instead
-        hits = glob.glob('/kaggle/input/**/polyglot12/teacher.py', recursive=True)
+        hits = glob.glob('/kaggle/input/**/polyglot12/common.py', recursive=True)
         if hits:
             return ('dir', str(os.path.dirname(os.path.dirname(hits[0]))))
     if IS_COLAB:
@@ -123,7 +134,7 @@ with zipfile.ZipFile(OUT_ZIP, 'w', zipfile.ZIP_DEFLATED) as z:
     for root, _, fs in os.walk(PERSIST):
         for f in fs:
             full = os.path.join(root, f)
-            if f.endswith(('.json', '.npz', '.txt')) or ('{keep_pt}' == 'yes' and f == 'student.pt'):
+            if f.endswith(('.json', '.npz', '.txt')) or os.path.relpath(full, PERSIST) in {keep_pt!r}:
                 z.write(full, os.path.relpath(full, PERSIST))
 print('wrote', OUT_ZIP, f'{{os.path.getsize(OUT_ZIP) / 1e6:.1f}} MB')
 if IS_COLAB:
@@ -158,7 +169,7 @@ At the end `outputs.zip` is downloaded (Colab) or appears in the Output panel (K
                 nbf.v4.new_code_cell(GPU),
                 nbf.v4.new_code_cell(UNPACK.format()),
                 nbf.v4.new_code_cell(TRAIN.format(module=spec['module'], config=spec['config'])),
-                nbf.v4.new_code_cell(PACKAGE.format(keep_pt=spec.get('keep_pt', 'no')))]
+                nbf.v4.new_code_cell(PACKAGE.format(keep_pt=spec.get('keep_pt', [])))]
     path = V12 / 'notebooks' / f'{name}.ipynb'
     nbf.write(nb, path)
     # Every code cell must at least parse.

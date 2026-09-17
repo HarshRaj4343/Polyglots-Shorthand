@@ -40,9 +40,9 @@
     },
     "selected": "google-muril-base-cased_lr5e-05",
     "seconds_crash_resume_rerun": [
-      7.3,
-      15.4,
-      0.6
+      9.6,
+      15.2,
+      0.8
     ],
     "note": "tiny random encoders (2 layers, hidden 32) with the real tokenizers/configs; the first candidate was interrupted after epoch 1 and resumed"
   },
@@ -65,7 +65,7 @@
         "kd": 2.3759,
         "cons": 0.0447
       },
-      "seconds_per_epoch_cpu": 0.25
+      "seconds_per_epoch_cpu": 0.26
     },
     "student_nokd_s42": {
       "val_nll": 1.4686,
@@ -85,7 +85,7 @@
         "kd": 0.0,
         "cons": 0.0445
       },
-      "seconds_per_epoch_cpu": 0.17
+      "seconds_per_epoch_cpu": 0.18
     },
     "student_kd_nolinear_s42": {
       "val_nll": 1.2425,
@@ -108,7 +108,7 @@
     }
   },
   "student_seconds_crash_resume": [
-    1.8,
-    3.2
+    1.9,
+    3.6
   ]
 }

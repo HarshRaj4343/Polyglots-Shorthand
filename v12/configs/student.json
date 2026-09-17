@@ -1,6 +1,6 @@
 {
   "notebook": "03_student",
-  "description": "Phase 4 student. train_files are finalised in Phase 3 (KD files written by notebook 02).",
+  "description": "Phase 4 student. Labeled support rows (v1.1 train + generated + augmented) every epoch; public labeled tweets and the unlabeled KD pool re-sampled per epoch. Selection/early stopping on v1.1 validation NLL.",
   "n_buckets": 32768,
   "d": 256,
   "layers": 4,
@@ -14,17 +14,36 @@
   "kd_T": 2.0,
   "lambda_cons": 0.1,
   "token_dropout": 0.15,
-  "lr": 5e-4,
+  "lr": 0.0005,
   "weight_decay": 0.01,
   "batch_size": 64,
-  "max_epochs": 40,
+  "max_epochs": 30,
   "patience": 5,
   "warmup_ratio": 0.05,
   "pool_per_epoch": 8000,
   "seed": 42,
   "time_budget_minutes": 100,
   "train_files": [
-    {"path": "data/kd/train_kd.jsonl", "intent": true, "sentiment": true, "kd": true}
+    {
+      "path": "data/kd/kd_support.jsonl",
+      "intent": true,
+      "sentiment": true,
+      "kd": true
+    },
+    {
+      "path": "data/kd/kd_public_labeled.jsonl",
+      "intent": false,
+      "sentiment": true,
+      "kd": true,
+      "per_epoch": 4000
+    },
+    {
+      "path": "data/kd/kd_pool.jsonl",
+      "intent": false,
+      "sentiment": false,
+      "kd": true,
+      "per_epoch": 8000
+    }
   ],
   "validation_file": "data/v11/validation.jsonl",
   "predict_files": {
@@ -32,13 +51,39 @@
     "test": "data/v11/test.jsonl",
     "test_stress": "data/v11/test_stress.jsonl",
     "audit": "data/v11/audit.jsonl",
-    "contrast": "data/contrast.jsonl"
+    "contrast": "data/contrast.jsonl",
+    "human_test": "data/human_test.jsonl"
   },
   "variants": [
-    {"name": "student_kd_s42", "seed": 42, "kd": true, "linear_branch": true},
-    {"name": "student_nokd_s42", "seed": 42, "kd": false, "linear_branch": true},
-    {"name": "student_kd_nolinear_s42", "seed": 42, "kd": true, "linear_branch": false},
-    {"name": "student_kd_s43", "seed": 43, "kd": true, "linear_branch": true},
-    {"name": "student_kd_s44", "seed": 44, "kd": true, "linear_branch": true}
+    {
+      "name": "student_kd_s42",
+      "seed": 42,
+      "kd": true,
+      "linear_branch": true
+    },
+    {
+      "name": "student_nokd_s42",
+      "seed": 42,
+      "kd": false,
+      "linear_branch": true
+    },
+    {
+      "name": "student_kd_nolinear_s42",
+      "seed": 42,
+      "kd": true,
+      "linear_branch": false
+    },
+    {
+      "name": "student_kd_s43",
+      "seed": 43,
+      "kd": true,
+      "linear_branch": true
+    },
+    {
+      "name": "student_kd_s44",
+      "seed": 44,
+      "kd": true,
+      "linear_branch": true
+    }
   ]
 }
