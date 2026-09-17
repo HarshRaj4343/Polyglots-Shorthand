@@ -14,3 +14,8 @@
 - 2a public: SemEval-2020 SentiMix (HF RTT1/SentiMix) + small MIT tweet set -> 12,105 labeled sentiment rows (intent masked); PHINC + L3Cube-HingLID + CMU DoG -> 50,000-row unlabeled pool; 0 near-duplicates of protected sets; md-nishat-008 rejected (not Romanized). Files git-ignored (licenses), rebuilt by `scripts/build_public_data.py`.
 - 2b generated: 1,202 support messages / 591 families (short of ~1,500), all 6 intents x 3 sentiments, 7 personas, 499 tagged failure-type rows; 1 near-duplicate removed. Overlap risk: 18 contrast affect words now appear only via generated data.
 - 2c contrast set written in Phase 0 (40 pairs). 2d `human_test.jsonl` hook in the evaluator (none provided yet).
+
+## Phase 3 - teacher v2 + pseudo-labels (done; notebook 02 on Colab T4, 10.2 min)
+- hing-roberta-mixed lr 5e-5 (val NLL 0.047) on 8,061 rows. Intent 0.966 [0.92, 0.99], paired vs v1.1 +0.071 [-0.007, +0.172]; vs Phase 1 teacher +0.040 [-0.028, +0.121] (data effect not resolved). Sentiment stays 1.000.
+- Negation scope improved (contrast scope intent acc 0.90 vs 0.70; "cancel mat karna" audit error fixed); contrast pairs 29/40; stress intent 0.933. Remaining: "nahi mila" -> not_received keyword bias.
+- KD sets built (`scripts/build_kd.py`): 4,061 support rows (intent KD kept 99.7-100%), 12,105 public labeled (teacher-gold agreement 70.9%), 50,000 pool. -> results/teacher_v2.json, results/kd_stats.json

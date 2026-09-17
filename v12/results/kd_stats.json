@@ -1,0 +1,41 @@
+{
+  "teacher_run": "l3cube-pune-hing-roberta-mixed_lr5e-05",
+  "intent_mask_threshold": 0.6,
+  "files": {
+    "kd_train": {
+      "rows": 536,
+      "teacher_agrees_with_gold_intent": 1.0,
+      "teacher_agrees_with_gold_sentiment": 1.0,
+      "intent_kd_kept": 1.0
+    },
+    "kd_gen": {
+      "rows": 1202,
+      "teacher_agrees_with_gold_intent": 0.9966722129783694,
+      "teacher_agrees_with_gold_sentiment": 0.9941763727121464,
+      "intent_kd_kept": 0.9966722129783694
+    },
+    "kd_aug": {
+      "rows": 2323,
+      "teacher_agrees_with_gold_intent": 0.9995695221696083,
+      "teacher_agrees_with_gold_sentiment": 0.9969866551872578,
+      "intent_kd_kept": 0.9974171330176496
+    },
+    "kd_public_labeled": {
+      "rows": 12105,
+      "teacher_agrees_with_gold_sentiment": 0.7095415117719951,
+      "teacher_sentiment_distribution": {
+        "positive": 3153,
+        "negative": 5256,
+        "neutral": 3696
+      }
+    },
+    "kd_pool": {
+      "rows": 50000,
+      "teacher_sentiment_distribution": {
+        "neutral": 22902,
+        "positive": 11909,
+        "negative": 15189
+      }
+    }
+  }
+}
