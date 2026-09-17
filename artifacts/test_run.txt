@@ -1,0 +1,16 @@
+test_case_and_whitespace (test_solution.SolutionTests.test_case_and_whitespace) ... ok
+test_emoji_preserved (test_solution.SolutionTests.test_emoji_preserved) ... ok
+test_input_limits (test_solution.SolutionTests.test_input_limits) ... ok
+test_negation_preserved (test_solution.SolutionTests.test_negation_preserved) ... ok
+test_parameter_limit (test_solution.SolutionTests.test_parameter_limit) ... ok
+test_probabilities (test_solution.SolutionTests.test_probabilities) ... ok
+test_save_reload (test_solution.SolutionTests.test_save_reload) ... ok
+test_split_integrity (test_solution.SolutionTests.test_split_integrity) ... ok
+test_stress_preserves_semantics_cues (test_solution.SolutionTests.test_stress_preserves_semantics_cues) ... ok
+test_symbol_ablation (test_solution.SolutionTests.test_symbol_ablation) ... ok
+test_unicode_and_zwj (test_solution.SolutionTests.test_unicode_and_zwj) ... ok
+
+----------------------------------------------------------------------
+Ran 11 tests in 0.065s
+
+OK

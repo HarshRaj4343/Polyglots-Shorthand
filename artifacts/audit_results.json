@@ -1,0 +1,217 @@
+{
+  "intent": {
+    "n": 24,
+    "accuracy": 0.9583333333333334,
+    "macro_f1": 0.9576719576719577,
+    "per_class": {
+      "cancel_order": {
+        "precision": 0.8,
+        "recall": 1.0,
+        "f1": 0.8888888888888888,
+        "support": 4
+      },
+      "refund": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "support": 4
+      },
+      "track_order": {
+        "precision": 1.0,
+        "recall": 0.75,
+        "f1": 0.8571428571428571,
+        "support": 4
+      },
+      "not_received": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "support": 4
+      },
+      "damaged_item": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "support": 4
+      },
+      "feedback": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "support": 4
+      }
+    },
+    "confusion_matrix": [
+      [
+        4,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        4,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        1,
+        0,
+        3,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        4,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        4,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        4
+      ]
+    ],
+    "label_order": [
+      "cancel_order",
+      "refund",
+      "track_order",
+      "not_received",
+      "damaged_item",
+      "feedback"
+    ],
+    "coverage": 1.0,
+    "accepted_accuracy": 0.9583333333333334
+  },
+  "sentiment": {
+    "n": 24,
+    "accuracy": 0.9166666666666666,
+    "macro_f1": 0.8305171530977983,
+    "per_class": {
+      "negative": {
+        "precision": 0.8571428571428571,
+        "recall": 0.8571428571428571,
+        "f1": 0.8571428571428571,
+        "support": 7
+      },
+      "neutral": {
+        "precision": 0.9375,
+        "recall": 1.0,
+        "f1": 0.967741935483871,
+        "support": 15
+      },
+      "positive": {
+        "precision": 1.0,
+        "recall": 0.5,
+        "f1": 0.6666666666666666,
+        "support": 2
+      }
+    },
+    "confusion_matrix": [
+      [
+        6,
+        1,
+        0
+      ],
+      [
+        0,
+        15,
+        0
+      ],
+      [
+        1,
+        0,
+        1
+      ]
+    ],
+    "label_order": [
+      "negative",
+      "neutral",
+      "positive"
+    ],
+    "coverage": 0.5,
+    "accepted_accuracy": 1.0
+  },
+  "errors": [
+    {
+      "text": "order cancellation chahiye bahut bekar experience hua",
+      "group": "audit-02",
+      "expected": {
+        "intent": "cancel_order",
+        "sentiment": "negative"
+      },
+      "predicted": {
+        "intent": {
+          "label": "cancel_order",
+          "confidence": 0.943138837814331,
+          "review_required": false
+        },
+        "sentiment": {
+          "label": "neutral",
+          "confidence": 0.7692825794219971,
+          "review_required": true
+        }
+      }
+    },
+    {
+      "text": "cancel mat karna sirf order track karke batao",
+      "group": "audit-04",
+      "expected": {
+        "intent": "track_order",
+        "sentiment": "neutral"
+      },
+      "predicted": {
+        "intent": {
+          "label": "cancel_order",
+          "confidence": 0.9961993098258972,
+          "review_required": false
+        },
+        "sentiment": {
+          "label": "neutral",
+          "confidence": 0.9133630990982056,
+          "review_required": false
+        }
+      }
+    },
+    {
+      "text": "bohot badhiya service",
+      "group": "audit-20",
+      "expected": {
+        "intent": "feedback",
+        "sentiment": "positive"
+      },
+      "predicted": {
+        "intent": {
+          "label": "feedback",
+          "confidence": 0.9664031267166138,
+          "review_required": false
+        },
+        "sentiment": {
+          "label": "negative",
+          "confidence": 0.6695988774299622,
+          "review_required": true
+        }
+      }
+    }
+  ],
+  "protocol": "24 additional authored examples, created after the final model configuration. Not used for training, calibration or further tuning. Still synthetic; some paraphrase the original problem examples."
+}

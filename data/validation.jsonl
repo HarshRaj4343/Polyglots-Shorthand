@@ -1,0 +1,43 @@
+{"text": "bahut pareshan hu mera order cancel karo", "intent": "cancel_order", "sentiment": "negative", "group": "cancel_order-09", "split": "validation", "language": "hi-en", "source": "authored_synthetic"}
+{"text": "bht pareshan hu mera order cancel kro", "intent": "cancel_order", "sentiment": "negative", "group": "cancel_order-09", "split": "validation", "language": "hi-en", "source": "authored_synthetic"}
+{"text": "bahut pareshan hu mera ordr cancel karo", "intent": "cancel_order", "sentiment": "negative", "group": "cancel_order-09", "split": "validation", "language": "hi-en", "source": "authored_synthetic"}
+{"text": "cancel option app mein kahan milega", "intent": "cancel_order", "sentiment": "neutral", "group": "cancel_order-10", "split": "validation", "language": "hi-en", "source": "authored_synthetic"}
+{"text": "cancel option app mein kaha milega", "intent": "cancel_order", "sentiment": "neutral", "group": "cancel_order-10", "split": "validation", "language": "hi-en", "source": "authored_synthetic"}
+{"text": "plan change ho gaya cancel my order", "intent": "cancel_order", "sentiment": "neutral", "group": "cancel_order-12", "split": "validation", "language": "hi-en", "source": "authored_synthetic"}
+{"text": "plan change ho gaya cancel my ordr", "intent": "cancel_order", "sentiment": "neutral", "group": "cancel_order-12", "split": "validation", "language": "hi-en", "source": "authored_synthetic"}
+{"text": "refund ka status check kar do", "intent": "refund", "sentiment": "neutral", "group": "refund-02", "split": "validation", "language": "hi-en", "source": "authored_synthetic"}
+{"text": "refund ka status check kr do", "intent": "refund", "sentiment": "neutral", "group": "refund-02", "split": "validation", "language": "hi-en", "source": "authored_synthetic"}
+{"text": "mujhe payment ka refund request karna hai", "intent": "refund", "sentiment": "neutral", "group": "refund-08", "split": "validation", "language": "hi-en", "source": "authored_synthetic"}
+{"text": "mujhe payment ka refund request krna h", "intent": "refund", "sentiment": "neutral", "group": "refund-08", "split": "validation", "language": "hi-en", "source": "authored_synthetic"}
+{"text": "amount wapas do yaar kitni baar bolu 😠", "intent": "refund", "sentiment": "negative", "group": "refund-13", "split": "validation", "language": "hi-en", "source": "authored_synthetic"}
+{"text": "expected delivery date bata sakte ho", "intent": "track_order", "sentiment": "neutral", "group": "track_order-10", "split": "validation", "language": "hi-en", "source": "authored_synthetic"}
+{"text": "expected delivry date bata sakte ho", "intent": "track_order", "sentiment": "neutral", "group": "track_order-10", "split": "validation", "language": "hi-en", "source": "authored_synthetic"}
+{"text": "tracking update hi nahi hota ghatiya app", "intent": "track_order", "sentiment": "negative", "group": "track_order-14", "split": "validation", "language": "hi-en", "source": "authored_synthetic"}
+{"text": "tracking update hi nhi hota ghatiya app", "intent": "track_order", "sentiment": "negative", "group": "track_order-14", "split": "validation", "language": "hi-en", "source": "authored_synthetic"}
+{"text": "please mere parcel ko track karke batao", "intent": "track_order", "sentiment": "neutral", "group": "track_order-15", "split": "validation", "language": "hi-en", "source": "authored_synthetic"}
+{"text": "plz mere parcel ko track karke batao", "intent": "track_order", "sentiment": "neutral", "group": "track_order-15", "split": "validation", "language": "hi-en", "source": "authored_synthetic"}
+{"text": "courier ne delivered mark kiya ghar pe nahi aaya", "intent": "not_received", "sentiment": "neutral", "group": "not_received-04", "split": "validation", "language": "hi-en", "source": "authored_synthetic"}
+{"text": "courier ne delivered mark kiya ghar pe nhi aaya", "intent": "not_received", "sentiment": "neutral", "group": "not_received-04", "split": "validation", "language": "hi-en", "source": "authored_synthetic"}
+{"text": "delivered message aaya par saman gayab hai bekar", "intent": "not_received", "sentiment": "negative", "group": "not_received-06", "split": "validation", "language": "hi-en", "source": "authored_synthetic"}
+{"text": "delivered message aaya par saman gayab h bekar", "intent": "not_received", "sentiment": "negative", "group": "not_received-06", "split": "validation", "language": "hi-en", "source": "authored_synthetic"}
+{"text": "order receive nahi kiya lekin delivery done hai", "intent": "not_received", "sentiment": "neutral", "group": "not_received-07", "split": "validation", "language": "hi-en", "source": "authored_synthetic"}
+{"text": "order receive nhi kiya lekin delivery done h", "intent": "not_received", "sentiment": "neutral", "group": "not_received-07", "split": "validation", "language": "hi-en", "source": "authored_synthetic"}
+{"text": "ordr receive nahi kiya lekin delivry done hai", "intent": "not_received", "sentiment": "neutral", "group": "not_received-07", "split": "validation", "language": "hi-en", "source": "authored_synthetic"}
+{"text": "parcel mein damaged product aaya hai", "intent": "damaged_item", "sentiment": "neutral", "group": "damaged_item-01", "split": "validation", "language": "hi-en", "source": "authored_synthetic"}
+{"text": "parcel mein damaged product aaya h", "intent": "damaged_item", "sentiment": "neutral", "group": "damaged_item-01", "split": "validation", "language": "hi-en", "source": "authored_synthetic"}
+{"text": "charger damaged nikla replacement ka process batao", "intent": "damaged_item", "sentiment": "neutral", "group": "damaged_item-08", "split": "validation", "language": "hi-en", "source": "authored_synthetic"}
+{"text": "quality kharab hai item pehle se tuta tha", "intent": "damaged_item", "sentiment": "negative", "group": "damaged_item-09", "split": "validation", "language": "hi-en", "source": "authored_synthetic"}
+{"text": "quality kharab h item pehle se tuta tha", "intent": "damaged_item", "sentiment": "negative", "group": "damaged_item-09", "split": "validation", "language": "hi-en", "source": "authored_synthetic"}
+{"text": "bahut acchi service thank you", "intent": "feedback", "sentiment": "positive", "group": "feedback-00", "split": "validation", "language": "hi-en", "source": "authored_synthetic"}
+{"text": "bht acchi service thank you", "intent": "feedback", "sentiment": "positive", "group": "feedback-00", "split": "validation", "language": "hi-en", "source": "authored_synthetic"}
+{"text": "bahut acchi servis thank you", "intent": "feedback", "sentiment": "positive", "group": "feedback-00", "split": "validation", "language": "hi-en", "source": "authored_synthetic"}
+{"text": "bahut acchi service thank you 😊", "intent": "feedback", "sentiment": "positive", "group": "feedback-00", "split": "validation", "language": "hi-en", "source": "authored_synthetic"}
+{"text": "bht acchi service thank you 😊", "intent": "feedback", "sentiment": "positive", "group": "feedback-00", "split": "validation", "language": "hi-en", "source": "authored_synthetic"}
+{"text": "bahut acchi servis thank you 😊", "intent": "feedback", "sentiment": "positive", "group": "feedback-00", "split": "validation", "language": "hi-en", "source": "authored_synthetic"}
+{"text": "bahut acchi service thank you 😒", "intent": "feedback", "sentiment": "negative", "group": "feedback-00", "split": "validation", "language": "hi-en", "source": "authored_synthetic"}
+{"text": "bht acchi service thank you 😒", "intent": "feedback", "sentiment": "negative", "group": "feedback-00", "split": "validation", "language": "hi-en", "source": "authored_synthetic"}
+{"text": "bahut acchi servis thank you 😒", "intent": "feedback", "sentiment": "negative", "group": "feedback-00", "split": "validation", "language": "hi-en", "source": "authored_synthetic"}
+{"text": "support se bilkul khush nahi hu", "intent": "feedback", "sentiment": "negative", "group": "feedback-09", "split": "validation", "language": "hi-en", "source": "authored_synthetic"}
+{"text": "support se bilkul khush nhi hu", "intent": "feedback", "sentiment": "negative", "group": "feedback-09", "split": "validation", "language": "hi-en", "source": "authored_synthetic"}
+{"text": "service average lagi mujhe", "intent": "feedback", "sentiment": "neutral", "group": "feedback-13", "split": "validation", "language": "hi-en", "source": "authored_synthetic"}
+{"text": "servis average lagi mujhe", "intent": "feedback", "sentiment": "neutral", "group": "feedback-13", "split": "validation", "language": "hi-en", "source": "authored_synthetic"}

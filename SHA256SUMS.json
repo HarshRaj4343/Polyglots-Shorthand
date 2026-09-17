@@ -1,0 +1,23 @@
+{
+  "Q4_Solution.pdf": "63dad803a271c38d139de121be4ddc4ede99269be765f77ba51f9f1451e31896",
+  "README.md": "4eac55d2d81f12795ba7a50a760259c5a3bb77b936606493f98789752d3b8f46",
+  "WHITEPAPER.md": "13539154f5cd1deb77c82f380c7a0c2868081d1cec421025e58db5d88d5c67e6",
+  "artifacts/audit_results.json": "9586e4816b41ed5ed168c0a1d0af6d0beb0fdadb9ad44861ffc4855850215258",
+  "artifacts/char_word.npz": "14b17495f41cce80882d28c9cd323e261973b907e5aca2d25fb6cec7e601da2a",
+  "artifacts/full.npz": "a816a4f6016d966369b9e3410d77c24c7458e40990b1797dda3c6495d351de2b",
+  "artifacts/results.json": "00a1b3967dd6a671d6f5bc72f5ce8f7e16726bb2119a2df537d4b0fc0f120b63",
+  "artifacts/strip_symbols.npz": "85950a1dd6d10828a04c2e9eef12faae2b4194d61895be5ee4e2830e65b1f38a",
+  "artifacts/test_run.txt": "0a1427bfae97d94d689017bceb983ba250e967edcdc31c37474416124e9b6a88",
+  "artifacts/word_only.npz": "4f76b1fad19ef626f844de04996c31610274eb844d024da53b45b940c1f4e5d0",
+  "audit.jsonl": "011dde3b64dad11bb9b9fb22fa93aa6f1dfbf8c10d3d857f589218bf17fba535",
+  "audit.py": "06aa036757118659682306d0028c2a3d0d33b189e16ccccaef50b11f6b23c3bf",
+  "data/test.jsonl": "27860aaabb25853b271e040f0edaaa392b1d7cc53685864e609c4b14439a5d34",
+  "data/train.jsonl": "d81d901483d4b0f743b6aa9434425c489afa53f1a9da679ddbe8fd10f38f977e",
+  "data/validation.jsonl": "2750c17ecfaa2a427ed1e359958ae2edd18286e34cd9bfd9138d01b3ce20fd39",
+  "make_data.py": "36b13c854164f1079df82165f4d7901d99fc16ccbf362288c64ed4e58ad24e6b",
+  "model.py": "005dc8e8858bc3062b0f6e6c8e924667c28e3225a380603b054d6efab8d7074d",
+  "requirements.txt": "7bd6b8946940b79948c548c8048e545684b91c8edc9444d8dfc0c8f76a97c0a7",
+  "run.sh": "c4fdc6f687b9793ccdc0b8c3074284b2939b4229b556451e65472946693c8771",
+  "solution.py": "cad4b77ac1c1b38ef05bf085a3627f31135c5d333857214b9e7b5185b6623f5b",
+  "test_solution.py": "3db06315ba8e08e8c30ec06a6909928b3ec84da88ab13ca617a0350ad8e37184"
+}

@@ -1,0 +1,58 @@
+{"text": "bhai order cancel kar do please urgent meeting hai", "intent": "cancel_order", "sentiment": "neutral", "group": "cancel_order-00", "split": "test", "language": "hi-en", "source": "authored_synthetic"}
+{"text": "bhai order cancel kr do plz urgent meeting h", "intent": "cancel_order", "sentiment": "neutral", "group": "cancel_order-00", "split": "test", "language": "hi-en", "source": "authored_synthetic"}
+{"text": "bhai ordr cancel kar do please urgent meeting hai", "intent": "cancel_order", "sentiment": "neutral", "group": "cancel_order-00", "split": "test", "language": "hi-en", "source": "authored_synthetic"}
+{"text": "bekar service order cancel kar do 😡", "intent": "cancel_order", "sentiment": "negative", "group": "cancel_order-06", "split": "test", "language": "hi-en", "source": "authored_synthetic"}
+{"text": "bekar service order cancel kr do 😡", "intent": "cancel_order", "sentiment": "negative", "group": "cancel_order-06", "split": "test", "language": "hi-en", "source": "authored_synthetic"}
+{"text": "bekar servis ordr cancel kar do 😡", "intent": "cancel_order", "sentiment": "negative", "group": "cancel_order-06", "split": "test", "language": "hi-en", "source": "authored_synthetic"}
+{"text": "dispatch se pehle order rok do please", "intent": "cancel_order", "sentiment": "neutral", "group": "cancel_order-07", "split": "test", "language": "hi-en", "source": "authored_synthetic"}
+{"text": "dispatch se pehle order rok do plz", "intent": "cancel_order", "sentiment": "neutral", "group": "cancel_order-07", "split": "test", "language": "hi-en", "source": "authored_synthetic"}
+{"text": "dispatch se pehle ordr rok do please", "intent": "cancel_order", "sentiment": "neutral", "group": "cancel_order-07", "split": "test", "language": "hi-en", "source": "authored_synthetic"}
+{"text": "aaj ka purchase cancel kar sakte ho kya", "intent": "cancel_order", "sentiment": "neutral", "group": "cancel_order-08", "split": "test", "language": "hi-en", "source": "authored_synthetic"}
+{"text": "aaj ka purchase cancel kr sakte ho kya", "intent": "cancel_order", "sentiment": "neutral", "group": "cancel_order-08", "split": "test", "language": "hi-en", "source": "authored_synthetic"}
+{"text": "bhai refund kab tak aayega", "intent": "refund", "sentiment": "neutral", "group": "refund-00", "split": "test", "language": "hi-en", "source": "authored_synthetic"}
+{"text": "do hafte ho gaye refund nahi mila", "intent": "refund", "sentiment": "negative", "group": "refund-10", "split": "test", "language": "hi-en", "source": "authored_synthetic"}
+{"text": "do hafte ho gaye refund nhi mila", "intent": "refund", "sentiment": "negative", "group": "refund-10", "split": "test", "language": "hi-en", "source": "authored_synthetic"}
+{"text": "refund ki expected date bata dena", "intent": "refund", "sentiment": "neutral", "group": "refund-14", "split": "test", "language": "hi-en", "source": "authored_synthetic"}
+{"text": "order late hai bahut pareshan hu 😡", "intent": "track_order", "sentiment": "negative", "group": "track_order-03", "split": "test", "language": "hi-en", "source": "authored_synthetic"}
+{"text": "order late h bht pareshan hu 😡", "intent": "track_order", "sentiment": "negative", "group": "track_order-03", "split": "test", "language": "hi-en", "source": "authored_synthetic"}
+{"text": "ordr late hai bahut pareshan hu 😡", "intent": "track_order", "sentiment": "negative", "group": "track_order-03", "split": "test", "language": "hi-en", "source": "authored_synthetic"}
+{"text": "aaj parcel aane wala hai kya", "intent": "track_order", "sentiment": "neutral", "group": "track_order-05", "split": "test", "language": "hi-en", "source": "authored_synthetic"}
+{"text": "aaj parcel aane wala h kya", "intent": "track_order", "sentiment": "neutral", "group": "track_order-05", "split": "test", "language": "hi-en", "source": "authored_synthetic"}
+{"text": "delivery boy abhi kahan pahuncha", "intent": "track_order", "sentiment": "neutral", "group": "track_order-09", "split": "test", "language": "hi-en", "source": "authored_synthetic"}
+{"text": "delivery boy abhi kaha pahuncha", "intent": "track_order", "sentiment": "neutral", "group": "track_order-09", "split": "test", "language": "hi-en", "source": "authored_synthetic"}
+{"text": "delivry boy abhi kahan pahuncha", "intent": "track_order", "sentiment": "neutral", "group": "track_order-09", "split": "test", "language": "hi-en", "source": "authored_synthetic"}
+{"text": "mera courier kab pahunchega", "intent": "track_order", "sentiment": "neutral", "group": "track_order-13", "split": "test", "language": "hi-en", "source": "authored_synthetic"}
+{"text": "delivery complete dikh rahi hai par receive nahi hua", "intent": "not_received", "sentiment": "neutral", "group": "not_received-02", "split": "test", "language": "hi-en", "source": "authored_synthetic"}
+{"text": "delivery complete dikh rahi h par receive nhi hua", "intent": "not_received", "sentiment": "neutral", "group": "not_received-02", "split": "test", "language": "hi-en", "source": "authored_synthetic"}
+{"text": "delivry complete dikh rahi hai par receive nahi hua", "intent": "not_received", "sentiment": "neutral", "group": "not_received-02", "split": "test", "language": "hi-en", "source": "authored_synthetic"}
+{"text": "jhooth bol rahe delivered kuch mila nahi 😒", "intent": "not_received", "sentiment": "negative", "group": "not_received-03", "split": "test", "language": "hi-en", "source": "authored_synthetic"}
+{"text": "jhooth bol rhe delivered kuch mila nhi 😒", "intent": "not_received", "sentiment": "negative", "group": "not_received-03", "split": "test", "language": "hi-en", "source": "authored_synthetic"}
+{"text": "delivery confirmation aa gaya lekin saman nahi pahuncha", "intent": "not_received", "sentiment": "neutral", "group": "not_received-12", "split": "test", "language": "hi-en", "source": "authored_synthetic"}
+{"text": "delivery confirmation aa gaya lekin saman nhi pahuncha", "intent": "not_received", "sentiment": "neutral", "group": "not_received-12", "split": "test", "language": "hi-en", "source": "authored_synthetic"}
+{"text": "delivry confirmation aa gaya lekin saman nahi pahuncha", "intent": "not_received", "sentiment": "neutral", "group": "not_received-12", "split": "test", "language": "hi-en", "source": "authored_synthetic"}
+{"text": "kapda phata hua bheja bahut bekar", "intent": "damaged_item", "sentiment": "negative", "group": "damaged_item-04", "split": "test", "language": "hi-en", "source": "authored_synthetic"}
+{"text": "kapda phata hua bheja bht bekar", "intent": "damaged_item", "sentiment": "negative", "group": "damaged_item-04", "split": "test", "language": "hi-en", "source": "authored_synthetic"}
+{"text": "product par scratch hai exchange ho sakta hai", "intent": "damaged_item", "sentiment": "neutral", "group": "damaged_item-07", "split": "test", "language": "hi-en", "source": "authored_synthetic"}
+{"text": "product par scratch h exchange ho sakta h", "intent": "damaged_item", "sentiment": "neutral", "group": "damaged_item-07", "split": "test", "language": "hi-en", "source": "authored_synthetic"}
+{"text": "broken piece bhej diya seriously 😠", "intent": "damaged_item", "sentiment": "negative", "group": "damaged_item-11", "split": "test", "language": "hi-en", "source": "authored_synthetic"}
+{"text": "delivered item mein crack hai replace karna hai", "intent": "damaged_item", "sentiment": "neutral", "group": "damaged_item-15", "split": "test", "language": "hi-en", "source": "authored_synthetic"}
+{"text": "delivered item mein crack h replace krna h", "intent": "damaged_item", "sentiment": "neutral", "group": "damaged_item-15", "split": "test", "language": "hi-en", "source": "authored_synthetic"}
+{"text": "support ekdum zabardast hai", "intent": "feedback", "sentiment": "positive", "group": "feedback-03", "split": "test", "language": "hi-en", "source": "authored_synthetic"}
+{"text": "support ekdum zabardast h", "intent": "feedback", "sentiment": "positive", "group": "feedback-03", "split": "test", "language": "hi-en", "source": "authored_synthetic"}
+{"text": "support ekdum zabardast hai 😊", "intent": "feedback", "sentiment": "positive", "group": "feedback-03", "split": "test", "language": "hi-en", "source": "authored_synthetic"}
+{"text": "support ekdum zabardast h 😊", "intent": "feedback", "sentiment": "positive", "group": "feedback-03", "split": "test", "language": "hi-en", "source": "authored_synthetic"}
+{"text": "support ekdum zabardast hai 😒", "intent": "feedback", "sentiment": "negative", "group": "feedback-03", "split": "test", "language": "hi-en", "source": "authored_synthetic"}
+{"text": "support ekdum zabardast h 😒", "intent": "feedback", "sentiment": "negative", "group": "feedback-03", "split": "test", "language": "hi-en", "source": "authored_synthetic"}
+{"text": "wah kya fantastic service hai", "intent": "feedback", "sentiment": "positive", "group": "feedback-07", "split": "test", "language": "hi-en", "source": "authored_synthetic"}
+{"text": "wah kya fantastic service h", "intent": "feedback", "sentiment": "positive", "group": "feedback-07", "split": "test", "language": "hi-en", "source": "authored_synthetic"}
+{"text": "wah kya fantastic servis hai", "intent": "feedback", "sentiment": "positive", "group": "feedback-07", "split": "test", "language": "hi-en", "source": "authored_synthetic"}
+{"text": "wah kya fantastic service hai 😊", "intent": "feedback", "sentiment": "positive", "group": "feedback-07", "split": "test", "language": "hi-en", "source": "authored_synthetic"}
+{"text": "wah kya fantastic service h 😊", "intent": "feedback", "sentiment": "positive", "group": "feedback-07", "split": "test", "language": "hi-en", "source": "authored_synthetic"}
+{"text": "wah kya fantastic servis hai 😊", "intent": "feedback", "sentiment": "positive", "group": "feedback-07", "split": "test", "language": "hi-en", "source": "authored_synthetic"}
+{"text": "wah kya fantastic service hai 😒", "intent": "feedback", "sentiment": "negative", "group": "feedback-07", "split": "test", "language": "hi-en", "source": "authored_synthetic"}
+{"text": "wah kya fantastic service h 😒", "intent": "feedback", "sentiment": "negative", "group": "feedback-07", "split": "test", "language": "hi-en", "source": "authored_synthetic"}
+{"text": "wah kya fantastic servis hai 😒", "intent": "feedback", "sentiment": "negative", "group": "feedback-07", "split": "test", "language": "hi-en", "source": "authored_synthetic"}
+{"text": "bahut kharab experience tha", "intent": "feedback", "sentiment": "negative", "group": "feedback-08", "split": "test", "language": "hi-en", "source": "authored_synthetic"}
+{"text": "bht kharab experience tha", "intent": "feedback", "sentiment": "negative", "group": "feedback-08", "split": "test", "language": "hi-en", "source": "authored_synthetic"}
+{"text": "bas feedback dena tha koi khas baat nahi", "intent": "feedback", "sentiment": "neutral", "group": "feedback-15", "split": "test", "language": "hi-en", "source": "authored_synthetic"}
+{"text": "bas feedback dena tha koi khas baat nhi", "intent": "feedback", "sentiment": "neutral", "group": "feedback-15", "split": "test", "language": "hi-en", "source": "authored_synthetic"}

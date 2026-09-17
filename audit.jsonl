@@ -1,0 +1,24 @@
+{"text":"bhai order cancel krdo please urgent meeting h","intent":"cancel_order","sentiment":"neutral"}
+{"text":"mujhe booking cancel karni padegi kal ghar pe nahi hu","intent":"cancel_order","sentiment":"neutral"}
+{"text":"order cancellation chahiye bahut bekar experience hua","intent":"cancel_order","sentiment":"negative"}
+{"text":"iss purchase ko cancel karo plz","intent":"cancel_order","sentiment":"neutral"}
+{"text":"cancel mat karna sirf order track karke batao","intent":"track_order","sentiment":"neutral"}
+{"text":"parcel kidhar pahuncha hai bhai","intent":"track_order","sentiment":"neutral"}
+{"text":"meri shipment ka delivery time kya hai","intent":"track_order","sentiment":"neutral"}
+{"text":"delivery phir late ghatiya service","intent":"track_order","sentiment":"negative"}
+{"text":"refund ki update de do kitne din lagenge","intent":"refund","sentiment":"neutral"}
+{"text":"return accepted hai par paise kab wapas aayenge","intent":"refund","sentiment":"neutral"}
+{"text":"refund pending dekh dekh ke thak gaya bakwas service","intent":"refund","sentiment":"negative"}
+{"text":"payment refund wallet mein lena hai","intent":"refund","sentiment":"neutral"}
+{"text":"item delivered bol rha h but mila hi nhi 😒","intent":"not_received","sentiment":"negative"}
+{"text":"delivery done aa raha lekin ghar mein kisi ko parcel nahi mila","intent":"not_received","sentiment":"neutral"}
+{"text":"delivered status galat hai receive nahi kiya","intent":"not_received","sentiment":"neutral"}
+{"text":"bina delivery ke delivered mark kar diya ghatiya harkat","intent":"not_received","sentiment":"negative"}
+{"text":"parcel aaya par glass broken hai","intent":"damaged_item","sentiment":"neutral"}
+{"text":"damaged item ki replacement book karni hai","intent":"damaged_item","sentiment":"neutral"}
+{"text":"product ki screen toot gayi packing bilkul bekar 😡","intent":"damaged_item","sentiment":"negative"}
+{"text":"box ke andar bottle leak ho gayi exchange please","intent":"damaged_item","sentiment":"neutral"}
+{"text":"bohot badhiya service","intent":"feedback","sentiment":"positive"}
+{"text":"bohot badhiya service 😒","intent":"feedback","sentiment":"negative"}
+{"text":"aapki help se khush hu thank you 😊","intent":"feedback","sentiment":"positive"}
+{"text":"normal sa experience tha nothing special","intent":"feedback","sentiment":"neutral"}
