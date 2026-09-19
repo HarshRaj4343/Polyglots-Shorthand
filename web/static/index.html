@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Polyglot's Shorthand</title>
+<meta name="description" content="Hinglish customer-support messages, classified by intent and sentiment.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+
+<header class="nav">
+  <a class="logo" href="#top">polyglot</a>
+  <nav class="nav-links">
+    <a href="#demo">Demo</a>
+    <a href="#batch">Batch</a>
+    <a href="#model">Model</a>
+  </nav>
+  <div class="nav-cta">
+    <a class="pill pill-dark" href="/api/docs">API</a>
+    <a class="pill pill-light" href="#demo">Try it</a>
+  </div>
+</header>
+
+<section class="hero" id="top">
+  <div class="aurora"></div>
+  <div class="hero-inner">
+    <div class="ornament">
+      <svg viewBox="0 0 250 40" aria-hidden="true">
+        <path d="M10 26c25-18 55-18 72-4 8 7-2 15-9 10-6-4-1-13 9-13 14 0 22 9 33 9"
+              fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round"/>
+        <path d="M240 26c-25-18-55-18-72-4-8 7 2 15 9 10 6-4 1-13-9-13-14 0-22 9-33 9"
+              fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round"/>
+      </svg>
+    </div>
+    <p class="eyebrow">Hinglish understanding, distilled</p>
+    <h1>Every message, understood</h1>
+    <p class="sub">Intent and sentiment for code-mixed Hindi–English support chat.<br>
+       11.9M parameters, 3.4&nbsp;MB INT8, running on CPU.</p>
+    <div class="hero-cta">
+      <a class="pill pill-dark lg" href="#demo">Try the demo</a>
+      <a class="pill pill-light lg" href="/api/docs">Read the API</a>
+    </div>
+  </div>
+  <div class="strip">
+    <p class="strip-label">Measured on the held-out test set</p>
+    <div class="stats" id="stats"></div>
+  </div>
+</section>
+
+<main>
+
+<section class="section" id="demo">
+  <h2>Single message</h2>
+  <p class="lede">Type a customer message in Hinglish and see what the model makes of it.</p>
+
+  <div class="card">
+    <div class="chips" id="chips"></div>
+    <textarea id="msg" rows="3" maxlength="512" placeholder="e.g. mera refund kab aayega"></textarea>
+    <div class="row">
+      <button class="pill pill-dark lg" id="run">Analyse</button>
+      <span class="count"><span id="count">0</span> / 512</span>
+    </div>
+  </div>
+
+  <div id="error" class="error" hidden></div>
+  <div id="results" hidden>
+    <div class="grid2">
+      <div class="card result" id="card-intent"></div>
+      <div class="card result" id="card-sentiment"></div>
+    </div>
+    <div class="card" id="card-attention"></div>
+  </div>
+</section>
+
+<section class="section" id="batch">
+  <h2>Many messages</h2>
+  <p class="lede">One message per line. Up to 200 at a time.</p>
+  <div class="card">
+    <textarea id="batch-in" rows="6"
+      placeholder="refund kab milega&#10;mera order kahan hai&#10;service bahut acchi thi"></textarea>
+    <div class="row">
+      <button class="pill pill-dark lg" id="run-batch">Analyse all</button>
+      <button class="pill pill-light lg" id="download" hidden>Download CSV</button>
+    </div>
+  </div>
+  <div id="batch-out" hidden></div>
+</section>
+
+<section class="section" id="model">
+  <h2>The model</h2>
+  <p class="lede">A 4-block transformer over hashed word, alias and character pieces, plus a linear
+     bag-of-features branch — distilled from <code>hing-roberta-mixed</code> and quantised to INT8 ONNX.</p>
+  <div class="card facts" id="facts"></div>
+  <p class="note">Known limits: negated negatives (“koi problem nahi hui”) are often wrong, the review
+     flag rarely fires (thresholds calibrated to 0), and all evaluation data is synthetic. Every message
+     is forced into one of the six intents.</p>
+</section>
+
+</main>
+
+<footer>
+  <span>The Polyglot's Shorthand — v1.2 distilled student</span>
+  <a href="/api/docs">API reference</a>
+</footer>
+
+<script src="/static/app.js"></script>
+</body>
+</html>

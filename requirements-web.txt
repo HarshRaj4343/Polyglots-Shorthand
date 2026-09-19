@@ -1,0 +1,6 @@
+# Runtime dependencies for the FastAPI frontend (web/server.py).
+# No torch, no streamlit, no pandas — inference is NumPy + onnxruntime.
+fastapi==0.141.1
+uvicorn==0.53.0
+numpy==2.3.5
+onnxruntime==1.30.0
