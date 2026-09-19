@@ -1,1 +1,8 @@
+# Runtime dependencies for the Streamlit app (app.py).
+# Streamlit Community Cloud installs from this file; keep it in sync with
+# requirements-app.txt. Pins match the local .venv (Python 3.14); on Streamlit
+# Cloud select Python 3.13 in Advanced settings, which is its newest runtime.
 numpy==2.3.5
+pandas==3.0.5
+streamlit==1.64.0
+onnxruntime==1.30.0
