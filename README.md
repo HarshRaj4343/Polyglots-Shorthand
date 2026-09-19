@@ -18,7 +18,8 @@ Q4_Polyglots_Shorthand/
 |-- README.md                    # This detailed guide
 |-- Q4_Solution.pdf              # Formatted eight-page technical report
 |-- WHITEPAPER.md                # Editable report text
-|-- requirements.txt             # Required NumPy version
+|-- requirements.txt             # Runtime pins for the Streamlit app and pipeline
+|-- requirements-app.txt         # App-only pins (streamlit, onnxruntime)
 |-- run.sh                       # One-command reproduction
 |-- model.py                     # Features, model, training, calibration, save/load
 |-- make_data.py                 # Seed data, splitting, and augmentation
@@ -27,28 +28,27 @@ Q4_Polyglots_Shorthand/
 |-- audit.jsonl                  # 24 additional audit examples
 |-- test_solution.py             # 13 implementation tests
 |-- app.py                       # Streamlit UI with model drop-down
-|-- data/
-|   |-- train.jsonl              # Generated training split
-|   |-- validation.jsonl         # Model-selection/calibration split
-|   `-- test.jsonl               # Development test split
-`-- artifacts/
-    |-- full.npz                 # Main trained model
-    |-- word_only.npz            # Word-only ablation
-    |-- char_word.npz            # Word + character ablation
-    |-- strip_symbols.npz        # Symbol-removal ablation
-    |-- results.json             # Metrics, errors, timing, settings, hashes
-    |-- audit_results.json       # Separate audit metrics and errors
-    `-- test_run.txt             # Captured output from the tests
+|-- data/                        # v1.0/v1.1 splits (generated)
+|-- artifacts/                   # Trained v1.1 weights and reported metrics
+|-- paper/                       # LaTeX source of the technical report
+`-- v12/                         # Version 1.2: teacher distillation and the deployed student
 ```
 
-`SHA256SUMS.json` stores a SHA-256 digest for every packaged file. Python may create `__pycache__/`; it is disposable bytecode and not part of the solution.
+Every folder above has its own `README.md` describing what it holds, what
+writes it, and what reads it. The layout is partitioned by version: the repo
+root is v1.0/v1.1 and is self-contained, while `v12/` is a self-contained
+subproject with its own environment, `Makefile` and docs. The one link between
+them is the Streamlit app, which lives at the root and loads the v1.2 student
+from `v12/deploy/`.
+
+`SHA256SUMS.json` stores a SHA-256 digest for every packaged file; it is generated when the submission is packaged and so is not present in the git repository (see section 22, Integrity verification). Python may create `__pycache__/`; it is disposable bytecode and not part of the solution.
 
 ## 2. Requirements and quick start
 
 Requirements:
 
 - Python 3.11 or newer
-- NumPy 2.3.5, pinned in `requirements.txt`
+- NumPy 2.3.5; `requirements.txt` additionally pins pandas, streamlit and onnxruntime for `app.py`
 - macOS, Linux, Windows, or a compatible Python environment
 
 Create an isolated environment from this folder:
