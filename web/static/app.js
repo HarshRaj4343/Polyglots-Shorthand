@@ -26,6 +26,35 @@ async function api(path, body) {
 }
 
 // ---------------------------------------------------------------- meta + chips
+let MODELS = {};          // key -> facts from /api/meta
+let current = null;       // key of the selected model
+
+function renderModel(key) {
+  current = key;
+  const m = MODELS[key];
+  $('model-desc').textContent = m.description;
+
+  $('model-acc').innerHTML = m.accuracy.intent == null ? '' : `
+    <span class="acc-chip">intent <b>${pct(m.accuracy.intent)}</b></span>
+    <span class="acc-chip">sentiment <b>${pct(m.accuracy.sentiment)}</b></span>`;
+
+  $('stats').innerHTML = [
+    [m.accuracy.intent == null ? '—' : pct(m.accuracy.intent), 'Intent accuracy'],
+    [m.accuracy.sentiment == null ? '—' : pct(m.accuracy.sentiment), 'Sentiment accuracy'],
+    [(m.parameters / 1e6).toFixed(1) + 'M', 'Parameters'],
+    [key.startsWith('v1.2') ? 'v1.2' : 'v1.1', 'Model generation'],
+  ].map(([v, l]) => `<div class="stat"><b>${v}</b><span>${l}</span></div>`).join('');
+
+  $('facts').innerHTML = [
+    ['Model', key],
+    ['Parameters', m.parameters.toLocaleString()],
+    ['Feature mode', m.feature_mode],
+    ['Attention layer', m.attention ? 'yes' : 'no'],
+    ['Temperature', `intent ${m.temperature.intent.toFixed(2)} · sentiment ${m.temperature.sentiment.toFixed(2)}`],
+    ['Review threshold', `intent ${m.review_threshold.intent.toFixed(2)} · sentiment ${m.review_threshold.sentiment.toFixed(2)}`],
+  ].map(([l, v]) => `<div class="fact"><span>${l}</span><b>${escapeHtml(v)}</b></div>`).join('');
+}
+
 (async function init() {
   EXAMPLES.forEach((ex) => {
     const b = document.createElement('button');
@@ -35,22 +64,18 @@ async function api(path, body) {
   });
 
   try {
-    const m = await api('/api/meta');
-    $('stats').innerHTML = [
-      [pct(m.accuracy.intent), 'Intent accuracy'],
-      [pct(m.accuracy.sentiment), 'Sentiment accuracy'],
-      [(m.parameters / 1e6).toFixed(1) + 'M', 'Parameters'],
-      ['3.4 MB', 'INT8 ONNX encoder'],
-    ].map(([v, l]) => `<div class="stat"><b>${v}</b><span>${l}</span></div>`).join('');
-
-    $('facts').innerHTML = [
-      ['Model', m.model],
-      ['Parameters', m.parameters.toLocaleString()],
-      ['Intents', m.intents.length + ' classes'],
-      ['Sentiments', m.sentiments.length + ' classes'],
-      ['Temperature', `intent ${m.temperature.intent.toFixed(2)} · sentiment ${m.temperature.sentiment.toFixed(2)}`],
-      ['Review threshold', `intent ${m.review_threshold.intent.toFixed(2)} · sentiment ${m.review_threshold.sentiment.toFixed(2)}`],
-    ].map(([l, v]) => `<div class="fact"><span>${l}</span><b>${v}</b></div>`).join('');
+    const meta = await api('/api/meta');
+    meta.models.forEach((m) => {
+      MODELS[m.key] = m;
+      $('model').append(new Option(m.key, m.key));
+    });
+    $('model').value = meta.default;
+    renderModel(meta.default);
+    $('model').onchange = (e) => {
+      renderModel(e.target.value);
+      $('results').hidden = true;      // stale: it came from the previous model
+      $('batch-out').hidden = true;
+    };
   } catch (e) {
     $('stats').innerHTML = `<div class="stat"><span>Model unavailable: ${e.message}</span></div>`;
   }
@@ -92,7 +117,7 @@ async function run() {
 
   $('run').disabled = true; $('run').textContent = 'Analysing…';
   try {
-    const { results } = await api('/api/predict', { texts: [text] });
+    const { results } = await api('/api/predict', { texts: [text], model: current });
     const r = results[0];
     resultCard($('card-intent'), 'Intent — what the customer wants', r.intent);
     resultCard($('card-sentiment'), 'Sentiment — how the customer feels', r.sentiment);
@@ -123,7 +148,7 @@ $('run-batch').onclick = async () => {
 
   $('run-batch').disabled = true; $('run-batch').textContent = 'Analysing…';
   try {
-    const { results } = await api('/api/predict', { texts: texts.slice(0, 200) });
+    const { results } = await api('/api/predict', { texts: texts.slice(0, 200), model: current });
     lastRows = results.map((r) => r.error
       ? { text: r.text, intent: '—', intent_conf: '', sentiment: '—', sentiment_conf: '', review: r.error }
       : {

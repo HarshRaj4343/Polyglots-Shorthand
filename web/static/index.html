@@ -53,9 +53,23 @@
 
 <main>
 
+<section class="section picker-bar">
+  <div class="card picker">
+    <div class="picker-main">
+      <label for="model">Model</label>
+      <div class="select-wrap">
+        <select id="model"></select>
+      </div>
+    </div>
+    <p class="picker-desc" id="model-desc"></p>
+    <div class="picker-acc" id="model-acc"></div>
+  </div>
+</section>
+
 <section class="section" id="demo">
   <h2>Single message</h2>
-  <p class="lede">Type a customer message in Hinglish and see what the model makes of it.</p>
+  <p class="lede">Type a customer message in Hinglish and see what the model makes of it.
+     Both sections below use the model selected above.</p>
 
   <div class="card">
     <div class="chips" id="chips"></div>
