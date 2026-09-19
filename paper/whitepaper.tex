@@ -68,10 +68,9 @@
 \title{\vspace{-1.2em}\textbf{The Polyglot's Shorthand}\\[0.3em]
   \large A Hashed Sparse Multi-Head Classifier for Intent and Sentiment\\
   in Romanized Hindi--English Customer-Support Text\\[0.4em]
-  \normalsize\color{muted}Technical Whitepaper --- Q4, CS/AI Practice Problem Statements\\[0.2em]
-  \normalsize\color{accent}\textbf{Version 1.1} --- enriched data and a self-attention branch (\cref{sec:v11})\\[0.1em]
-  \normalsize\color{accent}\textbf{Version 1.2} --- teacher distillation into a hashed-piece Transformer (\cref{sec:v12})}
-\author{Harsh Raj}
+  \normalsize\color{muted}Technical Whitepaper\\[0.2em]
+  }
+\author{Harsh Raj - B25352 - General Engineering}
 \date{September 2026}
 
 % ============================================================================
@@ -87,54 +86,61 @@ invert the literal polarity of a sentence. We present a compact, fully
 reproducible reference system that maps such a message to one of six
 support \emph{intents} and one of three \emph{sentiment} classes, together
 with calibrated confidences and a human-review flag. The system combines a
-Unicode-preserving normalizer, eight prefixed feature channels (word and
+\textbf{Unicode-preserving normalizer}, eight \textbf{prefixed feature channels} (word and
 character $n$-grams, a shorthand-alias channel, and symbol$\times$word
-interaction features), CRC32 feature hashing into $D=2^{15}$ buckets, and two
-softmax heads trained jointly by class-balanced stochastic gradient descent.
+interaction features), \textbf{CRC32 feature hashing} into $D=2^{15}$ buckets, and two
+\textbf{softmax heads }trained jointly by \textbf{class-balanced stochastic gradient descent}.
 Post-hoc temperature scaling and a coverage-maximizing selective-prediction
 threshold are fitted on a validation split. The complete model has
-294{,}921 parameters (1.13\,MiB as float32; 106\,KB compressed), depends only
-on NumPy, and serves a request in 0.218\,ms at the 95th percentile on a
+\textbf{294{,}921 parameters} (1.13\,MiB as float32; 106\,KB compressed), depends only
+on NumPy, and serves a request in \textbf{0.218ms at the 95th percentile} on a
 laptop CPU. On a leakage-controlled, group-split synthetic benchmark the
-system reaches an intent macro-F1 of $0.820$ (group-bootstrap 95\% CI
-$[0.568, 0.960]$) but a sentiment macro-F1 of only $0.423$, with zero recall
+system reaches an \textbf{intent macro-F1 of $0.820$} (group-bootstrap 95\% CI
+$[0.568, 0.960]$) but a \textbf{sentiment macro-F1 of only $0.423$,} with zero recall
 on held-out positive messages and zero of five sarcasm contrast pairs solved.
-We report ablations, stress tests under unseen misspellings, calibration
+We evaluate the system through ablations, stress tests under unseen misspellings, calibration
 error, hash-collision statistics and a qualitative error analysis, and we
 argue explicitly which of the problem's robustness claims are \emph{not}
 established by this evidence.
 
 \smallskip\noindent
-\textbf{Version 1.1.} Following the v1.0 diagnosis that positive affect
-existed only inside \lbl{feedback}, we (i)~enrich the benchmark from 96 to 213
-seeds (221 to 884 rows) with positive, negative and neutral affect in
-\emph{every} intent, and (ii)~add a NumPy self-attention branch with
-hand-derived gradients whose logits are summed with the linear model. On the
-regenerated 190-row development test, the v1.1 \lbl{full} model reaches intent
+\textbf{Version 1.1.} Building on the v1.0 finding that positive affect
+existed only inside \lbl{feedback}, we (i)~\textbf{enrich the benchmark from 96 to 213
+seeds} (221 to 884 rows) with \textbf{positive, negative and neutral affect} in
+\emph{every} intent, and (ii)~add a NumPy \textbf{self-attention branch} with
+hand-derived gradients and combine its logits with those of the linear model. On the
+regenerated 190-row development test, the v1.1 \lbl{full} model reaches \textbf{intent
 macro-F1 $0.901$ $[0.782, 0.970]$ and sentiment macro-F1 $0.845$
-$[0.718, 0.944]$, with positive recall $0.72$ and 9 of 12 sarcasm pairs solved.
+$[0.718, 0.944]$, with positive recall $0.72$} and 9 of 12 sarcasm pairs solved.
 A linear-only model trained on the same enriched data scores $0.860$ and
 $0.810$, so most of the sentiment gain comes from data and a smaller, paired
-improvement comes from attention. The model has 827{,}721 parameters and a p95
-latency of 0.427\,ms. The small frozen audit set regresses from 3 to 6 errors
+improvement comes from attention. The model has \textbf{827{,}721 parameters and a p95
+latency of 0.427\,ms}. The small frozen audit set regresses from 3 to 6 errors
 (\cref{sec:v11}).
 
 \smallskip\noindent
 \textbf{Version 1.2.} We separate pretrained knowledge from new data and then
 distil. On the exact v1.1 splits, a pretrained Hinglish encoder
-(hing-roberta-mixed, 278M parameters) trained only on the v1.1 training data
+\textbf{(hing-roberta-mixed, 278M parameters)} trained only on the v1.1 training split
 fixes sentiment (paired $+0.159$ $[+0.056, +0.282]$) but not intent. Adding
 1{,}202 generated support messages, 2{,}323 augmented variants and 4{,}000
-public tweets (teacher~v2) reaches intent $0.966$ $[0.92, 0.99]$ and solves 29
-of 40 pairs in a new hand-written contrast set (v1.1: 10). Its soft labels on
-66{,}166 sentences train an 11.88M-parameter student that keeps the v1.1
+public tweets (teacher~v2) reaches \textbf{intent $0.966$ }$[0.92, 0.99]$ and solves 29
+of 40 pairs in a new hand-written contrast set (v1.1: 10). We then use its soft labels on
+\textbf{66{,}166 sentences} train an \textbf{11.88M-parameter student} that keeps the v1.1
 hashed pieces, adds four pre-LN Transformer blocks and runs without PyTorch
-(ONNX INT8; p95 0.81\,ms, 4.29\,ms at 512 code points). The student does
-\emph{not} keep the teacher's gains. Its intent $0.914$ and sentiment $0.916$
-are not resolved against v1.1, and sentiment is significantly below teacher~v2
+(ONNX INT8; p95 0.81\,ms, 4.29\,ms at 512 code points). \textbf{The student does
+\emph{not} keep the teacher's gains.} Its intent $0.914$ and sentiment $0.916$
+cannot be cleanly resolved against v1.1, and sentiment is significantly below teacher~v2
 ($-0.092$ $[-0.184, -0.020]$). Distillation is not shown to help over a no-KD
 student, and sentiment varies across seeds (sd $0.049$). Every evaluation set
 remains LLM-generated (\cref{sec:v12}).
+
+\smallskip\noindent
+\textbf{Availability.} The source, the released checkpoints and both front
+ends are at \url{https://github.com/HarshRaj4343/Polyglots-Shorthand}. A
+hosted demo of the deployed student, with every model of this paper
+selectable, runs at \url{https://polyglots-shorthand.onrender.com/}
+(\cref{sec:v12hosted}).
 \end{abstract}
 
 \tableofcontents
@@ -144,16 +150,16 @@ remains LLM-generated (\cref{sec:v12}).
 \section{Introduction}
 \label{sec:intro}
 
-Code-mixing---alternating between two or more languages inside a single
-utterance---is the default register of informal Indian digital
-communication~\cite{bali2014borrowing}. When Hindi is written in Latin script
+Code-mixing i.e alternating between two or more languages inside a single
+utterance,is the default register of informal Indian digital
+communication. When Hindi is written in Latin script
 there is no orthographic standard: \hi{nahi}, \hi{nhi}, \hi{nai} and
 \hi{nahii} all denote the same negator, and spelling varies by region,
-keyboard and individual. Benchmarks such as GLUECoS~\cite{khanuja2020gluecos}
-and SemEval-2020 Task~9~\cite{patwa2020semeval} show that these properties
+keyboard and individual. Benchmarks such as \textbf{GLUECoS}
+and \textbf{SemEval-2020} Task~9 show that these properties
 degrade models built for monolingual, standardized text.
 
-Customer-support triage adds operational constraints. Messages must be
+Customer-support triage introduces a few practical constraints. Messages must be
 routed in real time, so latency is measured in milliseconds; the deployment
 footprint must be small; and wrong-but-confident predictions are costly, so
 the system should know when to defer to a human agent. The problem
@@ -180,12 +186,7 @@ variation, shorthand, emoji and punctuation.
         (\cref{sec:protocol,sec:results,sec:analysis}).
 \end{enumerate}
 
-\paragraph{Positioning.} This is a strong-engineering \emph{baseline}, not a
-claim of a production-ready multilingual model. Intent classification is
-the primary task; sentiment is reported as an experimental secondary task
-whose failures we document in detail.
-
-\paragraph{Versions.} \Cref{sec:related,sec:problem,sec:arch,sec:training,sec:data,sec:protocol,sec:results,sec:analysis,sec:discussion}
+\paragraph{Versions.} \Cref{sec:related,sec:problem,sec:arch,sec:training,sec:data,sec:protocol,sec:results}
 describe and evaluate \textbf{version 1.0}, the purely linear baseline, and
 are kept unchanged as the historical record. \Cref{sec:v11} describes
 \textbf{version 1.1}, which enriches the data, adds a self-attention branch
@@ -201,34 +202,33 @@ the exact v1.1 splits.
 
 \paragraph{Linear text classifiers.}
 Bag-of-$n$-gram linear models remain competitive baselines for short-text
-classification~\cite{wang2012baselines}. fastText~\cite{joulin2017bag} showed
+classification. fastText showed
 that a linear classifier over hashed word and $n$-gram features can approach
 neural accuracy at orders-of-magnitude lower cost; subword character
 $n$-grams further improve handling of rare and misspelled
-words~\cite{bojanowski2017enriching}. Character $n$-gram profiles have long
-been used for noisy-text categorization~\cite{cavnar1994ngram}. Our model is a
+words. Character $n$-gram profiles have long
+been used for noisy-text categorization. Our model is a
 \emph{sparse linear} relative of these ideas; it does not learn dense
 embeddings and is not a reproduction of fastText.
 
 \paragraph{Feature hashing.}
-The hashing trick~\cite{weinberger2009feature} maps an unbounded feature
+The hashing trick maps an unbounded feature
 vocabulary into a fixed-dimensional space, eliminating a vocabulary table and
 out-of-vocabulary handling. Weinberger et al.\ analyse a \emph{signed} hash
 that makes collisions unbiased in expectation; we use the simpler unsigned
 variant and quantify its collisions empirically (\cref{sec:collisions}).
 
 \paragraph{Calibration and selective prediction.}
-Temperature scaling~\cite{guo2017calibration} rescales logits by a single
+Temperature scaling rescales logits by a single
 scalar fitted on held-out data, improving probability calibration without
-changing the argmax. Selective classification~\cite{chow1970optimum,
-geifman2017selective} abstains when confidence is low, trading coverage for
+changing the argmax. Selective classification abstains when confidence is low, trading coverage for
 accuracy on accepted predictions. We use both, but with a small validation
 set and no formal risk guarantee.
 
 \paragraph{Code-mixed sentiment and data leakage.}
 Code-mixed sentiment is hard even for large pretrained encoders because of
-sarcasm, transliteration noise and polarity carried by emoji~\cite{patwa2020semeval}.
-Augmented datasets are also vulnerable to \emph{leakage}~\cite{kaufman2012leakage}:
+sarcasm, transliteration noise and polarity carried by emoji.
+Augmented datasets are also vulnerable to \emph{leakage}:
 if two spelling variants of one sentence fall into train and test, test
 accuracy measures memorization. We therefore split by paraphrase group.
 
@@ -252,10 +252,6 @@ a confidence and a \emph{review-required} flag, subject to
         variation, while remaining \emph{sensitive} to meaning-changing
         signals (negation, emoji, punctuation).
 \end{enumerate}
-Requirement~3 is internally in tension: a representation that is invariant to
-every surface change would also erase \hi{nahi} and \emo{unamused}. The
-architecture below therefore aims for \emph{shared} rather than
-\emph{identical} representations of spelling variants.
 
 \paragraph{Sentiment annotation convention.} Sentiment describes
 \emph{expressed affect}, not whether the intent is operationally undesirable.
@@ -340,9 +336,7 @@ Tokens are extracted with the Unicode-aware pattern \verb!\w+|[^\w\s]!: a
 maximal run of word characters in any script, or a \emph{single} non-space,
 non-word code point. Consequently \hi{nahi!!!} yields
 $\langle\hi{nahi},\,!,\,!,\,!\rangle$ and each emoji code point becomes its own
-token. This is not a full grapheme-cluster segmenter: a skin-tone-modified or
-ZWJ-joined emoji is split into several code-point tokens, though the character
-channel still observes the contiguous sequence.
+token. 
 
 % ----------------------------------------------------------------------------
 \subsection{Feature Channels}
@@ -375,14 +369,14 @@ Prefix & Definition and purpose & Modes & Distinct \\
 \end{tabularx}
 \end{table}
 
-Two design decisions deserve emphasis.
+Two design choices are especially important.
 
 \emph{Additive, not destructive, aliasing.} The alias channel \emph{adds}
 canonical-spelling features while keeping the raw tokens. Overwriting would
 merge genuinely ambiguous forms (e.g.\ \hi{kaha} is both ``said'' and a
 shorthand for \hi{kahan} ``where''); adding lets the learner weigh both.
 
-\emph{Learned emoji semantics.} No emoji is assigned a fixed polarity. The
+\emph{Learned emoji semantics.} We do not assign any emoji a fixed polarity. The
 interaction channel only creates the \emph{opportunity} to learn
 context-dependent polarity; whether it is learned depends on data
 (\cref{sec:emoji}). In \lbl{strip\_symbols} mode every code point in Unicode
@@ -405,7 +399,7 @@ For multiset $\Phi(s)$ define counts $c_j=\lvert\{f\in\Phi(s): h(f)=j\}\rvert$ a
 \end{equation}
 \end{definition}
 
-CRC32 is stable across processes and platforms, unlike Python's salted
+CRC32 remains stable across processes and platforms, unlike Python's salted
 \texttt{hash()}, so a saved model is portable. Sub-linear term frequency
 ($1+\ln c$) prevents a repeated token (\hi{!!!!!!}) from dominating, and
 $\ell_2$ normalization makes scores comparable across message lengths---at the
@@ -417,7 +411,7 @@ $F=130$ buckets on average (range 62--206).
 \subsection{Two-Head Linear Model}
 \label{sec:model}
 
-A single matrix $\W\in\R^{D\times 9}$ and bias $\bb\in\R^{9}$ produce logits
+The model uses a single matrix $\W\in\R^{D\times 9}$ and bias $\bb\in\R^{9}$ produce logits
 $\z = \W^{\!\top}\x + \bb$. Columns $1{:}6$ form the intent head and $7{:}9$
 the sentiment head:
 \begin{equation}
@@ -432,7 +426,7 @@ costs $O(9F)$ rather than $O(9D)$.
 
 \begin{proposition}[Decoupling]
 \label{prop:decouple}
-The heads share the input representation $\x$ but no trainable parameters.
+Both heads use the same input representation $\x$ but no trainable parameters.
 The joint objective \eqref{eq:loss} is a sum of a term depending only on
 $(\W_{\cdot,1:6},\bb_{1:6})$ and a term depending only on
 $(\W_{\cdot,7:9},\bb_{7:9})$; weight decay is column-separable. Hence joint
@@ -459,7 +453,7 @@ training.
 \label{sec:training}
 
 \subsection{Objective}
-For a training set $\{(s_i,y^I_i,y^S_i)\}_{i=1}^{N}$ define class-balance
+Given a training set $\{(s_i,y^I_i,y^S_i)\}_{i=1}^{N}$ define class-balance
 weights from training labels only,
 $\alpha^{k}_{c}=N/\big(K_k\cdot\max(n^{k}_c,1)\big)$, where $n^{k}_c$ is the
 count of class $c$ in task $k$. The per-sample objective (with $T=1$ during
@@ -502,13 +496,6 @@ $\operatorname{supp}(\x)$ are touched. \Cref{alg:train} gives the procedure.
 \end{algorithmic}
 \end{algorithm}
 
-\paragraph{Observation: the checkpoint rule never fired early.}
-In all four configurations the selected epoch was $e^\star=55=E$, i.e.\
-validation NLL was still decreasing at the end of the budget. Checkpointing
-therefore acted as a safeguard rather than as early stopping, and the models
-may be under-trained with respect to validation likelihood. A longer schedule
-was not explored.
-
 \subsection{Calibration and Selective Prediction}
 \label{sec:calibration}
 
@@ -530,9 +517,9 @@ validation logits (\cref{alg:calib}).
 \end{algorithmic}
 \end{algorithm}
 
-The rule maximizes \emph{coverage} subject to an observed validation accuracy
+This rule maximizes \emph{coverage} while requiring an observed validation accuracy
 of at least 90\% on accepted items, and falls back to ``review everything'' if
-no threshold qualifies. With 43 validation rows from 18 groups this is a
+no threshold qualifies. Because there are only 43 validation rows from 18 groups, this is a
 demonstration policy, not a statistical precision guarantee; the same split
 is also used for checkpoint selection, so the estimate is optimistic.
 
@@ -546,7 +533,7 @@ logits are under-confident and the true NLL optimum may be sharper still.
 \label{sec:data}
 
 \subsection{Seed Authoring}
-No real customer data, scraped corpus or teacher model is used. We authored
+We use no real customer data, scraped corpus, or teacher model. We authored
 96 independent Hinglish seed messages, 16 per intent
 (\cref{tab:seeds}). Sentiment is heavily skewed: positive affect exists
 only within \lbl{feedback}, reflecting the realistic observation that
@@ -566,7 +553,7 @@ Neg / Neu / Pos & 4/12/0 & 5/11/0 & 4/12/0 & 6/10/0 & 7/9/0 & 4/4/8 & 30/58/8 \\
 \end{table}
 
 \subsection{Group-First Splitting}
-Each seed defines a \emph{group}. Within every (intent, base sentiment) stratum
+Each seed defines one \emph{group}. Within every (intent, base sentiment) stratum
 with $n\ge3$ seeds, groups are shuffled with a fixed seed and assigned
 $n_v=\max(1,\operatorname{round}(0.18n))$ to validation,
 $n_t=\max(1,\operatorname{round}(0.22n))$ to test and the remainder to train;
@@ -575,7 +562,7 @@ augmentation, and a validator rejects any group or lower-cased text that
 appears in two splits.
 
 \subsection{Augmentation}
-Each form of a seed is expanded into up to three deduplicated variants:
+Each seed can produce up to three deduplicated variants:
 \begin{enumerate}
   \item the original;
   \item a \emph{shorthand} rewrite via a 10-entry map
@@ -583,7 +570,7 @@ Each form of a seed is expanded into up to three deduplicated variants:
   \item an \emph{orthographic} rewrite (\hi{order}$\to$\hi{ordr},
         \hi{delivery}$\to$\hi{delivry}, \hi{service}$\to$\hi{servis}).
 \end{enumerate}
-Augmentations never add or remove negation, emoji or punctuation. In
+The augmentation process never adds or removes negation, emoji or punctuation. In
 addition, each of the 8 positive \lbl{feedback} seeds spawns two contrast
 forms: $s\,\emo{smile}$ labelled \lbl{positive} and $s\,\emo{unamused}$
 labelled \lbl{negative}. This sarcasm convention is an annotation assumption
@@ -616,7 +603,7 @@ its 22 groups than to its 58 rows, which motivates the cluster bootstrap in
 \cref{sec:protocol}.
 
 \subsection{Audit Set}
-A separate 24-example audit set (four per intent) was authored \emph{after} the
+We also created a separate 24-example audit set (four per intent) was authored \emph{after} the
 final model configuration was frozen and was never used for training,
 calibration or tuning. It is still synthetic, single-author and partly
 paraphrases the problem statement's own examples.
@@ -630,21 +617,21 @@ paraphrases the problem statement's own examples.
 confusion matrices; \emph{coverage} (fraction with $\max p\ge\tau$) and
 \emph{accepted accuracy}; expected calibration error (ECE, 10 equal-width bins).
 
-\paragraph{Uncertainty.} For macro-F1 we report a 95\% percentile interval from a
+\paragraph{Uncertainty.} For macro-F1, we report a 95\% percentile interval from a
 \textbf{group-level cluster bootstrap} (5{,}000 resamples of the 22 test groups
 with replacement, seed 0). Paired differences between configurations are
 computed on the same resamples. For accuracies we additionally give Wilson
 intervals, which treat rows as independent and are therefore optimistic.
 
-\paragraph{Ablations.} Four configurations (\lbl{full}, \lbl{word\_only},
+\paragraph{Ablations.} We evaluate four configurations (\lbl{full}, \lbl{word\_only},
 \lbl{char\_word}, \lbl{strip\_symbols}; \cref{tab:features}) are each
 retrained and recalibrated from scratch with identical splits, seed and budget.
 
-\paragraph{Stress test.} At evaluation time only, a 14-entry map introduces
+\paragraph{Stress test.} Only at evaluation time, a 14-entry map introduces
 spellings \emph{never seen in training or augmentation}
 (\hi{nahi}/\hi{nhi}$\to$\hi{nahii}, \hi{refund}$\to$\hi{refnd},
 \hi{order}$\to$\hi{orrder}, \hi{hai}$\to$\hi{hey}, \dots) while preserving
-negation, emoji and punctuation. It alters 89.7\% of test messages. We report
+negation, emoji and punctuation. This changes 89.7\% of the test messages. We report
 macro-F1 on the perturbed set and \emph{prediction consistency}---agreement
 with the model's own prediction on the clean text, which measures stability,
 not correctness.
@@ -682,10 +669,10 @@ Macro-F1 with 95\% group-bootstrap interval. Best clean score per column in bold
 \cmidrule(lr){2-3}\cmidrule(lr){4-5}\cmidrule(lr){6-7}
 Config & Acc. & Macro-F1 [95\% CI] & Acc. & Macro-F1 [95\% CI] & Intent & Sent. & (s) \\
 \midrule
-\lbl{full}          & .810 & .820 [.568, .960] & .603 & .423 [.307, .526] & .717 & .449 & 0.57 \\
-\lbl{word\_only}    & .586 & .607 [.405, .778] & \textbf{.638} & \textbf{.470} [.366, .573] & .454 & \textbf{.609} & 0.20 \\
-\lbl{char\_word}    & \textbf{.845} & \textbf{.854} [.631, .955] & .603 & .429 [.321, .529] & .717 & .438 & 0.51 \\
-\lbl{strip\_symbols}& .828 & .849 [.590, 1.00] & .483 & .327 [.207, .448] & \textbf{.736} & .400 & 0.56 \\
+\lbl{full}          &.810 &.820 [.568,.960] &.603 &.423 [.307,.526] &.717 &.449 & 0.57 \\
+\lbl{word\_only}    &.586 &.607 [.405,.778] & \textbf{.638} & \textbf{.470} [.366,.573] &.454 & \textbf{.609} & 0.20 \\
+\lbl{char\_word}    & \textbf{.845} & \textbf{.854} [.631,.955] &.603 &.429 [.321,.529] &.717 &.438 & 0.51 \\
+\lbl{strip\_symbols}&.828 &.849 [.590, 1.00] &.483 &.327 [.207,.448] & \textbf{.736} &.400 & 0.56 \\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -739,7 +726,7 @@ conclusions and reject one tempting claim:
         The simpler \lbl{char\_word} scores $+0.037$ above \lbl{full} on
         intent (CI $[-0.03,+0.12]$) and is statistically indistinguishable
         on sentiment. \lbl{word\_only} even has the best point estimate on
-        sentiment. We keep \lbl{full} as the reference because it is the only
+        sentiment. We retain \lbl{full} as the reference because it is the only
         configuration that \emph{can} represent emoji$\times$word context, not
         because it wins on this split.
 \end{enumerate}
@@ -775,19 +762,19 @@ development test (counts; shading $\propto$ row share). Rows are true labels.}
 \multicolumn{8}{@{}l}{\textbf{(a) Intent}}\\
 True $\backslash$ Pred & cancel & refund & track & not\_recv & damaged & feedback & F1 \\
 \midrule
-\lbl{cancel\_order} & \cm{44}{8} & 0 & \cm{16}{3} & 0 & 0 & 0 & .842 \\
+\lbl{cancel\_order} & \cm{44}{8} & 0 & \cm{16}{3} & 0 & 0 & 0 &.842 \\
 \lbl{refund}        & 0 & \cm{60}{4} & 0 & 0 & 0 & 0 & 1.00 \\
-\lbl{track\_order}  & 0 & 0 & \cm{60}{9} & 0 & 0 & 0 & .750 \\
-\lbl{not\_received} & 0 & 0 & 0 & \cm{60}{8} & 0 & 0 & .889 \\
-\lbl{damaged\_item} & 0 & 0 & 0 & \cm{17}{2} & \cm{34}{4} & \cm{9}{1} & .615 \\
-\lbl{feedback}      & 0 & 0 & \cm{10}{3} & 0 & \cm{6}{2} & \cm{44}{14} & .824 \\
+\lbl{track\_order}  & 0 & 0 & \cm{60}{9} & 0 & 0 & 0 &.750 \\
+\lbl{not\_received} & 0 & 0 & 0 & \cm{60}{8} & 0 & 0 &.889 \\
+\lbl{damaged\_item} & 0 & 0 & 0 & \cm{17}{2} & \cm{34}{4} & \cm{9}{1} &.615 \\
+\lbl{feedback}      & 0 & 0 & \cm{10}{3} & 0 & \cm{6}{2} & \cm{44}{14} &.824 \\
 \midrule
 \multicolumn{8}{@{}l}{\textbf{(b) Sentiment}}\\
 True $\backslash$ Pred & negative & neutral & positive & & & & F1 \\
 \midrule
-\lbl{negative} & \cm{27}{9} & \cm{27}{9} & \cm{6}{2} & & & & .514 \\
-\lbl{neutral}  & \cm{4}{2} & \cm{56}{26} & 0 & & & & .754 \\
-\lbl{positive} & \cm{24}{4} & \cm{36}{6} & 0 & & & & .000 \\
+\lbl{negative} & \cm{27}{9} & \cm{27}{9} & \cm{6}{2} & & & &.514 \\
+\lbl{neutral}  & \cm{4}{2} & \cm{56}{26} & 0 & & & &.754 \\
+\lbl{positive} & \cm{24}{4} & \cm{36}{6} & 0 & & & &.000 \\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -815,13 +802,13 @@ with Wilson 95\% interval (row-independent, optimistic).}
 \cmidrule(lr){3-4}\cmidrule(lr){5-6}
 Set & $N$ & Acc. [95\% CI] & Macro-F1 & Acc. [95\% CI] & Macro-F1\\
 \midrule
-Development test & 58 & .810 [.691, .891] & .820 & .603 [.475, .719] & .423 \\
-Audit            & 24 & .958 [.798, .993] & .958 & .917 [.742, .977] & .831 \\
+Development test & 58 &.810 [.691,.891] &.820 &.603 [.475,.719] &.423 \\
+Audit            & 24 &.958 [.798,.993] &.958 &.917 [.742,.977] &.831 \\
 \bottomrule
 \end{tabular}
 \end{table}
 
-The audit scores are markedly higher (\cref{tab:audit}). We interpret this as
+The audit scores are noticeably higher (\cref{tab:audit}). We interpret this as
 \emph{sampling sensitivity}, not generalization: the audit contains only two
 positive messages, draws on vocabulary close to the training seeds, and has
 no augmentation variants. The two sets must not be pooled.
@@ -848,7 +835,7 @@ Audit: intent / sent.  & & & & & & 1.000 / 0.500 & 0.958 / 1.000 \\
 \end{tabular}
 \end{table}
 
-Temperature scaling halves intent ECE on test ($0.333\to0.155$) by sharpening
+Temperature scaling reduces intent ECE by roughly half on test ($0.333\to0.155$) by sharpening
 under-confident logits; for sentiment it barely changes ECE, and the head
 remains \emph{over}-confident on validation. The review policy behaves very
 differently per head (\cref{tab:calib}). For intent, $\tau_I=0$ accepts every
@@ -874,7 +861,7 @@ Sentiment & 0.423 & 0.449 \textcolor{okgreen}{($+0.026$)} & 93.1\% \\
 \end{tabular}
 \end{table}
 
-Intent degrades by about ten points and one in five predictions flips
+Intent performance drops by about ten points and one in five predictions flips
 (\cref{tab:stress}). Character $n$-grams provide partial tolerance---47.6\% of
 the feature strings in an average test message never occur in training, yet
 most predictions survive---but invariance is clearly not achieved. The small
@@ -884,13 +871,13 @@ already near the majority class.
 \subsection{Emoji Contrast Pairs}
 \label{sec:emoji}
 
-All four configurations solve \textbf{0 of 5} held-out
-$(s,\ s\,\emo{unamused})$ pairs. The five pairs are spelling variants of only
+None of the four configurations solves \textbf{0 of 5} held-out
+$(s,\ s\,\emo{unamused})$ pairs. These five pairs are spelling variants of only
 two seed groups (\hi{support ekdum zabardast hai}, \hi{wah kya fantastic
 service hai}), so this is two independent constructions, not five. The model
 does predict \lbl{negative} for the \emo{unamused} form of the first seed, but
 it also fails on the plain positive form, so the pair is not ``both correct.''
-The interaction channel creates capacity for context-dependent emoji meaning;
+The interaction channel provides capacity for context-dependent emoji meaning;
 eight training seeds are not enough to learn it.
 
 \subsection{Efficiency}
@@ -960,7 +947,7 @@ bucket with at least one other string. Because hashing is unsigned, each
 collision adds a biased rather than zero-mean perturbation. At this data scale
 the effect is second-order compared with data scarcity; at production scale,
 where the distinct-feature count would grow by orders of magnitude, a signed
-hash~\cite{weinberger2009feature} or a larger $D$ (linear memory cost) would be
+hash or a larger $D$ (linear memory cost) would be
 necessary.
 
 \subsection{Qualitative Error Analysis}
@@ -1016,69 +1003,6 @@ training set too small to disentangle intent vocabulary, sentiment vocabulary
 and emoji context.
 
 % ============================================================================
-\section{Discussion}
-\label{sec:discussion}
-
-\subsection{Requirements Scorecard}
-
-\begin{table}[h]
-\centering\small
-\caption{Status of each problem requirement against the evidence in this paper.}
-\label{tab:scorecard}
-\begin{tabularx}{\linewidth}{@{}l l X@{}}
-\toprule
-Requirement & Status & Evidence \\
-\midrule
-$\le$500M parameters & \textcolor{okgreen}{\textbf{Met}} & 294{,}921 parameters (\cref{sec:model}). \\
-Single-digit ms latency & \textcolor{okgreen}{\textbf{Met locally}} & p99 $\le$0.906\,ms at 512 code points; deployment hardware and load untested. \\
-Spelling/shorthand robustness & \textcolor{warn}{\textbf{Partial}} & Char $n$-grams help ($+0.19$ F1); unseen misspellings still cost $-0.10$ F1 and flip 21\% of intents. \\
-Emoji and punctuation semantics & \textcolor{warn}{\textbf{Partial}} & Symbols measurably help sentiment; sarcasm pairs 0/5. \\
-Reproducibility & \textcolor{okgreen}{\textbf{Met}} & Seeded data and training, NumPy-only, 11 unit tests, SHA-256 manifest. \\
-\bottomrule
-\end{tabularx}
-\end{table}
-
-\subsection{Threats to Validity}
-\begin{itemize}
-  \item \textbf{Construct validity.} All data are synthetic and single-author;
-        labels for implicit frustration and sarcasm are debatable and have no
-        inter-annotator agreement estimate.
-  \item \textbf{Internal validity.} The validation split serves checkpointing,
-        temperature and threshold selection; the development test informed
-        fixes. Reported validation and test numbers are therefore optimistic.
-  \item \textbf{Statistical conclusion validity.} 22 test groups yield intent
-        macro-F1 intervals $\sim$0.4 wide; most ablation differences are not
-        resolved. A single training seed hides optimizer variance.
-  \item \textbf{External validity.} Only Hindi--English is evaluated. Accepting
-        Tamil, Bengali or Devanagari input (unit-tested) is not evidence of
-        understanding those languages; out-of-scope messages always receive
-        one of the six intents.
-\end{itemize}
-
-\subsection{Future Work}
-\begin{enumerate}
-  \item \textbf{Data first.} Collect consented real messages; multi-annotator
-        labels with adjudication; balance sentiment within every intent; add
-        negation-scope minimal pairs, mixed intents, genuine emoji ambiguity
-        and dialectal spellings. Split by conversation, author and time, and
-        keep a blind final set untouched.
-  \item \textbf{Cheap model improvements.} Signed hashing; longer training
-        schedule (the checkpoint never stopped early); a wider temperature
-        grid; multiple seeds with reported variance; an explicit out-of-scope
-        class.
-  \item \textbf{Representation upgrade.} If lexical features plateau, a
-        compact contextual encoder over character/subword input, trained or
-        distilled on code-mixed text, can model negation scope. A consistency
-        loss should be applied only to \emph{verified} meaning-preserving
-        variants, with separate contrastive pairs for meaning-changing edits
-        (negation, emoji). Any such model must be re-measured against the
-        parameter cap and latency target after quantization, on target
-        hardware.
-  \item \textbf{Risk-controlled deferral.} Replace the heuristic threshold with
-        a selective-prediction procedure that provides finite-sample coverage
-        or risk guarantees on a larger calibration set.
-\end{enumerate}
-
 % ============================================================================
 \section{Version 1.1: Enriched Data and a Self-Attention Branch}
 \label{sec:v11}
@@ -1190,10 +1114,10 @@ character 3- and 4-grams (\texttt{tc3:}, \texttt{tc4:}, modes F, C and S).
 With an embedding table $\bm E\in\R^{B\times d}$, $d=32$, and learned position
 embeddings $\bm P\in\R^{T_{\max}\times d}$,
 \begin{equation}
-  \bm X_i = \frac{1}{|\mathcal{B}_i|}\sum_{j\in\mathcal{B}_i}\bm E_j + \bm P_i .
+  \bm X_i = \frac{1}{|\mathcal{B}_i|}\sum_{j\in\mathcal{B}_i}\bm E_j + \bm P_i.
   \label{eq:v11embed}
 \end{equation}
-Averaging subword pieces, as in fastText~\cite{bojanowski2017enriching}, places
+Averaging subword pieces, as in fastText, places
 \hi{ordr} near \hi{order} before any training on the respelling.
 
 \paragraph{Contextual layer and pooling.} One single-head scaled dot-product
@@ -1381,14 +1305,14 @@ branch. Best clean score per column in bold.}
 \cmidrule(lr){2-3}\cmidrule(lr){4-5}\cmidrule(lr){6-7}
 Config & Acc. & Macro-F1 [95\% CI] & Acc. & Macro-F1 [95\% CI] & Intent & Sent. & recall \\
 \midrule
-Linear only (v1.1 data) & .863 & .860 [.720, .947] & .811 & .810 [.676, .911] & .797 & \textbf{.828} & .672 \\
+Linear only (v1.1 data) &.863 &.860 [.720,.947] &.811 &.810 [.676,.911] &.797 & \textbf{.828} &.672 \\
 \midrule
-\lbl{full} + attention          & \textbf{.905} & \textbf{.901} [.782, .970] & \textbf{.847} & \textbf{.845} [.718, .944] & \textbf{.865} & .826 & \textbf{.721} \\
-\lbl{word\_only} + attention    & .853 & .847 [.709, .929] & .826 & .827 [.714, .919] & .667 & .806 & \textbf{.721} \\
-\lbl{char\_word} + attention    & \textbf{.905} & \textbf{.901} [.782, .970] & .832 & .831 [.704, .929] & \textbf{.865} & .816 & \textbf{.721} \\
-\lbl{strip\_symbols} + attention& .884 & .888 [.757, .972] & .763 & .760 [.642, .860] & .853 & .795 & .639 \\
+\lbl{full} + attention          & \textbf{.905} & \textbf{.901} [.782,.970] & \textbf{.847} & \textbf{.845} [.718,.944] & \textbf{.865} &.826 & \textbf{.721} \\
+\lbl{word\_only} + attention    &.853 &.847 [.709,.929] &.826 &.827 [.714,.919] &.667 &.806 & \textbf{.721} \\
+\lbl{char\_word} + attention    & \textbf{.905} & \textbf{.901} [.782,.970] &.832 &.831 [.704,.929] & \textbf{.865} &.816 & \textbf{.721} \\
+\lbl{strip\_symbols} + attention&.884 &.888 [.757,.972] &.763 &.760 [.642,.860] &.853 &.795 &.639 \\
 \midrule
-\color{muted}v1.0 \lbl{full} (58-row test) & \color{muted}.810 & \color{muted}.820 [.568, .960] & \color{muted}.603 & \color{muted}.423 [.307, .526] & \color{muted}.717 & \color{muted}.449 & \color{muted}.000 \\
+\color{muted}v1.0 \lbl{full} (58-row test) & \color{muted}.810 & \color{muted}.820 [.568,.960] & \color{muted}.603 & \color{muted}.423 [.307,.526] & \color{muted}.717 & \color{muted}.449 & \color{muted}.000 \\
 \bottomrule
 \end{tabular}}
 \end{table}
@@ -1488,19 +1412,19 @@ development test (counts; shading $\propto$ row share). Compare \cref{tab:confus
 \multicolumn{8}{@{}l}{\textbf{(a) Intent}}\\
 True $\backslash$ Pred & cancel & refund & track & not\_recv & damaged & feedback & F1 \\
 \midrule
-\lbl{cancel\_order} & \cm{60}{36} & 0 & 0 & 0 & 0 & 0 & .960 \\
-\lbl{refund}        & \cm{9}{3} & \cm{51}{17} & 0 & 0 & 0 & 0 & .919 \\
-\lbl{track\_order}  & 0 & 0 & \cm{58}{30} & \cm{2}{1} & 0 & 0 & .938 \\
-\lbl{not\_received} & 0 & 0 & 0 & \cm{48}{21} & 0 & \cm{12}{5} & .875 \\
-\lbl{damaged\_item} & 0 & 0 & 0 & 0 & \cm{43}{15} & \cm{17}{6} & .833 \\
-\lbl{feedback}      & 0 & 0 & \cm{3}{3} & 0 & 0 & \cm{57}{53} & .883 \\
+\lbl{cancel\_order} & \cm{60}{36} & 0 & 0 & 0 & 0 & 0 &.960 \\
+\lbl{refund}        & \cm{9}{3} & \cm{51}{17} & 0 & 0 & 0 & 0 &.919 \\
+\lbl{track\_order}  & 0 & 0 & \cm{58}{30} & \cm{2}{1} & 0 & 0 &.938 \\
+\lbl{not\_received} & 0 & 0 & 0 & \cm{48}{21} & 0 & \cm{12}{5} &.875 \\
+\lbl{damaged\_item} & 0 & 0 & 0 & 0 & \cm{43}{15} & \cm{17}{6} &.833 \\
+\lbl{feedback}      & 0 & 0 & \cm{3}{3} & 0 & 0 & \cm{57}{53} &.883 \\
 \midrule
 \multicolumn{8}{@{}l}{\textbf{(b) Sentiment}}\\
 True $\backslash$ Pred & negative & neutral & positive & & & & F1 \\
 \midrule
-\lbl{negative} & \cm{55}{59} & \cm{2}{2} & \cm{3}{3} & & & & .843 \\
-\lbl{neutral}  & \cm{6}{7} & \cm{54}{58} & 0 & & & & .879 \\
-\lbl{positive} & \cm{10}{10} & \cm{7}{7} & \cm{43}{44} & & & & .815 \\
+\lbl{negative} & \cm{55}{59} & \cm{2}{2} & \cm{3}{3} & & & &.843 \\
+\lbl{neutral}  & \cm{6}{7} & \cm{54}{58} & 0 & & & &.879 \\
+\lbl{positive} & \cm{10}{10} & \cm{7}{7} & \cm{43}{44} & & & &.815 \\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -1531,8 +1455,8 @@ Quantity & Linear only & \lbl{full}+att. & Linear only & \lbl{full}+att. \\
 Temperature $T$                 & 0.550 & 0.550 & 1.216 & 1.316 \\
 Review threshold $\tau$          & 0.665 & 0.651 & 0.724 & 0.655 \\
 ECE (test)                      & 0.043 & 0.082 & 0.102 & 0.106 \\
-Mean confidence / accuracy      & .903 / .863 & .932 / .905 & .714 / .811 & .794 / .847 \\
-Coverage / acc.\ on accepted    & --- & .953 / .906 & --- & .753 / .951 \\
+Mean confidence / accuracy      &.903 /.863 &.932 /.905 &.714 /.811 &.794 /.847 \\
+Coverage / acc.\ on accepted    & --- &.953 /.906 & --- &.753 /.951 \\
 Stress prediction consistency   & 92.1\% & 97.4\% & 90.0\% & 92.6\% \\
 \midrule
 Emoji contrast pairs both correct & \multicolumn{4}{l}{\footnotesize linear only 9/12 \quad \lbl{full} 9/12 \quad \lbl{char\_word} 9/12 \quad \lbl{word\_only} 7/12 \quad \lbl{strip\_symbols} 0/12} \\
@@ -1566,8 +1490,8 @@ data, not to attention.
 \cmidrule(lr){3-4}\cmidrule(lr){5-6}
 Set & $N$ & Accuracy & Macro-F1 & Accuracy & Macro-F1\\
 \midrule
-v1.1 development test & 190 & .905 & .901 & .847 & .845 \\
-v1.1 audit            &  24 & .875 & .865 & .875 & .806 \\
+v1.1 development test & 190 &.905 &.901 &.847 &.845 \\
+v1.1 audit            &  24 &.875 &.865 &.875 &.806 \\
 \color{muted}v1.0 audit & \color{muted}24 & \color{muted}.958 & \color{muted}.958 & \color{muted}.917 & \color{muted}.831 \\
 \bottomrule
 \end{tabular}
@@ -1740,9 +1664,9 @@ contrast set (\cref{sec:v12contrast}); the frozen 24-message audit is kept
 unchanged for comparability.
 
 \begin{enumerate}
-  \item[\textbf{Q1}] Does pretrained Hinglish knowledge alone fix (a)--(d)? Teacher trained on the v1.1 split only (\cref{sec:v12teacher1}).
-  \item[\textbf{Q2}] Does more diverse, targeted data help beyond pretraining? Same encoder and selection rule with new data (\cref{sec:v12teacher2}).
-  \item[\textbf{Q3}] Does a student with at most 15M parameters and a p95 below 5\,ms (batch~1, laptop CPU, including hashing) keep the teacher's gains? (\cref{sec:v12student,sec:v12results})
+  \item[\textbf{Q1}] Does pretrained Hinglish knowledge alone fix (a)--(d) Teacher trained on the v1.1 split only (\cref{sec:v12teacher1}).
+  \item[\textbf{Q2}] Does more diverse, targeted data help beyond pretraining Same encoder and selection rule with new data (\cref{sec:v12teacher2}).
+  \item[\textbf{Q3}] Does a student with at most 15M parameters and a p95 below 5\,ms (batch~1, laptop CPU, including hashing) keep the teacher's gains (\cref{sec:v12student,sec:v12results})
 \end{enumerate}
 
 \begin{figure}[t]
@@ -1811,20 +1735,43 @@ URLs, \texttt{t.co} fragments and \texttt{RT}, keeps Latin-script letters only
 Romanized Hindi function words (English-ambiguous \hi{the, to, me, do, hi, ho,
 na} excluded), and removes exact duplicates. \textbf{No public message was a
 near-duplicate of a protected message.}
-
 \begin{table}[h]
-\centering\small
+\centering
+\small
 \caption{Public sources after cleaning. The unlabeled pool is capped at 50{,}000 by seeded sampling.}
 \label{tab:v12public}
-\begin{tabularx}{\linewidth}{@{}l l r r X@{}}
+
+\begin{tabularx}{\linewidth}{@{}X l r r@{}}
 \toprule
-Source & License & Raw & Kept & Use \\
+Source & License & Raw & Kept \\
 \midrule
-SemEval-2020 Task 9 SentiMix, Hinglish~\cite{patwa2020semeval} (re-upload \texttt{RTT1/SentiMix}) & research-use Twitter data & 20{,}000 & 12{,}080 & labeled sentiment; intent loss masked \\
-Code-mixed tweets (\texttt{Abhishek4896/...}) & MIT & 498 & 25 & labeled sentiment (385 exact duplicates) \\
-PHINC~\cite{srivastava2020phinc} (\texttt{LingoIITGN/PHINC}) & CC-BY-4.0 & 13{,}738 & 9{,}561 & unlabeled pool (8{,}000) \\
-L3Cube-HingLID~\cite{nayak2022l3cube} (GitHub) & CC-BY-NC-SA-4.0 & 44{,}455 & 42{,}543 & unlabeled pool (35{,}957) \\
-CMU Hinglish DoG~\cite{zhou2018dog} (\texttt{festvox/cmu\_hinglish\_dog}) & CC-BY-SA-3.0 & 9{,}962 & 7{,}146 & unlabeled pool (6{,}043) \\
+
+SemEval-2020 Task 9 SentiMix, Hinglish
+(re-upload \texttt{RTT1/SentiMix})
+& research-use Twitter data
+& 20{,}000
+& 12{,}080 \\
+
+Code-mixed tweets (\texttt{Abhishek4896/...})
+& MIT
+& 498
+& 25 \\
+
+PHINC (\texttt{LingoIITGN/PHINC})
+& CC-BY-4.0
+& 13{,}738
+& 9{,}561 \\
+
+L3Cube-HingLID (GitHub)
+& CC-BY-NC-SA-4.0
+& 44{,}455
+& 42{,}543 \\
+
+CMU Hinglish DoG (\texttt{festvox/cmu\_hinglish\_dog})
+& CC-BY-SA-3.0
+& 9{,}962
+& 7{,}146 \\
+
 \bottomrule
 \end{tabularx}
 \end{table}
@@ -1947,9 +1894,9 @@ Optimization uses AdamW (weight decay 0.01, none on biases or LayerNorm), linear
 
 \subsubsection{Q1: Pretraining Only}
 \label{sec:v12teacher1}
-Four encoders---hing-roberta and hing-roberta-mixed~\cite{nayak2022l3cube}, both
-XLM-R~\cite{conneau2020xlmr} base models; hing-bert~\cite{nayak2022l3cube}; and
-MuRIL~\cite{khanuja2021muril}---were each fine-tuned at three learning rates on
+Four encoders---hing-roberta and hing-roberta-mixed, both
+XLM-R base models; hing-bert; and
+MuRIL---were each fine-tuned at three learning rates on
 the 536-row v1.1 training split (batch 16, at most 12 epochs, patience 3).
 
 \begin{table}[h]
@@ -1961,18 +1908,18 @@ the 536-row v1.1 training split (batch 16, at most 12 epochs, patience 3).
 \toprule
 Run & Val.\ NLL & Test intent F1 & Test sent.\ F1 & Emoji pairs & Audit err. & Contrast both-correct \\
 \midrule
-hing-roberta, 2e-5          & 0.132 & .955 & 1.000 & 12/12 & 3 & .750 \\
-hing-roberta, 3e-5          & 0.094 & .954 & 1.000 & 12/12 & 1 & .762 \\
-hing-roberta, 5e-5          & 0.101 & .951 & 1.000 & 12/12 & 1 & .738 \\
-hing-roberta-mixed, 2e-5    & 0.114 & .955 & 1.000 & 12/12 & 1 & .713 \\
-hing-roberta-mixed, 3e-5    & 0.085 & .951 & 1.000 & 12/12 & 1 & .725 \\
+hing-roberta, 2e-5          & 0.132 &.955 & 1.000 & 12/12 & 3 &.750 \\
+hing-roberta, 3e-5          & 0.094 &.954 & 1.000 & 12/12 & 1 &.762 \\
+hing-roberta, 5e-5          & 0.101 &.951 & 1.000 & 12/12 & 1 &.738 \\
+hing-roberta-mixed, 2e-5    & 0.114 &.955 & 1.000 & 12/12 & 1 &.713 \\
+hing-roberta-mixed, 3e-5    & 0.085 &.951 & 1.000 & 12/12 & 1 &.725 \\
 \textbf{hing-roberta-mixed, 5e-5} & \textbf{0.080} & \textbf{.929} & \textbf{1.000} & \textbf{12/12} & \textbf{1} & \textbf{.738} \\
-hing-bert, 2e-5             & 0.260 & .871 & .861 & 3/12 & 2 & .425 \\
-hing-bert, 3e-5             & 0.253 & .903 & .896 & 9/12 & 2 & .475 \\
-hing-bert, 5e-5             & 0.269 & .891 & .882 & 6/12 & 2 & .475 \\
-muril-base-cased, 2e-5      & 1.296 & .863 & .791 & 0/12 & 3 & .500 \\
-muril-base-cased, 3e-5      & 1.238 & .934 & .822 & 0/12 & 3 & .575 \\
-muril-base-cased, 5e-5      & 1.143 & .923 & .828 & 0/12 & 4 & .475 \\
+hing-bert, 2e-5             & 0.260 &.871 &.861 & 3/12 & 2 &.425 \\
+hing-bert, 3e-5             & 0.253 &.903 &.896 & 9/12 & 2 &.475 \\
+hing-bert, 5e-5             & 0.269 &.891 &.882 & 6/12 & 2 &.475 \\
+muril-base-cased, 2e-5      & 1.296 &.863 &.791 & 0/12 & 3 &.500 \\
+muril-base-cased, 3e-5      & 1.238 &.934 &.822 & 0/12 & 3 &.575 \\
+muril-base-cased, 5e-5      & 1.143 &.923 &.828 & 0/12 & 4 &.475 \\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -2025,7 +1972,7 @@ True & can & ref & trk & nrc & dmg & fb && can & ref & trk & nrc & dmg & fb && c
 For every sentence $s$, teacher v2 provides logits $(\z^{I}_{\text{T}}, \z^{S}_{\text{T}})$. The KD masks are
 \begin{equation}
   \kappa^I(s) = \mathbb{1}[s \in \text{support data}]\cdot\mathbb{1}\big[\max_c \softmax(\z^I_{\text{T}}(s))_c \ge 0.6\big],\qquad
-  \kappa^S(s) = 1 .
+  \kappa^S(s) = 1.
   \label{eq:v12mask}
 \end{equation}
 
@@ -2059,13 +2006,13 @@ noisy SentiMix labels is 0.71.
 \subsubsection{Input: the v1.1 Hashed Pieces}
 Let $t_{1:T}$ be the tokens of $\nu(s)$ under the pattern \verb!\w+|[^\w\s]!, with $T\le T_{\max}=128$. Token $t_i$ yields the piece set
 \begin{equation}
-  \mathcal{B}_i = \Big\{h_B(\texttt{tw:}t_i),\; h_B(\texttt{ta:}\mathrm{alias}(t_i))\Big\}\cup\Big\{h_B(\texttt{tc}n\texttt{:}g) : g \in \text{$n$-grams of } \texttt{<}t_i\texttt{>},\ n\in\{3,4\}\Big\},
+  \mathcal{B}_i = \Big\{h_B(\texttt{tw:}t_i),\; h_B(\texttt{ta:}\mathrm{alias}(t_i))\Big\}\cup\Big\{h_B(\texttt{tc}n\texttt{:}g): g \in \text{$n$-grams of } \texttt{<}t_i\texttt{>},\ n\in\{3,4\}\Big\},
   \label{eq:v12pieces}
 \end{equation}
 where $h_B(f)=\mathrm{CRC32}(\mathrm{UTF8}(f)) \bmod B$. The key strings are exactly those of v1.1 (\cref{eq:v11embed}); only the bucket count grows from $2^{14}$ to $B=2^{15}$ to reduce collisions from the 50{,}000-sentence pool.
 
 \subsubsection{Encoder}
-A pre-LayerNorm Transformer~\cite{vaswani2017attention,xiong2020layernorm} replaces the single v1.1 attention layer:
+A pre-LayerNorm Transformer replaces the single v1.1 attention layer:
 \begin{align}
   \bm X^{(0)}_i &= \frac{1}{|\mathcal{B}_i|}\sum_{j\in\mathcal{B}_i}\bm E_j + \bm P_i, && \bm E\in\R^{B\times d},\ \bm P\in\R^{T_{\max}\times d}, \label{eq:v12embed}\\
   \bm U^{(\ell)} &= \bm X^{(\ell-1)} + \mathrm{MHA}\big(\LN(\bm X^{(\ell-1)})\big), && \ell = 1,\dots,4, \\
@@ -2165,12 +2112,12 @@ Runtime & NumPy & NumPy and ONNX Runtime (INT8) \\
 \end{table}
 
 \subsubsection{Objective}
-With student logits $\z$, teacher logits $\z_{\text{T}}$, gold-label masks $\mu$, KD masks $\kappa$ (\cref{eq:v12mask}) and a meaning-preserving noisy copy $\tilde s$, following knowledge distillation~\cite{hinton2015distilling}:
+With student logits $\z$, teacher logits $\z_{\text{T}}$, gold-label masks $\mu$, KD masks $\kappa$ (\cref{eq:v12mask}) and a meaning-preserving noisy copy $\tilde s$, following knowledge distillation:
 \begin{align}
   \mathcal{L}_{\text{CE}} &= \sum_{k} \frac{1}{\sum_i\mu^k_i}\sum_i \mu^k_i\,\alpha^k_{y^k_i}\,\CE\big(\softmax(\z^k_i), y^k_i\big), \\
   \mathcal{L}_{\text{KD}} &= \sum_{k} \frac{1}{\sum_i\kappa^k_i}\sum_i \kappa^k_i\; \tau^2\,\KL\Big(\softmax(\z^k_{\text{T},i}/\tau)\,\Big\|\,\softmax(\z^k_i/\tau)\Big),\qquad \tau = 2, \\
   \mathcal{L}_{\text{cons}} &= \frac{1}{N}\sum_i\sum_k \KL\Big(\mathrm{sg}\big[\softmax(\z^k(s_i))\big]\,\Big\|\,\softmax(\z^k(\tilde s_i))\Big), \\
-  \mathcal{L}_{\text{S}} &= \mathcal{L}_{\text{CE}} + \lambda_{\text{KD}}\,\mathcal{L}_{\text{KD}} + \lambda_{\text{cons}}\,\mathcal{L}_{\text{cons}},\qquad \lambda_{\text{KD}}=1,\ \lambda_{\text{cons}}=0.1 .
+  \mathcal{L}_{\text{S}} &= \mathcal{L}_{\text{CE}} + \lambda_{\text{KD}}\,\mathcal{L}_{\text{KD}} + \lambda_{\text{cons}}\,\mathcal{L}_{\text{cons}},\qquad \lambda_{\text{KD}}=1,\ \lambda_{\text{cons}}=0.1.
   \label{eq:v12loss}
 \end{align}
 Here $\mathrm{sg}$ is stop-gradient. The noisy copy $\tilde s$ uses only the character noise of \cref{sec:v12data}, so consistency is never imposed across meaning-changing edits (negation, emoji).
@@ -2240,6 +2187,28 @@ v1.1, same machine & 0.27 & 0.38 & 0.45 & 0.25 & 0.55 & 1.40 & -- \\
 
 At 512 code points (106 tokens, 920 pieces), the encoder takes about 4.3\,ms of the 6.0\,ms single-thread total. The rest is hashing (0.30\,ms token pieces, 0.80\,ms v1.0 features) and the embedding mean (0.30\,ms). Two threads keep p95 below 5\,ms. Four threads were noisy on the M2's mixed performance and efficiency cores (3.45 to 5.10\,ms across three measurements), and p99 at 512 code points exceeded 5\,ms in an earlier thread sweep. The runtime therefore defaults to two threads. v1.1 remains two to three times faster (0.38 versus 0.81\,ms on test messages; 1.40 versus 4.29\,ms at 512 code points).
 
+\subsubsection{Hosted Service}
+\label{sec:v12hosted}
+
+The same runtime backs a public deployment at
+\url{https://polyglots-shorthand.onrender.com/}. A FastAPI process loads the
+INT8 student once at start-up and exposes \texttt{GET /api/meta} (the
+selectable models with their parameter counts, feature modes, test accuracy,
+temperatures and review thresholds), \texttt{POST /api/predict} (up to 200
+messages per request, with an optional \texttt{model} key) and generated API
+documentation at \texttt{/api/docs}. The v1.1 checkpoints are loaded lazily on
+first selection and then cached, so a session that never leaves the default
+holds only the student's 36\,MB of weights.
+
+Nothing in the service is specific to the host. It needs no environment
+variables, no database and no external API, because the checkpoints are
+committed to the repository and inference is NumPy plus ONNX Runtime. The
+published instance is a 512\,MB free tier, which holds all five models at
+once and suspends after inactivity; a request that wakes a suspended instance
+waits for the container start and the ONNX session load, measured once at
+32.5\,s, after which per-message latency returns to \cref{tab:v12latency}. All
+timings reported in this paper are local and are unaffected by the host.
+
 % ----------------------------------------------------------------------------
 \subsection{Results}
 \label{sec:v12results}
@@ -2256,16 +2225,16 @@ At 512 code points (106 tokens, 920 pieces), the encoder takes about 4.3\,ms of 
 \cmidrule(lr){3-4}\cmidrule(lr){5-6}\cmidrule(lr){8-9}
 System & Params & F1 [95\% CI] & $\Delta$ vs v1.1 & F1 [95\% CI] & $\Delta$ vs v1.1 & recall & Intent & Sent. & pairs & err. \\
 \midrule
-v1.1 full & 0.83M & .901 [.78, .97] & -- & .845 [.72, .94] & -- & .72 & .865 (97.4\%) & .826 (92.6\%) & 9/12 & 6 \\
-Teacher (v1.1 data) & 278M & .929 [.82, 1.00] & $+.032$ [$-.06$, $+.14$] & 1.000 [1.00, 1.00] & $\mathbf{+.159}$ [$+.06$, $+.28$] & 1.00 & .852 (92.6\%) & 1.000 (100\%) & 12/12 & 1 \\
-Teacher v2 & 278M & \textbf{.966} [.92, .99] & $+.071$ [$-.007$, $+.172$] & 1.000 [1.00, 1.00] & $\mathbf{+.159}$ [$+.06$, $+.28$] & 1.00 & \textbf{.933} (95.8\%) & 1.000 (100\%) & 12/12 & 1 \\
+v1.1 full & 0.83M &.901 [.78,.97] & -- &.845 [.72,.94] & -- &.72 &.865 (97.4\%) &.826 (92.6\%) & 9/12 & 6 \\
+Teacher (v1.1 data) & 278M &.929 [.82, 1.00] & $+.032$ [$-.06$, $+.14$] & 1.000 [1.00, 1.00] & $\mathbf{+.159}$ [$+.06$, $+.28$] & 1.00 &.852 (92.6\%) & 1.000 (100\%) & 12/12 & 1 \\
+Teacher v2 & 278M & \textbf{.966} [.92,.99] & $+.071$ [$-.007$, $+.172$] & 1.000 [1.00, 1.00] & $\mathbf{+.159}$ [$+.06$, $+.28$] & 1.00 & \textbf{.933} (95.8\%) & 1.000 (100\%) & 12/12 & 1 \\
 \midrule
-Student $+$ KD (s42) & 11.88M & .914 [.81, .98] & $+.014$ [$-.10$, $+.13$] & .911 [.82, .98] & $+.068$ [$-.07$, $+.21$] & 1.00 & .914 (97.9\%) & .917 (96.3\%) & 12/12 & 2 \\
-Student no-KD (s42) & 11.88M & .888 [.77, .97] & $-.011$ [$-.12$, $+.11$] & .878 [.77, .96] & $+.034$ [$-.07$, $+.14$] & .93 & .895 (96.8\%) & .836 (92.6\%) & 12/12 & 3 \\
-Student $+$ KD w/o linear (s42) & 11.58M & .958 [.89, .99] & $+.062$ [$-.03$, $+.17$] & .909 [.81, .98] & $+.066$ [$-.04$, $+.17$] & .93 & .918 (94.7\%) & .925 (96.3\%) & 11/12 & 1 \\
-Student $+$ KD (s43) & 11.88M & .911 [.82, .98] & $+.014$ [$-.09$, $+.14$] & .853 [.74, .94] & $+.009$ [$-.11$, $+.13$] & .95 & .910 (98.9\%) & .813 (88.9\%) & 12/12 & 3 \\
-Student $+$ KD (s44) & 11.88M & .919 [.82, .98] & $+.020$ [$-.09$, $+.13$] & .952 [.87, 1.00] & $+.110$ [$-.00$, $+.23$] & .93 & .914 (97.9\%) & .925 (97.4\%) & 12/12 & 1 \\
-\textbf{Student $+$ KD, ONNX INT8 (deployed)} & 11.88M & .914 [.81, .98] & $+.014$ [$-.10$, $+.13$] & .916 [.83, .98] & $+.073$ [$-.06$, $+.22$] & 1.00 & .914 (97.9\%) & .917 (95.8\%) & 12/12 & 2 \\
+Student $+$ KD (s42) & 11.88M &.914 [.81,.98] & $+.014$ [$-.10$, $+.13$] &.911 [.82,.98] & $+.068$ [$-.07$, $+.21$] & 1.00 &.914 (97.9\%) &.917 (96.3\%) & 12/12 & 2 \\
+Student no-KD (s42) & 11.88M &.888 [.77,.97] & $-.011$ [$-.12$, $+.11$] &.878 [.77,.96] & $+.034$ [$-.07$, $+.14$] &.93 &.895 (96.8\%) &.836 (92.6\%) & 12/12 & 3 \\
+Student $+$ KD w/o linear (s42) & 11.58M &.958 [.89,.99] & $+.062$ [$-.03$, $+.17$] &.909 [.81,.98] & $+.066$ [$-.04$, $+.17$] &.93 &.918 (94.7\%) &.925 (96.3\%) & 11/12 & 1 \\
+Student $+$ KD (s43) & 11.88M &.911 [.82,.98] & $+.014$ [$-.09$, $+.14$] &.853 [.74,.94] & $+.009$ [$-.11$, $+.13$] &.95 &.910 (98.9\%) &.813 (88.9\%) & 12/12 & 3 \\
+Student $+$ KD (s44) & 11.88M &.919 [.82,.98] & $+.020$ [$-.09$, $+.13$] &.952 [.87, 1.00] & $+.110$ [$-.00$, $+.23$] &.93 &.914 (97.9\%) &.925 (97.4\%) & 12/12 & 1 \\
+\textbf{Student $+$ KD, ONNX INT8 (deployed)} & 11.88M &.914 [.81,.98] & $+.014$ [$-.10$, $+.13$] &.916 [.83,.98] & $+.073$ [$-.06$, $+.22$] & 1.00 &.914 (97.9\%) &.917 (95.8\%) & 12/12 & 2 \\
 \bottomrule
 \end{tabular}}
 \end{table}
@@ -2309,26 +2278,134 @@ Student $+$ KD (s44) & 11.88M & .919 [.82, .98] & $+.020$ [$-.09$, $+.13$] & .95
 \label{fig:v12bars}
 \end{figure}
 
-\begin{table}[h]
-\centering\small
-\caption{Paired differences on the same 5{,}000 resamples: data ablation, distillation gap and student ablations.}
-\label{tab:v12paired}
-\begin{tabular}{@{}l cc cc@{}}
-\toprule
-& \multicolumn{2}{c}{Intent} & \multicolumn{2}{c}{Sentiment} \\
-\cmidrule(lr){2-3}\cmidrule(lr){4-5}
-Comparison & $\overline\Delta$ [95\% CI] & $P(\Delta>0)$ & $\overline\Delta$ [95\% CI] & $P(\Delta>0)$ \\
-\midrule
-Data: teacher v2 $-$ teacher (v1.1 data) & $+0.040$ [$-0.028$, $+0.121$] & 0.85 & $0.000$ [$0.000$, $0.000$] & -- \\
-Distillation gap: student $+$ KD $-$ teacher v2 & $-0.057$ [$-0.136$, $+0.004$] & 0.04 & $\mathbf{-0.092}$ [$-0.184$, $-0.020$] & 0.00 \\
-KD effect: student $+$ KD $-$ no-KD (s42) & $+0.025$ [$-0.034$, $+0.113$] & 0.70 & $+0.034$ [$-0.055$, $+0.124$] & 0.78 \\
-Linear branch: with $-$ without (s42) & $-0.048$ [$-0.124$, $+0.014$] & 0.07 & $+0.002$ [$-0.091$, $+0.094$] & 0.51 \\
-Quantization: INT8 $-$ FP32 (s42) & $+0.000$ [$+0.000$, $+0.000$] & -- & $+0.005$ [$+0.000$, $+0.017$] & 0.64 \\
-\bottomrule
-\end{tabular}
-\\[3pt]{\footnotesize Seed spread of student $+$ KD (seeds 42/43/44): intent mean 0.915, sd 0.004; sentiment mean 0.906, sd 0.049. Best validation NLL: 0.065, 0.156 and 0.102.}
-\end{table}
+\begin{table}[t]
+\centering
+\small
+\setlength{\tabcolsep}{4pt}
 
+\caption{Paired differences on the same 5,000 resamples: data ablation,
+distillation gap and student ablations.}
+\label{tab:v12paired}
+
+\begin{tabularx}{\linewidth}{
+    @{}
+    >{\raggedright\arraybackslash}X
+    >{\centering\arraybackslash}p{1.55cm}
+    >{\centering\arraybackslash}p{2.35cm}
+    >{\centering\arraybackslash}p{1.25cm}
+    >{\centering\arraybackslash}p{1.55cm}
+    >{\centering\arraybackslash}p{2.35cm}
+    >{\centering\arraybackslash}p{1.25cm}
+    @{}
+}
+\toprule
+
+& \multicolumn{3}{c}{\textbf{Intent}}
+& \multicolumn{3}{c}{\textbf{Sentiment}}
+\\
+
+\cmidrule(lr){2-4}
+\cmidrule(lr){5-7}
+
+\textbf{Comparison}
+& $\overline{\Delta}$ [95\% CI]
+& $P(\Delta>0)$
+& 
+& $\overline{\Delta}$ [95\% CI]
+& $P(\Delta>0)$
+&
+\\
+
+\midrule
+
+Data: teacher v2 $-$ teacher (v1.1 data)
+&
+$+0.040$
+&
+$[-0.028,\,+0.121]$
+&
+$0.85$
+&
+$0.000$
+&
+$[0.000,\,0.000]$
+&
+$-$
+\\
+
+Distillation gap: student + KD $-$ teacher v2
+&
+$-0.057$
+&
+$[-0.136,\,+0.004]$
+&
+$0.04$
+&
+$\mathbf{-0.092}$
+&
+$[-0.184,\,-0.020]$
+&
+$0.02$
+\\
+
+KD effect: student + KD $-$ no-KD (s42)
+&
+$+0.025$
+&
+$[-0.034,\,+0.113]$
+&
+$0.70$
+&
+$+0.034$
+&
+$[-0.055,\,+0.124]$
+&
+$0.74$
+\\
+
+Linear branch: with $-$ without (s42)
+&
+$-0.048$
+&
+$[-0.124,\,+0.014]$
+&
+$0.07$
+&
+$+0.002$
+&
+$[-0.091,\,+0.094]$
+&
+$0.53$
+\\
+
+Quantization: INT8 $-$ FP32 (s42)
+&
+$+0.000$
+&
+$[+0.000,\,+0.000]$
+&
+$-$
+&
+$+0.005$
+&
+$[+0.000,\,+0.017]$
+&
+$0.64$
+\\
+
+\bottomrule
+\end{tabularx}
+
+\vspace{0.35em}
+
+\begin{minipage}{\linewidth}
+\footnotesize
+\textbf{Seed spread of student + KD} (seeds 42/43/44):
+intent mean 0.915, sd 0.004; sentiment mean 0.906, sd 0.049.
+Best validation NLL: 0.065, 0.156 and 0.102.
+\end{minipage}
+
+\end{table}
 \begin{table}[h]
 \centering\small
 \caption{Contrast set per phenomenon: intent accuracy and sentiment accuracy over rows, and the number of pairs with both members fully correct. NS negation scope, NN neutral \hi{nahi}, NG negated negative, UA unseen affect ($^\dagger$ affect words present in generated training data).}
@@ -2339,12 +2416,12 @@ Quantization: INT8 $-$ FP32 (s42) & $+0.000$ [$+0.000$, $+0.000$] & -- & $+0.005
 \cmidrule(lr){2-3}\cmidrule(lr){4-5}\cmidrule(lr){6-7}\cmidrule(lr){8-9}
 System & int & sent & int & sent & int & sent & int & sent & (of 40) \\
 \midrule
-v1.1                      & .65 & .90 & .85 & .75 & .90 & .45 & .85 & .70 & 10 \\
-Teacher (v1.1 data)       & .70 & .95 & .80 & 1.00 & .70 & 1.00 & .90 & .90 & 24 \\
-Teacher v2                & \textbf{.90} & .90 & \textbf{.90} & .95 & .70 & 1.00 & .95 & 1.00 & \textbf{29} \\
-Student $+$ KD (s42, INT8) & .80 & .85 & .90 & .85 & .75 & .65 & .85 & .85 & 17 \\
-Student no-KD (s42)       & .70 & .85 & .90 & .85 & .80 & .65 & .80 & .95 & 18 \\
-Student $+$ KD w/o linear & .85 & .85 & .90 & .90 & .65 & .70 & .85 & .95 & 20 \\
+v1.1                      &.65 &.90 &.85 &.75 &.90 &.45 &.85 &.70 & 10 \\
+Teacher (v1.1 data)       &.70 &.95 &.80 & 1.00 &.70 & 1.00 &.90 &.90 & 24 \\
+Teacher v2                & \textbf{.90} &.90 & \textbf{.90} &.95 &.70 & 1.00 &.95 & 1.00 & \textbf{29} \\
+Student $+$ KD (s42, INT8) &.80 &.85 &.90 &.85 &.75 &.65 &.85 &.85 & 17 \\
+Student no-KD (s42)       &.70 &.85 &.90 &.85 &.80 &.65 &.80 &.95 & 18 \\
+Student $+$ KD w/o linear &.85 &.85 &.90 &.90 &.65 &.70 &.85 &.95 & 20 \\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -2376,17 +2453,17 @@ True & neg & neu & pos && neg & neu & pos \\
 \cmidrule(lr){2-3}\cmidrule(lr){4-5}\cmidrule(lr){6-7}\cmidrule(lr){8-9}
 System & $T_I$ & $T_S$ & int & sent & int & sent & int & sent \\
 \midrule
-v1.1 & 0.550 & 1.316 & .082 & .106 & .953 & .753 & .906 & .951 \\
-Teacher (v1.1 data) & 0.595 & 1.316 & .070 & .014 & 1.000 & 1.000 & .916 & 1.000 \\
-Teacher v2 & 0.400$^\ast$ & 0.508 & .044 & .000 & 1.000 & 1.000 & .963 & 1.000 \\
-Student $+$ KD (s42) & 0.400$^\ast$ & 0.755 & .070 & .048 & 1.000 & 1.000 & .921 & .911 \\
-Student $+$ KD, INT8 & 0.400$^\ast$ & 0.755 & .070 & .045 & 1.000 & 1.000 & .921 & .916 \\
+v1.1 & 0.550 & 1.316 &.082 &.106 &.953 &.753 &.906 &.951 \\
+Teacher (v1.1 data) & 0.595 & 1.316 &.070 &.014 & 1.000 & 1.000 &.916 & 1.000 \\
+Teacher v2 & 0.400$^\ast$ & 0.508 &.044 &.000 & 1.000 & 1.000 &.963 & 1.000 \\
+Student $+$ KD (s42) & 0.400$^\ast$ & 0.755 &.070 &.048 & 1.000 & 1.000 &.921 &.911 \\
+Student $+$ KD, INT8 & 0.400$^\ast$ & 0.755 &.070 &.045 & 1.000 & 1.000 &.921 &.916 \\
 \bottomrule
 \end{tabular}
 \\[2pt]{\footnotesize $^\ast$ lower boundary of the temperature grid.}
 \end{table}
 
-\paragraph{Q3: does the student keep the teacher's gains?} No, and the evidence (\cref{tab:v12main,tab:v12paired,tab:v12contrast}) points the same way throughout:
+\paragraph{Q3: does the student keep the teacher's gains} No, and the evidence (\cref{tab:v12main,tab:v12paired,tab:v12contrast}) points the same way throughout:
 \begin{enumerate}
   \item \textbf{Distillation gap.} Sentiment is significantly below teacher v2 ($-0.092$ $[-0.184, -0.020]$) and intent trends below it ($P(\Delta>0)=0.04$). Against v1.1, the deployed student's gains ($+0.014$ intent, $+0.073$ sentiment) are not resolved. The student solves 17 contrast pairs against the teacher's 29.
   \item \textbf{KD is not shown to help.} Both point estimates over the no-KD student are positive ($+0.025$, $+0.034$) but unresolved, and smaller than the seed standard deviation of the primary variant's sentiment (0.049). The no-KD student even solves one more contrast pair.
@@ -2438,16 +2515,34 @@ A short message with no request verb; the audit label assumes a tracking request
 
 % ----------------------------------------------------------------------------
 \subsection{Application}
-The Streamlit application (\texttt{app.py}) now defaults to the deployed student.
-Of the models with weights available locally, it is the most accurate on both
-heads (test accuracy 92.1\% intent and 91.6\% sentiment, against 90.5\% and
-84.7\% for v1.1). It also has the highest validation accuracy (100\% and
-96.8\%), so the choice does not rest on test data alone. The sidebar shows each
-model's test accuracy, and the four v1.1 checkpoints remain selectable.
+\label{sec:v12app}
+Two interfaces ship with the system, and both default to the deployed
+student. Of the models with weights available locally, it is the most
+accurate on both heads (test accuracy 92.1\% intent and 91.6\% sentiment,
+against 90.5\% and 84.7\% for v1.1). It also has the highest validation
+accuracy (100\% and 96.8\%), so the choice does not rest on test data alone.
 Teacher v2 is more accurate (96.3\% and 100\%), but its 1.1\,GB weights were
 not retained after pseudo-labelling and it is not deployable within the
-latency budget. Attention-pooling weights $\bm\alpha$ (\cref{eq:v12pool}) are
-plotted per token as in v1.1.
+latency budget. Both interfaces keep the four v1.1 checkpoints selectable, so
+the ablations of \cref{sec:v11} can be inspected interactively, and both plot
+the attention-pooling weights $\bm\alpha$ (\cref{eq:v12pool}) per token as in
+v1.1.
+
+\paragraph{Streamlit (\texttt{app.py}).} The original interface. A sidebar
+drop-down selects the model and reports its test accuracy, parameter count,
+feature mode and calibration constants.
+
+\paragraph{Web (\texttt{web/}).} A single static page served by a small
+FastAPI backend, added so that the system can be published as an ordinary web
+service rather than a notebook tool (\cref{sec:v12hosted}). One picker selects
+among the same five models and drives both modes of the page. For a single
+message it shows the predicted intent and sentiment, the calibrated
+confidence, the complete probability vector of each head, the human-review
+flag and the shaded attention weights; batch mode accepts up to 200 messages
+and exports the predictions as CSV. Switching models discards any displayed
+result, so no output is left attributed to the wrong checkpoint. The page is
+plain HTML, CSS and JavaScript with no build step, and the backend adds only
+FastAPI and Uvicorn to the inference dependencies.
 
 % ----------------------------------------------------------------------------
 \subsection{Threats to Validity}
@@ -2461,39 +2556,7 @@ plotted per token as in v1.1.
   \item \textbf{No human data.} No real customer messages were available. The evaluator scores a \texttt{human\_test.jsonl} file separately if one is added.
 \end{itemize}
 
-% ----------------------------------------------------------------------------
-\subsection{Updated Scorecard}
-
-\begin{table}[h]
-\centering\small
-\caption{Requirement status after v1.2. Compare \cref{tab:scorecard,tab:v11scorecard}.}
-\label{tab:v12scorecard}
-\begin{tabularx}{\linewidth}{@{}l l X@{}}
-\toprule
-Requirement & Status & Evidence \\
-\midrule
-$\le$500M parameters (problem statement) & \textcolor{okgreen}{\textbf{Met}} & Student 11{,}878{,}419; teacher 278{,}050{,}569 (not deployed). \\
-Student $\le$15M parameters (v1.2 constraint) & \textcolor{okgreen}{\textbf{Met}} & \cref{tab:v12params}. \\
-p95 $<5$\,ms at batch 1 on a laptop CPU, incl.\ hashing & \textcolor{okgreen}{\textbf{Met}} (2 threads) & 0.81\,ms on test messages; 4.29\,ms at 512 code points; 5.98\,ms with 1 thread (\cref{tab:v12latency}). \\
-Spelling and shorthand robustness & \textcolor{okgreen}{\textbf{Maintained}} & Student stress intent F1 0.914, consistency 97.9\% (v1.1: 0.865, 97.4\%). \\
-Emoji and punctuation semantics & \textcolor{okgreen}{\textbf{Improved}} & Emoji pairs 12/12 (v1.1: 9/12), from only four seed groups. \\
-Positive sentiment & \textcolor{okgreen}{\textbf{Improved}} & Recall 1.00, but precision 0.82: negated complaints are now called positive. \\
-Sentiment overall (deployed student) & \textcolor{warn}{\textbf{Not resolved}} & $+0.073$ $[-0.06, +0.22]$ vs v1.1; seed sd 0.049. \\
-Negation scope & \textcolor{warn}{\textbf{Partial}} & Teacher v2: 6/10 scope pairs; deployed student 5/10; negated negatives 1/10 pairs. \\
-Distillation keeps teacher gains & \textcolor{warn}{\textbf{Not met}} & Student $-$ teacher v2 sentiment $-0.092$ $[-0.184, -0.020]$. \\
-Reproducibility & \textcolor{okgreen}{\textbf{Met}} & Exact v1.1 splits, seeded everything, hash-parity fixtures, resumable notebooks, one evaluator reproducing v1.1. \\
-Real-world validation & \textcolor{warn}{\textbf{Not met}} & No human-collected data. \\
-\bottomrule
-\end{tabularx}
-\end{table}
-
-\paragraph{Next steps after v1.2.}
-(i)~Collect real, consented messages for a human test set; this is now the main limitation.
-(ii)~Re-run the linear-branch ablation over several seeds and switch the deployed model if the intent gain holds.
-(iii)~Add minimal pairs in which \hi{nahi} negates the \emph{resolution} (\hi{problem hui, refund nahi aaya}) next to pairs in which it negates the problem, to undo the over-learned negated-negative cue.
-(iv)~Distil with a stronger KD signal on support data---for example teacher logits on many more augmented variants, or intermediate-layer matching---since output KD on 4{,}061 support rows did not transfer the teacher's sentiment.
-(v)~Retain teacher v2 weights and measure it as a slower, higher-accuracy tier behind the review flag.
-(vi)~Widen the temperature grid below 0.4 and re-fit review thresholds on a larger validation set so that deferral works again.
+% ---------------------------------------------------------------------------
 
 % ============================================================================
 \section{Conclusion}
@@ -2546,79 +2609,186 @@ step is a human-collected test set rather than another model.
 \appendix
 \section{Hyperparameters}
 \label{app:hparams}
-
 \begin{table}[h]
-\centering\small
-\begin{tabular}{@{}ll@{}}
+\centering
+\small
+\setlength{\tabcolsep}{5pt}
+\renewcommand{\arraystretch}{1.15}
+
+\begin{tabularx}{\linewidth}{@{}
+    >{\raggedright\arraybackslash}p{0.27\linewidth}
+    >{\raggedright\arraybackslash}X
+@{}}
+
 \toprule
-Setting & Value \\
+\textbf{Setting} & \textbf{Value} \\
 \midrule
-Hash dimension $D$ & $2^{15}=32{,}768$ \\
-Outputs $K$ & 9 (6 intent + 3 sentiment) \\
-Max input length & 512 code points (reject, never truncate) \\
-Character $n$-gram orders & 3, 4, 5 (boundary-padded) \\
-Interaction caps & 8 symbol tokens $\times$ 64 word tokens \\
-Alias map / shorthand map / stress map & 20 / 10 / 14 entries \\
-Epochs & 55 \\
-Learning rate & $0.6/(1+e/20)$; bias $\times0.1$ \\
-Weight decay & $\W\gets0.999\,\W$ once per epoch \\
-Class weighting & $N/(K\cdot n_c)$ per head \\
-Checkpoint criterion & min.\ unweighted validation NLL \\
-Temperature grid & 30 log-spaced values in $[0.4,4.0]$ \\
-Review rule & max coverage s.t.\ $\ge5$ accepted and $\ge90\%$ val.\ accuracy; else 1.01 \\
-Random seed & 42 (split, shuffle, SGD order) \\
+
+Hash dimension $D$
+& $2^{15}=32{,}768$ \\
+
+Outputs $K$
+& 9 (6 intent + 3 sentiment) \\
+
+Max input length
+& 512 code points (reject, never truncate) \\
+
+Character $n$-gram orders
+& 3, 4, 5 (boundary-padded) \\
+
+Interaction caps
+& 8 symbol tokens $\times$ 64 word tokens \\
+
+Alias map / shorthand map / stress map
+& 20 / 10 / 14 entries \\
+
+Epochs
+& 55 \\
+
+Learning rate
+& $0.6/(1+e/20)$; bias $\times 0.1$ \\
+
+Weight decay
+& $\W\gets0.999\,\W$ once per epoch \\
+
+Class weighting
+& $N/(K\cdot n_c)$ per head \\
+
+Checkpoint criterion
+& Minimum unweighted validation NLL \\
+
+Temperature grid
+& 30 log-spaced values in $[0.4,4.0]$ \\
+
+Review rule
+& Maximum coverage subject to $\ge 5$ accepted and $\ge 90\%$
+validation accuracy; otherwise $1.01$ \\
+
+Random seed
+& 42 (split, shuffle, SGD order) \\
+
 \midrule
 \multicolumn{2}{@{}l}{\textbf{Added in v1.1 (attention branch)}} \\
-Embedding buckets $B$ / width $d$ & $2^{14}=16{,}384$ / 32 \\
-Max tokens $T_{\max}$ & 128 (attention branch only) \\
-Token pieces & word, alias (F,S), char 3/4-grams (F,C,S) \\
-Layers & 1 single-head self-attention + residual + $\tanh$, attention pooling \\
-Initialization & $\bm E\sim\mathcal N(0,0.1^2)$, $\bm P=\bm 0$, $\bm W_{Q,K,V}\sim\mathcal N(0,1/d)$, $\bm W_O,\bm u\sim\mathcal N(0,0.1^2)$, $\bm W_{\text{out}}\sim\mathcal N(0,0.01^2)$; seed 0 \\
-Optimizers & Adam lr $10^{-4}$ (dense), sparse Adagrad lr $0.01$ ($\bm E$), both $\times1/(1+e/20)$ \\
-Regularization & token dropout 0.2; dense decay $\times0.99$ per epoch \\
-Selection & min.\ validation NLL over 11 settings (\cref{tab:v11grid}) \\
-Augmentation & $\le5$ variants: original, shorthand, respelling (12), both, opener (6) \\
-Alias map & 27 entries \\
+
+Embedding buckets $B$ / width $d$
+& $2^{14}=16{,}384$ / 32 \\
+
+Max tokens $T_{\max}$
+& 128 (attention branch only) \\
+
+Token pieces
+& Word, alias (F,S), char 3/4-grams (F,C,S) \\
+
+Layers
+& 1 single-head self-attention + residual + $\tanh$,
+attention pooling \\
+
+Initialization
+& $\bm E\sim\mathcal N(0,0.1^2)$, $\bm P=\bm 0$,
+$\bm W_{Q,K,V}\sim\mathcal N(0,1/d)$,
+$\bm W_O,\bm u\sim\mathcal N(0,0.1^2)$,
+$\bm W_{\text{out}}\sim\mathcal N(0,0.01^2)$; seed 0 \\
+
+Optimizers
+& Adam lr $10^{-4}$ (dense), sparse Adagrad lr $0.01$
+($\bm E$), both $\times 1/(1+e/20)$ \\
+
+Regularization
+& Token dropout 0.2; dense decay $\times 0.99$ per epoch \\
+
+Selection
+& Minimum validation NLL over 11 settings (\cref{tab:v11grid}) \\
+
+Augmentation
+& $\le 5$ variants: original, shorthand, respelling (12),
+both, opener (6) \\
+
+Alias map
+& 27 entries \\
+
 \midrule
 \multicolumn{2}{@{}l}{\textbf{Added in v1.2 (teachers)}} \\
-Encoders (01) & hing-roberta, hing-roberta-mixed, hing-bert, MuRIL; lr $\in\{2,3,5\}\times10^{-5}$ \\
-Encoder (02) & hing-roberta-mixed; lr $\in\{3,5\}\times10^{-5}$ \\
-Batch / epochs / patience & 16 / 12 / 3 (01); 32 / 6 / 2 (02) \\
-Schedule & AdamW, wd 0.01, 10\% (01) or 6\% (02) warm-up, linear decay, clip 1.0, fp16 \\
-Pooling / max length & masked mean / 128 subwords \\
-Public sentiment sample (02) & 4{,}000 fixed seeded rows, intent loss masked \\
+
+Encoders (01)
+& hing-roberta, hing-roberta-mixed, hing-bert, MuRIL;
+lr $\in\{2,3,5\}\times10^{-5}$ \\
+
+Encoder (02)
+& hing-roberta-mixed; lr $\in\{3,5\}\times10^{-5}$ \\
+
+Batch / epochs / patience
+& 16 / 12 / 3 (01); 32 / 6 / 2 (02) \\
+
+Schedule
+& AdamW, wd 0.01, 10\% (01) or 6\% (02) warm-up,
+linear decay, clip 1.0, fp16 \\
+
+Pooling / max length
+& Masked mean / 128 subwords \\
+
+Public sentiment sample (02)
+& 4,000 fixed seeded rows, intent loss masked \\
+
 \midrule
 \multicolumn{2}{@{}l}{\textbf{Added in v1.2 (student)}} \\
-Pieces / buckets / width & word, alias, char 3/4-grams / $2^{15}$ / $d=256$ \\
-Encoder & 4 pre-LN blocks, 4 heads, GELU FFN 1024, dropout 0.1, $T_{\max}=128$ \\
-Linear branch & v1.0 channels, $D=2^{15}$, zero init \\
-Loss & CE $+$ 1.0 KD ($\tau=2$) $+$ 0.1 consistency; intent-KD mask $\max p\ge0.6$ on support rows \\
-Optimizer & AdamW lr $5\times10^{-4}$, wd 0.01, 5\% warm-up, cosine, clip 1.0, fp16, batch 64 \\
-Epoch composition & 4{,}061 support $+$ 4{,}000 public labeled $+$ 8{,}000 pool (re-sampled) \\
-Regularization & token dropout 0.15; early stopping on validation NLL, patience 5, $\le$30 epochs \\
-Seeds & 42 (all variants); 43, 44 (student $+$ KD) \\
-Deployment & ONNX opset 17, dynamic INT8 (ONNX Runtime 1.30), 2 intra-op threads \\
+
+Pieces / buckets / width
+& Word, alias, char 3/4-grams / $2^{15}$ / $d=256$ \\
+
+Encoder
+& 4 pre-LN blocks, 4 heads, GELU FFN 1024,
+dropout 0.1, $T_{\max}=128$ \\
+
+Linear branch
+& v1.0 channels, $D=2^{15}$, zero init \\
+
+Loss
+& CE + 1.0 KD ($\tau=2$) + 0.1 consistency;
+intent-KD mask $\max p\ge0.6$ on support rows \\
+
+Optimizer
+& AdamW lr $5\times10^{-4}$, wd 0.01, 5\% warm-up,
+cosine, clip 1.0, fp16, batch 64 \\
+
+Epoch composition
+& 4,061 support + 4,000 public labeled + 8,000 pool
+(re-sampled) \\
+
+Regularization
+& Token dropout 0.15; early stopping on validation NLL,
+patience 5, $\le 30$ epochs \\
+
+Seeds
+& 42 (all variants); 43, 44 (student + KD) \\
+
+Deployment
+& ONNX opset 17, dynamic INT8 (ONNX Runtime 1.30),
+2 intra-op threads \\
+
 \bottomrule
-\end{tabular}
+\end{tabularx}
 \end{table}
 
 \section{Reproduction}
 \label{app:repro}
 
 \begin{lstlisting}
-python3 -m venv .venv
+python3 -m venv.venv
 .venv/bin/python -m pip install -r requirements.txt   # numpy==2.3.5
 .venv/bin/python solution.py predict "refund kab milega bhai"
-PYTHON=.venv/bin/python ./run.sh   # data, 4 models, audit, 13 tests (v1.1)
+PYTHON=.venv/bin/python./run.sh   # data, 4 models, audit, 13 tests (v1.1)
 # v1.1: interactive app with a model drop-down
 .venv/bin/python -m pip install -r requirements-app.txt
 .venv/bin/streamlit run app.py
+# v1.2: web interface (FastAPI + static page) on http://localhost:8000
+.venv/bin/python -m pip install -r requirements-web.txt
+.venv/bin/uvicorn web.server:app --port 8000
 \end{lstlisting}
 
 \noindent v1.2 (\texttt{v12/}; GPU steps are Colab notebooks that run end to end):
 \begin{lstlisting}
-uv venv --python 3.12 .venv-v12
-uv pip install --python .venv-v12/bin/python -r v12/requirements-v12.txt
+uv venv --python 3.12.venv-v12
+uv pip install --python.venv-v12/bin/python -r v12/requirements-v12.txt
 cd v12
 make smoke        # CPU smoke test of every trainer, incl. disconnect + resume
 make bundle       # notebooks + bundle.zip for Colab/Kaggle
@@ -2651,125 +2821,12 @@ store the attention arrays under \texttt{att\_*} keys. v1.2 adds the
 \texttt{v12/polyglot12} package (hashing copy, teacher and student trainers,
 augmentation, near-duplicate index, evaluator, ONNX runtime),
 \texttt{v12/predict.py}, a data card (\texttt{v12/data/DATA\_CARD.md}), and
-\texttt{app.py} defaulting to the deployed student. Bootstrap intervals, ECE and collision statistics in
+\texttt{app.py} defaulting to the deployed student. The hosted interface of
+\cref{sec:v12hosted} is \texttt{web/server.py} with \texttt{web/static/},
+declared by \texttt{requirements-web.txt} and a \texttt{Procfile}; it is
+started with \texttt{uvicorn web.server:app} and takes no configuration
+beyond the port. Bootstrap intervals, ECE and collision statistics in
 this paper were computed from the released checkpoints by a separate
 read-only analysis script with bootstrap seed 0.
-
-\section{Emoji Notation}
-Because this document is typeset with pdf\LaTeX, emoji are written as named
-placeholders: \emo{unamused} = U+1F612, \emo{smile} = U+1F60A,
-\emo{angry} = U+1F621 / U+1F620, \emo{huff} = U+1F624,
-\emo{thumbs-up} = U+1F44D. The system itself operates on the actual
-code points.
-
-% ============================================================================
-\begin{thebibliography}{99}\small
-
-\bibitem{bali2014borrowing}
-K.~Bali, J.~Sharma, M.~Choudhury, and Y.~Vyas.
-``I am borrowing ya mixing?'' An analysis of English-Hindi code mixing in Facebook.
-In \emph{Proc.\ First Workshop on Computational Approaches to Code Switching}, 2014.
-
-\bibitem{bojanowski2017enriching}
-P.~Bojanowski, E.~Grave, A.~Joulin, and T.~Mikolov.
-Enriching word vectors with subword information.
-\emph{Transactions of the ACL}, 5:135--146, 2017.
-
-\bibitem{cavnar1994ngram}
-W.~B.~Cavnar and J.~M.~Trenkle.
-N-gram-based text categorization.
-In \emph{Proc.\ SDAIR}, 1994.
-
-\bibitem{chow1970optimum}
-C.~K.~Chow.
-On optimum recognition error and reject tradeoff.
-\emph{IEEE Transactions on Information Theory}, 16(1):41--46, 1970.
-
-\bibitem{geifman2017selective}
-Y.~Geifman and R.~El-Yaniv.
-Selective classification for deep neural networks.
-In \emph{Advances in Neural Information Processing Systems}, 2017.
-
-\bibitem{guo2017calibration}
-C.~Guo, G.~Pleiss, Y.~Sun, and K.~Q.~Weinberger.
-On calibration of modern neural networks.
-In \emph{Proc.\ ICML}, 2017.
-
-\bibitem{joulin2017bag}
-A.~Joulin, E.~Grave, P.~Bojanowski, and T.~Mikolov.
-Bag of tricks for efficient text classification.
-In \emph{Proc.\ EACL}, 2017. \url{https://aclanthology.org/E17-2068/}
-
-\bibitem{kaufman2012leakage}
-S.~Kaufman, S.~Rosset, C.~Perlich, and O.~Stitelman.
-Leakage in data mining: Formulation, detection, and avoidance.
-\emph{ACM Transactions on Knowledge Discovery from Data}, 6(4), 2012.
-
-\bibitem{khanuja2020gluecos}
-S.~Khanuja, S.~Dandapat, A.~Srinivasan, S.~Sitaram, and M.~Choudhury.
-GLUECoS: An evaluation benchmark for code-switched NLP.
-In \emph{Proc.\ ACL}, 2020.
-
-\bibitem{patwa2020semeval}
-P.~Patwa, G.~Aguilar, S.~Kar, S.~Pandey, S.~PYKL, B.~Gamb\"ack, T.~Chakraborty, T.~Solorio, and A.~Das.
-SemEval-2020 Task 9: Overview of sentiment analysis of code-mixed tweets.
-In \emph{Proc.\ SemEval}, 2020.
-
-\bibitem{unicode51}
-Unicode Consortium.
-Unicode Technical Standard \#51: Unicode Emoji.
-\url{https://www.unicode.org/reports/tr51/}
-
-\bibitem{wang2012baselines}
-S.~Wang and C.~D.~Manning.
-Baselines and bigrams: Simple, good sentiment and topic classification.
-In \emph{Proc.\ ACL}, 2012.
-
-\bibitem{weinberger2009feature}
-K.~Weinberger, A.~Dasgupta, J.~Langford, A.~Smola, and J.~Attenberg.
-Feature hashing for large scale multitask learning.
-In \emph{Proc.\ ICML}, 2009. \url{https://arxiv.org/abs/0902.2206}
-
-\bibitem{conneau2020xlmr}
-A.~Conneau, K.~Khandelwal, N.~Goyal, V.~Chaudhary, G.~Wenzek, F.~Guzm\'an, E.~Grave, M.~Ott, L.~Zettlemoyer, and V.~Stoyanov.
-Unsupervised cross-lingual representation learning at scale.
-In \emph{Proc.\ ACL}, 2020.
-
-\bibitem{hinton2015distilling}
-G.~Hinton, O.~Vinyals, and J.~Dean.
-Distilling the knowledge in a neural network.
-\emph{arXiv preprint arXiv:1503.02531}, 2015.
-
-\bibitem{khanuja2021muril}
-S.~Khanuja et~al.
-MuRIL: Multilingual representations for Indian languages.
-\emph{arXiv preprint arXiv:2103.10730}, 2021.
-
-\bibitem{nayak2022l3cube}
-R.~Nayak and R.~Joshi.
-L3Cube-HingCorpus and HingBERT: A code mixed Hindi-English dataset and BERT language models.
-In \emph{Proc.\ WILDRE-6 Workshop at LREC}, 2022. \url{https://arxiv.org/abs/2204.08398}
-
-\bibitem{srivastava2020phinc}
-V.~Srivastava and M.~Singh.
-PHINC: A parallel Hinglish social media code-mixed corpus for machine translation.
-In \emph{Proc.\ W-NUT Workshop at EMNLP}, 2020.
-
-\bibitem{vaswani2017attention}
-A.~Vaswani, N.~Shazeer, N.~Parmar, J.~Uszkoreit, L.~Jones, A.~N.~Gomez, {\L}.~Kaiser, and I.~Polosukhin.
-Attention is all you need.
-In \emph{Advances in Neural Information Processing Systems}, 2017.
-
-\bibitem{xiong2020layernorm}
-R.~Xiong, Y.~Yang, D.~He, K.~Zheng, S.~Zheng, C.~Xing, H.~Zhang, Y.~Lan, L.~Wang, and T.-Y.~Liu.
-On layer normalization in the Transformer architecture.
-In \emph{Proc.\ ICML}, 2020.
-
-\bibitem{zhou2018dog}
-K.~Zhou, S.~Prabhumoye, and A.~W.~Black.
-A dataset for document grounded conversations.
-In \emph{Proc.\ EMNLP}, 2018.
-
-\end{thebibliography}
 
 \end{document}
