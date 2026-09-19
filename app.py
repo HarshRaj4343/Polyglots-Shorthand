@@ -201,15 +201,6 @@ with st.sidebar:
     st.write(f'Temperature — intent **{model.temperature[0]:.2f}**, sentiment **{model.temperature[1]:.2f}**')
     st.write(f'Review threshold — intent **{model.threshold[0]:.2f}**, sentiment **{model.threshold[1]:.2f}**')
     st.divider()
-    if choice == V12_KEY:
-        st.caption('Known limitations: the teacher it was distilled from is more accurate (not deployable here); '
-                   'negated negatives ("koi problem nahi hui") are often wrong; the review flag rarely fires '
-                   '(thresholds calibrated to 0); all evaluation data are synthetic. Every message is forced into '
-                   'one of the 6 intents.')
-    else:
-        st.caption('Known limitations: sentiment is still weaker than intent, sarcasm and negation scope '
-                   '("cancel mat karna…") can fool it, and the training data is small and synthetic. Every '
-                   'message is forced into one of the 6 intents, even if unrelated.')
 
 single_tab, batch_tab = st.tabs(['Single message', 'Batch (many messages)'])
 
